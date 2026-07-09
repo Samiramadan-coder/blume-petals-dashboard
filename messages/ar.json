@@ -1,0 +1,48 @@
+{
+  "Auth": {
+    "Login": {
+      "Title": "تسجيل الدخول",
+      "Description": "أدخل بيانات اعتمادك للوصول إلى حسابك",
+      "Email": "البريد الإلكتروني",
+      "Password": "كلمة المرور",
+      "Submit": "تسجيل الدخول",
+      "LoginSuccess": "تم تسجيل الدخول بنجاح",
+      "LoginFailed": "فشل تسجيل الدخول. يرجى التحقق من بيانات الاعتماد",
+      "InvalidEmail": "البريد الإلكتروني غير صالح",
+      "PasswordIsRequired": "كلمة المرور مطلوبة",
+      "passwordMinLength": "يجب أن تكون كلمة المرور 8 أحرف على الأقل"
+    }
+  },
+  "layout": {
+    "header": {
+      "dashboard": "لوحة التحكم"
+    },
+    "sidebar": {
+      "brandName": "بلوم بيتالز",
+      "brandSubtitle": "لوحة الإدارة",
+      "toggleExpand": "توسيع الشريط الجانبي",
+      "toggleCollapse": "طي الشريط الجانبي",
+      "navigation": {
+        "overview": "نظرة عامة",
+        "dashboard": "لوحة التحكم",
+        "catalog": "الفهرس",
+        "products": "المنتجات",
+        "categories": "الفئات",
+        "customBuilder": "المُنشئ المخصص",
+        "sales": "المبيعات",
+        "orders": "الطلبات",
+        "customers": "العملاء",
+        "reviews": "التقييمات",
+        "reports": "التقارير",
+        "marketing": "التسويق",
+        "promoCodes": "أكواد الخصم",
+        "occasionsCollections": "المناسبات والمجموعات",
+        "settings": "الإعدادات",
+        "storeSettings": "إعدادات المتجر",
+        "deliveryPickup": "التوصيل والاستلام",
+        "notifications": "الإشعارات",
+        "adminAccount": "حساب الإدارة"
+      }
+    }
+  }
+}

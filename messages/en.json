@@ -1,0 +1,48 @@
+{
+  "Auth": {
+    "Login": {
+      "Title": "Login",
+      "Description": "Enter your credentials to access your account",
+      "Email": "Email",
+      "Password": "Password",
+      "Submit": "Login",
+      "LoginSuccess": "Login successful",
+      "LoginFailed": "Login failed. Please check your credentials and try again.",
+      "InvalidEmail": "Invalid email",
+      "PasswordIsRequired": "Password is required",
+      "passwordMinLength": "Password must be at least 8 characters"
+    }
+  },
+  "layout": {
+    "header": {
+      "dashboard": "Dashboard"
+    },
+    "sidebar": {
+      "brandName": "Blúme Petals",
+      "brandSubtitle": "Admin Panel",
+      "toggleExpand": "Expand sidebar",
+      "toggleCollapse": "Collapse sidebar",
+      "navigation": {
+        "overview": "Overview",
+        "dashboard": "Dashboard",
+        "catalog": "CATALOG",
+        "products": "Products",
+        "categories": "Categories",
+        "customBuilder": "Custom Builder",
+        "sales": "Sales",
+        "orders": "Orders",
+        "customers": "Customers",
+        "reviews": "Reviews",
+        "reports": "Reports",
+        "marketing": "Marketing",
+        "promoCodes": "Promo Codes",
+        "occasionsCollections": "Occasions & Collections",
+        "settings": "Settings",
+        "storeSettings": "Store Settings",
+        "deliveryPickup": "Delivery & Pickup",
+        "notifications": "Notifications",
+        "adminAccount": "Admin Account"
+      }
+    }
+  }
+}
