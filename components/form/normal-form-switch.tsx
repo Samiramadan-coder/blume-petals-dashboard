@@ -59,7 +59,7 @@ export default function NormalFormSwitch<T extends FieldValues>({
           <FieldContent>
             <FieldLabel
               htmlFor={switchId}
-              className={cn("text-xs font-semibold", labelClassName)}
+              className={cn("text-sm font-semibold", labelClassName)}
             >
               {label}
             </FieldLabel>
@@ -67,7 +67,7 @@ export default function NormalFormSwitch<T extends FieldValues>({
             {description && (
               <FieldDescription
                 className={cn(
-                  "text-xs text-muted-foreground",
+                  "text-sm text-muted-foreground",
                   descriptionClassName,
                 )}
               >

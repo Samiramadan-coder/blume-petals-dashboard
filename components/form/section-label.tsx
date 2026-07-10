@@ -4,7 +4,7 @@ export default function SectionLabel({
   children: React.ReactNode;
 }) {
   return (
-    <p className="text-xs font-bold uppercase text-muted-foreground">
+    <p className="text-sm font-bold uppercase text-muted-foreground">
       {children}
     </p>
   );

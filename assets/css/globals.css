@@ -10,6 +10,7 @@
   --font-inter: var(--font-inter);
   --font-heading: var(--font-playfair-display);
   --font-tajawal: var(--font-tajawal);
+  --font-cairo: var(--font-cairo);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -128,7 +129,7 @@
     @apply font-inter;
   }
   html[lang="ar"] {
-    @apply font-tajawal;
+    @apply font-cairo;
   }
 }
 
@@ -138,4 +139,8 @@
 
 .font-heading {
   font-family: var(--font-heading);
+}
+
+.font-cairo {
+  font-family: var(--font-cairo);
 }

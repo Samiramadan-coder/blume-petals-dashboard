@@ -13,11 +13,11 @@ export default function FormHeader({
     <SheetHeader className="pt-2 pb-2">
       <SheetTitle className="flex items-center justify-between border-b border-border px-4 py-3 -mx-4">
         <div>
-          <p className="font-heading text-lg font-semibold text-foreground">
+          <p className="font-heading text-xl font-semibold text-foreground">
             {title}
           </p>
           {description && (
-            <p className="mt-1 text-xs text-muted-foreground">{description}</p>
+            <p className="mt-1 text-sm text-muted-foreground">{description}</p>
           )}
         </div>
         <SheetClose asChild>

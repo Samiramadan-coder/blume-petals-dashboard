@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display, Tajawal } from "next/font/google";
+import { Inter, Playfair_Display, Tajawal, Cairo } from "next/font/google";
 import "@/assets/css/globals.css";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { routing } from "@/i18n/routing";
@@ -22,6 +22,12 @@ const PlayfairDisplayFont = Playfair_Display({
   variable: "--font-playfair-display",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
+});
+
+const CairoFont = Cairo({
+  variable: "--font-cairo",
+  subsets: ["arabic"],
+  weight: ["400", "500", "700", "200"],
 });
 
 export const metadata: Metadata = {
@@ -51,7 +57,7 @@ export default async function RootLayout({
     <html
       lang={locale}
       dir={dir}
-      className={`${InterFont.variable} ${TajawalFont.variable} ${PlayfairDisplayFont.variable} h-full antialiased`}
+      className={`${InterFont.variable} ${TajawalFont.variable} ${CairoFont.variable} ${PlayfairDisplayFont.variable} h-full antialiased`}
     >
       <NextIntlClientProvider>
         <DirectionProvider dir={dir}>

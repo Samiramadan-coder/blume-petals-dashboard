@@ -75,9 +75,10 @@ export default function CreateEdit({
 
       <SheetContent
         showCloseButton={false}
-        className="flex h-full flex-col sm:max-w-2xl"
-        side={activeLocale === "ar" ? "left" : "right"}
-        dir={activeLocale === "ar" ? "rtl" : "ltr"}
+        className={cn(`flex h-full flex-col sm:max-w-2xl`, {
+          "font-cairo": activeLocale === "ar",
+        })}
+        side={locale === "ar" ? "left" : "right"}
         onInteractOutside={(event) => event.preventDefault()}
       >
         <FormHeader
@@ -87,7 +88,10 @@ export default function CreateEdit({
 
         <LocaleFormSwitcher locale={activeLocale} onChange={setActiveLocale} />
 
-        <div className="flex-1 overflow-auto px-4 pb-6 pt-2">
+        <div
+          className="flex-1 overflow-auto px-4 pb-6 pt-2"
+          dir={activeLocale === "ar" ? "rtl" : "ltr"}
+        >
           <form
             ref={form}
             onSubmit={handleSubmit(onSubmit)}
@@ -99,7 +103,7 @@ export default function CreateEdit({
                   <Flower2 className="size-5 text-primary" />
                 </div>
                 <div>
-                  <p className="font-semibold">
+                  <p className="font-semibold text-sm">
                     {watchName?.[activeLocale] || "Category Name"}
                   </p>
                 </div>
@@ -107,12 +111,18 @@ export default function CreateEdit({
             </Card>
 
             <Separator className="bg-border" />
-            <SectionLabel>Details</SectionLabel>
+            <SectionLabel>
+              {activeLocale === "en" ? "Details" : "تفاصيل"}
+            </SectionLabel>
             {availableLocales.map((lang) => (
               <NormalFormInput<CategoryFormValues>
                 key={lang}
-                label="Category Name"
-                placeholder="Enter Category Name"
+                label={activeLocale === "en" ? "Category Name" : "اسم الفئة"}
+                placeholder={
+                  activeLocale === "en"
+                    ? "Enter Category Name"
+                    : "أدخل اسم الفئة"
+                }
                 name={`name.${lang}`}
                 type="text"
                 register={register}
@@ -123,7 +133,9 @@ export default function CreateEdit({
             ))}
 
             <Separator className="bg-border" />
-            <SectionLabel>Icon</SectionLabel>
+            <SectionLabel>
+              {activeLocale === "en" ? "Icon" : "أيقونة"}
+            </SectionLabel>
             <Controller
               name="icon"
               control={control}
@@ -182,7 +194,9 @@ export default function CreateEdit({
             />
 
             <Separator className="bg-border" />
-            <SectionLabel>Color</SectionLabel>
+            <SectionLabel>
+              {activeLocale === "en" ? "Color" : "لون"}
+            </SectionLabel>
             <Controller
               name="color"
               control={control}
@@ -226,12 +240,20 @@ export default function CreateEdit({
             />
 
             <Separator className="bg-border" />
-            <SectionLabel>Visibility</SectionLabel>
+            <SectionLabel>
+              {activeLocale === "en" ? "Visibility" : "الرؤية"}
+            </SectionLabel>
             <NormalFormSwitch<CategoryFormValues>
               name="visibility"
               control={control}
-              label="Show on storefront"
-              description="Category is visible to customers"
+              label={
+                activeLocale === "en" ? "Show on storefront" : "عرض في المتجر"
+              }
+              description={
+                activeLocale === "en"
+                  ? "Category is visible to customers"
+                  : "الفئة مرئية للعملاء"
+              }
             />
           </form>
         </div>
