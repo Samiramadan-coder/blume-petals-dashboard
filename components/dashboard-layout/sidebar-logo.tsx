@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useSidebar } from "../ui/sidebar";
 import { Separator } from "../ui/separator";
 
@@ -9,6 +9,7 @@ export default function SidebarLogo() {
   const { state } = useSidebar();
   const isSidebarOpen = state === "expanded";
   const t = useTranslations("layout");
+  const locale = useLocale();
 
   return (
     <>
@@ -35,7 +36,15 @@ export default function SidebarLogo() {
           </svg>
         </div>
         <div className={cn("flex flex-col", { hidden: !isSidebarOpen })}>
-          <p className="font-heading text-sm font-semibold text-foreground leading-tight truncate mb-1">
+          <p
+            className={cn(
+              "text-sm font-semibold text-foreground leading-tight truncate mb-1",
+              {
+                "font-cairo": locale === "ar",
+                "font-heading": locale !== "ar",
+              },
+            )}
+          >
             {t("sidebar.brandName")}
           </p>
           <p className="text-xs text-muted-foreground">

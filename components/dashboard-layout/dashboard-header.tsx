@@ -3,10 +3,10 @@
 import { cn } from "@/lib/utils";
 import { Bell } from "lucide-react";
 import { Button } from "../ui/button";
-import { useLocale, useTranslations } from "next-intl";
 import LiveDateTime from "./live-date-time";
 import { SidebarTrigger } from "../ui/sidebar";
 import { LocaleSwitcher } from "./locale-switcher";
+import { useLocale, useTranslations } from "next-intl";
 
 export default function DashboardHeader() {
   const locale = useLocale();
@@ -20,7 +20,12 @@ export default function DashboardHeader() {
           aria-label={t("sidebar.toggleExpand")}
           title={t("sidebar.toggleExpand")}
         />
-        <p className="font-heading text-lg font-semibold text-foreground">
+        <p
+          className={cn("text-lg font-semibold text-foreground", {
+            "font-cairo": locale === "ar",
+            "font-heading": locale !== "ar",
+          })}
+        >
           {t("header.dashboard")}
         </p>
       </div>
