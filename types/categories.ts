@@ -1,16 +1,19 @@
 import z from "zod";
 
-export const categorySchema = z.object({
-  name: z.object({
-    en: z.string().min(1, "Please enter a name in English"),
-    ar: z.string().min(1, "الاسم مطلوب باللغة العربية"),
-  }),
-  visibility: z.boolean(),
-  icon: z.number().min(1, "Please select an icon"),
-  color: z.string().min(1, "Please select a color"),
-});
+type T = (key: string) => string;
 
-export type CategoryFormValues = z.infer<typeof categorySchema>;
+export const categorySchema = (t: T) =>
+  z.object({
+    name: z.object({
+      en: z.string().min(1, t("NameIsRequired")).min(3, t("NameMinLength")),
+      ar: z.string().min(1, t("NameIsRequired")).min(3, t("NameMinLength")),
+    }),
+    visibility: z.boolean(),
+    icon: z.number().min(1, t("SelectIcon")),
+    color: z.string().min(1, t("SelectColor")),
+  });
+
+export type CategoryFormValues = z.infer<ReturnType<typeof categorySchema>>;
 
 export type Icon = {
   icon: React.ReactNode;

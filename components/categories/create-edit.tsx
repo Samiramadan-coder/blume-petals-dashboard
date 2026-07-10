@@ -39,20 +39,6 @@ export default function CreateEdit({
   const t = useTranslations("Categories");
   const [activeLocale, setActiveLocale] = useState(locale);
   const form = useRef<HTMLFormElement>(null);
-  const {
-    register,
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<CategoryFormValues>({
-    resolver: zodResolver(categorySchema),
-    defaultValues: {
-      name: category?.name || { en: "", ar: "" },
-      visibility: category?.visibility ?? true,
-      icon: category?.icon || 0,
-      color: category?.color || "",
-    },
-  });
 
   const tLive = useMemo(
     () =>
@@ -63,6 +49,21 @@ export default function CreateEdit({
       }),
     [activeLocale],
   );
+
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<CategoryFormValues>({
+    resolver: zodResolver(categorySchema((key) => tLive(key as never))),
+    defaultValues: {
+      name: category?.name || { en: "", ar: "" },
+      visibility: category?.visibility ?? true,
+      icon: category?.icon || 0,
+      color: category?.color || "",
+    },
+  });
 
   const watchName = useWatch({
     control,

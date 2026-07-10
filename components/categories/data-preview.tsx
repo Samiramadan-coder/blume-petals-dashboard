@@ -46,7 +46,7 @@ export default function DataPreview({
           setCategories(newCategories);
         }}
         rowsCount={categories.length}
-        countUnit="categories"
+        countUnit={t("Categories")}
         columns={columns((key) => t(key as never))}
         renderCells={(category) => (
           <>

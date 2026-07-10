@@ -30,6 +30,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { CSS } from "@dnd-kit/utilities";
 import { GripVertical } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export type DataTableColumn = {
   key: string;
@@ -112,6 +113,7 @@ export function ReorderableDataTable<T>({
 
   className,
 }: ReorderableDataTableProps<T>) {
+  const t = useTranslations("Common");
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -190,12 +192,12 @@ export function ReorderableDataTable<T>({
             <TableFooter className="bg-white">
               <TableRow>
                 <TableCell
-                  className="px-4 py-3 text-xs text-muted-foreground"
+                  className="px-4 py-3 text-sm text-muted-foreground"
                   colSpan={footerColSpan - 1}
                 >
                   {rowsCount !== undefined && (
                     <>
-                      Showing{" "}
+                      {t("Showing")}{" "}
                       <span className="font-semibold text-black">
                         {rowsCount ?? data.length}
                       </span>{" "}

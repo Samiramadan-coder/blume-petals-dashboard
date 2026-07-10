@@ -1,7 +1,8 @@
 {
   "Common": {
     "English": "الإنجليزية",
-    "Arabic": "العربية"
+    "Arabic": "العربية",
+    "Showing": "عرض"
   },
   "Auth": {
     "Login": {
@@ -72,6 +73,10 @@
     "Corporate": "شركة",
     "Status": "الحالة",
     "Actions": "الإجراءات",
-    "Products": "المنتجات"
+    "Products": "المنتجات",
+    "NameIsRequired": "اسم الفئة مطلوب",
+    "NameMinLength": "يجب أن يكون اسم الفئة 3 أحرف على الأقل",
+    "SelectIcon": "اختر أيقونة",
+    "SelectColor": "اختر لونًا"
   }
 }

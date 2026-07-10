@@ -1,7 +1,8 @@
 {
   "Common": {
     "English": "English",
-    "Arabic": "Arabic"
+    "Arabic": "Arabic",
+    "Showing": "Showing"
   },
   "Auth": {
     "Login": {
@@ -72,6 +73,10 @@
     "Corporate": "Corporate",
     "Status": "Status",
     "Actions": "Actions",
-    "Products": "Products"
+    "Products": "Products",
+    "NameIsRequired": "Category name is required",
+    "NameMinLength": "Category name must be at least 3 characters",
+    "SelectIcon": "Select an icon",
+    "SelectColor": "Select a color"
   }
 }
