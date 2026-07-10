@@ -1,4 +1,8 @@
 {
+  "Common": {
+    "English": "الإنجليزية",
+    "Arabic": "العربية"
+  },
   "Auth": {
     "Login": {
       "Title": "تسجيل الدخول",
@@ -44,5 +48,25 @@
         "adminAccount": "حساب الإدارة"
       }
     }
+  },
+  "Categories": {
+    "AddCategory": "إضافة فئة",
+    "CreateCategoryDescription": "قم بإنشاء فئة منتج جديدة",
+    "Placeholder": "أدخل اسم الفئة",
+    "Details": "تفاصيل الفئة",
+    "CategoryName": "اسم الفئة",
+    "EnterCategoryName": "أدخل اسم الفئة",
+    "Icon": "أيقونة",
+    "Color": "لون",
+    "Visibility": "الرؤية",
+    "VisibilityLabel": "عرض في المتجر",
+    "VisibilityDescription": "الفئة مرئية للعملاء",
+    "Bouquet": "باقة",
+    "Preserved": "محفوظ",
+    "Gift": "هدية",
+    "Seasonal": "موسمي",
+    "Wedding": "زفاف",
+    "Eid": "عيد",
+    "Corporate": "شركة"
   }
 }

@@ -1,5 +1,7 @@
 import { X } from "lucide-react";
 import { Button } from "../ui/button";
+import { useLocale } from "next-intl";
+import { cn } from "@/lib/utils";
 import { SheetClose, SheetHeader, SheetTitle } from "../ui/sheet";
 
 export default function FormHeader({
@@ -9,11 +11,18 @@ export default function FormHeader({
   title: string;
   description?: string;
 }) {
+  const locale = useLocale();
+
   return (
     <SheetHeader className="pt-2 pb-2">
       <SheetTitle className="flex items-center justify-between border-b border-border px-4 py-3 -mx-4">
         <div>
-          <p className="font-heading text-xl font-semibold text-foreground">
+          <p
+            className={cn(`text-xl font-semibold text-foreground`, {
+              "font-cairo": locale === "ar",
+              "font-heading": locale !== "ar",
+            })}
+          >
             {title}
           </p>
           {description && (

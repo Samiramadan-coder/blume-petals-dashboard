@@ -1,30 +1,32 @@
 "use client";
 
-import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
-import { useRef, useState } from "react";
-import { Check, Flower2 } from "lucide-react";
-import FormFooter from "../form/form-footer";
-import SectionLabel from "../form/section-label";
-import { Controller, useForm, useWatch } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import NormalFormInput from "../form/normal-form-input";
-import FormHeader from "../form/form-header";
 import {
   Category,
   CategoryFormValues,
   categorySchema,
 } from "@/types/categories";
-import FormAddButton from "../form/form-add-button";
-import { Card, CardContent } from "../ui/card";
-import NormalFormSwitch from "../form/normal-form-switch";
-import { FieldError } from "../ui/field";
-import { Button } from "../ui/button";
-import { colors, icons } from "@/constants/categories";
 import { cn } from "@/lib/utils";
+import { Button } from "../ui/button";
+import { useLocale, useTranslations } from "next-intl";
+import { FieldError } from "../ui/field";
+import { useMemo, useRef, useState } from "react";
 import { Separator } from "../ui/separator";
-import { useLocale } from "next-intl";
+import FormFooter from "../form/form-footer";
+import FormHeader from "../form/form-header";
+import { Check, Flower2 } from "lucide-react";
+import { Card, CardContent } from "../ui/card";
+import SectionLabel from "../form/section-label";
+import FormAddButton from "../form/form-add-button";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { availableLocales } from "@/constants/shared";
+import { colors, icons } from "@/constants/categories";
+import NormalFormInput from "../form/normal-form-input";
+import NormalFormSwitch from "../form/normal-form-switch";
+import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import LocaleFormSwitcher from "../reusable/locale-form-switcher";
+import { createTranslator } from "next-intl";
+import { messages } from "@/lib/create-translator";
 
 export default function CreateEdit({
   category,
@@ -34,6 +36,7 @@ export default function CreateEdit({
   trigger?: React.ReactNode;
 }) {
   const locale = useLocale();
+  const t = useTranslations("Categories");
   const [activeLocale, setActiveLocale] = useState(locale);
   const form = useRef<HTMLFormElement>(null);
   const {
@@ -44,12 +47,22 @@ export default function CreateEdit({
   } = useForm<CategoryFormValues>({
     resolver: zodResolver(categorySchema),
     defaultValues: {
-      name: category?.name || { en: "category", ar: "الفئة" },
+      name: category?.name || { en: "", ar: "" },
       visibility: category?.visibility ?? true,
       icon: category?.icon || 0,
       color: category?.color || "",
     },
   });
+
+  const tLive = useMemo(
+    () =>
+      createTranslator({
+        locale: activeLocale,
+        messages: messages[activeLocale],
+        namespace: "Categories",
+      }),
+    [activeLocale],
+  );
 
   const watchName = useWatch({
     control,
@@ -70,26 +83,26 @@ export default function CreateEdit({
       {trigger ? (
         <SheetTrigger asChild>{trigger}</SheetTrigger>
       ) : (
-        <FormAddButton label="Add Category" />
+        <FormAddButton label={t("AddCategory")} />
       )}
 
       <SheetContent
         showCloseButton={false}
-        className={cn(`flex h-full flex-col sm:max-w-2xl`, {
-          "font-cairo": activeLocale === "ar",
-        })}
+        className="flex h-full flex-col sm:max-w-2xl"
         side={locale === "ar" ? "left" : "right"}
         onInteractOutside={(event) => event.preventDefault()}
       >
         <FormHeader
-          title="Add Category"
-          description="Create a new product category"
+          title={t("AddCategory")}
+          description={t("CreateCategoryDescription")}
         />
 
         <LocaleFormSwitcher locale={activeLocale} onChange={setActiveLocale} />
 
         <div
-          className="flex-1 overflow-auto px-4 pb-6 pt-2"
+          className={cn(`flex-1 overflow-auto px-4 pb-6 pt-2`, {
+            "font-cairo": activeLocale === "ar",
+          })}
           dir={activeLocale === "ar" ? "rtl" : "ltr"}
         >
           <form
@@ -99,30 +112,24 @@ export default function CreateEdit({
           >
             <Card>
               <CardContent className="flex items-center gap-2">
-                <div className="bg-primary/20 p-2.5 rounded-lg">
-                  <Flower2 className="size-5 text-primary" />
+                <div className="bg-[#f4c2c233] p-2.5 rounded-lg">
+                  <Flower2 className="size-5 text-[#b88686]" />
                 </div>
                 <div>
                   <p className="font-semibold text-sm">
-                    {watchName?.[activeLocale] || "Category Name"}
+                    {watchName?.[activeLocale] || tLive("Placeholder")}
                   </p>
                 </div>
               </CardContent>
             </Card>
 
             <Separator className="bg-border" />
-            <SectionLabel>
-              {activeLocale === "en" ? "Details" : "تفاصيل"}
-            </SectionLabel>
+            <SectionLabel>{tLive("Details")}</SectionLabel>
             {availableLocales.map((lang) => (
               <NormalFormInput<CategoryFormValues>
                 key={lang}
-                label={activeLocale === "en" ? "Category Name" : "اسم الفئة"}
-                placeholder={
-                  activeLocale === "en"
-                    ? "Enter Category Name"
-                    : "أدخل اسم الفئة"
-                }
+                label={tLive("CategoryName")}
+                placeholder={tLive("EnterCategoryName")}
                 name={`name.${lang}`}
                 type="text"
                 register={register}
@@ -133,9 +140,7 @@ export default function CreateEdit({
             ))}
 
             <Separator className="bg-border" />
-            <SectionLabel>
-              {activeLocale === "en" ? "Icon" : "أيقونة"}
-            </SectionLabel>
+            <SectionLabel>{tLive("Icon")}</SectionLabel>
             <Controller
               name="icon"
               control={control}
@@ -144,8 +149,8 @@ export default function CreateEdit({
 
                 return (
                   <div className="space-y-1.5">
-                    <div className="flex flex-wrap gap-2">
-                      {icons.map((icon) => {
+                    <div className="flex flex-wrap gap-3">
+                      {icons((key) => tLive(key as never)).map((icon) => {
                         const isSelected = selectedIcon === icon.id;
                         const selectedColor = watchColor;
 
@@ -160,26 +165,31 @@ export default function CreateEdit({
                           >
                             <Card
                               className={cn(
-                                "w-25 h-25 border-2 grid place-content-center",
+                                "w-25 h-25 border grid place-content-center",
                                 { "border-2 border-primary": isSelected },
                               )}
                             >
-                              <CardContent
-                                className={cn(
-                                  "w-15 h-15 grid place-content-center rounded-full",
-                                  !selectedColor &&
-                                    "text-primary bg-primary/20",
-                                )}
-                                style={
-                                  selectedColor
-                                    ? {
-                                        color: selectedColor,
-                                        backgroundColor: `${selectedColor}20`,
-                                      }
-                                    : undefined
-                                }
-                              >
-                                {icon.icon}
+                              <CardContent>
+                                <div
+                                  className={cn(
+                                    "w-13 h-13 grid place-content-center rounded-full",
+                                    !selectedColor &&
+                                      "text-[#b88686] bg-[#f4c2c233]",
+                                  )}
+                                  style={
+                                    selectedColor
+                                      ? {
+                                          color: selectedColor,
+                                          backgroundColor: `${selectedColor}20`,
+                                        }
+                                      : undefined
+                                  }
+                                >
+                                  {icon.icon}
+                                </div>
+                                <p className="text-xs text-center mt-1">
+                                  {icon.label}
+                                </p>
                               </CardContent>
                             </Card>
                           </div>
@@ -194,9 +204,7 @@ export default function CreateEdit({
             />
 
             <Separator className="bg-border" />
-            <SectionLabel>
-              {activeLocale === "en" ? "Color" : "لون"}
-            </SectionLabel>
+            <SectionLabel>{tLive("Color")}</SectionLabel>
             <Controller
               name="color"
               control={control}
@@ -240,20 +248,12 @@ export default function CreateEdit({
             />
 
             <Separator className="bg-border" />
-            <SectionLabel>
-              {activeLocale === "en" ? "Visibility" : "الرؤية"}
-            </SectionLabel>
+            <SectionLabel>{tLive("Visibility")}</SectionLabel>
             <NormalFormSwitch<CategoryFormValues>
               name="visibility"
               control={control}
-              label={
-                activeLocale === "en" ? "Show on storefront" : "عرض في المتجر"
-              }
-              description={
-                activeLocale === "en"
-                  ? "Category is visible to customers"
-                  : "الفئة مرئية للعملاء"
-              }
+              label={tLive("VisibilityLabel")}
+              description={tLive("VisibilityDescription")}
             />
           </form>
         </div>

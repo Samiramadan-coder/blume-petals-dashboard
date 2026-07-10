@@ -1,4 +1,8 @@
 {
+  "Common": {
+    "English": "English",
+    "Arabic": "Arabic"
+  },
   "Auth": {
     "Login": {
       "Title": "Login",
@@ -44,5 +48,25 @@
         "adminAccount": "Admin Account"
       }
     }
+  },
+  "Categories": {
+    "AddCategory": "Add Category",
+    "Placeholder": "Enter category name",
+    "CreateCategoryDescription": "Create a new product category",
+    "Details": "Category Details",
+    "CategoryName": "Category Name",
+    "EnterCategoryName": "Enter category name",
+    "Icon": "Icon",
+    "Color": "Color",
+    "Visibility": "Visibility",
+    "VisibilityLabel": "Show on storefront",
+    "VisibilityDescription": "Category is visible to customers",
+    "Bouquet": "Bouquet",
+    "Preserved": "Preserved",
+    "Gift": "Gift",
+    "Seasonal": "Seasonal",
+    "Wedding": "Wedding",
+    "Eid": "Eid",
+    "Corporate": "Corporate"
   }
 }

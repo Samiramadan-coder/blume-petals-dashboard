@@ -2,6 +2,7 @@ import { Locale } from "@/types/shared";
 import { Button } from "../ui/button";
 import { Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 export default function LocaleFormSwitcher({
   locale,
@@ -10,6 +11,8 @@ export default function LocaleFormSwitcher({
   locale: Locale;
   onChange: (locale: Locale) => void;
 }) {
+  const t = useTranslations("Common");
+
   return (
     <div className="px-4 grid grid-cols-2 gap-2">
       <Button
@@ -21,7 +24,7 @@ export default function LocaleFormSwitcher({
         )}
       >
         <Globe className="mr-2 h-4 w-4" />
-        English
+        {t("English")}
       </Button>
       <Button
         variant="outline"
@@ -32,7 +35,7 @@ export default function LocaleFormSwitcher({
         )}
       >
         <Globe className="mr-2 h-4 w-4" />
-        Arabic
+        {t("Arabic")}
       </Button>
     </div>
   );
