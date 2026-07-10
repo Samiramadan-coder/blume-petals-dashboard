@@ -1,7 +1,7 @@
 "use client";
 
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Check, Flower2 } from "lucide-react";
 import FormFooter from "../form/form-footer";
 import SectionLabel from "../form/section-label";
@@ -22,6 +22,9 @@ import { Button } from "../ui/button";
 import { colors, icons } from "@/constants/categories";
 import { cn } from "@/lib/utils";
 import { Separator } from "../ui/separator";
+import { useLocale } from "next-intl";
+import { availableLocales } from "@/constants/shared";
+import LocaleFormSwitcher from "../reusable/locale-form-switcher";
 
 export default function CreateEdit({
   category,
@@ -30,6 +33,8 @@ export default function CreateEdit({
   category?: Category;
   trigger?: React.ReactNode;
 }) {
+  const locale = useLocale();
+  const [activeLocale, setActiveLocale] = useState(locale);
   const form = useRef<HTMLFormElement>(null);
   const {
     register,
@@ -39,7 +44,7 @@ export default function CreateEdit({
   } = useForm<CategoryFormValues>({
     resolver: zodResolver(categorySchema),
     defaultValues: {
-      name: category?.name || "",
+      name: category?.name || { en: "category", ar: "الفئة" },
       visibility: category?.visibility ?? true,
       icon: category?.icon || 0,
       color: category?.color || "",
@@ -71,12 +76,16 @@ export default function CreateEdit({
       <SheetContent
         showCloseButton={false}
         className="flex h-full flex-col sm:max-w-2xl"
+        side={activeLocale === "ar" ? "left" : "right"}
+        dir={activeLocale === "ar" ? "rtl" : "ltr"}
         onInteractOutside={(event) => event.preventDefault()}
       >
         <FormHeader
           title="Add Category"
           description="Create a new product category"
         />
+
+        <LocaleFormSwitcher locale={activeLocale} onChange={setActiveLocale} />
 
         <div className="flex-1 overflow-auto px-4 pb-6 pt-2">
           <form
@@ -91,7 +100,7 @@ export default function CreateEdit({
                 </div>
                 <div>
                   <p className="font-semibold">
-                    {watchName || "Category Name"}
+                    {watchName?.[activeLocale] || "Category Name"}
                   </p>
                 </div>
               </CardContent>
@@ -99,15 +108,19 @@ export default function CreateEdit({
 
             <Separator className="bg-border" />
             <SectionLabel>Details</SectionLabel>
-            <NormalFormInput<CategoryFormValues>
-              label="Category Name"
-              placeholder="Enter Category Name"
-              name="name"
-              type="text"
-              register={register}
-              errors={errors}
-              required
-            />
+            {availableLocales.map((lang) => (
+              <NormalFormInput<CategoryFormValues>
+                key={lang}
+                label="Category Name"
+                placeholder="Enter Category Name"
+                name={`name.${lang}`}
+                type="text"
+                register={register}
+                errors={errors}
+                required
+                className={`${activeLocale === lang ? "" : "hidden"}`}
+              />
+            ))}
 
             <Separator className="bg-border" />
             <SectionLabel>Icon</SectionLabel>
