@@ -50,6 +50,8 @@
     }
   },
   "Categories": {
+    "Categories": "الفئات",
+    "CategoriesBrief": "نظّم منتجاتك وتحكّم بما يظهر في واجهة المتجر.",
     "AddCategory": "إضافة فئة",
     "CreateCategoryDescription": "قم بإنشاء فئة منتج جديدة",
     "Placeholder": "أدخل اسم الفئة",
@@ -67,6 +69,9 @@
     "Seasonal": "موسمي",
     "Wedding": "زفاف",
     "Eid": "عيد",
-    "Corporate": "شركة"
+    "Corporate": "شركة",
+    "Status": "الحالة",
+    "Actions": "الإجراءات",
+    "Products": "المنتجات"
   }
 }

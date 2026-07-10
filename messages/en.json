@@ -50,6 +50,8 @@
     }
   },
   "Categories": {
+    "Categories": "Categories",
+    "CategoriesBrief": "Organise your products and control what appears on the storefront.",
     "AddCategory": "Add Category",
     "Placeholder": "Enter category name",
     "CreateCategoryDescription": "Create a new product category",
@@ -67,6 +69,9 @@
     "Seasonal": "Seasonal",
     "Wedding": "Wedding",
     "Eid": "Eid",
-    "Corporate": "Corporate"
+    "Corporate": "Corporate",
+    "Status": "Status",
+    "Actions": "Actions",
+    "Products": "Products"
   }
 }

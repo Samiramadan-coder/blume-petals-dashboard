@@ -8,6 +8,8 @@ import { columns } from "@/constants/categories";
 import { ReorderableDataTable } from "../reusable/date-sortable-table";
 import { Button } from "../ui/button";
 import { Pencil, Trash2 } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+import { cn } from "@/lib/utils";
 
 export default function DataPreview({
   initialCategories,
@@ -15,16 +17,23 @@ export default function DataPreview({
   initialCategories: Category[];
 }) {
   const [categories, setCategories] = useState(initialCategories);
+  const t = useTranslations("Categories");
+  const locale = useLocale();
 
   return (
     <>
       <header className="flex items-center justify-between">
         <div>
-          <h1 className="font-heading text-2xl font-semibold text-foreground">
-            Categories
+          <h1
+            className={cn("text-2xl font-semibold text-foreground", {
+              "font-cairo": locale === "ar",
+              "font-heading": locale !== "ar",
+            })}
+          >
+            {t("Categories")}
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Organise your products and control what appears on the storefront.
+            {t("CategoriesBrief")}
           </p>
         </div>
         <CreateEdit />
@@ -38,7 +47,7 @@ export default function DataPreview({
         }}
         rowsCount={categories.length}
         countUnit="categories"
-        columns={columns}
+        columns={columns((key) => t(key as never))}
         renderCells={(category) => (
           <>
             <TableCell className="px-4 py-3">-</TableCell>

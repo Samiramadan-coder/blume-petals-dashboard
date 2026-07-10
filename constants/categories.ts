@@ -64,26 +64,26 @@ export const icons = (t: T): Icon[] => [
   },
 ];
 
-export const columns: DataTableColumn[] = [
+export const columns = (t: T): DataTableColumn[] => [
   {
     key: "name",
-    label: "Name",
+    label: t("CategoryName"),
   },
   {
     key: "products",
-    label: "Products",
+    label: t("Products"),
   },
   {
     key: "visibility",
-    label: "Visibility",
+    label: t("Visibility"),
   },
   {
     key: "status",
-    label: "Status",
+    label: t("Status"),
   },
   {
     key: "actions",
-    label: "Actions",
+    label: t("Actions"),
   },
 ];
 

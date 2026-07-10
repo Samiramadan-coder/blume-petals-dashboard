@@ -155,7 +155,7 @@ export function ReorderableDataTable<T>({
                 <TableHead
                   key={column.key}
                   className={cn(
-                    "px-4 py-3 text-xs font-semibold uppercase text-muted-foreground",
+                    "px-4 py-3 text-sm font-semibold uppercase text-muted-foreground",
                     column.className,
                   )}
                 >
