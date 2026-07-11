@@ -9,7 +9,7 @@ import Header from "@/components/form/header";
 import { Separator } from "@/components/ui/separator";
 import SectionLabel from "@/components/form/section-label";
 import NormalFormInput from "@/components/form/normal-form-input";
-import FormSwitch from "@/components/form/form-switch";
+import FormSwitch from "@/components/form/switch";
 import Footer from "@/components/form/footer";
 import {
   Template,

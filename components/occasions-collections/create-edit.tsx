@@ -18,7 +18,7 @@ import AddButton from "../form/add-button";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import NormalFormInput from "../form/normal-form-input";
-import FormSwitch from "../form/form-switch";
+import Switch from "../form/switch";
 import { colors } from "@/constants/occasions-collections";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import SingleFormImageUploader from "../form/form-single-image-uploader";
@@ -170,7 +170,7 @@ export default function CreateEdit({
 
             <Separator className="bg-border" />
             <SectionLabel>Visibility</SectionLabel>
-            <FormSwitch<OccasionCollectionFormValues>
+            <Switch<OccasionCollectionFormValues>
               name="visibility"
               control={control}
               label="Show on storefront"
