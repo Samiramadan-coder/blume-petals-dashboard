@@ -6,26 +6,27 @@ import {
   productStatuses,
   sizes,
 } from "@/constants/products";
-import { Product, ProductFormValues, productSchema } from "@/types/products";
 import { cn } from "@/lib/utils";
+import Input from "../form/input";
 import { Badge } from "../ui/badge";
-import { Check } from "lucide-react";
-import { Button } from "../ui/button";
-import { Separator } from "../ui/separator";
 import Header from "../form/header";
 import Footer from "../form/footer";
-import { useRef, type ReactNode } from "react";
-import SectionLabel from "../form/section-label";
-import AddButton from "../form/add-button";
-import { Controller, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import Input from "../form/input";
 import Select from "../form/select";
 import Switch from "../form/switch";
+import { Check } from "lucide-react";
+import { Button } from "../ui/button";
 import RichText from "../form/rich-text";
-import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
+import AddButton from "../form/add-button";
+import { Separator } from "../ui/separator";
+import { useRef, type ReactNode } from "react";
+import SectionLabel from "../form/section-label";
 import ImageUploader from "../form/image-uploader";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Field, FieldContent, FieldError, FieldLabel } from "../ui/field";
+import { Product, ProductFormValues, productSchema } from "@/types/products";
+import { useTranslations } from "next-intl";
 
 export default function CreateEdit({
   trigger,
@@ -34,6 +35,7 @@ export default function CreateEdit({
   trigger?: ReactNode;
   product?: Product;
 }) {
+  const t = useTranslations("Products");
   const form = useRef<HTMLFormElement>(null);
   const {
     register,
@@ -68,7 +70,7 @@ export default function CreateEdit({
       {trigger ? (
         <SheetTrigger asChild>{trigger}</SheetTrigger>
       ) : (
-        <AddButton label="Add Product" />
+        <AddButton label={t("AddProduct")} />
       )}
 
       <SheetContent
@@ -77,8 +79,8 @@ export default function CreateEdit({
         onInteractOutside={(event) => event.preventDefault()}
       >
         <Header
-          title="Add New Product"
-          description="Fill in product details below"
+          title={product ? t("EditProduct") : t("AddProduct")}
+          description={t("AddProductDescription")}
         />
 
         <div className="flex-1 overflow-auto px-4 pb-6 pt-2 relative">

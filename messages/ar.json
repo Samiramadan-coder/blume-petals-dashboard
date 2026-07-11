@@ -2,7 +2,11 @@
   "Common": {
     "English": "الإنجليزية",
     "Arabic": "العربية",
-    "Showing": "عرض"
+    "Showing": "عرض",
+    "Previous": "السابق",
+    "Next": "التالي",
+    "Save": "حفظ",
+    "Cancel": "إلغاء"
   },
   "Auth": {
     "Login": {
@@ -78,5 +82,31 @@
     "NameMinLength": "يجب أن يكون اسم الفئة 3 أحرف على الأقل",
     "SelectIcon": "اختر أيقونة",
     "SelectColor": "اختر لونًا"
+  },
+  "Products": {
+    "Products": "المنتجات",
+    "AddProduct": "إضافة منتج",
+    "EditProduct": "تعديل المنتج",
+    "AddProductDescription": "املأ تفاصيل المنتج أدناه",
+    "Table": {
+      "Photo": "الصورة",
+      "Name": "الاسم",
+      "Category": "الفئة",
+      "Price": "السعر (درهم)",
+      "Stock": "المخزون",
+      "Rating": "التقييم",
+      "Status": "الحالة",
+      "Actions": "الإجراءات"
+    },
+    "Stats": {
+      "TotalProducts": "إجمالي المنتجات",
+      "InStock": "متوفر",
+      "OutOfStock": "غير متوفر",
+      "LowStock": "المخزون منخفض"
+    },
+    "Filters": {
+      "SearchPlaceholder": "ابحث عن المنتجات",
+      "AllCategories": "جميع الفئات"
+    }
   }
 }

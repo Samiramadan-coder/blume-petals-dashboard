@@ -16,8 +16,7 @@ export default async function ProductsPage({
   searchParams: SearchParams;
 }) {
   const params = await searchParams;
-  console.log("Query:", params.query);
-  console.log("Category:", params.category);
+  console.log(params);
 
   return (
     <main className="space-y-6">

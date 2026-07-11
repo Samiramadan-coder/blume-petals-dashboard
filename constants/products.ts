@@ -1,15 +1,17 @@
-import { DataTableColumn } from "@/components/reusable/data-table";
+import { T } from "@/types/shared";
 import { Color, Occasion, Product, Size } from "@/types/products";
+import { DataTableColumn } from "@/components/reusable/data-table";
 
-export const columns: DataTableColumn[] = [
-  { label: "photo" },
-  { label: "name" },
-  { label: "category" },
-  { label: "price (aed)" },
-  { label: "stock" },
-  { label: "rating" },
-  { label: "status" },
-  { label: "actions", className: "text-center" },
+// Table Column
+export const columns = (t: T): DataTableColumn[] => [
+  { label: t("Table.Photo") },
+  { label: t("Table.Name") },
+  { label: t("Table.Category") },
+  { label: t("Table.Price") },
+  { label: t("Table.Stock") },
+  { label: t("Table.Rating") },
+  { label: t("Table.Status") },
+  { label: t("Table.Actions"), className: "text-center" },
 ];
 
 export const productsPlaceholder: Product[] = [

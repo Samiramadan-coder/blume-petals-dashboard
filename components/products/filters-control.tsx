@@ -5,6 +5,7 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "../ui/input-group";
+
 import {
   Select,
   SelectContent,
@@ -14,14 +15,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+
 import { Field } from "../ui/field";
 import { Search } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useQueryParam } from "@/hooks/use-search-params";
 
 export default function FiltersControl() {
   const firstRender = useRef(true);
+  const t = useTranslations("Products");
   const searchParams = useSearchParams();
   const { setQueryParam } = useQueryParam();
   const [query, setQuery] = useState(searchParams.get("search") || "");
@@ -48,7 +52,8 @@ export default function FiltersControl() {
           <InputGroupInput
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search products..."
+            placeholder={t("Filters.SearchPlaceholder")}
+            className="min-w-50"
           />
           <InputGroupAddon align="inline-start">
             <Search />
@@ -64,7 +69,7 @@ export default function FiltersControl() {
         }}
       >
         <SelectTrigger className="h-10 min-h-10 w-full max-w-48 bg-white px-3 py-2.5 leading-none">
-          <SelectValue placeholder="All Categories" />
+          <SelectValue placeholder={t("Filters.AllCategories")} />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>

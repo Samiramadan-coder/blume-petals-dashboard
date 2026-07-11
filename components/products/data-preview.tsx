@@ -1,39 +1,37 @@
 "use client";
 
-import Image from "next/image";
+// import Image from "next/image";
+import Statistics from "./statistics";
 import { Button } from "../ui/button";
 import CreateEdit from "./create-edit";
 import { Checkbox } from "../ui/checkbox";
-import { Pencil, Trash2 } from "lucide-react";
 import { Product } from "@/types/products";
+import { useTranslations } from "next-intl";
+import { Pencil, Trash2 } from "lucide-react";
+import FiltersControl from "./filters-control";
+import { columns } from "@/constants/products";
 import { TableCell, TableRow } from "../ui/table";
 import { DataTable } from "../reusable/data-table";
-import { columns } from "@/constants/products";
-import FiltersControl from "./filters-control";
-import Statistics from "./statistics";
 
 export default function DataPreview({ products }: { products: Product[] }) {
+  const t = useTranslations("Products");
+
   return (
     <>
       <header className="flex items-center justify-between">
         <FiltersControl />
         <CreateEdit />
       </header>
+
       <Statistics />
 
       <DataTable
-        columns={columns}
+        columns={columns(t)}
         rowsCount={products.length}
-        countUnit="products"
-        onNextPage={() => {
-          console.log("Next page clicked");
-        }}
-        onPreviousPage={() => {
-          console.log("Previous page clicked");
-        }}
-        onCheckboxChange={(checked) => {
-          console.log("Checkbox changed:", checked);
-        }}
+        countUnit={t("Products")}
+        onNextPage={() => {}}
+        onPreviousPage={() => {}}
+        onCheckboxChange={(checked) => {}}
       >
         {products.map((product, index) => (
           <TableRow key={index}>
@@ -41,19 +39,20 @@ export default function DataPreview({ products }: { products: Product[] }) {
               <Checkbox />
             </TableCell>
             <TableCell className="px-4 py-3">
-              <Image
+              -
+              {/* <Image
                 src={product.images[0] as string}
                 alt={product.name}
                 width={50}
                 height={80}
-              />
+              /> */}
             </TableCell>
-            <TableCell className="px-4 py-3">{product.name}</TableCell>
-            <TableCell className="px-4 py-3">{product.category}</TableCell>
-            <TableCell className="px-4 py-3">{product.price}</TableCell>
-            <TableCell className="px-4 py-3">{product.stockQuantity}</TableCell>
-            <TableCell className="px-4 py-3">{product.rating}</TableCell>
-            <TableCell className="px-4 py-3">{product.productStatus}</TableCell>
+            <TableCell className="px-4 py-3">-</TableCell>
+            <TableCell className="px-4 py-3">-</TableCell>
+            <TableCell className="px-4 py-3">-</TableCell>
+            <TableCell className="px-4 py-3">-</TableCell>
+            <TableCell className="px-4 py-3">-</TableCell>
+            <TableCell className="px-4 py-3">-</TableCell>
             <TableCell className="px-4 py-3 text-center">
               <CreateEdit
                 product={product}

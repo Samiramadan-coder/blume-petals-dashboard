@@ -10,6 +10,7 @@ import {
 import { Checkbox } from "../ui/checkbox";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 export type DataTableColumn = {
   label: string;
@@ -35,6 +36,8 @@ export function DataTable({
   onNextPage,
   onPreviousPage,
 }: DataTableProps) {
+  const t = useTranslations("Common");
+
   return (
     <div className="border border-border rounded-lg overflow-hidden">
       <Table className="">
@@ -61,10 +64,10 @@ export function DataTable({
         <TableFooter className="bg-white">
           <TableRow>
             <TableCell
-              className="px-4 py-3 text-xs text-muted-foreground"
+              className="px-4 py-3 text-sm text-muted-foreground"
               colSpan={columns.length}
             >
-              Showing{" "}
+              {t("Showing")}{" "}
               <span className="font-semibold text-black">{rowsCount}</span>{" "}
               {countUnit}
             </TableCell>
@@ -72,18 +75,18 @@ export function DataTable({
               <div className="flex items-center justify-end gap-1">
                 <Button
                   variant="outline"
-                  className="text-xs"
+                  className="text-sm"
                   onClick={onPreviousPage}
                 >
-                  Previous
+                  {t("Previous")}
                 </Button>
-                <Button className="text-xs min-w-8">1</Button>
+                <Button className="text-sm min-w-8">1</Button>
                 <Button
                   variant="outline"
                   className="text-xs"
                   onClick={onNextPage}
                 >
-                  Next
+                  {t("Next")}
                 </Button>
               </div>
             </TableCell>

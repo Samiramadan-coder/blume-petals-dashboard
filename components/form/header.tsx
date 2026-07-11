@@ -26,7 +26,7 @@ export default function FormHeader({
             {title}
           </p>
           {description && (
-            <p className="mt-1 text-sm text-muted-foreground">{description}</p>
+            <p className="mt-2 text-sm text-muted-foreground">{description}</p>
           )}
         </div>
         <SheetClose asChild>

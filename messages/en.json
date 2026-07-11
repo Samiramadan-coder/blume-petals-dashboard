@@ -2,7 +2,11 @@
   "Common": {
     "English": "English",
     "Arabic": "Arabic",
-    "Showing": "Showing"
+    "Showing": "Showing",
+    "Previous": "Previous",
+    "Next": "Next",
+    "Save": "Save",
+    "Cancel": "Cancel"
   },
   "Auth": {
     "Login": {
@@ -78,5 +82,31 @@
     "NameMinLength": "Category name must be at least 3 characters",
     "SelectIcon": "Select an icon",
     "SelectColor": "Select a color"
+  },
+  "Products": {
+    "Products": "Products",
+    "AddProduct": "Add Product",
+    "EditProduct": "Edit Product",
+    "AddProductDescription": "Fill in product details below",
+    "Table": {
+      "Photo": "Photo",
+      "Name": "Name",
+      "Category": "Category",
+      "Price": "Price (AED)",
+      "Stock": "Stock",
+      "Rating": "Rating",
+      "Status": "Status",
+      "Actions": "Actions"
+    },
+    "Stats": {
+      "TotalProducts": "Total Products",
+      "InStock": "In Stock",
+      "OutOfStock": "Out of Stock",
+      "LowStock": "Low Stock"
+    },
+    "Filters": {
+      "SearchPlaceholder": "Search products",
+      "AllCategories": "All Categories"
+    }
   }
 }
