@@ -22,7 +22,7 @@ import FormSwitch from "../form/form-switch";
 import { colors } from "@/constants/occasions-collections";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import SingleFormImageUploader from "../form/form-single-image-uploader";
-import FormDayMonthPicker from "../form/form-day-month-picker";
+import DayMonthPicker from "../form/day-month-picker";
 
 export default function CreateEdit({
   occasion,
@@ -103,14 +103,14 @@ export default function CreateEdit({
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <FormDayMonthPicker
+                <DayMonthPicker
                   label="Start Date"
                   control={control}
                   name="startDate"
                   required
                 />
 
-                <FormDayMonthPicker
+                <DayMonthPicker
                   label="End Date"
                   control={control}
                   name="endDate"

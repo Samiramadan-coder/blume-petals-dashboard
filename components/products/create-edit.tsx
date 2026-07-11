@@ -22,7 +22,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import NormalFormInput from "../form/normal-form-input";
 import NormalFormSelect from "../form/normal-form-select";
 import FormSwitch from "../form/form-switch";
-import NormalFormRichText from "../form/normal-form-rich-text";
+import RichText from "../form/rich-text";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import FormImageUploader from "../form/form-image-uploader";
 import { Field, FieldContent, FieldError, FieldLabel } from "../ui/field";
@@ -118,7 +118,7 @@ export default function CreateEdit({
               ]}
             />
 
-            <NormalFormRichText<ProductFormValues>
+            <RichText<ProductFormValues>
               control={control}
               label="Description"
               name="description"
