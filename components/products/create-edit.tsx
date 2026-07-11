@@ -20,7 +20,7 @@ import AddButton from "../form/add-button";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "../form/input";
-import NormalFormSelect from "../form/normal-form-select";
+import Select from "../form/select";
 import Switch from "../form/switch";
 import RichText from "../form/rich-text";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
@@ -106,7 +106,7 @@ export default function CreateEdit({
               required
             />
 
-            <NormalFormSelect<ProductFormValues>
+            <Select<ProductFormValues>
               control={control}
               label="Category"
               name="category"
