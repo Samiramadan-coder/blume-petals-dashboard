@@ -22,7 +22,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { colors, icons } from "@/constants/categories";
 import NormalFormInput from "../form/normal-form-input";
 import { useFormLocale } from "@/hooks/use-form-locale";
-import NormalFormSwitch from "../form/normal-form-switch";
+import FormSwitch from "../form/form-switch";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import LocaleFormSwitcher from "../reusable/locale-form-switcher";
@@ -257,7 +257,7 @@ export default function CreateEdit({
 
             <Separator className="bg-border" />
             <SectionLabel>{tLive("Visibility")}</SectionLabel>
-            <NormalFormSwitch<CategoryFormValues>
+            <FormSwitch<CategoryFormValues>
               name="visibility"
               control={control}
               label={tLive("VisibilityLabel")}

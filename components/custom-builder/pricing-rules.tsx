@@ -18,7 +18,7 @@ import { Separator } from "../ui/separator";
 import { Card, CardContent } from "../ui/card";
 import { zodResolver } from "@hookform/resolvers/zod";
 import NormalFormInput from "../form/normal-form-input";
-import NormalFormSwitch from "../form/normal-form-switch";
+import FormSwitch from "../form/form-switch";
 import { useForm, SubmitHandler, useWatch } from "react-hook-form";
 
 export default function PricingRules() {
@@ -112,7 +112,7 @@ export default function PricingRules() {
               </p>
             </div>
 
-            <NormalFormSwitch
+            <FormSwitch
               label=""
               description=""
               control={control}

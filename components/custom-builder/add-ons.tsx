@@ -7,7 +7,7 @@ import { Separator } from "../ui/separator";
 import { Card, CardContent } from "../ui/card";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler, useWatch } from "react-hook-form";
-import NormalFormSwitch from "../form/normal-form-switch";
+import FormSwitch from "../form/form-switch";
 import { addOnsSchema, AddOnsFormData } from "@/types/custom-builder";
 import { ReorderableDataTable } from "../reusable/date-sortable-table";
 import { addOnsColumns } from "@/constants/custom-builder";
@@ -107,7 +107,7 @@ export default function AddOns() {
                 <TableCell className="px-4 py-3">{addOn.price}</TableCell>
                 <TableCell className="px-4 py-3">{addOn.stock}</TableCell>
                 <TableCell className="px-4 py-3">
-                  <NormalFormSwitch
+                  <FormSwitch
                     name={`addOns.${index}.active`}
                     control={control}
                     label=""

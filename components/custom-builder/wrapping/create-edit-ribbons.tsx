@@ -9,7 +9,7 @@ import FormFooter from "@/components/form/form-footer";
 import SectionLabel from "@/components/form/section-label";
 import AddButton from "@/components/form/add-button";
 import NormalFormInput from "@/components/form/normal-form-input";
-import NormalFormSwitch from "@/components/form/normal-form-switch";
+import FormSwitch from "@/components/form/form-switch";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Ribbon, RibbonFormValues, ribbonSchema } from "@/types/custom-builder";
 
@@ -95,7 +95,7 @@ export default function CreateEditRibbons({
 
             <Separator className="bg-border" />
             <SectionLabel>Status</SectionLabel>
-            <NormalFormSwitch<RibbonFormValues>
+            <FormSwitch<RibbonFormValues>
               name="active"
               control={control}
               label="Active"

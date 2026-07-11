@@ -21,7 +21,7 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import NormalFormInput from "../form/normal-form-input";
 import NormalFormSelect from "../form/normal-form-select";
-import NormalFormSwitch from "../form/normal-form-switch";
+import FormSwitch from "../form/form-switch";
 import NormalFormRichText from "../form/normal-form-rich-text";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import FormImageUploader from "../form/form-image-uploader";
@@ -358,14 +358,14 @@ export default function CreateEdit({
             <Separator className="bg-border" />
             <SectionLabel>Display Options</SectionLabel>
 
-            <NormalFormSwitch
+            <FormSwitch
               name="showNewBadge"
               control={control}
               label="Show New Badge"
               description="Displays a gold NEW badge on the product card"
             />
 
-            <NormalFormSwitch
+            <FormSwitch
               name="featuredOnHomepage"
               control={control}
               label="Featured on Homepage"
