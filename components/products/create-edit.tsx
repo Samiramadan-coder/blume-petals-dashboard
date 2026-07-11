@@ -24,7 +24,7 @@ import NormalFormSelect from "../form/normal-form-select";
 import FormSwitch from "../form/form-switch";
 import RichText from "../form/rich-text";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
-import FormImageUploader from "../form/form-image-uploader";
+import ImageUploader from "../form/image-uploader";
 import { Field, FieldContent, FieldError, FieldLabel } from "../ui/field";
 
 export default function CreateEdit({
@@ -87,7 +87,7 @@ export default function CreateEdit({
             onSubmit={handleSubmit(onSubmit)}
             className="space-y-6 relative"
           >
-            <FormImageUploader
+            <ImageUploader
               control={control}
               name="images"
               label="Product Photos(drag to reorder · first photo = main)"
