@@ -7,7 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import FormHeader from "@/components/form/form-header";
 import FormFooter from "@/components/form/form-footer";
 import SectionLabel from "@/components/form/section-label";
-import FormAddButton from "@/components/form/form-add-button";
+import AddButton from "@/components/form/add-button";
 import NormalFormInput from "@/components/form/normal-form-input";
 import NormalFormSwitch from "@/components/form/normal-form-switch";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -46,7 +46,7 @@ export default function CreateEditRibbons({
       {trigger ? (
         <SheetTrigger asChild>{trigger}</SheetTrigger>
       ) : (
-        <FormAddButton label="Add Ribbon" />
+        <AddButton label="Add Ribbon" />
       )}
 
       <SheetContent

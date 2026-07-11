@@ -14,15 +14,15 @@ import { Separator } from "../ui/separator";
 import FormFooter from "../form/form-footer";
 import FormHeader from "../form/form-header";
 import SectionLabel from "../form/section-label";
-import FormAddButton from "../form/form-add-button";
+import AddButton from "../form/add-button";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import NormalFormInput from "../form/normal-form-input";
 import NormalFormSwitch from "../form/normal-form-switch";
 import { colors } from "@/constants/occasions-collections";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
-import SingleFormImageUploader from "../form/normal-form-single-image-uploader";
-import NormalFormDayMonthPicker from "../form/normal-form-day-month-picker";
+import SingleFormImageUploader from "../form/form-single-image-uploader";
+import FormDayMonthPicker from "../form/form-day-month-picker";
 
 export default function CreateEdit({
   occasion,
@@ -58,7 +58,7 @@ export default function CreateEdit({
       {trigger ? (
         <SheetTrigger asChild>{trigger}</SheetTrigger>
       ) : (
-        <FormAddButton label="Add Occasion Collection" />
+        <AddButton label="Add Occasion Collection" />
       )}
 
       <SheetContent
@@ -103,14 +103,14 @@ export default function CreateEdit({
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <NormalFormDayMonthPicker
+                <FormDayMonthPicker
                   label="Start Date"
                   control={control}
                   name="startDate"
                   required
                 />
 
-                <NormalFormDayMonthPicker
+                <FormDayMonthPicker
                   label="End Date"
                   control={control}
                   name="endDate"

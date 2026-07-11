@@ -16,7 +16,7 @@ import FormHeader from "../form/form-header";
 import FormFooter from "../form/form-footer";
 import { useRef, type ReactNode } from "react";
 import SectionLabel from "../form/section-label";
-import FormAddButton from "../form/form-add-button";
+import AddButton from "../form/add-button";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import NormalFormInput from "../form/normal-form-input";
@@ -24,7 +24,7 @@ import NormalFormSelect from "../form/normal-form-select";
 import NormalFormSwitch from "../form/normal-form-switch";
 import NormalFormRichText from "../form/normal-form-rich-text";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
-import NormalFormImageUploader from "../form/normal-form-image-uploader";
+import FormImageUploader from "../form/form-image-uploader";
 import { Field, FieldContent, FieldError, FieldLabel } from "../ui/field";
 
 export default function CreateEdit({
@@ -68,7 +68,7 @@ export default function CreateEdit({
       {trigger ? (
         <SheetTrigger asChild>{trigger}</SheetTrigger>
       ) : (
-        <FormAddButton label="Add Product" />
+        <AddButton label="Add Product" />
       )}
 
       <SheetContent
@@ -87,7 +87,7 @@ export default function CreateEdit({
             onSubmit={handleSubmit(onSubmit)}
             className="space-y-6 relative"
           >
-            <NormalFormImageUploader
+            <FormImageUploader
               control={control}
               name="images"
               label="Product Photos(drag to reorder · first photo = main)"

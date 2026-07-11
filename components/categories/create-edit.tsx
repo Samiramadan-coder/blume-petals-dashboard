@@ -15,7 +15,7 @@ import FormHeader from "../form/form-header";
 import { Check, Flower2 } from "lucide-react";
 import { Card, CardContent } from "../ui/card";
 import SectionLabel from "../form/section-label";
-import FormAddButton from "../form/form-add-button";
+import AddButton from "../form/add-button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { availableLocales } from "@/constants/shared";
 import { useLocale, useTranslations } from "next-intl";
@@ -75,7 +75,7 @@ export default function CreateEdit({
       {trigger ? (
         <SheetTrigger asChild>{trigger}</SheetTrigger>
       ) : (
-        <FormAddButton label={t("AddCategory")} />
+        <AddButton label={t("AddCategory")} />
       )}
 
       <SheetContent

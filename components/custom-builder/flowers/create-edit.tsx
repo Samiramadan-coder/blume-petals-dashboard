@@ -8,11 +8,11 @@ import { Separator } from "@/components/ui/separator";
 import FormHeader from "@/components/form/form-header";
 import FormFooter from "@/components/form/form-footer";
 import SectionLabel from "@/components/form/section-label";
-import FormAddButton from "@/components/form/form-add-button";
+import AddButton from "@/components/form/add-button";
 import NormalFormInput from "@/components/form/normal-form-input";
 import NormalFormSwitch from "@/components/form/normal-form-switch";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import SingleFormImageUploader from "@/components/form/normal-form-single-image-uploader";
+import SingleFormImageUploader from "@/components/form/form-single-image-uploader";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -107,7 +107,7 @@ export default function CreateEdit({
       {trigger ? (
         <SheetTrigger asChild>{trigger}</SheetTrigger>
       ) : (
-        <FormAddButton label="Add Flower Type" />
+        <AddButton label="Add Flower Type" />
       )}
 
       <SheetContent

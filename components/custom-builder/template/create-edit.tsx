@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import FormAddButton from "@/components/form/form-add-button";
+import AddButton from "@/components/form/add-button";
 import FormHeader from "@/components/form/form-header";
 import { Separator } from "@/components/ui/separator";
 import SectionLabel from "@/components/form/section-label";
@@ -16,7 +16,7 @@ import {
   TemplateFormValues,
   templateSchema,
 } from "@/types/custom-builder";
-import SingleFormImageUploader from "@/components/form/normal-form-single-image-uploader";
+import SingleFormImageUploader from "@/components/form/form-single-image-uploader";
 
 const priceSizes: Array<{ size: "S" | "M" | "L" | "XL"; flowers: number }> = [
   { size: "S", flowers: 8 },
@@ -65,7 +65,7 @@ export default function CreateEdit({
       {trigger ? (
         <SheetTrigger asChild>{trigger}</SheetTrigger>
       ) : (
-        <FormAddButton label="Add Template" />
+        <AddButton label="Add Template" />
       )}
 
       <SheetContent

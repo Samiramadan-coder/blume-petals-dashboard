@@ -14,7 +14,7 @@ import { addOnsColumns } from "@/constants/custom-builder";
 import { useRouter } from "@/i18n/navigation";
 import NormalFormInput from "../form/normal-form-input";
 import SectionLabel from "../form/section-label";
-import SingleFormImageUploader from "../form/normal-form-single-image-uploader";
+import SingleFormImageUploader from "../form/form-single-image-uploader";
 
 export default function AddOns() {
   const router = useRouter();
