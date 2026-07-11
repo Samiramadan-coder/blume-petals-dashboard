@@ -21,7 +21,7 @@ import NormalFormInput from "../form/normal-form-input";
 import Switch from "../form/switch";
 import { colors } from "@/constants/occasions-collections";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
-import SingleFormImageUploader from "../form/form-single-image-uploader";
+import SingleImageUploader from "../form/single-image-uploader";
 import DayMonthPicker from "../form/day-month-picker";
 
 export default function CreateEdit({
@@ -77,7 +77,7 @@ export default function CreateEdit({
             onSubmit={handleSubmit(onSubmit)}
             className="space-y-4 relative"
           >
-            <SingleFormImageUploader
+            <SingleImageUploader
               control={control}
               name="banner"
               label="Banner"

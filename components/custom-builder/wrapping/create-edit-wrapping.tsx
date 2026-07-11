@@ -16,7 +16,7 @@ import AddButton from "@/components/form/add-button";
 import NormalFormInput from "@/components/form/normal-form-input";
 import Switch from "@/components/form/switch";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import SingleFormImageUploader from "@/components/form/form-single-image-uploader";
+import SingleImageUploader from "@/components/form/single-image-uploader";
 
 export default function CreateEditWrapping({
   wrapping,
@@ -76,11 +76,7 @@ export default function CreateEditWrapping({
                 Upload an image or paste an emoji as placeholder
               </p>
 
-              <SingleFormImageUploader
-                control={control}
-                name="icon"
-                label="Icon"
-              />
+              <SingleImageUploader control={control} name="icon" label="Icon" />
 
               <NormalFormInput<WrappingFormValues>
                 label="Emoji"

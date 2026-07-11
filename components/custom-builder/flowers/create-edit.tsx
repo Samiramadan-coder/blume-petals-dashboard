@@ -12,7 +12,7 @@ import AddButton from "@/components/form/add-button";
 import NormalFormInput from "@/components/form/normal-form-input";
 import Switch from "@/components/form/switch";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import SingleFormImageUploader from "@/components/form/form-single-image-uploader";
+import SingleImageUploader from "@/components/form/single-image-uploader";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -129,11 +129,7 @@ export default function CreateEdit({
                 Upload an image or paste an emoji as placeholder
               </p>
 
-              <SingleFormImageUploader
-                control={control}
-                name="icon"
-                label="Icon"
-              />
+              <SingleImageUploader control={control} name="icon" label="Icon" />
 
               <NormalFormInput<FlowerFormValues>
                 label="Emoji"

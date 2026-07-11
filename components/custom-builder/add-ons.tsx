@@ -14,7 +14,7 @@ import { addOnsColumns } from "@/constants/custom-builder";
 import { useRouter } from "@/i18n/navigation";
 import NormalFormInput from "../form/normal-form-input";
 import SectionLabel from "../form/section-label";
-import SingleFormImageUploader from "../form/form-single-image-uploader";
+import SingleImageUploader from "../form/single-image-uploader";
 
 export default function AddOns() {
   const router = useRouter();
@@ -145,19 +145,19 @@ export default function AddOns() {
             <SectionLabel>Card Style Template</SectionLabel>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <SingleFormImageUploader
+              <SingleImageUploader
                 control={control}
                 name="floral"
                 label="Floral"
               />
 
-              <SingleFormImageUploader
+              <SingleImageUploader
                 control={control}
                 name="minimal"
                 label="Minimal"
               />
 
-              <SingleFormImageUploader
+              <SingleImageUploader
                 control={control}
                 name="handwritten"
                 label="Handwritten"

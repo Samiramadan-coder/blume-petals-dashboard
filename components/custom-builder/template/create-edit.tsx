@@ -16,7 +16,7 @@ import {
   TemplateFormValues,
   templateSchema,
 } from "@/types/custom-builder";
-import SingleFormImageUploader from "@/components/form/form-single-image-uploader";
+import SingleImageUploader from "@/components/form/single-image-uploader";
 
 const priceSizes: Array<{ size: "S" | "M" | "L" | "XL"; flowers: number }> = [
   { size: "S", flowers: 8 },
@@ -102,11 +102,7 @@ export default function CreateEdit({
                 Upload an image or paste an emoji as placeholder
               </p>
 
-              <SingleFormImageUploader
-                control={control}
-                name="icon"
-                label="Icon"
-              />
+              <SingleImageUploader control={control} name="icon" label="Icon" />
 
               <NormalFormInput<TemplateFormValues>
                 label="Emoji"
