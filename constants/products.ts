@@ -4,16 +4,34 @@ import { DataTableColumn } from "@/components/reusable/data-table";
 
 // Table Column
 export const columns = (t: T): DataTableColumn[] => [
-  { label: t("Table.Photo") },
-  { label: t("Table.Name") },
-  { label: t("Table.Category") },
-  { label: t("Table.Price") },
-  { label: t("Table.Stock") },
-  { label: t("Table.Rating") },
-  { label: t("Table.Status") },
-  { label: t("Table.Actions"), className: "text-center" },
+  {
+    label: t("Table.Photo"),
+  },
+  {
+    label: t("Table.Name"),
+  },
+  {
+    label: t("Table.Category"),
+  },
+  {
+    label: t("Table.Price"),
+  },
+  {
+    label: t("Table.Stock"),
+  },
+  {
+    label: t("Table.Rating"),
+  },
+  {
+    label: t("Table.Status"),
+  },
+  {
+    label: t("Table.Actions"),
+    className: "text-center",
+  },
 ];
 
+// Products Placeholder
 export const productsPlaceholder: Product[] = [
   {
     name: "Product 1",
@@ -35,6 +53,7 @@ export const productsPlaceholder: Product[] = [
   },
 ];
 
+// Sizes
 export const sizes = (t: T) => [
   {
     value: "s",
@@ -54,6 +73,7 @@ export const sizes = (t: T) => [
   },
 ];
 
+// Colors
 export const colors = (t: T) => [
   {
     value: "#F4C2C2",

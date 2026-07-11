@@ -88,6 +88,8 @@
     "AddProduct": "إضافة منتج",
     "EditProduct": "تعديل المنتج",
     "AddProductDescription": "املأ تفاصيل المنتج أدناه",
+    "AddPhoto": "أضف صورة",
+    "MainLabel": "رئيسي",
     "Table": {
       "Photo": "الصورة",
       "Name": "الاسم",

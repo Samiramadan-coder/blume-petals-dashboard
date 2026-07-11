@@ -2,7 +2,7 @@ import { Locale } from "@/types/shared";
 import { Button } from "../ui/button";
 import { Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 export default function LocaleFormSwitcher({
   locale,
@@ -12,6 +12,7 @@ export default function LocaleFormSwitcher({
   onChange: (locale: Locale) => void;
 }) {
   const t = useTranslations("Common");
+  const versionLocale = useLocale();
 
   return (
     <div className="px-4 grid grid-cols-2 gap-2">
@@ -19,8 +20,9 @@ export default function LocaleFormSwitcher({
         variant="outline"
         onClick={() => onChange("en")}
         className={cn(
-          "h-10 cursor-pointer hover:bg-primary hover:text-primary-foreground",
+          "h-10 cursor-pointer hover:bg-primary hover:text-primary-foreground order-2",
           locale === "en" ? "bg-primary text-primary-foreground" : "",
+          versionLocale === "ar" ? "order-2" : "order-1",
         )}
       >
         <Globe className="mr-2 h-4 w-4" />
@@ -30,8 +32,9 @@ export default function LocaleFormSwitcher({
         variant="outline"
         onClick={() => onChange("ar")}
         className={cn(
-          "h-10 cursor-pointer hover:bg-primary hover:text-primary-foreground",
+          "h-10 cursor-pointer hover:bg-primary hover:text-primary-foreground order-1",
           locale === "ar" ? "bg-primary text-primary-foreground" : "",
+          versionLocale === "en" ? "order-2" : "order-1",
         )}
       >
         <Globe className="mr-2 h-4 w-4" />

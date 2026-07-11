@@ -88,6 +88,8 @@
     "AddProduct": "Add Product",
     "EditProduct": "Edit Product",
     "AddProductDescription": "Fill in product details below",
+    "AddPhoto": "Add Photo",
+    "MainLabel": "Main",
     "Table": {
       "Photo": "Photo",
       "Name": "Name",

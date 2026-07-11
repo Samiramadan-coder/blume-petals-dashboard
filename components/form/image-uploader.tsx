@@ -22,6 +22,8 @@ type NormalFormImageUploaderProps<T extends FieldValues> = {
   label?: string;
   required?: boolean;
   className?: string;
+  buttonLabel: string;
+  mainLabel: string;
 };
 
 export default function NormalFormImageUploader<T extends FieldValues>({
@@ -30,6 +32,8 @@ export default function NormalFormImageUploader<T extends FieldValues>({
   label = "Product Photos",
   required,
   className,
+  buttonLabel,
+  mainLabel,
 }: NormalFormImageUploaderProps<T>) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [draggedImageIndex, setDraggedImageIndex] = useState<number | null>(
@@ -61,7 +65,7 @@ export default function NormalFormImageUploader<T extends FieldValues>({
           <Field className={className} data-invalid={fieldState.invalid}>
             <FieldLabel
               className={cn(
-                "text-xs font-semibold",
+                "text-sm font-semibold",
                 required &&
                   "after:ms-1 after:text-destructive after:content-['*']",
               )}
@@ -103,7 +107,7 @@ export default function NormalFormImageUploader<T extends FieldValues>({
                           {index === 0 && (
                             <Badge className="absolute bottom-2 inset-s-2 rounded-xs text-xs uppercase text-foreground">
                               <Star className="size-3" />
-                              Main
+                              {mainLabel}
                             </Badge>
                           )}
                         </div>
@@ -115,7 +119,7 @@ export default function NormalFormImageUploader<T extends FieldValues>({
                       onClick={() => fileInputRef.current?.click()}
                     >
                       <ImageIcon className="size-5" />
-                      <span className="text-xs">Add Photo</span>
+                      <span className="text-xs">{buttonLabel}</span>
 
                       <input
                         ref={fileInputRef}
@@ -134,14 +138,6 @@ export default function NormalFormImageUploader<T extends FieldValues>({
                       />
                     </div>
                   </div>
-
-                  <p className="mt-3 text-xs text-muted-foreground">
-                    {selectedImages.length > 0
-                      ? `${selectedImages.length} image${
-                          selectedImages.length > 1 ? "s" : ""
-                        } selected`
-                      : "No images selected yet"}
-                  </p>
                 </div>
 
                 <FieldError errors={[fieldState.error]} />

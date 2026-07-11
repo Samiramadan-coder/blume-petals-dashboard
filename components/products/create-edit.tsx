@@ -18,7 +18,7 @@ import { Button } from "../ui/button";
 import RichText from "../form/rich-text";
 import AddButton from "../form/add-button";
 import { Separator } from "../ui/separator";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useRef, type ReactNode } from "react";
 import SectionLabel from "../form/section-label";
 import ImageUploader from "../form/image-uploader";
@@ -27,6 +27,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Field, FieldContent, FieldError, FieldLabel } from "../ui/field";
 import { Product, ProductFormValues, productSchema } from "@/types/products";
+import LocaleFormSwitcher from "../reusable/locale-form-switcher";
+import { useFormLocale } from "@/hooks/use-form-locale";
 
 export default function CreateEdit({
   trigger,
@@ -35,12 +37,17 @@ export default function CreateEdit({
   trigger?: ReactNode;
   product?: Product;
 }) {
+  const locale = useLocale();
   const t = useTranslations("Products");
   const form = useRef<HTMLFormElement>(null);
+  const { activeLocale, changeLocale, dir, isArabic, tLive } =
+    useFormLocale("Products");
+
   const {
     register,
     control,
     handleSubmit,
+    clearErrors,
     formState: { errors },
   } = useForm<ProductFormValues>({
     resolver: zodResolver(productSchema),
@@ -77,32 +84,46 @@ export default function CreateEdit({
         showCloseButton={false}
         className="flex h-full flex-col sm:max-w-2xl"
         onInteractOutside={(event) => event.preventDefault()}
+        side={locale === "ar" ? "left" : "right"}
       >
         <Header
           title={product ? t("EditProduct") : t("AddProduct")}
           description={t("AddProductDescription")}
         />
 
+        <LocaleFormSwitcher
+          locale={activeLocale}
+          onChange={(locale) => {
+            changeLocale(locale);
+            clearErrors();
+          }}
+        />
+
         <div className="flex-1 overflow-auto px-4 pb-6 pt-2 relative">
           <form
             ref={form}
             onSubmit={handleSubmit(onSubmit)}
-            className="space-y-6 relative"
+            className={cn(`space-y-6 relative`, {
+              "font-cairo": isArabic,
+            })}
+            dir={dir}
           >
             <ImageUploader
               control={control}
               name="images"
-              label={t("Fields.Photo")}
+              label={tLive("Fields.Photo")}
               required
+              buttonLabel={tLive("AddPhoto")}
+              mainLabel={tLive("MainLabel")}
             />
 
-            <SectionLabel>{t("Labels.BasicInformation")}</SectionLabel>
+            <SectionLabel>{tLive("Labels.BasicInformation")}</SectionLabel>
 
             <Input<ProductFormValues>
-              label={t("Fields.Name")}
+              label={tLive("Fields.Name")}
               name="name"
               type="text"
-              placeholder={t("Placeholders.Name")}
+              placeholder={tLive("Placeholders.Name")}
               register={register}
               errors={errors}
               required
@@ -110,9 +131,9 @@ export default function CreateEdit({
 
             <Select<ProductFormValues>
               control={control}
-              label={t("Fields.Category")}
+              label={tLive("Fields.Category")}
               name="category"
-              placeholder={t("Placeholders.Category")}
+              placeholder={tLive("Placeholders.Category")}
               required
               options={[
                 { label: "Category 1", value: "category1" },
@@ -121,57 +142,58 @@ export default function CreateEdit({
             />
 
             <RichText<ProductFormValues>
+              key={activeLocale}
               control={control}
-              label={t("Fields.Description")}
+              label={tLive("Fields.Description")}
               name="description"
-              placeholder={t("Placeholders.Description")}
+              placeholder={tLive("Placeholders.Description")}
             />
 
-            <SectionLabel>{t("Labels.PricingAndStock")}</SectionLabel>
+            <SectionLabel>{tLive("Labels.PricingAndStock")}</SectionLabel>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Input<ProductFormValues>
-                label={t("Fields.Price")}
+                label={tLive("Fields.Price")}
                 name="price"
                 type="number"
                 register={register}
                 errors={errors}
                 required
-                placeholder={t("Placeholders.Price")}
+                placeholder={tLive("Placeholders.Price")}
               />
 
               <Input<ProductFormValues>
-                label={t("Fields.SalesPrice")}
+                label={tLive("Fields.SalesPrice")}
                 name="salesPrice"
                 type="number"
                 register={register}
-                placeholder={t("Placeholders.SalesPrice")}
+                placeholder={tLive("Placeholders.SalesPrice")}
               />
 
               <Input<ProductFormValues>
-                label={t("Fields.StockQuantity")}
+                label={tLive("Fields.StockQuantity")}
                 name="stockQuantity"
                 type="number"
                 register={register}
                 errors={errors}
                 required
-                placeholder={t("Placeholders.StockQuantity")}
+                placeholder={tLive("Placeholders.StockQuantity")}
               />
 
               <Input<ProductFormValues>
-                label={t("Fields.SKU")}
+                label={tLive("Fields.SKU")}
                 name="sku"
                 type="text"
                 register={register}
-                placeholder={t("Placeholders.SKU")}
+                placeholder={tLive("Placeholders.SKU")}
               />
             </div>
 
             <Separator className="bg-border" />
-            <SectionLabel>{t("Labels.Variants")}</SectionLabel>
+            <SectionLabel>{tLive("Labels.Variants")}</SectionLabel>
             <Field>
               <FieldLabel htmlFor="sizes" className="text-sm font-semibold">
-                {t("Fields.AvailableSizes")}
+                {tLive("Fields.AvailableSizes")}
                 <span className="text-red-500">*</span>
               </FieldLabel>
               <FieldContent>
@@ -184,7 +206,7 @@ export default function CreateEdit({
                     return (
                       <div className="space-y-1.5">
                         <div className="flex flex-wrap gap-2">
-                          {sizes(t).map((size) => {
+                          {sizes((key) => tLive(key as never)).map((size) => {
                             const isSelected = selectedSizes.includes(
                               size.value,
                             );
@@ -223,7 +245,7 @@ export default function CreateEdit({
 
             <Field>
               <FieldLabel htmlFor="colors" className="text-sm font-semibold">
-                {t("Fields.ColorVariants")}
+                {tLive("Fields.ColorVariants")}
                 <span className="text-red-500">*</span>
               </FieldLabel>
               <FieldContent>
@@ -236,7 +258,7 @@ export default function CreateEdit({
                     return (
                       <div className="space-y-1.5">
                         <div className="flex flex-wrap gap-2">
-                          {colors(t).map((color) => {
+                          {colors((key) => tLive(key as never)).map((color) => {
                             const isSelected = selectedColors.includes(
                               color.value,
                             );
@@ -272,9 +294,9 @@ export default function CreateEdit({
                         {selectedColors.length ? (
                           <div className="flex flex-wrap gap-2 mt-4">
                             {selectedColors.map((colorValue) => {
-                              const label = colors(t).find(
-                                (c) => c.value === colorValue,
-                              )?.label;
+                              const label = colors((key) =>
+                                tLive(key as never),
+                              ).find((c) => c.value === colorValue)?.label;
 
                               return (
                                 <Badge
@@ -304,7 +326,7 @@ export default function CreateEdit({
             <Separator className="bg-border" />
             <Field>
               <FieldLabel htmlFor="occasions" className="text-sm font-semibold">
-                {t("Fields.OccasionTags")}
+                {tLive("Fields.OccasionTags")}
                 <span className="text-red-500">*</span>
               </FieldLabel>
 
@@ -318,32 +340,36 @@ export default function CreateEdit({
                     return (
                       <div className="space-y-1.5">
                         <div className="flex flex-wrap gap-2">
-                          {occasions(t).map((occasion) => {
-                            const isSelected = selectedOccasions.includes(
-                              occasion.value,
-                            );
+                          {occasions((key) => tLive(key as never)).map(
+                            (occasion) => {
+                              const isSelected = selectedOccasions.includes(
+                                occasion.value,
+                              );
 
-                            return (
-                              <Badge
-                                key={occasion.value}
-                                variant="outline"
-                                className={cn(`h-6`, {
-                                  "bg-primary/20 border-2 cursor-pointer":
-                                    isSelected,
-                                })}
-                                onClick={() => {
-                                  const nextOccasions = isSelected
-                                    ? selectedOccasions.filter(
-                                        (i) => i !== occasion.value,
-                                      )
-                                    : [...selectedOccasions, occasion.value];
-                                  field.onChange(nextOccasions);
-                                }}
-                              >
-                                {occasion.label}
-                              </Badge>
-                            );
-                          })}
+                              return (
+                                <Badge
+                                  key={occasion.value}
+                                  variant="outline"
+                                  className={cn(
+                                    `h-7 text-sm px-4 cursor-pointer`,
+                                    {
+                                      "bg-primary/20 border-2": isSelected,
+                                    },
+                                  )}
+                                  onClick={() => {
+                                    const nextOccasions = isSelected
+                                      ? selectedOccasions.filter(
+                                          (i) => i !== occasion.value,
+                                        )
+                                      : [...selectedOccasions, occasion.value];
+                                    field.onChange(nextOccasions);
+                                  }}
+                                >
+                                  {occasion.label}
+                                </Badge>
+                              );
+                            },
+                          )}
                         </div>
 
                         <FieldError errors={[errors.occasions]} />
@@ -355,19 +381,19 @@ export default function CreateEdit({
             </Field>
 
             <Separator className="bg-border" />
-            <SectionLabel>{t("Labels.DisplayOptions")}</SectionLabel>
+            <SectionLabel>{tLive("Labels.DisplayOptions")}</SectionLabel>
             <Switch
               name="showNewBadge"
               control={control}
-              label={t("Fields.ShowNewBadge")}
-              description={t("Fields.ShowNewBadgeDescription")}
+              label={tLive("Fields.ShowNewBadge")}
+              description={tLive("Fields.ShowNewBadgeDescription")}
             />
 
             <Switch
               name="featuredOnHomepage"
               control={control}
-              label={t("Fields.FeaturedOnHomepage")}
-              description={t("Fields.FeaturedOnHomepageDescription")}
+              label={tLive("Fields.FeaturedOnHomepage")}
+              description={tLive("Fields.FeaturedOnHomepageDescription")}
             />
 
             <Controller
@@ -378,22 +404,24 @@ export default function CreateEdit({
 
                 return (
                   <div className="flex gap-2">
-                    {productStatuses(t).map((status) => {
-                      return (
-                        <Button
-                          className={cn(`flex-1 h-10 bg-white`, {
-                            "bg-primary/20 border-2":
-                              selectedStatus === status.value,
-                          })}
-                          onClick={() => field.onChange(status.value)}
-                          type="button"
-                          variant="outline"
-                          key={status.value}
-                        >
-                          {status.label}
-                        </Button>
-                      );
-                    })}
+                    {productStatuses((key) => tLive(key as never)).map(
+                      (status) => {
+                        return (
+                          <Button
+                            className={cn(`flex-1 h-10 bg-white`, {
+                              "bg-primary/20 border-2":
+                                selectedStatus === status.value,
+                            })}
+                            onClick={() => field.onChange(status.value)}
+                            type="button"
+                            variant="outline"
+                            key={status.value}
+                          >
+                            {status.label}
+                          </Button>
+                        );
+                      },
+                    )}
                   </div>
                 );
               }}
