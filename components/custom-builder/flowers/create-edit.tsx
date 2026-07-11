@@ -5,8 +5,8 @@ import { useRef, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Separator } from "@/components/ui/separator";
-import FormHeader from "@/components/form/form-header";
-import FormFooter from "@/components/form/form-footer";
+import Header from "@/components/form/header";
+import Footer from "@/components/form/footer";
 import SectionLabel from "@/components/form/section-label";
 import AddButton from "@/components/form/add-button";
 import NormalFormInput from "@/components/form/normal-form-input";
@@ -115,7 +115,7 @@ export default function CreateEdit({
         className="flex h-full flex-col sm:max-w-2xl"
         onInteractOutside={(event) => event.preventDefault()}
       >
-        <FormHeader title={flower ? "Edit Flower Type" : "Add Flower Type"} />
+        <Header title={flower ? "Edit Flower Type" : "Add Flower Type"} />
 
         <div className="flex-1 overflow-auto px-4 pb-6 pt-2">
           <form
@@ -260,7 +260,7 @@ export default function CreateEdit({
             />
           </form>
         </div>
-        <FormFooter form={form} />
+        <Footer form={form} />
       </SheetContent>
     </Sheet>
   );

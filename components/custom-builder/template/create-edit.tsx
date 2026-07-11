@@ -5,12 +5,12 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import AddButton from "@/components/form/add-button";
-import FormHeader from "@/components/form/form-header";
+import Header from "@/components/form/header";
 import { Separator } from "@/components/ui/separator";
 import SectionLabel from "@/components/form/section-label";
 import NormalFormInput from "@/components/form/normal-form-input";
 import FormSwitch from "@/components/form/form-switch";
-import FormFooter from "@/components/form/form-footer";
+import Footer from "@/components/form/footer";
 import {
   Template,
   TemplateFormValues,
@@ -73,7 +73,7 @@ export default function CreateEdit({
         className="flex h-full flex-col sm:max-w-2xl"
         onInteractOutside={(event) => event.preventDefault()}
       >
-        <FormHeader
+        <Header
           title={template ? "Edit Template" : "Add Template"}
           description="Define template details and flower-based pricing"
         />
@@ -182,7 +182,7 @@ export default function CreateEdit({
             />
           </form>
         </div>
-        <FormFooter form={form} />
+        <Footer form={form} />
       </SheetContent>
     </Sheet>
   );

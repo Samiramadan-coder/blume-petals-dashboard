@@ -9,8 +9,8 @@ import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Separator } from "@/components/ui/separator";
-import FormHeader from "@/components/form/form-header";
-import FormFooter from "@/components/form/form-footer";
+import Header from "@/components/form/header";
+import Footer from "@/components/form/footer";
 import SectionLabel from "@/components/form/section-label";
 import AddButton from "@/components/form/add-button";
 import NormalFormInput from "@/components/form/normal-form-input";
@@ -60,7 +60,7 @@ export default function CreateEditWrapping({
         className="flex h-full flex-col sm:max-w-2xl"
         onInteractOutside={(event) => event.preventDefault()}
       >
-        <FormHeader
+        <Header
           title={wrapping ? "Edit Wrapping Option" : "Add Wrapping Option"}
         />
 
@@ -123,7 +123,7 @@ export default function CreateEditWrapping({
             />
           </form>
         </div>
-        <FormFooter form={form} />
+        <Footer form={form} />
       </SheetContent>
     </Sheet>
   );

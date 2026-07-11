@@ -4,8 +4,8 @@ import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Separator } from "@/components/ui/separator";
-import FormHeader from "@/components/form/form-header";
-import FormFooter from "@/components/form/form-footer";
+import Header from "@/components/form/header";
+import Footer from "@/components/form/footer";
 import SectionLabel from "@/components/form/section-label";
 import AddButton from "@/components/form/add-button";
 import NormalFormInput from "@/components/form/normal-form-input";
@@ -54,7 +54,7 @@ export default function CreateEditRibbons({
         className="flex h-full flex-col sm:max-w-2xl"
         onInteractOutside={(event) => event.preventDefault()}
       >
-        <FormHeader title={ribbon ? "Edit Ribbon" : "Add Ribbon"} />
+        <Header title={ribbon ? "Edit Ribbon" : "Add Ribbon"} />
 
         <div className="flex-1 overflow-auto px-4 pb-6 pt-2">
           <form
@@ -102,7 +102,7 @@ export default function CreateEditRibbons({
             />
           </form>
         </div>
-        <FormFooter form={form} />
+        <Footer form={form} />
       </SheetContent>
     </Sheet>
   );

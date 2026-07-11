@@ -12,8 +12,8 @@ import { Badge } from "../ui/badge";
 import { Check } from "lucide-react";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
-import FormHeader from "../form/form-header";
-import FormFooter from "../form/form-footer";
+import Header from "../form/header";
+import Footer from "../form/footer";
 import { useRef, type ReactNode } from "react";
 import SectionLabel from "../form/section-label";
 import AddButton from "../form/add-button";
@@ -76,7 +76,7 @@ export default function CreateEdit({
         className="flex h-full flex-col sm:max-w-2xl"
         onInteractOutside={(event) => event.preventDefault()}
       >
-        <FormHeader
+        <Header
           title="Add New Product"
           description="Fill in product details below"
         />
@@ -403,7 +403,7 @@ export default function CreateEdit({
           </form>
         </div>
 
-        <FormFooter form={form} />
+        <Footer form={form} />
       </SheetContent>
     </Sheet>
   );

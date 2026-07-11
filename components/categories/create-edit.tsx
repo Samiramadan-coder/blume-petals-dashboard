@@ -10,8 +10,8 @@ import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { FieldError } from "../ui/field";
 import { Separator } from "../ui/separator";
-import FormFooter from "../form/form-footer";
-import FormHeader from "../form/form-header";
+import Footer from "../form/footer";
+import Header from "../form/header";
 import { Check, Flower2 } from "lucide-react";
 import { Card, CardContent } from "../ui/card";
 import SectionLabel from "../form/section-label";
@@ -83,7 +83,7 @@ export default function CreateEdit({
         className="flex h-full flex-col sm:max-w-2xl"
         side={locale === "ar" ? "left" : "right"}
       >
-        <FormHeader
+        <Header
           title={t("AddCategory")}
           description={t("CreateCategoryDescription")}
         />
@@ -265,7 +265,7 @@ export default function CreateEdit({
             />
           </form>
         </div>
-        <FormFooter form={form} />
+        <Footer form={form} />
       </SheetContent>
     </Sheet>
   );

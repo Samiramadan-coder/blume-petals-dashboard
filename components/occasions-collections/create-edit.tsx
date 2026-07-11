@@ -11,8 +11,8 @@ import { Check } from "lucide-react";
 import { Button } from "../ui/button";
 import { FieldError } from "../ui/field";
 import { Separator } from "../ui/separator";
-import FormFooter from "../form/form-footer";
-import FormHeader from "../form/form-header";
+import Footer from "../form/footer";
+import Header from "../form/header";
 import SectionLabel from "../form/section-label";
 import AddButton from "../form/add-button";
 import { Controller, useForm } from "react-hook-form";
@@ -66,7 +66,7 @@ export default function CreateEdit({
         className="flex h-full flex-col sm:max-w-2xl"
         onInteractOutside={(event) => event.preventDefault()}
       >
-        <FormHeader
+        <Header
           title="Add Occasion"
           description="Create a new occasion or collection"
         />
@@ -178,7 +178,7 @@ export default function CreateEdit({
             />
           </form>
         </div>
-        <FormFooter form={form} />
+        <Footer form={form} />
       </SheetContent>
     </Sheet>
   );
