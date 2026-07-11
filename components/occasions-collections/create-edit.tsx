@@ -17,7 +17,7 @@ import SectionLabel from "../form/section-label";
 import AddButton from "../form/add-button";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import NormalFormInput from "../form/normal-form-input";
+import Input from "../form/input";
 import Switch from "../form/switch";
 import { colors } from "@/constants/occasions-collections";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
@@ -84,7 +84,7 @@ export default function CreateEdit({
             />
 
             <SectionLabel>Details</SectionLabel>
-            <NormalFormInput<OccasionCollectionFormValues>
+            <Input<OccasionCollectionFormValues>
               label="Occasion Name"
               placeholder="Enter Occasion Name"
               name="name"

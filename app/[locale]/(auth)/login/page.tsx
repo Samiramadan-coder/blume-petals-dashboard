@@ -10,7 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Card, CardContent } from "@/components/ui/card";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { LoginFormData, LoginResponse, loginSchema } from "@/types/auth";
-import NormalFormInput from "@/components/form/normal-form-input";
+import Input from "@/components/form/input";
 import { saveToken } from "@/lib/actions";
 
 export default function LoginPage() {
@@ -52,7 +52,7 @@ export default function LoginPage() {
               </p>
             </div>
 
-            <NormalFormInput
+            <Input
               register={register}
               errors={errors}
               required
@@ -60,7 +60,7 @@ export default function LoginPage() {
               label={t("Email")}
             />
 
-            <NormalFormInput
+            <Input
               register={register}
               errors={errors}
               required

@@ -20,7 +20,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { availableLocales } from "@/constants/shared";
 import { useLocale, useTranslations } from "next-intl";
 import { colors, icons } from "@/constants/categories";
-import NormalFormInput from "../form/normal-form-input";
+import Input from "../form/input";
 import { useFormLocale } from "@/hooks/use-form-locale";
 import Switch from "../form/switch";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
@@ -123,7 +123,7 @@ export default function CreateEdit({
             <Separator className="bg-border" />
             <SectionLabel>{tLive("Details")}</SectionLabel>
             {availableLocales.map((lang) => (
-              <NormalFormInput<CategoryFormValues>
+              <Input<CategoryFormValues>
                 key={lang}
                 label={tLive("CategoryName")}
                 placeholder={tLive("EnterCategoryName")}

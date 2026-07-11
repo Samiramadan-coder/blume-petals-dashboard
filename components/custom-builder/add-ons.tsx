@@ -12,7 +12,7 @@ import { addOnsSchema, AddOnsFormData } from "@/types/custom-builder";
 import { ReorderableDataTable } from "../reusable/date-sortable-table";
 import { addOnsColumns } from "@/constants/custom-builder";
 import { useRouter } from "@/i18n/navigation";
-import NormalFormInput from "../form/normal-form-input";
+import Input from "../form/input";
 import SectionLabel from "../form/section-label";
 import SingleImageUploader from "../form/single-image-uploader";
 
@@ -132,7 +132,7 @@ export default function AddOns() {
           <Separator />
 
           <div className="p-4 space-y-6">
-            <NormalFormInput
+            <Input
               name="price"
               register={register}
               errors={errors}

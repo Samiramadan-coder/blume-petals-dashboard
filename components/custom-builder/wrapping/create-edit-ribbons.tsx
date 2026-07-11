@@ -8,7 +8,7 @@ import Header from "@/components/form/header";
 import Footer from "@/components/form/footer";
 import SectionLabel from "@/components/form/section-label";
 import AddButton from "@/components/form/add-button";
-import NormalFormInput from "@/components/form/normal-form-input";
+import Input from "@/components/form/input";
 import Switch from "@/components/form/switch";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Ribbon, RibbonFormValues, ribbonSchema } from "@/types/custom-builder";
@@ -63,7 +63,7 @@ export default function CreateEditRibbons({
             className="space-y-6 relative"
           >
             <SectionLabel>Details</SectionLabel>
-            <NormalFormInput<RibbonFormValues>
+            <Input<RibbonFormValues>
               label="Ribbon Name"
               placeholder="e.g. Rose"
               name="name"
@@ -73,7 +73,7 @@ export default function CreateEditRibbons({
               required
             />
 
-            <NormalFormInput<RibbonFormValues>
+            <Input<RibbonFormValues>
               label="Color"
               placeholder="e.g. Red"
               name="color"
@@ -83,7 +83,7 @@ export default function CreateEditRibbons({
               required
             />
 
-            <NormalFormInput<RibbonFormValues>
+            <Input<RibbonFormValues>
               label="Price (AED)"
               placeholder="e.g. 10"
               name="price"

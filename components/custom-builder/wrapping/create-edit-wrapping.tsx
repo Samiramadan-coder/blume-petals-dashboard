@@ -13,7 +13,7 @@ import Header from "@/components/form/header";
 import Footer from "@/components/form/footer";
 import SectionLabel from "@/components/form/section-label";
 import AddButton from "@/components/form/add-button";
-import NormalFormInput from "@/components/form/normal-form-input";
+import Input from "@/components/form/input";
 import Switch from "@/components/form/switch";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import SingleImageUploader from "@/components/form/single-image-uploader";
@@ -78,7 +78,7 @@ export default function CreateEditWrapping({
 
               <SingleImageUploader control={control} name="icon" label="Icon" />
 
-              <NormalFormInput<WrappingFormValues>
+              <Input<WrappingFormValues>
                 label="Emoji"
                 placeholder="e.g. 💐"
                 name="emoji"
@@ -90,7 +90,7 @@ export default function CreateEditWrapping({
 
             <Separator className="bg-border" />
             <SectionLabel>Details</SectionLabel>
-            <NormalFormInput<WrappingFormValues>
+            <Input<WrappingFormValues>
               label="Wrapping Option Name"
               placeholder="e.g. Rose"
               name="name"
@@ -100,7 +100,7 @@ export default function CreateEditWrapping({
               required
             />
 
-            <NormalFormInput<WrappingFormValues>
+            <Input<WrappingFormValues>
               label="Price (AED)"
               placeholder="e.g. 10"
               name="price"

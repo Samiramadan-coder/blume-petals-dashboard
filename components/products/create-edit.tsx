@@ -19,7 +19,7 @@ import SectionLabel from "../form/section-label";
 import AddButton from "../form/add-button";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import NormalFormInput from "../form/normal-form-input";
+import Input from "../form/input";
 import NormalFormSelect from "../form/normal-form-select";
 import Switch from "../form/switch";
 import RichText from "../form/rich-text";
@@ -96,7 +96,7 @@ export default function CreateEdit({
 
             <SectionLabel>Basic Information</SectionLabel>
 
-            <NormalFormInput<ProductFormValues>
+            <Input<ProductFormValues>
               label="Product Name"
               name="name"
               type="text"
@@ -128,7 +128,7 @@ export default function CreateEdit({
             <SectionLabel>Pricing & Stock</SectionLabel>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <NormalFormInput<ProductFormValues>
+              <Input<ProductFormValues>
                 label="Price (AED)"
                 name="price"
                 type="number"
@@ -138,7 +138,7 @@ export default function CreateEdit({
                 placeholder="Enter price in AED"
               />
 
-              <NormalFormInput<ProductFormValues>
+              <Input<ProductFormValues>
                 label="Sales Price (AED)"
                 name="salesPrice"
                 type="number"
@@ -146,7 +146,7 @@ export default function CreateEdit({
                 placeholder="Enter sales price in AED"
               />
 
-              <NormalFormInput<ProductFormValues>
+              <Input<ProductFormValues>
                 label="Stock Quantity"
                 name="stockQuantity"
                 type="number"
@@ -156,7 +156,7 @@ export default function CreateEdit({
                 placeholder="Enter available stock quantity"
               />
 
-              <NormalFormInput<ProductFormValues>
+              <Input<ProductFormValues>
                 label="SKU"
                 name="sku"
                 type="text"

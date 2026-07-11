@@ -17,7 +17,7 @@ import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { Card, CardContent } from "../ui/card";
 import { zodResolver } from "@hookform/resolvers/zod";
-import NormalFormInput from "../form/normal-form-input";
+import Input from "../form/input";
 import Switch from "../form/switch";
 import { useForm, SubmitHandler, useWatch } from "react-hook-form";
 
@@ -83,7 +83,7 @@ export default function PricingRules() {
         <CardContent className="flex flex-col gap-4 items-start">
           <p className="text-sm font-semibold text-foreground ">Shipping</p>
           <div>
-            <NormalFormInput
+            <Input
               name="shippingFee"
               label="Custom Build Shipping Fee"
               prefix="AED"
@@ -122,7 +122,7 @@ export default function PricingRules() {
           </div>
           {activeAutoFillDiscount && (
             <div>
-              <NormalFormInput
+              <Input
                 name="discountPercentage"
                 label="Discount Percentage"
                 prefix="% off"
@@ -162,7 +162,7 @@ export default function PricingRules() {
                 <TableRow key={index}>
                   <TableCell className="px-6">{size.size}</TableCell>
                   <TableCell>
-                    <NormalFormInput
+                    <Input
                       name={`sizes.${index}.minFlowers`}
                       register={register}
                       errors={errors}
@@ -171,7 +171,7 @@ export default function PricingRules() {
                     />
                   </TableCell>
                   <TableCell>
-                    <NormalFormInput
+                    <Input
                       name={`sizes.${index}.maxFlowers`}
                       register={register}
                       errors={errors}

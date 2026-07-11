@@ -9,13 +9,13 @@ import Header from "@/components/form/header";
 import Footer from "@/components/form/footer";
 import SectionLabel from "@/components/form/section-label";
 import AddButton from "@/components/form/add-button";
-import NormalFormInput from "@/components/form/normal-form-input";
+import Input from "@/components/form/input";
 import Switch from "@/components/form/switch";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import SingleImageUploader from "@/components/form/single-image-uploader";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Input as NormalInput } from "@/components/ui/input";
 import { FieldError } from "@/components/ui/field";
 import { Plus, X } from "lucide-react";
 import { normalizeHexColor } from "@/lib/utils";
@@ -131,7 +131,7 @@ export default function CreateEdit({
 
               <SingleImageUploader control={control} name="icon" label="Icon" />
 
-              <NormalFormInput<FlowerFormValues>
+              <Input<FlowerFormValues>
                 label="Emoji"
                 placeholder="e.g. 💐"
                 name="emoji"
@@ -143,7 +143,7 @@ export default function CreateEdit({
 
             <Separator className="bg-border" />
             <SectionLabel>Details</SectionLabel>
-            <NormalFormInput<FlowerFormValues>
+            <Input<FlowerFormValues>
               label="Flower Name"
               placeholder="e.g. Rose"
               name="name"
@@ -153,7 +153,7 @@ export default function CreateEdit({
               required
             />
 
-            <NormalFormInput<FlowerFormValues>
+            <Input<FlowerFormValues>
               label="Price per Stem (AED)"
               placeholder="e.g. 10"
               name="price"
@@ -163,7 +163,7 @@ export default function CreateEdit({
               required
             />
 
-            <NormalFormInput<FlowerFormValues>
+            <Input<FlowerFormValues>
               label="Starting Stock"
               placeholder="e.g. 10"
               name="startingStock"
@@ -173,7 +173,7 @@ export default function CreateEdit({
               required
             />
 
-            <NormalFormInput<FlowerFormValues>
+            <Input<FlowerFormValues>
               label="Low Stock Threshold"
               placeholder="e.g. 10"
               name="lowStockThreshold"
@@ -218,14 +218,14 @@ export default function CreateEdit({
               )}
 
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-                <Input
+                <NormalInput
                   type="color"
                   value={normalizeHexColor(nextColor) ?? "#b4a683"}
                   onChange={(event) => setNextColor(event.target.value)}
                   className="h-10 w-full cursor-pointer p-1 sm:w-16"
                   aria-label="Pick color"
                 />
-                <Input
+                <NormalInput
                   type="text"
                   value={nextColor}
                   onChange={(event) => setNextColor(event.target.value)}

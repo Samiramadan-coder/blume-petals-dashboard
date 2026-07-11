@@ -8,7 +8,7 @@ import AddButton from "@/components/form/add-button";
 import Header from "@/components/form/header";
 import { Separator } from "@/components/ui/separator";
 import SectionLabel from "@/components/form/section-label";
-import NormalFormInput from "@/components/form/normal-form-input";
+import Input from "@/components/form/input";
 import Switch from "@/components/form/switch";
 import Footer from "@/components/form/footer";
 import {
@@ -85,7 +85,7 @@ export default function CreateEdit({
             className="space-y-6 relative"
           >
             <SectionLabel>Details</SectionLabel>
-            <NormalFormInput<TemplateFormValues>
+            <Input<TemplateFormValues>
               label="Template Name"
               placeholder="e.g. Circular"
               name="name"
@@ -104,7 +104,7 @@ export default function CreateEdit({
 
               <SingleImageUploader control={control} name="icon" label="Icon" />
 
-              <NormalFormInput<TemplateFormValues>
+              <Input<TemplateFormValues>
                 label="Emoji"
                 placeholder="e.g. 💐"
                 name="emoji"
@@ -143,7 +143,7 @@ export default function CreateEdit({
                         {...register(`prices.${index}.size`)}
                         value={item.size}
                       />
-                      <NormalFormInput<TemplateFormValues>
+                      <Input<TemplateFormValues>
                         label=""
                         placeholder="0"
                         name={`prices.${index}.price`}
@@ -154,7 +154,7 @@ export default function CreateEdit({
                       />
                     </div>
 
-                    <NormalFormInput<TemplateFormValues>
+                    <Input<TemplateFormValues>
                       label=""
                       placeholder="0"
                       name={`prices.${index}.flowers`}
