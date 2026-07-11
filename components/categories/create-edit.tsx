@@ -5,11 +5,10 @@ import {
   CategoryFormValues,
   categorySchema,
 } from "@/types/categories";
+import { useRef } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
-import { useLocale, useTranslations } from "next-intl";
 import { FieldError } from "../ui/field";
-import { useMemo, useRef, useState } from "react";
 import { Separator } from "../ui/separator";
 import FormFooter from "../form/form-footer";
 import FormHeader from "../form/form-header";
@@ -19,14 +18,14 @@ import SectionLabel from "../form/section-label";
 import FormAddButton from "../form/form-add-button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { availableLocales } from "@/constants/shared";
+import { useLocale, useTranslations } from "next-intl";
 import { colors, icons } from "@/constants/categories";
 import NormalFormInput from "../form/normal-form-input";
+import { useFormLocale } from "@/hooks/use-form-locale";
 import NormalFormSwitch from "../form/normal-form-switch";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import LocaleFormSwitcher from "../reusable/locale-form-switcher";
-import { createTranslator } from "next-intl";
-import { messages } from "@/lib/create-translator";
 
 export default function CreateEdit({
   category,
@@ -37,23 +36,15 @@ export default function CreateEdit({
 }) {
   const locale = useLocale();
   const t = useTranslations("Categories");
-  const [activeLocale, setActiveLocale] = useState(locale);
   const form = useRef<HTMLFormElement>(null);
-
-  const tLive = useMemo(
-    () =>
-      createTranslator({
-        locale: activeLocale,
-        messages: messages[activeLocale],
-        namespace: "Categories",
-      }),
-    [activeLocale],
-  );
+  const { activeLocale, changeLocale, dir, isArabic, tLive } =
+    useFormLocale("Categories");
 
   const {
     register,
     control,
     handleSubmit,
+    clearErrors,
     formState: { errors },
   } = useForm<CategoryFormValues>({
     resolver: zodResolver(categorySchema((key) => tLive(key as never))),
@@ -98,13 +89,19 @@ export default function CreateEdit({
           description={t("CreateCategoryDescription")}
         />
 
-        <LocaleFormSwitcher locale={activeLocale} onChange={setActiveLocale} />
+        <LocaleFormSwitcher
+          locale={activeLocale}
+          onChange={(locale) => {
+            changeLocale(locale);
+            clearErrors();
+          }}
+        />
 
         <div
           className={cn(`flex-1 overflow-auto px-4 pb-6 pt-2`, {
-            "font-cairo": activeLocale === "ar",
+            "font-cairo": isArabic,
           })}
-          dir={activeLocale === "ar" ? "rtl" : "ltr"}
+          dir={dir}
         >
           <form
             ref={form}

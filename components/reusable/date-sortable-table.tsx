@@ -31,6 +31,7 @@ import { Button } from "../ui/button";
 import { CSS } from "@dnd-kit/utilities";
 import { GripVertical } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useId } from "react";
 
 export type DataTableColumn = {
   key: string;
@@ -113,6 +114,8 @@ export function ReorderableDataTable<T>({
 
   className,
 }: ReorderableDataTableProps<T>) {
+  const id = useId();
+  const dndContextId = useId();
   const t = useTranslations("Common");
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -144,6 +147,7 @@ export function ReorderableDataTable<T>({
       )}
     >
       <DndContext
+        id={dndContextId}
         sensors={sensors}
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
