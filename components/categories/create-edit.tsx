@@ -82,7 +82,6 @@ export default function CreateEdit({
         showCloseButton={false}
         className="flex h-full flex-col sm:max-w-2xl"
         side={locale === "ar" ? "left" : "right"}
-        onInteractOutside={(event) => event.preventDefault()}
       >
         <FormHeader
           title={t("AddCategory")}
@@ -222,14 +221,11 @@ export default function CreateEdit({
                             variant="outline"
                             className={cn(
                               "h-8 w-8 rounded-full border border-border cursor-pointer",
-                              {
-                                "border-2 border-primary": isSelected,
-                              },
+                              { "border-2 border-primary": isSelected },
                             )}
                             style={{ backgroundColor: color }}
                             onClick={() => {
                               const nextColors = isSelected ? "" : color;
-
                               field.onChange(nextColors);
                             }}
                           >
@@ -237,6 +233,20 @@ export default function CreateEdit({
                           </Button>
                         );
                       })}
+
+                      <div className="relative h-8 w-8">
+                        <Button
+                          variant="outline"
+                          className="w-8 h-8 rounded-full border-2 border-dashed bg-white cursor-pointer"
+                        ></Button>
+                        <input
+                          type="color"
+                          className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+                          onChange={(event) => {
+                            field.onChange(event.target.value);
+                          }}
+                        />
+                      </div>
                     </div>
 
                     <FieldError errors={[errors.color]} />

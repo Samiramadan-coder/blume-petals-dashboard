@@ -14,16 +14,16 @@ import { DataTableColumn } from "@/components/reusable/date-sortable-table";
 type T = (key: string) => string;
 
 export const colors: string[] = [
-  "#F4C2C2",
-  "#FFFFF0",
-  "#7D947B",
-  "#9B1C1C",
-  "#C7B8EA",
-  "#FFCBA4",
-  "#FFFFFF",
-  "#CBB682",
-  "#ED8074",
-  "#DCAE96",
+  "#f4c2c2",
+  "#e6dcd2",
+  "#ffcba4",
+  "#cbb682",
+  "#9caf88",
+  "#c7b8ea",
+  "#7d947b",
+  "#ed8074",
+  "#dcae96",
+  "#d4e4bc",
 ];
 
 export const icons = (t: T): Icon[] => [
