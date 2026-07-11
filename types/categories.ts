@@ -1,6 +1,5 @@
 import z from "zod";
-
-type T = (key: string) => string;
+import { T } from "./shared";
 
 export const categorySchema = (t: T) =>
   z.object({

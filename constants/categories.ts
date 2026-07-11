@@ -7,11 +7,10 @@ import {
   Moon,
   BriefcaseBusiness,
 } from "lucide-react";
+import { T } from "@/types/shared";
 import { createElement } from "react";
 import { Category, Icon } from "@/types/categories";
 import { DataTableColumn } from "@/components/reusable/date-sortable-table";
-
-type T = (key: string) => string;
 
 export const colors: string[] = [
   "#f4c2c2",
@@ -90,13 +89,18 @@ export const columns = (t: T): DataTableColumn[] => [
 export const initialCategories: Category[] = [
   {
     id: 1,
-    name: {
-      ar: "باقة",
-      en: "Bouquet",
-    },
+    name: { ar: "باقة", en: "Bouquet" },
     visibility: true,
     status: "live",
-    color: "#F4C2C2",
+    color: "#ffcba4",
     icon: 1,
+  },
+  {
+    id: 2,
+    name: { ar: "محفوظة", en: "Preserved" },
+    visibility: false,
+    status: "live",
+    color: "#dcae96",
+    icon: 2,
   },
 ];
