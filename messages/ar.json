@@ -101,12 +101,70 @@
     "Stats": {
       "TotalProducts": "إجمالي المنتجات",
       "InStock": "متوفر",
-      "OutOfStock": "غير متوفر",
+      "OutOfStock": "نفد من المخزون",
       "LowStock": "المخزون منخفض"
     },
     "Filters": {
       "SearchPlaceholder": "ابحث عن المنتجات",
       "AllCategories": "جميع الفئات"
+    },
+    "Fields": {
+      "Photo": "صور المنتج (اسحب لإعادة الترتيب · الصورة الأولى = الرئيسية)",
+      "Name": "اسم المنتج",
+      "Category": "الفئة",
+      "Description": "الوصف",
+      "Price": "السعر (درهم)",
+      "SalesPrice": "سعر البيع (درهم)",
+      "StockQuantity": "كمية المخزون",
+      "SKU": "رمز التخزين",
+      "AvailableSizes": "الأحجام المتاحة",
+      "ColorVariants": "تنويعات الألوان",
+      "OccasionTags": "علامات المناسبة",
+      "ShowNewBadge": "عرض شارة 'جديد'",
+      "ShowNewBadgeDescription": "يعرض شارة جديدة ذهبية على بطاقة المنتج",
+      "FeaturedOnHomepage": "مميز في الصفحة الرئيسية",
+      "FeaturedOnHomepageDescription": "ثبت هذا المنتج في قسم المميز في واجهة متجرك"
+    },
+    "Placeholders": {
+      "Name": "أدخل اسم المنتج",
+      "Category": "أدخل الفئة",
+      "Description": "أدخل وصف المنتج",
+      "Price": "أدخل سعر المنتج",
+      "SalesPrice": "أدخل سعر البيع",
+      "StockQuantity": "أدخل كمية المخزون",
+      "SKU": "أدخل رمز التخزين"
+    },
+    "Labels": {
+      "BasicInformation": "معلومات أساسية",
+      "PricingAndStock": "التسعير والمخزون",
+      "Variants": "الأنماط",
+      "DisplayOptions": "خيارات العرض",
+      "Active": "نشط",
+      "Draft": "مسودة",
+      "ValentineDay": "عيد الحب",
+      "Birthday": "عيد الميلاد",
+      "Wedding": "زفاف",
+      "Eid": "عيد",
+      "Anniversary": "ذكرى سنوية",
+      "MotherDay": "عيد الأم",
+      "Graduation": "التخرج",
+      "Corporate": "شركة",
+      "Sympathy": "تعازي",
+      "JustBecause": "فقط لأن",
+      "S": "ص",
+      "M": "م",
+      "L": "ك",
+      "XL": "كج",
+      "BlushPink": "وردي خجول",
+      "Ivory": "عاجي",
+      "Sage": "مريمية",
+      "DeepRed": "أحمر غامق",
+      "Lavender": "لافندر",
+      "Peach": "خوخي",
+      "White": "أبيض",
+      "Gold": "ذهبي",
+      "Terracotta": "تراكوتا",
+      "DustyRose": "وردي مغبر"
     }
   }
 }

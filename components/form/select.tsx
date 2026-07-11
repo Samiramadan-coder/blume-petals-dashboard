@@ -58,7 +58,7 @@ export default function NormalFormSelect<T extends FieldValues>({
           <FieldLabel
             htmlFor={name}
             className={cn(
-              "text-xs font-semibold",
+              "text-sm font-semibold",
               required &&
                 "after:ms-1 after:text-destructive after:content-['*']",
             )}

@@ -18,6 +18,7 @@ import { Button } from "../ui/button";
 import RichText from "../form/rich-text";
 import AddButton from "../form/add-button";
 import { Separator } from "../ui/separator";
+import { useTranslations } from "next-intl";
 import { useRef, type ReactNode } from "react";
 import SectionLabel from "../form/section-label";
 import ImageUploader from "../form/image-uploader";
@@ -26,7 +27,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Field, FieldContent, FieldError, FieldLabel } from "../ui/field";
 import { Product, ProductFormValues, productSchema } from "@/types/products";
-import { useTranslations } from "next-intl";
 
 export default function CreateEdit({
   trigger,
@@ -92,17 +92,17 @@ export default function CreateEdit({
             <ImageUploader
               control={control}
               name="images"
-              label="Product Photos(drag to reorder · first photo = main)"
+              label={t("Fields.Photo")}
               required
             />
 
-            <SectionLabel>Basic Information</SectionLabel>
+            <SectionLabel>{t("Labels.BasicInformation")}</SectionLabel>
 
             <Input<ProductFormValues>
-              label="Product Name"
+              label={t("Fields.Name")}
               name="name"
               type="text"
-              placeholder="Enter product name"
+              placeholder={t("Placeholders.Name")}
               register={register}
               errors={errors}
               required
@@ -110,9 +110,9 @@ export default function CreateEdit({
 
             <Select<ProductFormValues>
               control={control}
-              label="Category"
+              label={t("Fields.Category")}
               name="category"
-              placeholder="Choose Category"
+              placeholder={t("Placeholders.Category")}
               required
               options={[
                 { label: "Category 1", value: "category1" },
@@ -122,58 +122,56 @@ export default function CreateEdit({
 
             <RichText<ProductFormValues>
               control={control}
-              label="Description"
+              label={t("Fields.Description")}
               name="description"
-              placeholder="Describe the product"
+              placeholder={t("Placeholders.Description")}
             />
 
-            <SectionLabel>Pricing & Stock</SectionLabel>
+            <SectionLabel>{t("Labels.PricingAndStock")}</SectionLabel>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Input<ProductFormValues>
-                label="Price (AED)"
+                label={t("Fields.Price")}
                 name="price"
                 type="number"
                 register={register}
                 errors={errors}
                 required
-                placeholder="Enter price in AED"
+                placeholder={t("Placeholders.Price")}
               />
 
               <Input<ProductFormValues>
-                label="Sales Price (AED)"
+                label={t("Fields.SalesPrice")}
                 name="salesPrice"
                 type="number"
                 register={register}
-                placeholder="Enter sales price in AED"
+                placeholder={t("Placeholders.SalesPrice")}
               />
 
               <Input<ProductFormValues>
-                label="Stock Quantity"
+                label={t("Fields.StockQuantity")}
                 name="stockQuantity"
                 type="number"
                 register={register}
                 errors={errors}
                 required
-                placeholder="Enter available stock quantity"
+                placeholder={t("Placeholders.StockQuantity")}
               />
 
               <Input<ProductFormValues>
-                label="SKU"
+                label={t("Fields.SKU")}
                 name="sku"
                 type="text"
                 register={register}
-                placeholder="Auto-generated"
+                placeholder={t("Placeholders.SKU")}
               />
             </div>
 
             <Separator className="bg-border" />
-
-            <SectionLabel>Variants</SectionLabel>
-
+            <SectionLabel>{t("Labels.Variants")}</SectionLabel>
             <Field>
-              <FieldLabel htmlFor="sizes" className="text-xs font-semibold">
-                Available Sizes
+              <FieldLabel htmlFor="sizes" className="text-sm font-semibold">
+                {t("Fields.AvailableSizes")}
                 <span className="text-red-500">*</span>
               </FieldLabel>
               <FieldContent>
@@ -186,7 +184,7 @@ export default function CreateEdit({
                     return (
                       <div className="space-y-1.5">
                         <div className="flex flex-wrap gap-2">
-                          {sizes.map((size) => {
+                          {sizes(t).map((size) => {
                             const isSelected = selectedSizes.includes(
                               size.value,
                             );
@@ -224,8 +222,8 @@ export default function CreateEdit({
             </Field>
 
             <Field>
-              <FieldLabel htmlFor="colors" className="text-xs font-semibold">
-                Color Variants
+              <FieldLabel htmlFor="colors" className="text-sm font-semibold">
+                {t("Fields.ColorVariants")}
                 <span className="text-red-500">*</span>
               </FieldLabel>
               <FieldContent>
@@ -238,7 +236,7 @@ export default function CreateEdit({
                     return (
                       <div className="space-y-1.5">
                         <div className="flex flex-wrap gap-2">
-                          {colors.map((color) => {
+                          {colors(t).map((color) => {
                             const isSelected = selectedColors.includes(
                               color.value,
                             );
@@ -274,7 +272,7 @@ export default function CreateEdit({
                         {selectedColors.length ? (
                           <div className="flex flex-wrap gap-2 mt-4">
                             {selectedColors.map((colorValue) => {
-                              const label = colors.find(
+                              const label = colors(t).find(
                                 (c) => c.value === colorValue,
                               )?.label;
 
@@ -304,10 +302,9 @@ export default function CreateEdit({
             </Field>
 
             <Separator className="bg-border" />
-
             <Field>
-              <FieldLabel htmlFor="occasions" className="text-xs font-semibold">
-                Occasion Tags
+              <FieldLabel htmlFor="occasions" className="text-sm font-semibold">
+                {t("Fields.OccasionTags")}
                 <span className="text-red-500">*</span>
               </FieldLabel>
 
@@ -321,7 +318,7 @@ export default function CreateEdit({
                     return (
                       <div className="space-y-1.5">
                         <div className="flex flex-wrap gap-2">
-                          {occasions.map((occasion) => {
+                          {occasions(t).map((occasion) => {
                             const isSelected = selectedOccasions.includes(
                               occasion.value,
                             );
@@ -358,20 +355,19 @@ export default function CreateEdit({
             </Field>
 
             <Separator className="bg-border" />
-            <SectionLabel>Display Options</SectionLabel>
-
+            <SectionLabel>{t("Labels.DisplayOptions")}</SectionLabel>
             <Switch
               name="showNewBadge"
               control={control}
-              label="Show New Badge"
-              description="Displays a gold NEW badge on the product card"
+              label={t("Fields.ShowNewBadge")}
+              description={t("Fields.ShowNewBadgeDescription")}
             />
 
             <Switch
               name="featuredOnHomepage"
               control={control}
-              label="Featured on Homepage"
-              description="Pin this product to the featured section of your storefront"
+              label={t("Fields.FeaturedOnHomepage")}
+              description={t("Fields.FeaturedOnHomepageDescription")}
             />
 
             <Controller
@@ -382,7 +378,7 @@ export default function CreateEdit({
 
                 return (
                   <div className="flex gap-2">
-                    {productStatuses.map((status) => {
+                    {productStatuses(t).map((status) => {
                       return (
                         <Button
                           className={cn(`flex-1 h-10 bg-white`, {

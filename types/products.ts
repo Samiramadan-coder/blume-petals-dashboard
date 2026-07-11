@@ -19,7 +19,7 @@ export const productSchema = z.object({
   occasions: z.array(z.string()).min(1, "Please select at least one occasion"),
   showNewBadge: z.boolean(),
   featuredOnHomepage: z.boolean(),
-  productStatus: z.enum(["active", "draft"]),
+  productStatus: z.string(),
 });
 
 export type ProductFormValues = z.infer<typeof productSchema>;
@@ -27,24 +27,4 @@ export type ProductFormValues = z.infer<typeof productSchema>;
 export type Product = ProductFormValues & {
   id: number;
   rating: number;
-};
-
-export type Size = {
-  value: "s" | "m" | "l" | "xl";
-  label: "S" | "M" | "L" | "XL";
-};
-
-export type Color = {
-  value: string;
-  label: string;
-};
-
-export type Occasion = {
-  value: string;
-  label: string;
-};
-
-export type ProductStatus = {
-  label: "Active" | "Draft";
-  value: "active" | "draft";
 };

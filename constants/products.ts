@@ -1,5 +1,5 @@
 import { T } from "@/types/shared";
-import { Color, Occasion, Product, Size } from "@/types/products";
+import { Product } from "@/types/products";
 import { DataTableColumn } from "@/components/reusable/data-table";
 
 // Table Column
@@ -35,40 +35,120 @@ export const productsPlaceholder: Product[] = [
   },
 ];
 
-export const sizes: Size[] = [
-  { value: "s", label: "S" },
-  { value: "m", label: "M" },
-  { value: "l", label: "L" },
-  { value: "xl", label: "XL" },
+export const sizes = (t: T) => [
+  {
+    value: "s",
+    label: t("Labels.S"),
+  },
+  {
+    value: "m",
+    label: t("Labels.M"),
+  },
+  {
+    value: "l",
+    label: t("Labels.L"),
+  },
+  {
+    value: "xl",
+    label: t("Labels.XL"),
+  },
 ];
 
-export const colors: Color[] = [
-  { value: "#F4C2C2", label: "Blush Pink" },
-  { value: "#FFFFF0", label: "Ivory" },
-  { value: "#7D947B", label: "Sage" },
-  { value: "#9B1C1C", label: "Deep Red" },
-  { value: "#C7B8EA", label: "Lavender" },
-  { value: "#FFCBA4", label: "Peach" },
-  { value: "#FFFFFF", label: "White" },
-  { value: "#CBB682", label: "Gold" },
-  { value: "#ED8074", label: "Terracotta" },
-  { value: "#DCAE96", label: "Dusty Rose" },
+export const colors = (t: T) => [
+  {
+    value: "#F4C2C2",
+    label: t("Labels.BlushPink"),
+  },
+  {
+    value: "#FFFFF0",
+    label: t("Labels.Ivory"),
+  },
+  {
+    value: "#7D947B",
+    label: t("Labels.Sage"),
+  },
+  {
+    value: "#9B1C1C",
+    label: t("Labels.DeepRed"),
+  },
+  {
+    value: "#C7B8EA",
+    label: t("Labels.Lavender"),
+  },
+  {
+    value: "#FFCBA4",
+    label: t("Labels.Peach"),
+  },
+  {
+    value: "#FFFFFF",
+    label: t("Labels.White"),
+  },
+  {
+    value: "#CBB682",
+    label: t("Labels.Gold"),
+  },
+  {
+    value: "#ED8074",
+    label: t("Labels.Terracotta"),
+  },
+  {
+    value: "#DCAE96",
+    label: t("Labels.DustyRose"),
+  },
 ];
 
-export const occasions: Occasion[] = [
-  { label: "Valentine's Day", value: "valentine's day" },
-  { label: "Birthday", value: "birthday" },
-  { label: "Wedding", value: "wedding" },
-  { label: "Eid", value: "eid" },
-  { label: "Anniversary", value: "anniversary" },
-  { label: "Mother's Day", value: "mother's day" },
-  { label: "Graduation", value: "graduation" },
-  { label: "Corporate", value: "corporate" },
-  { label: "Sympathy", value: "sympathy" },
-  { label: "Just Because", value: "just because" },
+// Occasions Day
+export const occasions = (t: T) => [
+  {
+    label: t("Labels.ValentineDay"),
+    value: "valentine's day",
+  },
+  {
+    label: t("Labels.Birthday"),
+    value: "birthday",
+  },
+  {
+    label: t("Labels.Wedding"),
+    value: "wedding",
+  },
+  {
+    label: t("Labels.Eid"),
+    value: "eid",
+  },
+  {
+    label: t("Labels.Anniversary"),
+    value: "anniversary",
+  },
+  {
+    label: t("Labels.MotherDay"),
+    value: "mother's day",
+  },
+  {
+    label: t("Labels.Graduation"),
+    value: "graduation",
+  },
+  {
+    label: t("Labels.Corporate"),
+    value: "corporate",
+  },
+  {
+    label: t("Labels.Sympathy"),
+    value: "sympathy",
+  },
+  {
+    label: t("Labels.JustBecause"),
+    value: "just because",
+  },
 ];
 
-export const productStatuses = [
-  { label: "Active", value: "active" },
-  { label: "Draft", value: "draft" },
+// Product Statuses
+export const productStatuses = (t: T) => [
+  {
+    label: t("Labels.Active"),
+    value: "active",
+  },
+  {
+    label: t("Labels.Draft"),
+    value: "draft",
+  },
 ];
