@@ -9,7 +9,7 @@ import Header from "@/components/form/header";
 import { Separator } from "@/components/ui/separator";
 import SectionLabel from "@/components/form/section-label";
 import NormalFormInput from "@/components/form/normal-form-input";
-import FormSwitch from "@/components/form/switch";
+import Switch from "@/components/form/switch";
 import Footer from "@/components/form/footer";
 import {
   Template,
@@ -174,7 +174,7 @@ export default function CreateEdit({
 
             <Separator className="bg-border" />
             <SectionLabel>Status</SectionLabel>
-            <FormSwitch<TemplateFormValues>
+            <Switch<TemplateFormValues>
               name="active"
               control={control}
               label="Template is active"

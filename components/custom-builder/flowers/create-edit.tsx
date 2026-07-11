@@ -10,7 +10,7 @@ import Footer from "@/components/form/footer";
 import SectionLabel from "@/components/form/section-label";
 import AddButton from "@/components/form/add-button";
 import NormalFormInput from "@/components/form/normal-form-input";
-import FormSwitch from "@/components/form/switch";
+import Switch from "@/components/form/switch";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import SingleFormImageUploader from "@/components/form/form-single-image-uploader";
 import { Badge } from "@/components/ui/badge";
@@ -252,7 +252,7 @@ export default function CreateEdit({
 
             <Separator className="bg-border" />
             <SectionLabel>Status</SectionLabel>
-            <FormSwitch<FlowerFormValues>
+            <Switch<FlowerFormValues>
               name="active"
               control={control}
               label="Active on Custom Builder"
