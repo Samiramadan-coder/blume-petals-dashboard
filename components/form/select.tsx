@@ -36,6 +36,7 @@ type NormalFormSelectProps<T extends FieldValues> = {
   groupLabel?: string;
   className?: string;
   triggerClassName?: string;
+  dir?: string;
 };
 
 export default function NormalFormSelect<T extends FieldValues>({
@@ -48,6 +49,7 @@ export default function NormalFormSelect<T extends FieldValues>({
   groupLabel,
   className,
   triggerClassName,
+  dir = "ltr",
 }: NormalFormSelectProps<T>) {
   return (
     <Controller
@@ -72,6 +74,7 @@ export default function NormalFormSelect<T extends FieldValues>({
                 <SelectTrigger
                   id={name}
                   aria-invalid={fieldState.invalid}
+                  dir={dir}
                   className={cn(
                     "h-10 min-h-10 w-full border-border bg-background",
                     triggerClassName,

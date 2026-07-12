@@ -18,17 +18,17 @@ import { Button } from "../ui/button";
 import RichText from "../form/rich-text";
 import AddButton from "../form/add-button";
 import { Separator } from "../ui/separator";
-import { useLocale, useTranslations } from "next-intl";
-import { useRef, type ReactNode } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import SectionLabel from "../form/section-label";
 import ImageUploader from "../form/image-uploader";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useLocale, useTranslations } from "next-intl";
+import { useFormLocale } from "@/hooks/use-form-locale";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
+import LocaleFormSwitcher from "../reusable/locale-form-switcher";
 import { Field, FieldContent, FieldError, FieldLabel } from "../ui/field";
 import { Product, ProductFormValues, productSchema } from "@/types/products";
-import LocaleFormSwitcher from "../reusable/locale-form-switcher";
-import { useFormLocale } from "@/hooks/use-form-locale";
 
 export default function CreateEdit({
   trigger,
@@ -40,8 +40,13 @@ export default function CreateEdit({
   const locale = useLocale();
   const t = useTranslations("Products");
   const form = useRef<HTMLFormElement>(null);
+
   const { activeLocale, changeLocale, dir, isArabic, tLive } =
     useFormLocale("Products");
+
+  const [listOfColors, setListOfColors] = useState(
+    colors((key) => tLive(key as never)),
+  );
 
   const {
     register,
@@ -99,14 +104,17 @@ export default function CreateEdit({
           }}
         />
 
-        <div className="flex-1 overflow-auto px-4 pb-6 pt-2 relative">
+        <div
+          className={cn(`flex-1 overflow-auto px-4 pb-6 pt-2 relative`, {
+            "font-cairo": isArabic,
+            "font-inter": !isArabic,
+          })}
+          dir={dir}
+        >
           <form
             ref={form}
             onSubmit={handleSubmit(onSubmit)}
-            className={cn(`space-y-6 relative`, {
-              "font-cairo": isArabic,
-            })}
-            dir={dir}
+            className="space-y-6 relative"
           >
             <ImageUploader
               control={control}
@@ -135,6 +143,7 @@ export default function CreateEdit({
               name="category"
               placeholder={tLive("Placeholders.Category")}
               required
+              dir={dir}
               options={[
                 { label: "Category 1", value: "category1" },
                 { label: "Category 2", value: "category2" },
@@ -258,7 +267,7 @@ export default function CreateEdit({
                     return (
                       <div className="space-y-1.5">
                         <div className="flex flex-wrap gap-2">
-                          {colors((key) => tLive(key as never)).map((color) => {
+                          {listOfColors.map((color) => {
                             const isSelected = selectedColors.includes(
                               color.value,
                             );
@@ -289,14 +298,38 @@ export default function CreateEdit({
                               </Button>
                             );
                           })}
+                          <div className="relative h-8 w-8">
+                            <Button
+                              variant="outline"
+                              className="w-8 h-8 rounded-full border-2 border-dashed bg-white cursor-pointer"
+                            ></Button>
+                            <input
+                              type="color"
+                              className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+                              onChange={(event) => {
+                                setListOfColors((prevColors) => [
+                                  ...prevColors,
+                                  {
+                                    value: event.target.value,
+                                    label: event.target.value,
+                                  },
+                                ]);
+
+                                field.onChange([
+                                  event.target.value,
+                                  ...selectedColors,
+                                ]);
+                              }}
+                            />
+                          </div>
                         </div>
 
                         {selectedColors.length ? (
                           <div className="flex flex-wrap gap-2 mt-4">
                             {selectedColors.map((colorValue) => {
-                              const label = colors((key) =>
-                                tLive(key as never),
-                              ).find((c) => c.value === colorValue)?.label;
+                              const label = listOfColors.find(
+                                (c) => c.value === colorValue,
+                              )?.label;
 
                               return (
                                 <Badge
@@ -308,7 +341,18 @@ export default function CreateEdit({
                                     className="h-3 w-3 rounded-full"
                                     style={{ backgroundColor: colorValue }}
                                   ></div>
-                                  {label}
+                                  {label ?? colorValue}
+                                  <span
+                                    className="text-muted-foreground cursor-pointer"
+                                    onClick={() => {
+                                      const nextColors = selectedColors.filter(
+                                        (color) => color !== colorValue,
+                                      );
+                                      field.onChange(nextColors);
+                                    }}
+                                  >
+                                    x
+                                  </span>
                                 </Badge>
                               );
                             })}
@@ -352,9 +396,7 @@ export default function CreateEdit({
                                   variant="outline"
                                   className={cn(
                                     `h-7 text-sm px-4 cursor-pointer`,
-                                    {
-                                      "bg-primary/20 border-2": isSelected,
-                                    },
+                                    { "bg-primary/20 border": isSelected },
                                   )}
                                   onClick={() => {
                                     const nextOccasions = isSelected
@@ -371,7 +413,6 @@ export default function CreateEdit({
                             },
                           )}
                         </div>
-
                         <FieldError errors={[errors.occasions]} />
                       </div>
                     );

@@ -99,6 +99,7 @@ export default function CreateEdit({
         <div
           className={cn(`flex-1 overflow-auto px-4 pb-6 pt-2`, {
             "font-cairo": isArabic,
+            "font-inter": !isArabic,
           })}
           dir={dir}
         >
