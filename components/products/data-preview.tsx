@@ -69,7 +69,9 @@ export default function DataPreview({ products }: { products: Product[] }) {
                 <span className="w-1.5 h-1.5 rounded-full shrink-0 bg-primary"></span>{" "}
                 In Stock
               </Badge>
-              <p className="text-muted-foreground text-xs mt-1">20 Units</p>
+              <p className="text-muted-foreground text-xs mt-1">
+                20 {t("Labels.Units")}
+              </p>
             </TableCell>
 
             <TableCell className="px-4 py-3">

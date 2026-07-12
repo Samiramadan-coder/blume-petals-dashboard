@@ -84,7 +84,10 @@
     "NameIsRequired": "Category name is required",
     "NameMinLength": "Category name must be at least 3 characters",
     "SelectIcon": "Select an icon",
-    "SelectColor": "Select a color"
+    "SelectColor": "Select a color",
+    "Visible": "Visible",
+    "Hidden": "Hidden",
+    "Items": "Items"
   },
   "Products": {
     "Products": "Products",
@@ -169,7 +172,8 @@
       "White": "White",
       "Gold": "Gold",
       "Terracotta": "Terracotta",
-      "DustyRose": "Dusty Rose"
+      "DustyRose": "Dusty Rose",
+      "Units": "Units"
     }
   }
 }

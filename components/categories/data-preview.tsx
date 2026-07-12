@@ -10,6 +10,8 @@ import DeleteBtn from "../reusable/delete-btn";
 import { columns } from "@/constants/categories";
 import { useLocale, useTranslations } from "next-intl";
 import { ReorderableDataTable } from "../reusable/date-sortable-table";
+import { Switch } from "../ui/switch";
+import { Badge } from "../ui/badge";
 
 export default function DataPreview({
   initialCategories,
@@ -50,10 +52,26 @@ export default function DataPreview({
         columns={columns((key) => t(key as never))}
         renderCells={(category) => (
           <>
-            <TableCell className="px-4 py-3">-</TableCell>
-            <TableCell className="px-4 py-3">-</TableCell>
-            <TableCell className="px-4 py-3">-</TableCell>
-            <TableCell className="px-4 py-3">-</TableCell>
+            <TableCell className="px-4 py-3">
+              <p className="font-semibold">{category.name[locale]}</p>
+            </TableCell>
+
+            <TableCell className="px-4 py-3">
+              <p className="font-semibold">
+                24 <span className="font-normal">{t("Items")}</span>
+              </p>
+            </TableCell>
+
+            <TableCell className="px-4 py-3">
+              <Switch checked={category.visibility} />
+            </TableCell>
+
+            <TableCell className="px-4 py-3">
+              <Badge className="bg-secondary/20 text-secondary">
+                {category.visibility ? t("Visible") : t("Hidden")}
+              </Badge>
+            </TableCell>
+
             <TableCell className="px-4 py-3">
               <CreateEdit category={category} trigger={<EditBtn />} />
               <DeleteBtn />

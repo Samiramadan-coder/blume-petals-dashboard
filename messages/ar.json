@@ -84,7 +84,10 @@
     "NameIsRequired": "اسم الفئة مطلوب",
     "NameMinLength": "يجب أن يكون اسم الفئة 3 أحرف على الأقل",
     "SelectIcon": "اختر أيقونة",
-    "SelectColor": "اختر لونًا"
+    "SelectColor": "اختر لونًا",
+    "Visible": "مرئي",
+    "Hidden": "مخفي",
+    "Items": "العناصر"
   },
   "Products": {
     "Products": "المنتجات",
@@ -169,7 +172,8 @@
       "White": "أبيض",
       "Gold": "ذهبي",
       "Terracotta": "تراكوتا",
-      "DustyRose": "وردي مغبر"
+      "DustyRose": "وردي مغبر",
+      "Units": "وحدات"
     }
   }
 }
