@@ -43,7 +43,7 @@ export function DataTable({
       <Table className="">
         <TableHeader>
           <TableRow>
-            <TableHead className="px-4 py-3">
+            <TableHead className="px-4 py-4">
               <Checkbox onCheckedChange={onCheckboxChange} />
             </TableHead>
 
