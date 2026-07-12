@@ -6,7 +6,10 @@
     "Previous": "Previous",
     "Next": "Next",
     "Save": "Save",
-    "Cancel": "Cancel"
+    "Cancel": "Cancel",
+    "Delete": "Delete",
+    "DeleteConfirmation": "Are you sure you want to delete this item? This action cannot be undone.",
+    "Confirmation": "Confirmation"
   },
   "Auth": {
     "Login": {

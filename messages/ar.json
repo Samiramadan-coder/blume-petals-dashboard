@@ -6,7 +6,10 @@
     "Previous": "السابق",
     "Next": "التالي",
     "Save": "حفظ",
-    "Cancel": "إلغاء"
+    "Cancel": "إلغاء",
+    "Delete": "حذف",
+    "DeleteConfirmation": "هل أنت متأكد أنك تريد حذف هذا العنصر؟ لا يمكن التراجع عن هذا الإجراء.",
+    "Confirmation": "تأكيد"
   },
   "Auth": {
     "Login": {
