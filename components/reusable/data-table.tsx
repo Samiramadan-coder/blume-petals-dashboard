@@ -7,9 +7,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Checkbox } from "../ui/checkbox";
-import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
+import { Button } from "../ui/button";
+import { Checkbox } from "../ui/checkbox";
 import { useTranslations } from "next-intl";
 
 export type DataTableColumn = {
