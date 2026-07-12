@@ -196,16 +196,13 @@ export default function PricingRules() {
           <Button
             type="button"
             variant="outline"
-            className="text-sm border border-border h-10 w-30 text-muted-foreground cursor-pointer"
+            className="text-sm border border-border h-10 w-30 text-muted-foreground"
             onClick={() => reset()}
           >
             Discard
           </Button>
 
-          <Button
-            type="submit"
-            className="text-sm text-foreground h-10 w-40 cursor-pointer"
-          >
+          <Button type="submit" className="text-sm text-foreground h-10 w-40">
             <Save />
             Save Changes
           </Button>

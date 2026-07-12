@@ -225,10 +225,9 @@ export default function CreateEdit({
                                 key={size.value}
                                 type="button"
                                 variant="outline"
-                                className={cn(
-                                  `h-11 w-11 bg-white cursor-pointer`,
-                                  { "bg-primary/20 border-2": isSelected },
-                                )}
+                                className={cn(`h-11 w-11 bg-white`, {
+                                  "bg-primary/20 border-2": isSelected,
+                                })}
                                 onClick={() => {
                                   const nextSizes = isSelected
                                     ? selectedSizes.filter(
@@ -278,7 +277,7 @@ export default function CreateEdit({
                                 type="button"
                                 variant="outline"
                                 className={cn(
-                                  "h-8 w-8 rounded-full border border-border cursor-pointer",
+                                  "h-8 w-8 rounded-full border border-border",
                                   {
                                     "border-2 border-primary": isSelected,
                                   },
@@ -301,7 +300,7 @@ export default function CreateEdit({
                           <div className="relative h-8 w-8">
                             <Button
                               variant="outline"
-                              className="w-8 h-8 rounded-full border-2 border-dashed bg-white cursor-pointer"
+                              className="w-8 h-8 rounded-full border-2 border-dashed bg-white"
                             ></Button>
                             <input
                               type="color"

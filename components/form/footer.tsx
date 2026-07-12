@@ -13,17 +13,13 @@ export default function FormFooter({
     <SheetFooter className="mt-4 border-t border-border bg-white px-4 py-3">
       <div className="flex items-center justify-end gap-2">
         <SheetClose asChild>
-          <Button
-            type="button"
-            variant="outline"
-            className="h-10 flex-1 cursor-pointer"
-          >
+          <Button type="button" variant="outline" className="h-10 flex-1">
             {t("Cancel")}
           </Button>
         </SheetClose>
         <Button
           type="submit"
-          className="h-10 flex-1 cursor-pointer"
+          className="h-10 flex-1"
           onClick={() => form.current?.requestSubmit()}
         >
           {t("Save")}

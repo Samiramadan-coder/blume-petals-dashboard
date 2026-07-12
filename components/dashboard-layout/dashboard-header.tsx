@@ -33,11 +33,7 @@ export default function DashboardHeader() {
       <div className="flex items-center gap-3">
         <LiveDateTime />
         <LocaleSwitcher />
-        <Button
-          variant="ghost"
-          size="sm"
-          className="relative p-0 cursor-pointer"
-        >
+        <Button variant="ghost" size="sm" className="relative p-0">
           <Bell />
           <span
             className={cn(

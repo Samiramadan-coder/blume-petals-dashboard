@@ -10,6 +10,8 @@ import { wrappingColumns } from "@/constants/custom-builder";
 import { ReorderableDataTable } from "@/components/reusable/date-sortable-table";
 import { Card, CardContent } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
+import EditBtn from "@/components/reusable/edit-btn";
+import DeleteBtn from "@/components/reusable/delete-btn";
 
 export default function DataPreviewRibbons({
   initialRibbons,
@@ -45,21 +47,8 @@ export default function DataPreviewRibbons({
                   <div className="flex flex-col items-end gap-2">
                     <Switch checked={ribbon.active} />
                     <div>
-                      <CreateEditRibbon
-                        ribbon={ribbon}
-                        trigger={
-                          <Button
-                            type="button"
-                            variant="ghost"
-                            className="cursor-pointer"
-                          >
-                            <Pencil className="text-muted-foreground" />
-                          </Button>
-                        }
-                      />
-                      <Button variant="ghost" className="cursor-pointer">
-                        <Trash2 className="text-muted-foreground" />
-                      </Button>
+                      <CreateEditRibbon ribbon={ribbon} trigger={<EditBtn />} />
+                      <DeleteBtn />
                     </div>
                   </div>
                 </div>

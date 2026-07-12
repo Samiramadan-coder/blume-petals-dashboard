@@ -1,13 +1,13 @@
 "use client";
 
-import { ReorderableDataTable } from "@/components/reusable/date-sortable-table";
-import CreateEdit from "./create-edit";
-import { TableCell } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import { Pencil, Trash2 } from "lucide-react";
-import { Template } from "@/types/custom-builder";
 import { useState } from "react";
+import CreateEdit from "./create-edit";
+import { Template } from "@/types/custom-builder";
+import { TableCell } from "@/components/ui/table";
+import EditBtn from "@/components/reusable/edit-btn";
 import { columns } from "@/constants/custom-builder";
+import DeleteBtn from "@/components/reusable/delete-btn";
+import { ReorderableDataTable } from "@/components/reusable/date-sortable-table";
 
 export default function DataPreview({
   initialTemplates,
@@ -35,21 +35,8 @@ export default function DataPreview({
           <TableCell className="px-4 py-3">-</TableCell>
           <TableCell className="px-4 py-3">-</TableCell>
           <TableCell className="px-4 py-3">
-            <CreateEdit
-              template={template}
-              trigger={
-                <Button
-                  type="button"
-                  variant="ghost"
-                  className="cursor-pointer"
-                >
-                  <Pencil className="text-muted-foreground" />
-                </Button>
-              }
-            />
-            <Button variant="ghost" className="cursor-pointer">
-              <Trash2 className="text-muted-foreground" />
-            </Button>
+            <CreateEdit template={template} trigger={<EditBtn />} />
+            <DeleteBtn />
           </TableCell>
         </>
       )}

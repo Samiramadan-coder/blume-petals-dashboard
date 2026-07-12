@@ -221,7 +221,7 @@ export default function CreateEdit({
                             type="button"
                             variant="outline"
                             className={cn(
-                              "h-8 w-8 rounded-full border border-border cursor-pointer",
+                              "h-8 w-8 rounded-full border border-border",
                               { "border-2 border-primary": isSelected },
                             )}
                             style={{ backgroundColor: color }}

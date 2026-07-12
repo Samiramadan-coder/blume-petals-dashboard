@@ -17,7 +17,7 @@ export default function DeleteBtn() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="ghost" className="cursor-pointer">
+        <Button variant="ghost">
           <Trash2 className="text-muted-foreground" />
         </Button>
       </DialogTrigger>

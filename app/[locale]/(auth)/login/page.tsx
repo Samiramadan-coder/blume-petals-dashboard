@@ -69,7 +69,7 @@ export default function LoginPage() {
               type="password"
             />
 
-            <Button type="submit" className="w-full h-11 cursor-pointer">
+            <Button type="submit" className="w-full h-11">
               {isSubmitting ? <Spinner /> : t("Submit")}
             </Button>
           </CardContent>

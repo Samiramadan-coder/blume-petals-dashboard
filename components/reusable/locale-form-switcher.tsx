@@ -20,7 +20,7 @@ export default function LocaleFormSwitcher({
         variant="outline"
         onClick={() => onChange("en")}
         className={cn(
-          "h-10 cursor-pointer hover:bg-primary hover:text-primary-foreground order-2",
+          "h-10 hover:bg-primary hover:text-primary-foreground order-2",
           locale === "en" ? "bg-primary text-primary-foreground" : "",
           versionLocale === "ar" ? "order-2" : "order-1",
         )}
@@ -32,7 +32,7 @@ export default function LocaleFormSwitcher({
         variant="outline"
         onClick={() => onChange("ar")}
         className={cn(
-          "h-10 cursor-pointer hover:bg-primary hover:text-primary-foreground order-1",
+          "h-10 hover:bg-primary hover:text-primary-foreground order-1",
           locale === "ar" ? "bg-primary text-primary-foreground" : "",
           versionLocale === "en" ? "order-2" : "order-1",
         )}

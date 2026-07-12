@@ -14,7 +14,7 @@ export function LocaleSwitcher() {
   return (
     <Button
       variant="ghost"
-      className="text-muted-foreground bg-muted hover:bg-muted hover:text-muted-foreground cursor-pointer rounded-md"
+      className="text-muted-foreground bg-muted hover:bg-muted hover:text-muted-foreground rounded-md"
       onClick={() => router.replace(pathname, { locale: nextLocale })}
       aria-label="switcher"
     >

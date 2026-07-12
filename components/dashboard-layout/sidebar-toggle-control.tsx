@@ -19,7 +19,7 @@ export default function SidebarToggleControl() {
         isOpen ? t("sidebar.toggleCollapse") : t("sidebar.toggleExpand")
       }
       className={cn(
-        "absolute inset-e-0 top-20 h-6 w-6  cursor-pointer rounded-full bg-white shadow-sm hover:bg-white",
+        "absolute inset-e-0 top-20 h-6 w-6 rounded-full bg-white shadow-sm hover:bg-white",
         locale === "en" ? "translate-x-1/2" : "-translate-x-1/2",
       )}
       onClick={toggleSidebar}

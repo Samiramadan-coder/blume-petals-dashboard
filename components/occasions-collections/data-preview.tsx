@@ -3,11 +3,11 @@
 import { useState } from "react";
 import CreateEdit from "./create-edit";
 import { TableCell } from "../ui/table";
-import { ReorderableDataTable } from "../reusable/date-sortable-table";
+import EditBtn from "../reusable/edit-btn";
+import DeleteBtn from "../reusable/delete-btn";
 import { columns } from "@/constants/occasions-collections";
 import { OccasionCollection } from "@/types/occasions-collections";
-import { Button } from "../ui/button";
-import { Pencil, Trash2 } from "lucide-react";
+import { ReorderableDataTable } from "../reusable/date-sortable-table";
 
 export default function DataPreview({
   initialOccasionsCollections,
@@ -49,21 +49,8 @@ export default function DataPreview({
             <TableCell className="px-4 py-3">-</TableCell>
             <TableCell className="px-4 py-3">-</TableCell>
             <TableCell className="px-4 py-3">
-              <CreateEdit
-                occasion={occasionCollection}
-                trigger={
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    className="cursor-pointer"
-                  >
-                    <Pencil className="text-muted-foreground" />
-                  </Button>
-                }
-              />
-              <Button variant="ghost" className="cursor-pointer">
-                <Trash2 className="text-muted-foreground" />
-              </Button>
+              <CreateEdit occasion={occasionCollection} trigger={<EditBtn />} />
+              <DeleteBtn />
             </TableCell>
           </>
         )}

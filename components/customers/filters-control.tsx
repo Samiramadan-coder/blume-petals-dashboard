@@ -56,7 +56,7 @@ export default function FiltersControl() {
 
         <Button
           variant="outline"
-          className="h-10 w-30 bg-white text-muted-foreground cursor-pointer text-xs"
+          className="h-10 w-30 bg-white text-muted-foreground text-xs"
         >
           <Download />
           Export CSV

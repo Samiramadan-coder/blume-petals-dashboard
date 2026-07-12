@@ -90,7 +90,7 @@ export default function LockStock() {
 
               <Button
                 variant="ghost"
-                className="bg-primary/20 hover:text-primary text-primary cursor-pointer"
+                className="bg-primary/20 hover:text-primary text-primary"
               >
                 <RefreshCcw /> Restock
               </Button>

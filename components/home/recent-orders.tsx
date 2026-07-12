@@ -57,7 +57,7 @@ export default function RecentOrders() {
           <Link href="/orders">
             <Button
               variant="ghost"
-              className="cursor-pointer text-xs hover:bg-transparent hover:text-primary text-primary"
+              className="text-xs hover:bg-transparent hover:text-primary text-primary"
             >
               View all
               <ArrowRight />

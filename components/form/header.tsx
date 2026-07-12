@@ -30,7 +30,7 @@ export default function FormHeader({
           )}
         </div>
         <SheetClose asChild>
-          <Button variant="ghost" className="h-9 w-9 cursor-pointer p-0">
+          <Button variant="ghost" className="h-9 w-9 p-0">
             <X className="size-5 text-muted-foreground" />
           </Button>
         </SheetClose>

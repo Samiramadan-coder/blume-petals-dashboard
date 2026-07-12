@@ -78,7 +78,7 @@ export default function AddOns() {
             <p className="text-sm font-semibold text-foreground ">Add-ons</p>
             <Button
               variant="outline"
-              className="text-xs cursor-pointer"
+              className="text-xs"
               onClick={() => router.push("/products")}
             >
               <ExternalLink />
@@ -172,16 +172,13 @@ export default function AddOns() {
           <Button
             type="button"
             variant="outline"
-            className="text-sm border border-border h-10 w-30 text-muted-foreground cursor-pointer"
+            className="text-sm border border-border h-10 w-30 text-muted-foreground"
             onClick={() => reset()}
           >
             Discard
           </Button>
 
-          <Button
-            type="submit"
-            className="text-sm text-foreground h-10 w-40 cursor-pointer"
-          >
+          <Button type="submit" className="text-sm text-foreground h-10 w-40">
             <Save />
             Save Changes
           </Button>

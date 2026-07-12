@@ -1,15 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 import CreateEdit from "./create-edit";
 import { TableCell } from "../ui/table";
+import EditBtn from "../reusable/edit-btn";
 import { Category } from "@/types/categories";
+import DeleteBtn from "../reusable/delete-btn";
 import { columns } from "@/constants/categories";
-import { ReorderableDataTable } from "../reusable/date-sortable-table";
-import { Button } from "../ui/button";
-import { Pencil, Trash2 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import { cn } from "@/lib/utils";
+import { ReorderableDataTable } from "../reusable/date-sortable-table";
 
 export default function DataPreview({
   initialCategories,
@@ -55,21 +55,8 @@ export default function DataPreview({
             <TableCell className="px-4 py-3">-</TableCell>
             <TableCell className="px-4 py-3">-</TableCell>
             <TableCell className="px-4 py-3">
-              <CreateEdit
-                category={category}
-                trigger={
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    className="cursor-pointer"
-                  >
-                    <Pencil className="text-muted-foreground" />
-                  </Button>
-                }
-              />
-              <Button variant="ghost" className="cursor-pointer">
-                <Trash2 className="text-muted-foreground" />
-              </Button>
+              <CreateEdit category={category} trigger={<EditBtn />} />
+              <DeleteBtn />
             </TableCell>
           </>
         )}

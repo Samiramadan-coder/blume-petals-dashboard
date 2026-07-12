@@ -3,7 +3,7 @@ import { Button } from "../ui/button";
 
 export default function EditBtn() {
   return (
-    <Button type="button" variant="ghost" className="cursor-pointer">
+    <Button type="button" variant="ghost">
       <Pencil className="text-muted-foreground" />
     </Button>
   );
