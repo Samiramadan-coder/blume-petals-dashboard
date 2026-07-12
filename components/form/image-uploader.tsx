@@ -105,7 +105,7 @@ export default function NormalFormImageUploader<T extends FieldValues>({
                           />
 
                           {index === 0 && (
-                            <Badge className="absolute bottom-2 inset-s-2 rounded-xs text-xs uppercase text-foreground">
+                            <Badge className="absolute bottom-2 rounded-sm inset-s-2 text-[10px] uppercase text-foreground">
                               <Star className="size-3" />
                               {mainLabel}
                             </Badge>
