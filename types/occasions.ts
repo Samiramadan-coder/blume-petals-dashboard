@@ -52,7 +52,15 @@ export type OccasionCollectionFormValues = z.infer<
 
 export type OccasionCollectionType = OccasionCollectionFormValues["type"];
 
-export type OccasionCollection = OccasionCollectionFormValues & {
+export type OccasionCollection = {
   id: number;
-  products: number;
+  name: { ar: string; en: string };
+  slug: string;
+  type: OccasionCollectionType;
+  color: string;
+  banner_path: string;
+  banner_url: string;
+  is_visible: boolean;
+  created_at: string;
+  updated_at: string;
 };

@@ -33,7 +33,7 @@ import LocaleFormSwitcher from "../reusable/locale-form-switcher";
 // Get default values for the form based on the occasion collection data
 function getDefaultValues(occasion?: OccasionCollection) {
   return {
-    banner: occasion?.banner || "",
+    banner: occasion?.banner_url || "",
     name: occasion?.name || { en: "", ar: "" },
     slug: occasion?.slug || "",
     is_visible: occasion?.is_visible ?? true,
