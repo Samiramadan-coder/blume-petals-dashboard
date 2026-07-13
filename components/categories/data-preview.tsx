@@ -54,6 +54,7 @@ export default function DataPreview({
           <>
             <TableCell className="px-4 py-3">
               <p className="font-semibold">{category.name[locale]}</p>
+              <p className="text-muted-foreground text-xs">/{category.slug}</p>
             </TableCell>
 
             <TableCell className="px-4 py-3">
@@ -63,12 +64,12 @@ export default function DataPreview({
             </TableCell>
 
             <TableCell className="px-4 py-3">
-              <Switch checked={category.visibility} />
+              <Switch checked={category.is_visible} />
             </TableCell>
 
             <TableCell className="px-4 py-3">
               <Badge className="bg-secondary/20 text-secondary">
-                {category.visibility ? t("Visible") : t("Hidden")}
+                {category.is_visible ? t("Visible") : t("Hidden")}
               </Badge>
             </TableCell>
 

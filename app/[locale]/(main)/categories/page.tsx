@@ -1,14 +1,28 @@
+// import { initialCategories } from "@/constants/categories";
 import DataPreview from "@/components/categories/data-preview";
-import { initialCategories } from "@/constants/categories";
+import { http } from "@/lib/http";
+import categoriesRes from "@/data/categories.json";
+import { Category, CategoryResponse } from "@/types/categories";
 
 export const metadata = {
   title: "Categories",
 };
 
-export default function CategoriesPage() {
+export default async function CategoriesPage() {
+  // console.log(categoriesRes);
+  // const { data, ok } = await http.get<CategoryResponse>(
+  //   "/api/v1/admin/categories",
+  // );
+
+  // if (!ok) {
+  //   throw new Error("Failed to fetch categories");
+  // }
+
   return (
     <main className="space-y-6">
-      <DataPreview initialCategories={initialCategories} />
+      <DataPreview
+        initialCategories={categoriesRes.data.items as unknown as Category[]}
+      />
     </main>
   );
 }

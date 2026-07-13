@@ -9,7 +9,9 @@
     "Cancel": "Cancel",
     "Delete": "Delete",
     "DeleteConfirmation": "Are you sure you want to delete this item? This action cannot be undone.",
-    "Confirmation": "Confirmation"
+    "Confirmation": "Confirmation",
+    "Error": "Error",
+    "ErrorOccurred": "An error occurred while processing your request. Please try again."
   },
   "Auth": {
     "Login": {
@@ -85,9 +87,12 @@
     "NameMinLength": "Category name must be at least 3 characters",
     "SelectIcon": "Select an icon",
     "SelectColor": "Select a color",
-    "Visible": "Visible",
+    "Visible": "Live",
     "Hidden": "Hidden",
-    "Items": "Items"
+    "Items": "Items",
+    "SlugIsRequired": "Slug is required",
+    "SlugMinLength": "Slug must be at least 3 characters",
+    "SelectType": "Select category type"
   },
   "Products": {
     "Products": "Products",

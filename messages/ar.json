@@ -9,7 +9,9 @@
     "Cancel": "إلغاء",
     "Delete": "حذف",
     "DeleteConfirmation": "هل أنت متأكد أنك تريد حذف هذا العنصر؟ لا يمكن التراجع عن هذا الإجراء.",
-    "Confirmation": "تأكيد"
+    "Confirmation": "تأكيد",
+    "Error": "خطأ",
+    "ErrorOccurred": "حدث خطأ أثناء معالجة طلبك. يرجى المحاولة مرة أخرى."
   },
   "Auth": {
     "Login": {
@@ -85,9 +87,12 @@
     "NameMinLength": "يجب أن يكون اسم الفئة 3 أحرف على الأقل",
     "SelectIcon": "اختر أيقونة",
     "SelectColor": "اختر لونًا",
-    "Visible": "مرئي",
+    "Visible": "مباشر",
     "Hidden": "مخفي",
-    "Items": "العناصر"
+    "Items": "العناصر",
+    "SlugIsRequired": "الاسم المختصر مطلوب",
+    "SlugMinLength": "يجب أن يكون الاسم المختصر 3 أحرف على",
+    "SelectType": "اختر نوع الفئة"
   },
   "Products": {
     "Products": "المنتجات",
