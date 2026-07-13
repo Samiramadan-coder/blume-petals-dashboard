@@ -12,6 +12,8 @@ import { useLocale, useTranslations } from "next-intl";
 import { ReorderableDataTable } from "../reusable/date-sortable-table";
 import { Switch } from "../ui/switch";
 import { Badge } from "../ui/badge";
+import { updateCategoryVisibilityAction } from "@/lib/categories-actions";
+import { toast } from "sonner";
 
 export default function DataPreview({
   initialCategories,
@@ -66,7 +68,18 @@ export default function DataPreview({
             </TableCell>
 
             <TableCell className="px-4 py-3">
-              <Switch checked={category.is_visible} />
+              <Switch
+                checked={category.is_visible}
+                onClick={async () => {
+                  const result = await updateCategoryVisibilityAction(category);
+
+                  if (result.success) {
+                    toast.success(t("VisibilityUpdated"));
+                    return;
+                  }
+                  toast.error(t("VisibilityUpdateFailed"));
+                }}
+              />
             </TableCell>
 
             <TableCell className="px-4 py-3">

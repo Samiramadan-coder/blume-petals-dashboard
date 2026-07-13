@@ -72,3 +72,24 @@ export async function postCategoryAction(
     return { success: false };
   }
 }
+
+/**
+ * Update Visibility Action
+ */
+type UpdateCategoryVisibilityResult = { success: boolean };
+
+export async function updateCategoryVisibilityAction(
+  category: Category,
+): Promise<UpdateCategoryVisibilityResult> {
+  try {
+    await http.patch(`/api/v1/admin/categories/${category.id}/visibility`, {
+      is_visible: !category.is_visible,
+    });
+
+    updateTag("categories");
+    return { success: true };
+  } catch (err) {
+    console.error("Error updating category visibility:", err);
+    return { success: false };
+  }
+}

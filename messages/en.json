@@ -104,7 +104,9 @@
     "CategoryUpdatedSuccessfully": "Category updated successfully",
     "CategoryDeletedSuccessfully": "Category deleted successfully",
     "CategoryCreationFailed": "Failed to create category. Please try again.",
-    "CategoryUpdateFailed": "Failed to update category. Please try again."
+    "CategoryUpdateFailed": "Failed to update category. Please try again.",
+    "VisibilityUpdated": "Category visibility updated successfully",
+    "VisibilityUpdateFailed": "Failed to update category visibility. Please try again."
   },
   "Products": {
     "Products": "Products",

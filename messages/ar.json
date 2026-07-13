@@ -104,7 +104,9 @@
     "CategoryUpdatedSuccessfully": "تم تحديث الفئة بنجاح",
     "CategoryDeletedSuccessfully": "تم حذف الفئة بنجاح",
     "CategoryCreationFailed": "فشل إنشاء الفئة. يرجى المحاولة مرة أخرى.",
-    "CategoryUpdateFailed": "فشل تحديث الفئة. يرجى المحاولة مرة أخرى."
+    "CategoryUpdateFailed": "فشل تحديث الفئة. يرجى المحاولة مرة أخرى.",
+    "VisibilityUpdated": "تم تحديث رؤية الفئة بنجاح",
+    "VisibilityUpdateFailed": "فشل تحديث رؤية الفئة. يرجى المحاولة مرة أخرى."
   },
   "Products": {
     "Products": "المنتجات",
