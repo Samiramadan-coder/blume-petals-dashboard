@@ -205,7 +205,8 @@
       "OccasionCollectionTypeRequired": "نوع المناسبة/المجموعة مطلوب",
       "OccasionCollectionColorRequired": "لون المناسبة/المجموعة مطلوب",
       "OccasionCollectionSlugRequired": "رابط المناسبة/المجموعة مطلوب",
-      "OccasionCollectionSlugMinLength": "يجب أن يكون رابط المناسبة/المجموعة مكونًا من حرفين على الأقل"
+      "OccasionCollectionSlugMinLength": "يجب أن يكون رابط المناسبة/المجموعة مكونًا من حرفين على الأقل",
+      "BannerIsRequired": "بانر المناسبة/المجموعة مطلوب"
     },
     "Labels": {
       "AddOccasionCollection": "إضافة مناسبة/مجموعة",

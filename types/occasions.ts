@@ -25,15 +25,17 @@ export const occasionCollectionSchema = (t: T) =>
       color: z.string().min(1, t("Errors.OccasionCollectionColorRequired")),
       banner: imageSchema,
       is_visible: z.boolean(),
-      // slug: z.string().min(1, "Please enter a slug"),
       // startDate: z.string().min(1, "Please select a start date"),
       // endDate: z.string().min(1, "Please select an end date"),
-      // visibility: z.boolean(),
-      // color: z.string().min(1, "Please select a color"),
     })
     .superRefine((data, ctx) => {
-      console.log("data", data);
-      console.log("ctx", ctx);
+      if (!data.banner) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["banner"],
+          message: t("Errors.BannerIsRequired"),
+        });
+      }
       // if (!data.startDate || !data.endDate) return;
       // if (data.startDate > data.endDate) {
       //   ctx.addIssue({
