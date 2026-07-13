@@ -64,9 +64,20 @@ function buildUrl(
 
 function createHttp(baseURL: string) {
   const defaultHeaders: Record<string, string> = {
-    "Content-Type": "application/json",
     Accept: "application/json",
   };
+
+  function isSerializableBody(body: unknown): body is BodyInit {
+    return (
+      body instanceof FormData ||
+      body instanceof URLSearchParams ||
+      body instanceof Blob ||
+      body instanceof ArrayBuffer ||
+      ArrayBuffer.isView(body) ||
+      body instanceof ReadableStream ||
+      typeof body === "string"
+    );
+  }
 
   async function request<T = unknown>(
     method: HttpMethod,
@@ -78,14 +89,44 @@ function createHttp(baseURL: string) {
 
     const url = buildUrl(baseURL, path, params);
 
+    const headers = new Headers();
+    Object.entries(defaultHeaders).forEach(([key, value]) => {
+      headers.set(key, value);
+    });
+
+    if (extraHeaders) {
+      new Headers(extraHeaders).forEach((value, key) => {
+        headers.set(key, value);
+      });
+    }
+
+    const tokenHeaders = await getTokenHeaders();
+    Object.entries(tokenHeaders).forEach(([key, value]) => {
+      headers.set(key, value);
+    });
+
+    let requestBody: BodyInit | undefined;
+
+    if (body !== undefined) {
+      if (isSerializableBody(body)) {
+        requestBody = body;
+      } else {
+        requestBody = JSON.stringify(body);
+        if (!headers.has("Content-Type")) {
+          headers.set("Content-Type", "application/json");
+        }
+      }
+
+      if (body instanceof FormData) {
+        // Let fetch set multipart boundaries automatically.
+        headers.delete("Content-Type");
+      }
+    }
+
     const response = await fetch(url, {
       method,
-      headers: {
-        ...defaultHeaders,
-        ...extraHeaders,
-        ...(await getTokenHeaders()),
-      },
-      body: body !== undefined ? JSON.stringify(body) : undefined,
+      headers,
+      body: requestBody,
       ...restConfig,
     });
 
