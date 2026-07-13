@@ -1,4 +1,3 @@
-// import { initialCategories } from "@/constants/categories";
 import DataPreview from "@/components/categories/data-preview";
 import { http } from "@/lib/http";
 import categoriesRes from "@/data/categories.json";
