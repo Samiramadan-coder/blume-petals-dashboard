@@ -18,23 +18,33 @@ import { cn, createSlug } from "@/lib/utils";
 import { Check, Flower2 } from "lucide-react";
 import Select from "@/components/form/select";
 import { Card, CardContent } from "../ui/card";
-import { categoryTypes, colors } from "@/constants/categories";
 import SectionLabel from "../form/section-label";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { availableLocales } from "@/constants/shared";
 import { useLocale, useTranslations } from "next-intl";
 import { useFormLocale } from "@/hooks/use-form-locale";
+import { categoryTypes, colors } from "@/constants/categories";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import LocaleFormSwitcher from "../reusable/locale-form-switcher";
 
-export default function CreateEdit({
-  category,
-  trigger,
-}: {
+// Generate default values for the form based on the provided category or return empty values if no category is provided
+function generateDefaultValues(category?: Category): CategoryFormValues {
+  return {
+    name: category?.name || { en: "", ar: "" },
+    slug: category?.slug || "",
+    type: category?.type || "bouquet",
+    color: category?.color || "",
+    is_visible: category?.is_visible ?? false,
+  };
+}
+
+type CreateEditProps = {
   category?: Category;
   trigger?: React.ReactNode;
-}) {
+};
+
+export default function CreateEdit({ category, trigger }: CreateEditProps) {
   const locale = useLocale();
   const t = useTranslations("Categories");
   const form = useRef<HTMLFormElement>(null);
@@ -53,12 +63,7 @@ export default function CreateEdit({
     formState: { errors },
   } = useForm<CategoryFormValues>({
     resolver: zodResolver(categorySchema((key) => tLive(key as never))),
-    defaultValues: {
-      name: category?.name || { en: "", ar: "" },
-      slug: category?.slug || "",
-      is_visible: category?.is_visible ?? true,
-      color: category?.color || "",
-    },
+    defaultValues: generateDefaultValues(category),
   });
 
   const watchName = useWatch({ control, name: "name" });
