@@ -48,6 +48,16 @@ export const categoryTypes: {
   },
 ];
 
+export const typesEnum = [
+  "bouquet",
+  "preserved",
+  "gift",
+  "seasonal",
+  "wedding",
+  "eid",
+  "corporate",
+];
+
 // Categories Colors
 export const colors: string[] = [
   "#f4c2c2",

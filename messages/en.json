@@ -96,7 +96,10 @@
     "Slug": "Slug",
     "EnterSlug": "Auto-generated",
     "SlugHint": "URL path used on the storefront",
-    "Type": "Type"
+    "Type": "Type",
+    "Banner": "Banner",
+    "BannerIsRequired": "Category Banner is required",
+    "IconIsRequired": "Category Icon is required"
   },
   "Products": {
     "Products": "Products",

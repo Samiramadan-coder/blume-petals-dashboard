@@ -27,7 +27,7 @@ type SingleFormImageUploaderProps<T extends FieldValues> = {
 export default function SingleFormImageUploader<T extends FieldValues>({
   name,
   control,
-  label = "Product Photo",
+  label,
   required,
   className,
 }: SingleFormImageUploaderProps<T>) {
@@ -49,15 +49,17 @@ export default function SingleFormImageUploader<T extends FieldValues>({
 
         return (
           <Field className={className} data-invalid={fieldState.invalid}>
-            <FieldLabel
-              className={cn(
-                "text-xs font-semibold",
-                required &&
-                  "after:ms-1 after:text-destructive after:content-['*']",
-              )}
-            >
-              {label}
-            </FieldLabel>
+            {label && (
+              <FieldLabel
+                className={cn(
+                  "text-sm font-semibold",
+                  required &&
+                    "after:ms-1 after:text-destructive after:content-['*']",
+                )}
+              >
+                {label}
+              </FieldLabel>
+            )}
 
             <FieldContent>
               <div className="space-y-2">

@@ -27,6 +27,7 @@ import { categoryTypes, colors } from "@/constants/categories";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import LocaleFormSwitcher from "../reusable/locale-form-switcher";
+import SingleFormImageUploader from "../form/single-image-uploader";
 
 // Generate default values for the form based on the provided category or return empty values if no category is provided
 function generateDefaultValues(category?: Category): CategoryFormValues {
@@ -36,7 +37,18 @@ function generateDefaultValues(category?: Category): CategoryFormValues {
     type: category?.type || "bouquet",
     color: category?.color || "",
     is_visible: category?.is_visible ?? false,
+    icon: category?.icon_url || "",
+    banner: category?.banner_url || "",
   };
+}
+
+function getListOfColors(category?: Category): string[] {
+  return [
+    ...colors,
+    ...(category?.color && !colors.includes(category.color)
+      ? [category.color]
+      : []),
+  ];
 }
 
 type CreateEditProps = {
@@ -54,12 +66,12 @@ export default function CreateEdit({ category, trigger }: CreateEditProps) {
     useFormLocale("Categories");
 
   const {
-    register,
     control,
+    register,
     setValue,
     getValues,
-    handleSubmit,
     clearErrors,
+    handleSubmit,
     formState: { errors },
   } = useForm<CategoryFormValues>({
     resolver: zodResolver(categorySchema((key) => tLive(key as never))),
@@ -193,6 +205,22 @@ export default function CreateEdit({ category, trigger }: CreateEditProps) {
               dir={dir}
             />
 
+            {/* <Separator className="bg-border" /> */}
+            {/* <SectionLabel>{tLive("Icon")}</SectionLabel> */}
+            <SingleFormImageUploader
+              control={control}
+              name="icon"
+              label={tLive("Icon")}
+            />
+
+            {/* <Separator className="bg-border" />
+            <SectionLabel>{tLive("Banner")}</SectionLabel> */}
+            <SingleFormImageUploader
+              control={control}
+              name="banner"
+              label={tLive("Banner")}
+            />
+
             {/* <Separator className="bg-border" />
             <SectionLabel>{tLive("Icon")}</SectionLabel>
             <Controller
@@ -268,7 +296,7 @@ export default function CreateEdit({ category, trigger }: CreateEditProps) {
                 return (
                   <div className="space-y-1.5">
                     <div className="flex flex-wrap gap-2">
-                      {colors.map((color) => {
+                      {getListOfColors(category).map((color) => {
                         const isSelected = selectedColors === color;
 
                         return (
