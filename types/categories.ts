@@ -40,14 +40,13 @@ export type CategoryFormValues = z.infer<ReturnType<typeof categorySchema>>;
 
 export type CategoryType = CategoryFormValues["type"];
 
-export type Icon = {
-  icon: React.ReactNode;
+export type Category = {
   id: number;
-  label: string;
-};
-
-export type Category = CategoryFormValues & {
-  id: number;
+  name: { ar: string; en: string };
+  slug: string;
+  type: CategoryType;
+  color: string;
+  is_visible: boolean;
   icon_path: string;
   icon_url: string;
   banner_path: string;
