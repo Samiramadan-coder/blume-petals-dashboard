@@ -19,7 +19,13 @@
     "Seasonal": "Seasonal",
     "Wedding": "Wedding",
     "Eid": "Eid",
-    "Corporate": "Corporate"
+    "Corporate": "Corporate",
+    "Visible": "Live",
+    "Hidden": "Hidden",
+    "VisibilityUpdated": "Category visibility updated successfully",
+    "VisibilityUpdateFailed": "Failed to update category visibility. Please try again.",
+    "DeletedSuccessfully": "Deleted successfully",
+    "DeleteFailed": "Delete failed. Please try again."
   },
   "Auth": {
     "Login": {
@@ -88,8 +94,6 @@
     "NameMinLength": "Category name must be at least 3 characters",
     "SelectIcon": "Select an icon",
     "SelectColor": "Select a color",
-    "Visible": "Live",
-    "Hidden": "Hidden",
     "Items": "Items",
     "SlugIsRequired": "Slug is required",
     "SlugMinLength": "Slug must be at least 3 characters",
@@ -105,9 +109,7 @@
     "CategoryUpdatedSuccessfully": "Category updated successfully",
     "CategoryDeletedSuccessfully": "Category deleted successfully",
     "CategoryCreationFailed": "Failed to create category. Please try again.",
-    "CategoryUpdateFailed": "Failed to update category. Please try again.",
-    "VisibilityUpdated": "Category visibility updated successfully",
-    "VisibilityUpdateFailed": "Failed to update category visibility. Please try again."
+    "CategoryUpdateFailed": "Failed to update category. Please try again."
   },
   "Products": {
     "Products": "Products",

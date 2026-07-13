@@ -1,7 +1,7 @@
 import { http } from "@/lib/http";
 import { getTranslations } from "next-intl/server";
 import DataPreview from "@/components/occasions/data-preview";
-import { OccasionCollectionResponse } from "@/types/occasions";
+import { OccasionResponse } from "@/types/occasions";
 import occasions from "@/data/occasions.json";
 
 export async function generateMetadata() {
@@ -13,7 +13,7 @@ export async function generateMetadata() {
 }
 
 export default async function OccasionsCollectionsPage() {
-  // const { data, ok } = await http.get<OccasionCollectionResponse>(
+  // const { data, ok } = await http.get<OccasionResponse>(
   //   "/api/v1/admin/occasions",
   //   {
   //     cache: "force-cache",
@@ -28,9 +28,8 @@ export default async function OccasionsCollectionsPage() {
   return (
     <main className="space-y-6">
       <DataPreview
-        initialOccasionsCollections={
-          occasions.data
-            .items as unknown as OccasionCollectionResponse["data"]["items"]
+        initialOccasions={
+          occasions.data.items as unknown as OccasionResponse["data"]["items"]
         }
       />
     </main>

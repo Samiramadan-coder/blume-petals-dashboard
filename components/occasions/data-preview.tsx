@@ -7,20 +7,23 @@ import { TableCell } from "../ui/table";
 import EditBtn from "../reusable/edit-btn";
 import DeleteBtn from "../reusable/delete-btn";
 import { columns } from "@/constants/occasions";
-import { OccasionCollection } from "@/types/occasions";
+import { Occasion } from "@/types/occasions";
 import { useLocale, useTranslations } from "next-intl";
 import { ReorderableDataTable } from "../reusable/date-sortable-table";
+import { Badge } from "../ui/badge";
+import { Switch } from "../ui/switch";
+import { toast } from "sonner";
 
 export default function DataPreview({
-  initialOccasionsCollections,
+  initialOccasions,
 }: {
-  initialOccasionsCollections: OccasionCollection[];
+  initialOccasions: Occasion[];
 }) {
   const t = useTranslations("Occasions");
+  const tCommon = useTranslations("Common");
   const locale = useLocale();
-  const [occasionsCollections, setOccasionsCollections] = useState(
-    initialOccasionsCollections,
-  );
+  const [occasions, setOccasions] = useState(initialOccasions);
+  const [loadingDelete, setLoadingDelete] = useState(false);
 
   return (
     <>
@@ -42,24 +45,62 @@ export default function DataPreview({
       </header>
 
       <ReorderableDataTable
-        data={occasionsCollections}
+        data={occasions}
         getRowId={(row) => row.id}
-        onReorder={(newOccasionsCollections) => {
-          setOccasionsCollections(newOccasionsCollections);
+        onReorder={(newOccasions) => {
+          setOccasions(newOccasions);
         }}
-        rowsCount={occasionsCollections.length}
+        rowsCount={occasions.length}
         countUnit="occasions collections"
         columns={columns(t)}
-        renderCells={(occasionCollection) => (
+        renderCells={(occasion) => (
           <>
             <TableCell className="px-4 py-3">-</TableCell>
-            <TableCell className="px-4 py-3">-</TableCell>
-            <TableCell className="px-4 py-3">-</TableCell>
-            <TableCell className="px-4 py-3">-</TableCell>
-            <TableCell className="px-4 py-3">-</TableCell>
+
             <TableCell className="px-4 py-3">
-              <CreateEdit occasion={occasionCollection} trigger={<EditBtn />} />
-              <DeleteBtn />
+              <p className="font-semibold">{occasion.name[locale]}</p>
+              <p className="text-muted-foreground text-xs mt-1">
+                /{occasion.slug}
+              </p>
+            </TableCell>
+
+            <TableCell className="px-4 py-3">-</TableCell>
+
+            <TableCell className="px-4 py-3">
+              <Switch
+                checked={occasion.is_visible}
+                onClick={async () => {
+                  // const result = await updateOccasionVisibilityAction(occasion);
+                  // if (result.success) {
+                  //   toast.success(t("VisibilityUpdated"));
+                  //   return;
+                  // }
+                  // toast.error(t("VisibilityUpdateFailed"));
+                }}
+              />
+            </TableCell>
+
+            <TableCell className="px-4 py-3">
+              <Badge className="bg-secondary/20 text-secondary">
+                {occasion.is_visible ? tCommon("Visible") : tCommon("Hidden")}
+              </Badge>
+            </TableCell>
+
+            <TableCell className="px-4 py-3">
+              <CreateEdit occasion={occasion} trigger={<EditBtn />} />
+              <DeleteBtn
+                onDelete={async () => {
+                  // setLoadingDelete(true);
+                  // const result = await deleteOccasionAction(occasion);
+                  // setLoadingDelete(false);
+                  // if (result.success) {
+                  //   toast.success(tCommon("DeletedSuccessfully"));
+                  //   return;
+                  // }
+                  // toast.error(tCommon("DeleteFailed"));
+                }}
+                loading={loadingDelete}
+              />
             </TableCell>
           </>
         )}

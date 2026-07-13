@@ -1,9 +1,9 @@
 "use client";
 
 import {
-  OccasionCollection,
+  Occasion,
   occasionCollectionSchema,
-  OccasionCollectionFormValues,
+  OccasionFormValues,
 } from "@/types/occasions";
 import Input from "../form/input";
 import Footer from "../form/footer";
@@ -31,7 +31,7 @@ import SingleImageUploader from "../form/single-image-uploader";
 import LocaleFormSwitcher from "../reusable/locale-form-switcher";
 
 // Get default values for the form based on the occasion collection data
-function getDefaultValues(occasion?: OccasionCollection) {
+function getDefaultValues(occasion?: Occasion) {
   return {
     banner: occasion?.banner_url || "",
     name: occasion?.name || { en: "", ar: "" },
@@ -51,7 +51,7 @@ export default function CreateEdit({
   occasion,
   trigger,
 }: {
-  occasion?: OccasionCollection;
+  occasion?: Occasion;
   trigger?: React.ReactNode;
 }) {
   const form = useRef<HTMLFormElement>(null);
@@ -72,7 +72,7 @@ export default function CreateEdit({
     setValue,
     clearErrors,
     formState: { errors },
-  } = useForm<OccasionCollectionFormValues>({
+  } = useForm<OccasionFormValues>({
     defaultValues: getDefaultValues(occasion),
     resolver: zodResolver(
       occasionCollectionSchema((key) => tLive(key as never)),
@@ -111,7 +111,7 @@ export default function CreateEdit({
     }
   }, [watchSlug]);
 
-  const onSubmit = (values: OccasionCollectionFormValues) => {
+  const onSubmit = (values: OccasionFormValues) => {
     console.log("Occasion collection form values:", values);
   };
 
@@ -179,7 +179,7 @@ export default function CreateEdit({
 
             <SectionLabel>{tLive("Labels.Details")}</SectionLabel>
             {availableLocales.map((lang) => (
-              <Input<OccasionCollectionFormValues>
+              <Input<OccasionFormValues>
                 key={lang}
                 label={tLive("Fields.Name")}
                 placeholder={tLive("Placeholders.Name")}
@@ -192,7 +192,7 @@ export default function CreateEdit({
               />
             ))}
 
-            <Input<OccasionCollectionFormValues>
+            <Input<OccasionFormValues>
               label={tLive("Fields.Slug")}
               placeholder={tLive("Placeholders.Slug")}
               name="slug"
@@ -204,7 +204,7 @@ export default function CreateEdit({
               description={tLive("Labels.SlugHint")}
             />
 
-            <NormalFormSelect<OccasionCollectionFormValues>
+            <NormalFormSelect<OccasionFormValues>
               control={control}
               name="type"
               label={tLive("Fields.Type")}
@@ -311,7 +311,7 @@ export default function CreateEdit({
 
             <Separator className="bg-border" />
             <SectionLabel>{tLive("Labels.Visibility")}</SectionLabel>
-            <Switch<OccasionCollectionFormValues>
+            <Switch<OccasionFormValues>
               name="is_visible"
               control={control}
               label={tLive("Labels.VisibilityLabel")}

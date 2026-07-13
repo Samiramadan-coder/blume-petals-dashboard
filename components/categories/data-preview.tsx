@@ -26,6 +26,7 @@ export default function DataPreview({
   const [loadingDelete, setLoadingDelete] = useState(false);
   const [categories, setCategories] = useState(initialCategories);
   const t = useTranslations("Categories");
+  const tCommon = useTranslations("Common");
   const locale = useLocale();
 
   return (
@@ -78,18 +79,18 @@ export default function DataPreview({
                   const result = await updateCategoryVisibilityAction(category);
 
                   if (result.success) {
-                    toast.success(t("VisibilityUpdated"));
+                    toast.success(tCommon("VisibilityUpdated"));
                     return;
                   }
 
-                  toast.error(t("VisibilityUpdateFailed"));
+                  toast.error(tCommon("VisibilityUpdateFailed"));
                 }}
               />
             </TableCell>
 
             <TableCell className="px-4 py-3">
               <Badge className="bg-secondary/20 text-secondary">
-                {category.is_visible ? t("Visible") : t("Hidden")}
+                {category.is_visible ? tCommon("Visible") : tCommon("Hidden")}
               </Badge>
             </TableCell>
 
@@ -103,11 +104,11 @@ export default function DataPreview({
                   setLoadingDelete(false);
 
                   if (result.success) {
-                    toast.success(t("CategoryDeleted"));
+                    toast.success(tCommon("DeletedSuccessfully"));
                     return;
                   }
 
-                  toast.error(t("CategoryDeleteFailed"));
+                  toast.error(tCommon("DeleteFailed"));
                 }}
                 loading={loadingDelete}
               />

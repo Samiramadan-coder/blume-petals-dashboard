@@ -46,17 +46,17 @@ export const occasionCollectionSchema = (t: T) =>
       // }
     });
 
-export type OccasionCollectionFormValues = z.infer<
+export type OccasionFormValues = z.infer<
   ReturnType<typeof occasionCollectionSchema>
 >;
 
-export type OccasionCollectionType = OccasionCollectionFormValues["type"];
+export type OccasionType = OccasionFormValues["type"];
 
-export type OccasionCollection = {
+export type Occasion = {
   id: number;
   name: { ar: string; en: string };
   slug: string;
-  type: OccasionCollectionType;
+  type: OccasionType;
   color: string;
   banner_path: string;
   banner_url: string;
@@ -65,9 +65,9 @@ export type OccasionCollection = {
   updated_at: string;
 };
 
-export type OccasionCollectionResponse = {
+export type OccasionResponse = {
   data: {
-    items: OccasionCollection[];
+    items: Occasion[];
     pagination: Pagination;
   };
 };
