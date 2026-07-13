@@ -1,5 +1,42 @@
 import { DataTableColumn } from "@/components/reusable/date-sortable-table";
-import { OccasionCollection } from "@/types/occasions-collections";
+import { OccasionCollectionType } from "@/types/occasions";
+import { T } from "@/types/shared";
+
+export const categoryTypes = (
+  t: T,
+): {
+  label: string;
+  value: OccasionCollectionType;
+}[] => [
+  {
+    label: t("Bouquet"),
+    value: "bouquet",
+  },
+  {
+    label: t("Preserved"),
+    value: "preserved",
+  },
+  {
+    label: t("Gift"),
+    value: "gift",
+  },
+  {
+    label: t("Seasonal"),
+    value: "seasonal",
+  },
+  {
+    label: t("Wedding"),
+    value: "wedding",
+  },
+  {
+    label: t("Eid"),
+    value: "eid",
+  },
+  {
+    label: t("Corporate"),
+    value: "corporate",
+  },
+];
 
 export const columns: DataTableColumn[] = [
   {
@@ -25,29 +62,6 @@ export const columns: DataTableColumn[] = [
   {
     key: "actions",
     label: "Actions",
-  },
-];
-
-export const initialOccasionsCollections: OccasionCollection[] = [
-  {
-    id: 1,
-    banner: "/icon.png",
-    name: "Bouquet",
-    startDate: "2023-01-01",
-    endDate: "2023-12-31",
-    products: 24,
-    visibility: true,
-    color: "#FFFFF0",
-  },
-  {
-    id: 2,
-    banner: "/icon.png",
-    name: "Preserved",
-    startDate: "2023-01-01",
-    endDate: "2023-12-31",
-    products: 12,
-    visibility: false,
-    color: "#DCAE96",
   },
 ];
 

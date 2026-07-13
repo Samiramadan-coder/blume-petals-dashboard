@@ -5,8 +5,8 @@ import CreateEdit from "./create-edit";
 import { TableCell } from "../ui/table";
 import EditBtn from "../reusable/edit-btn";
 import DeleteBtn from "../reusable/delete-btn";
-import { columns } from "@/constants/occasions-collections";
-import { OccasionCollection } from "@/types/occasions-collections";
+import { columns } from "@/constants/occasions";
+import { OccasionCollection } from "@/types/occasions";
 import { ReorderableDataTable } from "../reusable/date-sortable-table";
 
 export default function DataPreview({

@@ -90,7 +90,7 @@ export const navigation: DashboardNavigationItem[] = [
   },
   {
     label: "sidebar.navigation.occasionsCollections",
-    href: "/occasions-collections",
+    href: "/occasions",
     type: "link",
     icon: createElement(Boxes, { className: "h-4 w-4" }),
   },

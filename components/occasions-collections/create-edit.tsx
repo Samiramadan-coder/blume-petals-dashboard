@@ -4,7 +4,7 @@ import {
   OccasionCollection,
   OccasionCollectionFormValues,
   occasionCollectionSchema,
-} from "@/types/occasions-collections";
+} from "@/types/occasions";
 import { useRef } from "react";
 import { cn } from "@/lib/utils";
 import { Check } from "lucide-react";
@@ -19,7 +19,7 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "../form/input";
 import Switch from "../form/switch";
-import { colors } from "@/constants/occasions-collections";
+import { colors } from "@/constants/occasions";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import SingleImageUploader from "../form/single-image-uploader";
 import DayMonthPicker from "../form/day-month-picker";

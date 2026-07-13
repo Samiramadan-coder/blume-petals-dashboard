@@ -1,6 +1,6 @@
 import z from "zod";
 import { Pagination, T } from "./shared";
-import { typesEnum } from "@/constants/categories";
+import { typesEnum } from "@/constants/shared";
 
 const imageSchema = z.union([z.string(), z.instanceof(Blob)]);
 

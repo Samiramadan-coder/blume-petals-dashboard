@@ -195,5 +195,13 @@
       "DustyRose": "Dusty Rose",
       "Units": "Units"
     }
+  },
+  "Occasions": {
+    "Errors": {
+      "OccasionCollectionNameRequired": "Occasion/Collection name is required",
+      "OccasionCollectionNameMinLength": "Occasion/Collection name must be at least 2 characters",
+      "OccasionCollectionTypeRequired": "Occasion/Collection type is required",
+      "OccasionCollectionColorRequired": "Occasion/Collection color is required"
+    }
   }
 }
