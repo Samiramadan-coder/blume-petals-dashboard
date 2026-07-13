@@ -2,10 +2,19 @@ import DataPreview from "@/components/categories/data-preview";
 import { http } from "@/lib/http";
 import categoriesRes from "@/data/categories.json";
 import { Category, CategoryResponse } from "@/types/categories";
+import { getTranslations } from "next-intl/server";
 
-export const metadata = {
-  title: "Categories",
-};
+// export const metadata = {
+//   title: "Categories",
+// };
+
+export async function generateMetadata() {
+  const t = await getTranslations("Categories");
+
+  return {
+    title: t("Categories"),
+  };
+}
 
 export default async function CategoriesPage() {
   // console.log(categoriesRes);

@@ -1,8 +1,13 @@
 import DataPreview from "@/components/occasions/data-preview";
+import { getTranslations } from "next-intl/server";
 
-export const metadata = {
-  title: "Occasions & Collections",
-};
+export async function generateMetadata() {
+  const t = await getTranslations("Occasions");
+
+  return {
+    title: t("Title"),
+  };
+}
 
 export default function OccasionsCollectionsPage() {
   return (
