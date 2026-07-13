@@ -1,18 +1,18 @@
 "use client";
 
-import { useRef } from "react";
-import Image from "next/image";
 import {
   Controller,
+  type Path,
   type Control,
   type FieldValues,
-  type Path,
 } from "react-hook-form";
-import { Image as ImageIcon, X } from "lucide-react";
-
-import { Field, FieldContent, FieldError, FieldLabel } from "../ui/field";
-import { Button } from "../ui/button";
+import { useRef } from "react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { Button } from "../ui/button";
+import { Image as ImageIcon, Plus, X } from "lucide-react";
+import { Field, FieldContent, FieldError, FieldLabel } from "../ui/field";
+import { useTranslations } from "next-intl";
 
 type ImageValue = string | Blob | null;
 
@@ -33,6 +33,7 @@ export default function SingleFormImageUploader<T extends FieldValues>({
   className,
   accept = "image/*",
 }: SingleFormImageUploaderProps<T>) {
+  const t = useTranslations("Common");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   return (
@@ -98,7 +99,7 @@ export default function SingleFormImageUploader<T extends FieldValues>({
                       onClick={() => fileInputRef.current?.click()}
                     >
                       <ImageIcon className="size-6" />
-                      <span className="text-xs">Add Photo</span>
+                      <Plus className="size-4" />
                     </div>
                   )}
 
@@ -109,9 +110,7 @@ export default function SingleFormImageUploader<T extends FieldValues>({
                     className="hidden"
                     onChange={(event) => {
                       const file = event.target.files?.[0];
-
                       if (!file) return;
-
                       field.onChange(file);
                       event.target.value = "";
                     }}

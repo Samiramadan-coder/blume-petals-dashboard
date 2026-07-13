@@ -1,12 +1,10 @@
 "use server";
 
-import { Category, CategoryFormValues } from "@/types/categories";
 import { updateTag } from "next/cache";
 import { http, ValidationError } from "@/lib/http";
+import { Category, CategoryFormValues } from "@/types/categories";
 
-/**
- * Post And Put Category Actions
- */
+// Post And Put Category Actions
 type PostAndPutCategoryResult =
   | { success: true }
   | {
@@ -73,9 +71,7 @@ export async function postCategoryAction(
   }
 }
 
-/**
- * Update Visibility Action
- */
+// Update Visibility Action
 type UpdateCategoryVisibilityResult = { success: boolean };
 
 export async function updateCategoryVisibilityAction(
@@ -94,9 +90,7 @@ export async function updateCategoryVisibilityAction(
   }
 }
 
-/**
- * Delete Category Action
- */
+// Delete Category Action
 type DeleteCategoryResult = { success: boolean };
 
 export async function deleteCategoryAction(

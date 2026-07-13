@@ -11,7 +11,8 @@
     "DeleteConfirmation": "Are you sure you want to delete this item? This action cannot be undone.",
     "Confirmation": "Confirmation",
     "Error": "Error",
-    "ErrorOccurred": "An error occurred while processing your request. Please try again."
+    "ErrorOccurred": "An error occurred while processing your request. Please try again.",
+    "AddPhoto": "Add Photo"
   },
   "Auth": {
     "Login": {

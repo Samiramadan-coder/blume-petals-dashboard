@@ -26,9 +26,9 @@ import { useLocale, useTranslations } from "next-intl";
 import { useFormLocale } from "@/hooks/use-form-locale";
 import { postCategoryAction } from "@/lib/categories-actions";
 import { categoryTypes, colors } from "@/constants/categories";
-import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../ui/sheet";
 import LocaleFormSwitcher from "../reusable/locale-form-switcher";
 import SingleFormImageUploader from "../form/single-image-uploader";
+import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Controller, useForm, useWatch, SubmitHandler } from "react-hook-form";
 
 // Generate default values for the form based on the provided category or return empty values if no category is provided
@@ -239,7 +239,7 @@ export default function CreateEdit({ category, trigger }: CreateEditProps) {
               control={control}
               name="type"
               label={tLive("Type")}
-              options={categoryTypes}
+              options={categoryTypes((key) => tLive(key as never))}
               required
               placeholder={tLive("SelectType")}
               dir={dir}
@@ -257,70 +257,6 @@ export default function CreateEdit({ category, trigger }: CreateEditProps) {
               name="banner"
               label={tLive("Banner")}
             />
-
-            {/* <Separator className="bg-border" />
-            <SectionLabel>{tLive("Icon")}</SectionLabel>
-            <Controller
-              name="icon"
-              control={control}
-              render={({ field }) => {
-                const selectedIcon = field.value ?? "";
-
-                return (
-                  <div className="space-y-1.5">
-                    <div className="flex flex-wrap gap-3">
-                      {icons((key) => tLive(key as never)).map((icon) => {
-                        const isSelected = selectedIcon === icon.id;
-                        const selectedColor = watchColor;
-
-                        return (
-                          <div
-                            key={icon.id}
-                            className="cursor-pointer"
-                            onClick={() => {
-                              const nextIcon = isSelected ? undefined : icon.id;
-                              field.onChange(nextIcon);
-                            }}
-                          >
-                            <Card
-                              className={cn(
-                                "w-25 h-25 border grid place-content-center",
-                                { "border-2 border-primary": isSelected },
-                              )}
-                            >
-                              <CardContent>
-                                <div
-                                  className={cn(
-                                    "w-13 h-13 grid place-content-center rounded-full",
-                                    !selectedColor &&
-                                      "text-[#b88686] bg-[#f4c2c233]",
-                                  )}
-                                  style={
-                                    selectedColor
-                                      ? {
-                                          color: selectedColor,
-                                          backgroundColor: `${selectedColor}20`,
-                                        }
-                                      : undefined
-                                  }
-                                >
-                                  {icon.icon}
-                                </div>
-                                <p className="text-xs text-center mt-1">
-                                  {icon.label}
-                                </p>
-                              </CardContent>
-                            </Card>
-                          </div>
-                        );
-                      })}
-                    </div>
-
-                    <FieldError errors={[errors.icon]} />
-                  </div>
-                );
-              }}
-            /> */}
 
             <Separator className="bg-border" />
             <SectionLabel>{tLive("Color")}</SectionLabel>

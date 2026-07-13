@@ -1,53 +1,45 @@
-// import {
-//   Flower2,
-//   Balloon,
-//   Gift,
-//   Sun,
-//   Gem,
-//   Moon,
-//   BriefcaseBusiness,
-// } from "lucide-react";
 import { T } from "@/types/shared";
-// import { createElement } from "react";
-// import { Category, Icon } from "@/types/categories";
-import { DataTableColumn } from "@/components/reusable/date-sortable-table";
 import { CategoryType } from "@/types/categories";
+import { DataTableColumn } from "@/components/reusable/date-sortable-table";
 
 // Categories Types
-export const categoryTypes: {
+export const categoryTypes = (
+  t: T,
+): {
   label: string;
   value: CategoryType;
-}[] = [
+}[] => [
   {
-    label: "Bouquet",
+    label: t("Bouquet"),
     value: "bouquet",
   },
   {
-    label: "Preserved",
+    label: t("Preserved"),
     value: "preserved",
   },
   {
-    label: "Gift",
+    label: t("Gift"),
     value: "gift",
   },
   {
-    label: "Seasonal",
+    label: t("Seasonal"),
     value: "seasonal",
   },
   {
-    label: "Wedding",
+    label: t("Wedding"),
     value: "wedding",
   },
   {
-    label: "Eid",
+    label: t("Eid"),
     value: "eid",
   },
   {
-    label: "Corporate",
+    label: t("Corporate"),
     value: "corporate",
   },
 ];
 
+// Categories Types Enum
 export const typesEnum = [
   "bouquet",
   "preserved",
@@ -72,44 +64,7 @@ export const colors: string[] = [
   "#d4e4bc",
 ];
 
-// export const icons = (t: T): Icon[] => [
-//   {
-//     id: 1,
-//     icon: createElement(Flower2, { className: "size-5" }),
-//     label: t("Bouquet"),
-//   },
-//   {
-//     id: 2,
-//     icon: createElement(Balloon, { className: "size-5" }),
-//     label: t("Preserved"),
-//   },
-//   {
-//     id: 3,
-//     icon: createElement(Gift, { className: "size-5" }),
-//     label: t("Gift"),
-//   },
-//   {
-//     id: 4,
-//     icon: createElement(Sun, { className: "size-5" }),
-//     label: t("Seasonal"),
-//   },
-//   {
-//     id: 5,
-//     icon: createElement(Gem, { className: "size-5" }),
-//     label: t("Wedding"),
-//   },
-//   {
-//     id: 6,
-//     icon: createElement(Moon, { className: "size-5" }),
-//     label: t("Eid"),
-//   },
-//   {
-//     id: 7,
-//     icon: createElement(BriefcaseBusiness, { className: "size-5" }),
-//     label: t("Corporate"),
-//   },
-// ];
-
+// Categories Columns
 export const columns = (t: T): DataTableColumn[] => [
   {
     key: "name",
@@ -132,86 +87,3 @@ export const columns = (t: T): DataTableColumn[] => [
     label: t("Actions"),
   },
 ];
-
-// export const initialCategories: Category[] = [
-//   {
-//     id: 1,
-//     name: { ar: "باقة", en: "Bouquet" },
-//     visibility: true,
-//     status: "live",
-//     color: "#ffcba4",
-//     icon: 1,
-//   },
-//   {
-//     id: 2,
-//     name: { ar: "محفوظة", en: "Preserved" },
-//     visibility: false,
-//     status: "live",
-//     color: "#dcae96",
-//     icon: 2,
-//   },
-//   {
-//     id: 3,
-//     name: { ar: "محفوظة", en: "Preserved" },
-//     visibility: false,
-//     status: "live",
-//     color: "#dcae96",
-//     icon: 2,
-//   },
-//   {
-//     id: 4,
-//     name: { ar: "محفوظة", en: "Preserved" },
-//     visibility: false,
-//     status: "live",
-//     color: "#dcae96",
-//     icon: 2,
-//   },
-//   {
-//     id: 5,
-//     name: { ar: "محفوظة", en: "Preserved" },
-//     visibility: false,
-//     status: "live",
-//     color: "#dcae96",
-//     icon: 2,
-//   },
-//   {
-//     id: 6,
-//     name: { ar: "محفوظة", en: "Preserved" },
-//     visibility: false,
-//     status: "live",
-//     color: "#dcae96",
-//     icon: 2,
-//   },
-//   {
-//     id: 7,
-//     name: { ar: "محفوظة", en: "Preserved" },
-//     visibility: false,
-//     status: "live",
-//     color: "#dcae96",
-//     icon: 2,
-//   },
-//   {
-//     id: 8,
-//     name: { ar: "محفوظة", en: "Preserved" },
-//     visibility: false,
-//     status: "live",
-//     color: "#dcae96",
-//     icon: 2,
-//   },
-//   {
-//     id: 9,
-//     name: { ar: "محفوظة", en: "Preserved" },
-//     visibility: false,
-//     status: "live",
-//     color: "#dcae96",
-//     icon: 2,
-//   },
-//   {
-//     id: 10,
-//     name: { ar: "محفوظة", en: "Preserved" },
-//     visibility: false,
-//     status: "live",
-//     color: "#dcae96",
-//     icon: 2,
-//   },
-// ];

@@ -88,7 +88,15 @@ export default function NormalFormSelect<T extends FieldValues>({
                     {groupLabel && <SelectLabel>{groupLabel}</SelectLabel>}
 
                     {options.map((option) => (
-                      <SelectItem key={option.value} value={option.value}>
+                      <SelectItem
+                        key={option.value}
+                        value={option.value}
+                        dir={dir}
+                        className={cn({
+                          "font-cairo!": dir === "rtl",
+                          "font-inter!": dir !== "ltr",
+                        })}
+                      >
                         {option.label}
                       </SelectItem>
                     ))}
