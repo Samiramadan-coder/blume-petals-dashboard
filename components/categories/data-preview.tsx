@@ -1,7 +1,14 @@
 "use client";
 
+import {
+  deleteCategoryAction,
+  updateCategoryVisibilityAction,
+} from "@/lib/categories-actions";
+import { toast } from "sonner";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { Badge } from "../ui/badge";
+import { Switch } from "../ui/switch";
 import CreateEdit from "./create-edit";
 import { TableCell } from "../ui/table";
 import EditBtn from "../reusable/edit-btn";
@@ -10,13 +17,6 @@ import DeleteBtn from "../reusable/delete-btn";
 import { columns } from "@/constants/categories";
 import { useLocale, useTranslations } from "next-intl";
 import { ReorderableDataTable } from "../reusable/date-sortable-table";
-import { Switch } from "../ui/switch";
-import { Badge } from "../ui/badge";
-import {
-  deleteCategoryAction,
-  updateCategoryVisibilityAction,
-} from "@/lib/categories-actions";
-import { toast } from "sonner";
 
 export default function DataPreview({
   initialCategories,
