@@ -195,5 +195,33 @@
       "DustyRose": "وردي مغبر",
       "Units": "وحدات"
     }
+  },
+  "Occasions": {
+    "Errors": {
+      "OccasionCollectionNameRequired": "اسم المناسبة/المجموعة مطلوب",
+      "OccasionCollectionNameMinLength": "يجب أن يكون اسم المناسبة/المجموعة مكونًا من حرفين على الأقل",
+      "OccasionCollectionTypeRequired": "نوع المناسبة/المجموعة مطلوب",
+      "OccasionCollectionColorRequired": "لون المناسبة/المجموعة مطلوب"
+    },
+    "Labels": {
+      "AddOccasionCollection": "إضافة مناسبة/مجموعة",
+      "EditOccasionCollection": "تحرير مناسبة/مجموعة",
+      "OccasionCollectionDescription": "إنشاء مناسبة أو مجموعة جديدة",
+      "Details": "تفاصيل",
+      "Color": "اللون",
+      "SelectType": "اختر النوع",
+      "ColorDescription": "يُستخدم للبنرات والتراكبات ونداءات الإجراء لهذه المناسبة.",
+      "Visibility": "الرؤية",
+      "VisibilityLabel": "عرض في واجهة المتجر",
+      "VisibilityDescription": "المناسبة مرئية للعملاء"
+    },
+    "Fields": {
+      "Banner": "البانر",
+      "Name": "اسم المناسبة/المجموعة",
+      "Type": "النوع"
+    },
+    "Placeholders": {
+      "Name": "أدخل اسم المناسبة/المجموعة"
+    }
   }
 }

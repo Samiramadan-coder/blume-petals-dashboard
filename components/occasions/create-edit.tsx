@@ -2,27 +2,49 @@
 
 import {
   OccasionCollection,
-  OccasionCollectionFormValues,
   occasionCollectionSchema,
+  OccasionCollectionFormValues,
 } from "@/types/occasions";
 import { useRef } from "react";
 import { cn } from "@/lib/utils";
+import Input from "../form/input";
+import Footer from "../form/footer";
+import Header from "../form/header";
+import Switch from "../form/switch";
 import { Check } from "lucide-react";
 import { Button } from "../ui/button";
 import { FieldError } from "../ui/field";
-import { Separator } from "../ui/separator";
-import Footer from "../form/footer";
-import Header from "../form/header";
-import SectionLabel from "../form/section-label";
 import AddButton from "../form/add-button";
-import { Controller, useForm } from "react-hook-form";
+import { Separator } from "../ui/separator";
+import NormalFormSelect from "../form/select";
+import SectionLabel from "../form/section-label";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Input from "../form/input";
-import Switch from "../form/switch";
-import { colors } from "@/constants/occasions";
+// import DayMonthPicker from "../form/day-month-picker";
+import { availableLocales } from "@/constants/shared";
+import { useLocale, useTranslations } from "next-intl";
+import { useFormLocale } from "@/hooks/use-form-locale";
+import { colors, occasionTypes } from "@/constants/occasions";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import SingleImageUploader from "../form/single-image-uploader";
-import DayMonthPicker from "../form/day-month-picker";
+import LocaleFormSwitcher from "../reusable/locale-form-switcher";
+
+// Get default values for the form based on the occasion collection data
+function getDefaultValues(occasion?: OccasionCollection) {
+  return {
+    banner: occasion?.banner || "",
+    name: occasion?.name || { en: "", ar: "" },
+    // startDate: occasion?.startDate || "",
+    // endDate: occasion?.endDate || "",
+    // visibility: occasion?.visibility ?? true,
+    color: occasion?.color || "",
+  };
+}
+
+// Get a list of colors, including the occasion's color if it's not already in the predefined list
+function getListOfColors(color?: string): string[] {
+  return [...colors, ...(color && !colors.includes(color) ? [color] : [])];
+}
 
 export default function CreateEdit({
   occasion,
@@ -32,22 +54,27 @@ export default function CreateEdit({
   trigger?: React.ReactNode;
 }) {
   const form = useRef<HTMLFormElement>(null);
+  const locale = useLocale();
+  const t = useTranslations("Occasions");
+  const { tLive: tLiveCommon, changeLocale: changeLocaleCommon } =
+    useFormLocale("Common");
+  const { tLive, changeLocale, activeLocale, dir, isArabic } =
+    useFormLocale("Occasions");
+
   const {
     register,
     control,
     handleSubmit,
+    clearErrors,
     formState: { errors },
   } = useForm<OccasionCollectionFormValues>({
-    resolver: zodResolver(occasionCollectionSchema),
-    defaultValues: {
-      banner: occasion?.banner || "",
-      name: occasion?.name || "",
-      startDate: occasion?.startDate || "",
-      endDate: occasion?.endDate || "",
-      visibility: occasion?.visibility ?? true,
-      color: occasion?.color || "",
-    },
+    defaultValues: getDefaultValues(occasion),
+    resolver: zodResolver(
+      occasionCollectionSchema((key) => tLive(key as never)),
+    ),
   });
+
+  const watchColor = useWatch({ control, name: "color" });
 
   const onSubmit = (values: OccasionCollectionFormValues) => {
     console.log("Occasion collection form values:", values);
@@ -58,43 +85,79 @@ export default function CreateEdit({
       {trigger ? (
         <SheetTrigger asChild>{trigger}</SheetTrigger>
       ) : (
-        <AddButton label="Add Occasion Collection" />
+        <AddButton label={t("Labels.AddOccasionCollection")} />
       )}
 
       <SheetContent
         showCloseButton={false}
         className="flex h-full flex-col sm:max-w-2xl"
+        side={locale === "ar" ? "left" : "right"}
         onInteractOutside={(event) => event.preventDefault()}
       >
         <Header
-          title="Add Occasion"
-          description="Create a new occasion or collection"
+          title={
+            occasion
+              ? t("Labels.EditOccasionCollection")
+              : t("Labels.AddOccasionCollection")
+          }
+          description={t("Labels.OccasionCollectionDescription")}
         />
 
-        <div className="flex-1 overflow-auto px-4 pb-6 pt-2">
+        <LocaleFormSwitcher
+          locale={activeLocale}
+          onChange={(locale) => {
+            changeLocale(locale);
+            changeLocaleCommon(locale);
+            clearErrors();
+          }}
+        />
+
+        <div
+          className={cn(`flex-1 overflow-auto px-4 pb-6 pt-2`, {
+            "font-cairo": isArabic,
+            "font-inter": !isArabic,
+          })}
+          dir={dir}
+        >
           <form
             ref={form}
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={(e) => {
+              void handleSubmit(onSubmit)(e);
+            }}
             className="space-y-4 relative"
           >
             <SingleImageUploader
               control={control}
               name="banner"
-              label="Banner"
+              label={tLive("Fields.Banner")}
             />
 
-            <SectionLabel>Details</SectionLabel>
-            <Input<OccasionCollectionFormValues>
-              label="Occasion Name"
-              placeholder="Enter Occasion Name"
-              name="name"
-              type="text"
-              register={register}
-              errors={errors}
+            <SectionLabel>{tLive("Labels.Details")}</SectionLabel>
+            {availableLocales.map((lang) => (
+              <Input<OccasionCollectionFormValues>
+                key={lang}
+                label={tLive("Fields.Name")}
+                placeholder={tLive("Placeholders.Name")}
+                name={`name.${lang}` as const}
+                type="text"
+                className={`${activeLocale === lang ? "" : "hidden"}`}
+                register={register}
+                errors={errors}
+                required
+              />
+            ))}
+
+            <NormalFormSelect<OccasionCollectionFormValues>
+              control={control}
+              name="type"
+              label={tLive("Fields.Type")}
+              options={occasionTypes((key) => tLiveCommon(key as never))}
               required
+              placeholder={tLive("Labels.SelectType")}
+              dir={dir}
             />
 
-            <Separator className="bg-border" />
+            {/* <Separator className="bg-border" />
             <SectionLabel>Promotional Date Range</SectionLabel>
             <div className="space-y-3">
               <p className="text-xs text-muted-foreground">
@@ -117,13 +180,13 @@ export default function CreateEdit({
                   required
                 />
               </div>
-            </div>
+            </div> */}
 
             <Separator className="bg-border" />
-            <SectionLabel>Accent Color</SectionLabel>
+            <SectionLabel>{tLive("Labels.Color")}</SectionLabel>
             <div className="space-y-3">
               <p className="text-xs text-muted-foreground">
-                Used for banners, overlays, and CTAs for this occasion.
+                {tLive("Labels.ColorDescription")}
               </p>
               <Controller
                 name="color"
@@ -134,31 +197,47 @@ export default function CreateEdit({
                   return (
                     <div className="space-y-1.5">
                       <div className="flex flex-wrap gap-2">
-                        {colors.map((color) => {
-                          const isSelected = selectedColors === color;
+                        {getListOfColors(occasion?.color || watchColor).map(
+                          (color) => {
+                            const isSelected = selectedColors === color;
 
-                          return (
-                            <Button
-                              key={color}
-                              type="button"
-                              variant="outline"
-                              className={cn(
-                                "h-8 w-8 rounded-full border border-border",
-                                {
-                                  "border-2 border-primary": isSelected,
-                                },
-                              )}
-                              style={{ backgroundColor: color }}
-                              onClick={() => {
-                                const nextColors = isSelected ? "" : color;
+                            return (
+                              <Button
+                                key={color}
+                                type="button"
+                                variant="outline"
+                                className={cn(
+                                  "h-8 w-8 rounded-full border border-border",
+                                  {
+                                    "border-2 border-primary": isSelected,
+                                  },
+                                )}
+                                style={{ backgroundColor: color }}
+                                onClick={() => {
+                                  const nextColors = isSelected ? "" : color;
 
-                                field.onChange(nextColors);
-                              }}
-                            >
-                              {isSelected && <Check />}
-                            </Button>
-                          );
-                        })}
+                                  field.onChange(nextColors);
+                                }}
+                              >
+                                {isSelected && <Check />}
+                              </Button>
+                            );
+                          },
+                        )}
+
+                        <div className="relative h-8 w-8">
+                          <Button
+                            variant="outline"
+                            className="w-8 h-8 rounded-full border-2 border-dashed bg-white cursor-pointer"
+                          ></Button>
+                          <input
+                            type="color"
+                            className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+                            onChange={(event) => {
+                              field.onChange(event.target.value);
+                            }}
+                          />
+                        </div>
                       </div>
 
                       <FieldError errors={[errors.color]} />
@@ -169,12 +248,12 @@ export default function CreateEdit({
             </div>
 
             <Separator className="bg-border" />
-            <SectionLabel>Visibility</SectionLabel>
+            <SectionLabel>{tLive("Labels.Visibility")}</SectionLabel>
             <Switch<OccasionCollectionFormValues>
-              name="visibility"
+              name="is_visible"
               control={control}
-              label="Show on storefront"
-              description="Occasion is visible to customers"
+              label={tLive("Labels.VisibilityLabel")}
+              description={tLive("Labels.VisibilityDescription")}
             />
           </form>
         </div>

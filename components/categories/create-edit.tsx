@@ -45,13 +45,8 @@ function generateDefaultValues(category?: Category): CategoryFormValues {
 }
 
 // Get a list of colors, including the category's color if it's not already in the predefined list
-function getListOfColors(category?: Category): string[] {
-  return [
-    ...colors,
-    ...(category?.color && !colors.includes(category.color)
-      ? [category.color]
-      : []),
-  ];
+function getListOfColors(color?: string): string[] {
+  return [...colors, ...(color && !colors.includes(color) ? [color] : [])];
 }
 
 type CreateEditProps = {
@@ -88,6 +83,7 @@ export default function CreateEdit({ category, trigger }: CreateEditProps) {
   // Watch the name and slug fields to handle automatic slug generation and manual edits
   const watchName = useWatch({ control, name: "name" });
   const watchSlug = useWatch({ control, name: "slug" });
+  const watchColor = useWatch({ control, name: "color" });
 
   // Effect to automatically generate slug based on the name field when it changes, unless the slug has been manually edited
   useEffect(() => {
@@ -272,28 +268,30 @@ export default function CreateEdit({ category, trigger }: CreateEditProps) {
                 return (
                   <div className="space-y-1.5">
                     <div className="flex flex-wrap gap-2">
-                      {getListOfColors(category).map((color) => {
-                        const isSelected = selectedColors === color;
+                      {getListOfColors(category?.color || watchColor).map(
+                        (color) => {
+                          const isSelected = selectedColors === color;
 
-                        return (
-                          <Button
-                            key={color}
-                            type="button"
-                            variant="outline"
-                            style={{ backgroundColor: color }}
-                            className={cn(
-                              "h-8 w-8 rounded-full border border-border",
-                              { "border-2 border-primary": isSelected },
-                            )}
-                            onClick={() => {
-                              const nextColors = isSelected ? "" : color;
-                              field.onChange(nextColors);
-                            }}
-                          >
-                            {isSelected && <Check />}
-                          </Button>
-                        );
-                      })}
+                          return (
+                            <Button
+                              key={color}
+                              type="button"
+                              variant="outline"
+                              style={{ backgroundColor: color }}
+                              className={cn(
+                                "h-8 w-8 rounded-full border border-border",
+                                { "border-2 border-primary": isSelected },
+                              )}
+                              onClick={() => {
+                                const nextColors = isSelected ? "" : color;
+                                field.onChange(nextColors);
+                              }}
+                            >
+                              {isSelected && <Check />}
+                            </Button>
+                          );
+                        },
+                      )}
 
                       <div className="relative h-8 w-8">
                         <Button

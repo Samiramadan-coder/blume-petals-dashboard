@@ -20,6 +20,7 @@ export const occasionCollectionSchema = (t: T) =>
       type: z.enum(typesEnum, t("Errors.OccasionCollectionTypeRequired")),
       color: z.string().min(1, t("Errors.OccasionCollectionColorRequired")),
       banner: imageSchema,
+      is_visible: z.boolean(),
       // slug: z.string().min(1, "Please enter a slug"),
       // startDate: z.string().min(1, "Please select a start date"),
       // endDate: z.string().min(1, "Please select an end date"),

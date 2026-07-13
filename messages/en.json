@@ -202,6 +202,26 @@
       "OccasionCollectionNameMinLength": "Occasion/Collection name must be at least 2 characters",
       "OccasionCollectionTypeRequired": "Occasion/Collection type is required",
       "OccasionCollectionColorRequired": "Occasion/Collection color is required"
+    },
+    "Labels": {
+      "AddOccasionCollection": "Add Occasion/Collection",
+      "EditOccasionCollection": "Edit Occasion/Collection",
+      "OccasionCollectionDescription": "Create a new occasion or collection",
+      "Details": "Details",
+      "Color": "Color",
+      "SelectType": "Select type",
+      "ColorDescription": "Used for banners, overlays, and CTAs for this occasion.",
+      "Visibility": "Visibility",
+      "VisibilityLabel": "Show on storefront",
+      "VisibilityDescription": "Occasion is visible to customers"
+    },
+    "Fields": {
+      "Banner": "Banner",
+      "Name": "Occasion/Collection Name",
+      "Type": "Type"
+    },
+    "Placeholders": {
+      "Name": "Enter Occasion/Collection Name"
     }
   }
 }
