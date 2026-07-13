@@ -93,3 +93,21 @@ export async function updateCategoryVisibilityAction(
     return { success: false };
   }
 }
+
+/**
+ * Delete Category Action
+ */
+type DeleteCategoryResult = { success: boolean };
+
+export async function deleteCategoryAction(
+  category: Category,
+): Promise<DeleteCategoryResult> {
+  try {
+    await http.delete(`/api/v1/admin/categories/${category.id}`);
+    updateTag("categories");
+    return { success: true };
+  } catch (err) {
+    console.error("Error deleting category:", err);
+    return { success: false };
+  }
+}

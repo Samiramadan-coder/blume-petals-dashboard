@@ -12,7 +12,10 @@ import { useLocale, useTranslations } from "next-intl";
 import { ReorderableDataTable } from "../reusable/date-sortable-table";
 import { Switch } from "../ui/switch";
 import { Badge } from "../ui/badge";
-import { updateCategoryVisibilityAction } from "@/lib/categories-actions";
+import {
+  deleteCategoryAction,
+  updateCategoryVisibilityAction,
+} from "@/lib/categories-actions";
 import { toast } from "sonner";
 
 export default function DataPreview({
@@ -20,6 +23,7 @@ export default function DataPreview({
 }: {
   initialCategories: Category[];
 }) {
+  const [loadingDelete, setLoadingDelete] = useState(false);
   const [categories, setCategories] = useState(initialCategories);
   const t = useTranslations("Categories");
   const locale = useLocale();
@@ -77,6 +81,7 @@ export default function DataPreview({
                     toast.success(t("VisibilityUpdated"));
                     return;
                   }
+
                   toast.error(t("VisibilityUpdateFailed"));
                 }}
               />
@@ -90,7 +95,22 @@ export default function DataPreview({
 
             <TableCell className="px-4 py-3">
               <CreateEdit category={category} trigger={<EditBtn />} />
-              <DeleteBtn />
+              <DeleteBtn
+                onDelete={async () => {
+                  setLoadingDelete(true);
+                  const result = await deleteCategoryAction(category);
+
+                  setLoadingDelete(false);
+
+                  if (result.success) {
+                    toast.success(t("CategoryDeleted"));
+                    return;
+                  }
+
+                  toast.error(t("CategoryDeleteFailed"));
+                }}
+                loading={loadingDelete}
+              />
             </TableCell>
           </>
         )}
