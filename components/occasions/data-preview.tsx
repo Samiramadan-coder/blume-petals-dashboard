@@ -1,18 +1,22 @@
 "use client";
 
+import {
+  deleteOccasionAction,
+  updateOccasionVisibilityAction,
+} from "@/lib/occasion-actions";
+import { toast } from "sonner";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { Badge } from "../ui/badge";
+import { Switch } from "../ui/switch";
 import CreateEdit from "./create-edit";
 import { TableCell } from "../ui/table";
 import EditBtn from "../reusable/edit-btn";
+import { Occasion } from "@/types/occasions";
 import DeleteBtn from "../reusable/delete-btn";
 import { columns } from "@/constants/occasions";
-import { Occasion } from "@/types/occasions";
 import { useLocale, useTranslations } from "next-intl";
 import { ReorderableDataTable } from "../reusable/date-sortable-table";
-import { Badge } from "../ui/badge";
-import { Switch } from "../ui/switch";
-import { toast } from "sonner";
 
 export default function DataPreview({
   initialOccasions,
@@ -70,12 +74,14 @@ export default function DataPreview({
               <Switch
                 checked={occasion.is_visible}
                 onClick={async () => {
-                  // const result = await updateOccasionVisibilityAction(occasion);
-                  // if (result.success) {
-                  //   toast.success(t("VisibilityUpdated"));
-                  //   return;
-                  // }
-                  // toast.error(t("VisibilityUpdateFailed"));
+                  const result = await updateOccasionVisibilityAction(occasion);
+
+                  if (result.success) {
+                    toast.success(tCommon("VisibilityUpdated"));
+                    return;
+                  }
+
+                  toast.error(tCommon("VisibilityUpdateFailed"));
                 }}
               />
             </TableCell>
@@ -90,14 +96,17 @@ export default function DataPreview({
               <CreateEdit occasion={occasion} trigger={<EditBtn />} />
               <DeleteBtn
                 onDelete={async () => {
-                  // setLoadingDelete(true);
-                  // const result = await deleteOccasionAction(occasion);
-                  // setLoadingDelete(false);
-                  // if (result.success) {
-                  //   toast.success(tCommon("DeletedSuccessfully"));
-                  //   return;
-                  // }
-                  // toast.error(tCommon("DeleteFailed"));
+                  setLoadingDelete(true);
+                  const result = await deleteOccasionAction(occasion);
+
+                  setLoadingDelete(false);
+
+                  if (result.success) {
+                    toast.success(tCommon("DeletedSuccessfully"));
+                    return;
+                  }
+
+                  toast.error(tCommon("DeleteFailed"));
                 }}
                 loading={loadingDelete}
               />

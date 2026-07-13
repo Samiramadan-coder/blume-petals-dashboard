@@ -22,8 +22,8 @@
     "Corporate": "Corporate",
     "Visible": "Live",
     "Hidden": "Hidden",
-    "VisibilityUpdated": "Category visibility updated successfully",
-    "VisibilityUpdateFailed": "Failed to update category visibility. Please try again.",
+    "VisibilityUpdated": "Visibility updated successfully",
+    "VisibilityUpdateFailed": "Failed to update visibility. Please try again.",
     "DeletedSuccessfully": "Deleted successfully",
     "DeleteFailed": "Delete failed. Please try again."
   },
