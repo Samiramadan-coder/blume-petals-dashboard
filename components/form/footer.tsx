@@ -1,11 +1,14 @@
 import { useTranslations } from "next-intl";
 import { Button } from "../ui/button";
 import { SheetClose, SheetFooter } from "../ui/sheet";
+import { Spinner } from "../ui/spinner";
 
 export default function FormFooter({
   form,
+  loading,
 }: {
   form: React.RefObject<HTMLFormElement | null>;
+  loading?: boolean;
 }) {
   const t = useTranslations("Common");
 
@@ -22,7 +25,7 @@ export default function FormFooter({
           className="h-10 flex-1"
           onClick={() => form.current?.requestSubmit()}
         >
-          {t("Save")}
+          {loading ? <Spinner /> : t("Save")}
         </Button>
       </div>
     </SheetFooter>

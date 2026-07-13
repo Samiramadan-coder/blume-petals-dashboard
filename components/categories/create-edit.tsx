@@ -5,6 +5,7 @@ import {
   CategoryFormValues,
   categorySchema,
 } from "@/types/categories";
+import { toast } from "sonner";
 import Input from "../form/input";
 import Switch from "../form/switch";
 import Footer from "../form/footer";
@@ -23,13 +24,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { availableLocales } from "@/constants/shared";
 import { useLocale, useTranslations } from "next-intl";
 import { useFormLocale } from "@/hooks/use-form-locale";
+import { postCategoryAction } from "@/lib/categories-actions";
 import { categoryTypes, colors } from "@/constants/categories";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import LocaleFormSwitcher from "../reusable/locale-form-switcher";
 import SingleFormImageUploader from "../form/single-image-uploader";
 import { Controller, useForm, useWatch, SubmitHandler } from "react-hook-form";
-import { postCategoryAction } from "@/lib/categories-actions";
-import { toast } from "sonner";
 
 // Generate default values for the form based on the provided category or return empty values if no category is provided
 function generateDefaultValues(category?: Category): CategoryFormValues {
@@ -44,6 +44,7 @@ function generateDefaultValues(category?: Category): CategoryFormValues {
   };
 }
 
+// Get a list of colors, including the category's color if it's not already in the predefined list
 function getListOfColors(category?: Category): string[] {
   return [
     ...colors,
@@ -71,19 +72,21 @@ export default function CreateEdit({ category, trigger }: CreateEditProps) {
     control,
     register,
     setValue,
+    setError,
     getValues,
     clearErrors,
     handleSubmit,
-    setError,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<CategoryFormValues>({
     resolver: zodResolver(categorySchema((key) => tLive(key as never))),
     defaultValues: generateDefaultValues(category),
   });
 
+  // Watch the name and slug fields to handle automatic slug generation and manual edits
   const watchName = useWatch({ control, name: "name" });
   const watchSlug = useWatch({ control, name: "slug" });
 
+  // Effect to automatically generate slug based on the name field when it changes, unless the slug has been manually edited
   useEffect(() => {
     if (isSlugManuallyEdited.current) return;
 
@@ -99,6 +102,7 @@ export default function CreateEdit({ category, trigger }: CreateEditProps) {
     });
   }, [activeLocale, getValues, setValue, watchName]);
 
+  // Effect to detect if the slug has been manually edited by the user
   useEffect(() => {
     if (
       !isSlugManuallyEdited.current &&
@@ -109,11 +113,7 @@ export default function CreateEdit({ category, trigger }: CreateEditProps) {
     }
   }, [watchSlug]);
 
-  // const watchColor = useWatch({
-  //   control,
-  //   name: "color",
-  // });
-
+  // Handle form submission by calling the postCategoryAction function and displaying appropriate success or error messages
   const onSubmit: SubmitHandler<CategoryFormValues> = async (data) => {
     const result = await postCategoryAction(data);
 
@@ -381,7 +381,7 @@ export default function CreateEdit({ category, trigger }: CreateEditProps) {
             />
           </form>
         </div>
-        <Footer form={form} />
+        <Footer form={form} loading={isSubmitting} />
       </SheetContent>
     </Sheet>
   );
