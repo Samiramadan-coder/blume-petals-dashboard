@@ -197,31 +197,46 @@
     }
   },
   "Occasions": {
+    "Title": "مجموعات المناسبات",
+    "Description": "نظم منتجاتك وتحكم فيما يظهر في واجهة المتجر.",
     "Errors": {
       "OccasionCollectionNameRequired": "اسم المناسبة/المجموعة مطلوب",
       "OccasionCollectionNameMinLength": "يجب أن يكون اسم المناسبة/المجموعة مكونًا من حرفين على الأقل",
       "OccasionCollectionTypeRequired": "نوع المناسبة/المجموعة مطلوب",
-      "OccasionCollectionColorRequired": "لون المناسبة/المجموعة مطلوب"
+      "OccasionCollectionColorRequired": "لون المناسبة/المجموعة مطلوب",
+      "OccasionCollectionSlugRequired": "رابط المناسبة/المجموعة مطلوب",
+      "OccasionCollectionSlugMinLength": "يجب أن يكون رابط المناسبة/المجموعة مكونًا من حرفين على الأقل"
     },
     "Labels": {
       "AddOccasionCollection": "إضافة مناسبة/مجموعة",
-      "EditOccasionCollection": "تحرير مناسبة/مجموعة",
+      "EditOccasionCollection": "تحرير المناسبة/المجموعة",
       "OccasionCollectionDescription": "إنشاء مناسبة أو مجموعة جديدة",
       "Details": "تفاصيل",
-      "Color": "اللون",
+      "Color": "لون",
       "SelectType": "اختر النوع",
-      "ColorDescription": "يُستخدم للبنرات والتراكبات ونداءات الإجراء لهذه المناسبة.",
+      "ColorDescription": "يُستخدم للبنرات والتراكبات وCTAs لهذه المناسبة.",
       "Visibility": "الرؤية",
-      "VisibilityLabel": "عرض في واجهة المتجر",
-      "VisibilityDescription": "المناسبة مرئية للعملاء"
+      "VisibilityLabel": "عرض في المتجر",
+      "VisibilityDescription": "المناسبة مرئية للعملاء",
+      "SlugHint": "مسار URL المستخدم في المتجر"
     },
     "Fields": {
-      "Banner": "البانر",
+      "Banner": "بانر",
       "Name": "اسم المناسبة/المجموعة",
-      "Type": "النوع"
+      "Type": "النوع",
+      "Slug": "الرابط"
     },
     "Placeholders": {
-      "Name": "أدخل اسم المناسبة/المجموعة"
+      "Name": "أدخل اسم المناسبة/المجموعة",
+      "Slug": "أدخل الرابط"
+    },
+    "Table": {
+      "Banner": "بانر",
+      "Name": "الاسم",
+      "DateRange": "نطاق التاريخ",
+      "Products": "المنتجات",
+      "Visibility": "الرؤية",
+      "Actions": "الإجراءات"
     }
   }
 }

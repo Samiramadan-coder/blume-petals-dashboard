@@ -197,11 +197,15 @@
     }
   },
   "Occasions": {
+    "Title": "Occasions Collections",
+    "Description": "Organise your products and control what appears on the storefront.",
     "Errors": {
       "OccasionCollectionNameRequired": "Occasion/Collection name is required",
       "OccasionCollectionNameMinLength": "Occasion/Collection name must be at least 2 characters",
       "OccasionCollectionTypeRequired": "Occasion/Collection type is required",
-      "OccasionCollectionColorRequired": "Occasion/Collection color is required"
+      "OccasionCollectionColorRequired": "Occasion/Collection color is required",
+      "OccasionCollectionSlugRequired": "Occasion/Collection slug is required",
+      "OccasionCollectionSlugMinLength": "Occasion/Collection slug must be at least 2 characters"
     },
     "Labels": {
       "AddOccasionCollection": "Add Occasion/Collection",
@@ -213,15 +217,26 @@
       "ColorDescription": "Used for banners, overlays, and CTAs for this occasion.",
       "Visibility": "Visibility",
       "VisibilityLabel": "Show on storefront",
-      "VisibilityDescription": "Occasion is visible to customers"
+      "VisibilityDescription": "Occasion is visible to customers",
+      "SlugHint": "URL path used on the storefront"
     },
     "Fields": {
       "Banner": "Banner",
       "Name": "Occasion/Collection Name",
-      "Type": "Type"
+      "Type": "Type",
+      "Slug": "Slug"
     },
     "Placeholders": {
-      "Name": "Enter Occasion/Collection Name"
+      "Name": "Enter Occasion/Collection Name",
+      "Slug": "Enter Slug"
+    },
+    "Table": {
+      "Banner": "Banner",
+      "Name": "Name",
+      "DateRange": "Date Range",
+      "Products": "Products",
+      "Visibility": "Visibility",
+      "Actions": "Actions"
     }
   }
 }

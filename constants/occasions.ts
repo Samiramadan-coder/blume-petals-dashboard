@@ -2,6 +2,7 @@ import { DataTableColumn } from "@/components/reusable/date-sortable-table";
 import { OccasionCollectionType } from "@/types/occasions";
 import { T } from "@/types/shared";
 
+// Occasion Types
 export const occasionTypes = (
   t: T,
 ): {
@@ -38,33 +39,35 @@ export const occasionTypes = (
   },
 ];
 
-export const columns: DataTableColumn[] = [
+// Occasion Columns
+export const columns = (t: T): DataTableColumn[] => [
   {
     key: "banner",
-    label: "Banner",
+    label: t("Table.Banner"),
   },
   {
     key: "name",
-    label: "Name",
+    label: t("Table.Name"),
   },
   {
     key: "date-range",
-    label: "Date Range",
+    label: t("Table.DateRange"),
   },
   {
     key: "products",
-    label: "Products",
+    label: t("Table.Products"),
   },
   {
     key: "visibility",
-    label: "Visibility",
+    label: t("Table.Visibility"),
   },
   {
     key: "actions",
-    label: "Actions",
+    label: t("Table.Actions"),
   },
 ];
 
+// Occasion Colors
 export const colors: string[] = [
   "#f4c2c2",
   "#e6dcd2",

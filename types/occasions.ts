@@ -17,6 +17,10 @@ export const occasionCollectionSchema = (t: T) =>
           .min(1, t("Errors.OccasionCollectionNameRequired"))
           .min(2, t("Errors.OccasionCollectionNameMinLength")),
       }),
+      slug: z
+        .string()
+        .min(1, t("Errors.OccasionCollectionSlugRequired"))
+        .min(2, t("Errors.OccasionCollectionSlugMinLength")),
       type: z.enum(typesEnum, t("Errors.OccasionCollectionTypeRequired")),
       color: z.string().min(1, t("Errors.OccasionCollectionColorRequired")),
       banner: imageSchema,
