@@ -79,6 +79,7 @@ export default function CreateEdit({
     ),
   });
 
+  // Watch the color, name, and slug fields for changes
   const watchColor = useWatch({ control, name: "color" });
   const watchName = useWatch({ control, name: "name" });
   const watchSlug = useWatch({ control, name: "slug" });
