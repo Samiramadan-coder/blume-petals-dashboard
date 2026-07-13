@@ -163,6 +163,9 @@ export default function CreateEdit({ category, trigger }: CreateEditProps) {
                   <p className="font-semibold text-sm">
                     {watchName?.[activeLocale] || tLive("Placeholder")}
                   </p>
+                  <p className="text-muted-foreground text-xs mt-1">
+                    /{watchSlug || tLive("Placeholder")}
+                  </p>
                 </div>
               </CardContent>
             </Card>
@@ -205,16 +208,13 @@ export default function CreateEdit({ category, trigger }: CreateEditProps) {
               dir={dir}
             />
 
-            {/* <Separator className="bg-border" /> */}
-            {/* <SectionLabel>{tLive("Icon")}</SectionLabel> */}
             <SingleFormImageUploader
               control={control}
               name="icon"
               label={tLive("Icon")}
+              accept=".svg"
             />
 
-            {/* <Separator className="bg-border" />
-            <SectionLabel>{tLive("Banner")}</SectionLabel> */}
             <SingleFormImageUploader
               control={control}
               name="banner"

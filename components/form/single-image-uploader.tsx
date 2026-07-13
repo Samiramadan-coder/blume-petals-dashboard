@@ -22,6 +22,7 @@ type SingleFormImageUploaderProps<T extends FieldValues> = {
   label?: string;
   required?: boolean;
   className?: string;
+  accept?: string;
 };
 
 export default function SingleFormImageUploader<T extends FieldValues>({
@@ -30,6 +31,7 @@ export default function SingleFormImageUploader<T extends FieldValues>({
   label,
   required,
   className,
+  accept = "image/*",
 }: SingleFormImageUploaderProps<T>) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -103,7 +105,7 @@ export default function SingleFormImageUploader<T extends FieldValues>({
                   <input
                     ref={fileInputRef}
                     type="file"
-                    accept="image/*"
+                    accept={accept}
                     className="hidden"
                     onChange={(event) => {
                       const file = event.target.files?.[0];

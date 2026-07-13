@@ -54,7 +54,9 @@ export default function DataPreview({
           <>
             <TableCell className="px-4 py-3">
               <p className="font-semibold">{category.name[locale]}</p>
-              <p className="text-muted-foreground text-xs">/{category.slug}</p>
+              <p className="text-muted-foreground text-xs mt-1">
+                /{category.slug}
+              </p>
             </TableCell>
 
             <TableCell className="px-4 py-3">
