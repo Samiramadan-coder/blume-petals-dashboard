@@ -1,5 +1,5 @@
 import z from "zod";
-import { T } from "./shared";
+import { Pagination, T } from "./shared";
 import { typesEnum } from "@/constants/shared";
 
 const imageSchema = z.union([z.string(), z.instanceof(Blob)]);
@@ -63,4 +63,11 @@ export type OccasionCollection = {
   is_visible: boolean;
   created_at: string;
   updated_at: string;
+};
+
+export type OccasionCollectionResponse = {
+  data: {
+    items: OccasionCollection[];
+    pagination: Pagination;
+  };
 };

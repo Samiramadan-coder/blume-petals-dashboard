@@ -6,8 +6,8 @@ export default function ErrorPage() {
   const t = useTranslations("Common");
 
   return (
-    <main className="space-y-6">
-      <h1 className="text-2xl font-bold">{t("Error")}</h1>
+    <main className="space-y-2">
+      <h1 className="text-2xl font-bold text-red-400">{t("Error")}</h1>
       <p>{t("ErrorOccurred")}</p>
     </main>
   );

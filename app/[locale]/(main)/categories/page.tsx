@@ -1,7 +1,7 @@
 import DataPreview from "@/components/categories/data-preview";
 import { http } from "@/lib/http";
 import categoriesRes from "@/data/categories.json";
-import { Category, CategoryResponse } from "@/types/categories";
+import { CategoryResponse } from "@/types/categories";
 import { getTranslations } from "next-intl/server";
 
 // export const metadata = {
@@ -30,7 +30,10 @@ export default async function CategoriesPage() {
   return (
     <main className="space-y-6">
       <DataPreview
-        initialCategories={categoriesRes.data.items as unknown as Category[]}
+        initialCategories={
+          categoriesRes.data
+            .items as unknown as CategoryResponse["data"]["items"]
+        }
       />
     </main>
   );
