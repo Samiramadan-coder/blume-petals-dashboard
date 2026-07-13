@@ -12,6 +12,7 @@ export default async function CategoriesPage() {
   // console.log(categoriesRes);
   // const { data, ok } = await http.get<CategoryResponse>(
   //   "/api/v1/admin/categories",
+  //   { cache: "force-cache", next: { tags: ["categories"] } },
   // );
 
   // if (!ok) {

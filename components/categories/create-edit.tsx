@@ -25,9 +25,11 @@ import { useLocale, useTranslations } from "next-intl";
 import { useFormLocale } from "@/hooks/use-form-locale";
 import { categoryTypes, colors } from "@/constants/categories";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
-import { Controller, useForm, useWatch } from "react-hook-form";
 import LocaleFormSwitcher from "../reusable/locale-form-switcher";
 import SingleFormImageUploader from "../form/single-image-uploader";
+import { Controller, useForm, useWatch, SubmitHandler } from "react-hook-form";
+import { postCategoryAction } from "@/lib/categories-actions";
+import { toast } from "sonner";
 
 // Generate default values for the form based on the provided category or return empty values if no category is provided
 function generateDefaultValues(category?: Category): CategoryFormValues {
@@ -72,6 +74,7 @@ export default function CreateEdit({ category, trigger }: CreateEditProps) {
     getValues,
     clearErrors,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<CategoryFormValues>({
     resolver: zodResolver(categorySchema((key) => tLive(key as never))),
@@ -111,8 +114,34 @@ export default function CreateEdit({ category, trigger }: CreateEditProps) {
   //   name: "color",
   // });
 
-  const onSubmit = (values: CategoryFormValues) => {
-    console.log("Category form values:", values);
+  const onSubmit: SubmitHandler<CategoryFormValues> = async (data) => {
+    const result = await postCategoryAction(data);
+
+    if (result.success) {
+      toast.success(
+        category
+          ? t("CategoryUpdatedSuccessfully")
+          : t("CategoryCreatedSuccessfully"),
+      );
+      form.current?.reset();
+      return;
+    }
+
+    if (result.errors) {
+      Object.entries(result.errors).forEach(([field, message]) => {
+        toast.error(message);
+        setError(field as keyof CategoryFormValues, {
+          type: "server",
+          message,
+        });
+      });
+
+      return;
+    }
+
+    toast.error(
+      category ? t("CategoryUpdateFailed") : t("CategoryCreationFailed"),
+    );
   };
 
   return (
@@ -151,7 +180,9 @@ export default function CreateEdit({ category, trigger }: CreateEditProps) {
         >
           <form
             ref={form}
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={(e) => {
+              void handleSubmit(onSubmit)(e);
+            }}
             className="space-y-6 relative"
           >
             <Card>

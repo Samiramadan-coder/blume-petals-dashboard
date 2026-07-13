@@ -99,7 +99,12 @@
     "Type": "Type",
     "Banner": "Banner",
     "BannerIsRequired": "Category Banner is required",
-    "IconIsRequired": "Category Icon is required"
+    "IconIsRequired": "Category Icon is required",
+    "CategoryCreatedSuccessfully": "Category created successfully",
+    "CategoryUpdatedSuccessfully": "Category updated successfully",
+    "CategoryDeletedSuccessfully": "Category deleted successfully",
+    "CategoryCreationFailed": "Failed to create category. Please try again.",
+    "CategoryUpdateFailed": "Failed to update category. Please try again."
   },
   "Products": {
     "Products": "Products",

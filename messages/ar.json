@@ -99,7 +99,12 @@
     "Type": "النوع",
     "Banner": "بانر",
     "BannerIsRequired": "بانر الفئة مطلوب",
-    "IconIsRequired": "أيقونة الفئة مطلوبة"
+    "IconIsRequired": "أيقونة الفئة مطلوبة",
+    "CategoryCreatedSuccessfully": "تم إنشاء الفئة بنجاح",
+    "CategoryUpdatedSuccessfully": "تم تحديث الفئة بنجاح",
+    "CategoryDeletedSuccessfully": "تم حذف الفئة بنجاح",
+    "CategoryCreationFailed": "فشل إنشاء الفئة. يرجى المحاولة مرة أخرى.",
+    "CategoryUpdateFailed": "فشل تحديث الفئة. يرجى المحاولة مرة أخرى."
   },
   "Products": {
     "Products": "المنتجات",
