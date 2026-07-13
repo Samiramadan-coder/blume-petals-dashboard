@@ -26,6 +26,8 @@ export const categorySchema = (t: T) =>
 
 export type CategoryFormValues = z.infer<ReturnType<typeof categorySchema>>;
 
+export type CategoryType = CategoryFormValues["type"];
+
 export type Icon = {
   icon: React.ReactNode;
   id: number;

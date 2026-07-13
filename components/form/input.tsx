@@ -2,7 +2,13 @@
 
 import type { ReactNode } from "react";
 
-import { Field, FieldContent, FieldError, FieldLabel } from "../ui/field";
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+} from "../ui/field";
 import { Input } from "../ui/input";
 import { cn } from "@/lib/utils";
 
@@ -27,6 +33,7 @@ type NormalFormInputProps<T extends FieldValues> = {
   disabled?: boolean;
   prefix?: ReactNode;
   suffix?: ReactNode;
+  description?: ReactNode;
 };
 
 export default function NormalFormInput<T extends FieldValues>({
@@ -42,6 +49,7 @@ export default function NormalFormInput<T extends FieldValues>({
   disabled = false,
   prefix,
   suffix,
+  description,
 }: NormalFormInputProps<T>) {
   const error = get(errors, name);
 
@@ -116,7 +124,7 @@ export default function NormalFormInput<T extends FieldValues>({
               className={cn("h-10 border-border bg-background", inputClassName)}
             />
           )}
-
+          {description && <FieldDescription>{description}</FieldDescription>}
           <FieldError errors={[error]} />
         </div>
       </FieldContent>

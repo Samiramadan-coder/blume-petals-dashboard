@@ -46,3 +46,12 @@ export const normalizeHexColor = (value: string) => {
 
   return null;
 };
+
+export const createSlug = (value: string) =>
+  value
+    .toLowerCase()
+    .trim()
+    .replace(/["'’]/g, "")
+    .replace(/[^\p{L}\p{N}]+/gu, "-")
+    .replace(/^-+|-+$/g, "")
+    .replace(/-{2,}/g, "-");

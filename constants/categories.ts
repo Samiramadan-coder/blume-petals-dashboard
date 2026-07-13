@@ -1,17 +1,54 @@
-import {
-  Flower2,
-  Balloon,
-  Gift,
-  Sun,
-  Gem,
-  Moon,
-  BriefcaseBusiness,
-} from "lucide-react";
+// import {
+//   Flower2,
+//   Balloon,
+//   Gift,
+//   Sun,
+//   Gem,
+//   Moon,
+//   BriefcaseBusiness,
+// } from "lucide-react";
 import { T } from "@/types/shared";
-import { createElement } from "react";
-import { Category, Icon } from "@/types/categories";
+// import { createElement } from "react";
+// import { Category, Icon } from "@/types/categories";
 import { DataTableColumn } from "@/components/reusable/date-sortable-table";
+import { CategoryType } from "@/types/categories";
 
+// Categories Types
+export const categoryTypes: {
+  label: string;
+  value: CategoryType;
+}[] = [
+  {
+    label: "Bouquet",
+    value: "bouquet",
+  },
+  {
+    label: "Preserved",
+    value: "preserved",
+  },
+  {
+    label: "Gift",
+    value: "gift",
+  },
+  {
+    label: "Seasonal",
+    value: "seasonal",
+  },
+  {
+    label: "Wedding",
+    value: "wedding",
+  },
+  {
+    label: "Eid",
+    value: "eid",
+  },
+  {
+    label: "Corporate",
+    value: "corporate",
+  },
+];
+
+// Categories Colors
 export const colors: string[] = [
   "#f4c2c2",
   "#e6dcd2",
@@ -25,43 +62,43 @@ export const colors: string[] = [
   "#d4e4bc",
 ];
 
-export const icons = (t: T): Icon[] => [
-  {
-    id: 1,
-    icon: createElement(Flower2, { className: "size-5" }),
-    label: t("Bouquet"),
-  },
-  {
-    id: 2,
-    icon: createElement(Balloon, { className: "size-5" }),
-    label: t("Preserved"),
-  },
-  {
-    id: 3,
-    icon: createElement(Gift, { className: "size-5" }),
-    label: t("Gift"),
-  },
-  {
-    id: 4,
-    icon: createElement(Sun, { className: "size-5" }),
-    label: t("Seasonal"),
-  },
-  {
-    id: 5,
-    icon: createElement(Gem, { className: "size-5" }),
-    label: t("Wedding"),
-  },
-  {
-    id: 6,
-    icon: createElement(Moon, { className: "size-5" }),
-    label: t("Eid"),
-  },
-  {
-    id: 7,
-    icon: createElement(BriefcaseBusiness, { className: "size-5" }),
-    label: t("Corporate"),
-  },
-];
+// export const icons = (t: T): Icon[] => [
+//   {
+//     id: 1,
+//     icon: createElement(Flower2, { className: "size-5" }),
+//     label: t("Bouquet"),
+//   },
+//   {
+//     id: 2,
+//     icon: createElement(Balloon, { className: "size-5" }),
+//     label: t("Preserved"),
+//   },
+//   {
+//     id: 3,
+//     icon: createElement(Gift, { className: "size-5" }),
+//     label: t("Gift"),
+//   },
+//   {
+//     id: 4,
+//     icon: createElement(Sun, { className: "size-5" }),
+//     label: t("Seasonal"),
+//   },
+//   {
+//     id: 5,
+//     icon: createElement(Gem, { className: "size-5" }),
+//     label: t("Wedding"),
+//   },
+//   {
+//     id: 6,
+//     icon: createElement(Moon, { className: "size-5" }),
+//     label: t("Eid"),
+//   },
+//   {
+//     id: 7,
+//     icon: createElement(BriefcaseBusiness, { className: "size-5" }),
+//     label: t("Corporate"),
+//   },
+// ];
 
 export const columns = (t: T): DataTableColumn[] => [
   {

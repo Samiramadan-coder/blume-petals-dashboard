@@ -92,7 +92,11 @@
     "Items": "Items",
     "SlugIsRequired": "Slug is required",
     "SlugMinLength": "Slug must be at least 3 characters",
-    "SelectType": "Select category type"
+    "SelectType": "Select category type",
+    "Slug": "Slug",
+    "EnterSlug": "Auto-generated",
+    "SlugHint": "URL path used on the storefront",
+    "Type": "Type"
   },
   "Products": {
     "Products": "Products",
