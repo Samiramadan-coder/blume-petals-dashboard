@@ -12,7 +12,14 @@
     "Confirmation": "تأكيد",
     "Error": "خطأ",
     "ErrorOccurred": "حدث خطأ أثناء معالجة طلبك. يرجى المحاولة مرة أخرى.",
-    "AddPhoto": "إضافة صورة"
+    "AddPhoto": "إضافة صورة",
+    "Bouquet": "باقة",
+    "Preserved": "محفوظ",
+    "Gift": "هدية",
+    "Seasonal": "موسمي",
+    "Wedding": "زفاف",
+    "Eid": "عيد",
+    "Corporate": "شركة"
   },
   "Auth": {
     "Login": {
@@ -74,13 +81,6 @@
     "Visibility": "الرؤية",
     "VisibilityLabel": "عرض في المتجر",
     "VisibilityDescription": "الفئة مرئية للعملاء",
-    "Bouquet": "باقة",
-    "Preserved": "محفوظ",
-    "Gift": "هدية",
-    "Seasonal": "موسمي",
-    "Wedding": "زفاف",
-    "Eid": "عيد",
-    "Corporate": "شركة",
     "Status": "الحالة",
     "Actions": "الإجراءات",
     "Products": "المنتجات",

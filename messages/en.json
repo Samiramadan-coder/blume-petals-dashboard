@@ -12,7 +12,14 @@
     "Confirmation": "Confirmation",
     "Error": "Error",
     "ErrorOccurred": "An error occurred while processing your request. Please try again.",
-    "AddPhoto": "Add Photo"
+    "AddPhoto": "Add Photo",
+    "Bouquet": "Bouquet",
+    "Preserved": "Preserved",
+    "Gift": "Gift",
+    "Seasonal": "Seasonal",
+    "Wedding": "Wedding",
+    "Eid": "Eid",
+    "Corporate": "Corporate"
   },
   "Auth": {
     "Login": {
@@ -74,13 +81,6 @@
     "Visibility": "Visibility",
     "VisibilityLabel": "Show on storefront",
     "VisibilityDescription": "Category is visible to customers",
-    "Bouquet": "Bouquet",
-    "Preserved": "Preserved",
-    "Gift": "Gift",
-    "Seasonal": "Seasonal",
-    "Wedding": "Wedding",
-    "Eid": "Eid",
-    "Corporate": "Corporate",
     "Status": "Status",
     "Actions": "Actions",
     "Products": "Products",

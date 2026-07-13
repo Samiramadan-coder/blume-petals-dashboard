@@ -1,4 +1,4 @@
-import DataPreview from "@/components/occasions-collections/data-preview";
+import DataPreview from "@/components/occasions/data-preview";
 
 export const metadata = {
   title: "Occasions & Collections",
