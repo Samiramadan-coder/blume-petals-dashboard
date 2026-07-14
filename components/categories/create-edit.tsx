@@ -249,12 +249,14 @@ export default function CreateEdit({ category, trigger }: CreateEditProps) {
               name="icon"
               label={tLive("Icon")}
               accept=".svg"
+              required
             />
 
             <SingleFormImageUploader
               control={control}
               name="banner"
               label={tLive("Banner")}
+              required
             />
 
             <Separator className="bg-border" />

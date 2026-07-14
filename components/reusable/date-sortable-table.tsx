@@ -114,7 +114,6 @@ export function ReorderableDataTable<T>({
 
   className,
 }: ReorderableDataTableProps<T>) {
-  const id = useId();
   const dndContextId = useId();
   const t = useTranslations("Common");
   const sensors = useSensors(
@@ -220,7 +219,7 @@ export function ReorderableDataTable<T>({
                         onClick={onPreviousPage}
                         disabled={!onPreviousPage}
                       >
-                        Previous
+                        {t("Previous")}
                       </Button>
 
                       <Button type="button" className="min-w-8 text-xs">
@@ -234,7 +233,7 @@ export function ReorderableDataTable<T>({
                         onClick={onNextPage}
                         disabled={!onNextPage}
                       >
-                        Next
+                        {t("Next")}
                       </Button>
                     </div>
                   )}

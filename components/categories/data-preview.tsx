@@ -54,6 +54,8 @@ export default function DataPreview({
         onReorder={(newCategories) => {
           setCategories(newCategories);
         }}
+        onNextPage={() => {}}
+        onPreviousPage={() => {}}
         rowsCount={categories.length}
         countUnit={t("Categories")}
         columns={columns((key) => t(key as never))}
