@@ -35,7 +35,6 @@ export async function postOccasionAction(
           messages[0] ?? "Invalid value",
         ]),
       ) as Partial<Record<keyof OccasionFormValues, string>>;
-
       return { success: false, errors };
     }
     return { success: false };
