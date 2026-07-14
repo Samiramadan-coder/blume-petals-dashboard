@@ -15,6 +15,7 @@ export const categorySchema = (t: T) =>
       type: z.enum(typesEnum, t("SelectType")),
       color: z.string().min(1, t("SelectColor")),
       is_visible: z.boolean(),
+      sort_order: z.number(),
       icon: imageSchema,
       banner: imageSchema,
     })
@@ -47,6 +48,7 @@ export type Category = {
   type: CategoryType;
   color: string;
   is_visible: boolean;
+  sort_order: number;
   icon_path: string;
   icon_url: string;
   banner_path: string;

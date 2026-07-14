@@ -32,7 +32,10 @@ import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Controller, useForm, useWatch, SubmitHandler } from "react-hook-form";
 
 // Generate default values for the form based on the provided category or return empty values if no category is provided
-function generateDefaultValues(category?: Category): CategoryFormValues {
+function generateDefaultValues(
+  sortOrder: number,
+  category?: Category,
+): CategoryFormValues {
   return {
     name: category?.name || { en: "", ar: "" },
     slug: category?.slug || "",
@@ -41,6 +44,7 @@ function generateDefaultValues(category?: Category): CategoryFormValues {
     is_visible: category?.is_visible ?? false,
     icon: category?.icon_url || "",
     banner: category?.banner_url || "",
+    sort_order: category?.sort_order || sortOrder || 0,
   };
 }
 
@@ -52,9 +56,14 @@ function getListOfColors(color?: string): string[] {
 type CreateEditProps = {
   category?: Category;
   trigger?: React.ReactNode;
+  totalCreatedItems: number;
 };
 
-export default function CreateEdit({ category, trigger }: CreateEditProps) {
+export default function CreateEdit({
+  category,
+  trigger,
+  totalCreatedItems,
+}: CreateEditProps) {
   const locale = useLocale();
   const t = useTranslations("Categories");
   const form = useRef<HTMLFormElement>(null);
@@ -76,7 +85,7 @@ export default function CreateEdit({ category, trigger }: CreateEditProps) {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<CategoryFormValues>({
-    defaultValues: generateDefaultValues(category),
+    defaultValues: generateDefaultValues(totalCreatedItems, category),
     resolver: zodResolver(categorySchema((key) => tLive(key as never))),
   });
 

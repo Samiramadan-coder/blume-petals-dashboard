@@ -17,15 +17,15 @@ import { Category } from "@/types/categories";
 import DeleteBtn from "../reusable/delete-btn";
 import { columns } from "@/constants/categories";
 import { useLocale, useTranslations } from "next-intl";
-import { ReorderableDataTable } from "../reusable/date-sortable-table";
 import { useQueryParam } from "@/hooks/use-search-params";
+import { ReorderableDataTable } from "../reusable/date-sortable-table";
 
 export default function DataPreview({
-  initialCategories,
   pagination,
+  initialCategories,
 }: {
-  initialCategories: Category[];
   pagination: Pagination;
+  initialCategories: Category[];
 }) {
   const locale = useLocale();
   const t = useTranslations("Categories");
@@ -50,7 +50,7 @@ export default function DataPreview({
             {t("CategoriesBrief")}
           </p>
         </div>
-        <CreateEdit />
+        <CreateEdit totalCreatedItems={pagination.total} />
       </header>
 
       <ReorderableDataTable
@@ -85,12 +85,10 @@ export default function DataPreview({
                 checked={category.is_visible}
                 onClick={async () => {
                   const result = await updateCategoryVisibilityAction(category);
-
                   if (result.success) {
                     toast.success(tCommon("VisibilityUpdated"));
                     return;
                   }
-
                   toast.error(tCommon("VisibilityUpdateFailed"));
                 }}
               />
@@ -103,19 +101,21 @@ export default function DataPreview({
             </TableCell>
 
             <TableCell className="px-4 py-3">
-              <CreateEdit category={category} trigger={<EditBtn />} />
+              <CreateEdit
+                category={category}
+                trigger={<EditBtn />}
+                totalCreatedItems={pagination.total}
+              />
+
               <DeleteBtn
                 onDelete={async () => {
                   setLoadingDelete(true);
                   const result = await deleteCategoryAction(category);
-
                   setLoadingDelete(false);
-
                   if (result.success) {
                     toast.success(tCommon("DeletedSuccessfully"));
                     return;
                   }
-
                   toast.error(tCommon("DeleteFailed"));
                 }}
                 loading={loadingDelete}
