@@ -31,20 +31,10 @@ export async function postProductAction(
       formData,
     );
 
-    // Post Or Update Icon
-    // if (formData.icon instanceof Blob) {
-    //   const iconFormData = new FormData();
-    //   iconFormData.append("kind", "icon");
-    //   iconFormData.append(
-    //     "image",
-    //     formData.icon,
-    //     formData.icon instanceof File ? formData.icon.name : "Icon",
-    //   );
-    //   await http.post(
-    //     `/api/v1/admin/categories/${data.data.category.id}/image`,
-    //     iconFormData,
-    //   );
-    // }
+    // Post Variants
+    await http.post(`/api/v1/admin/products/${data.data.product.id}/variants`, {
+      variant: formData.variants[0],
+    });
 
     // Post Or Update Icon
     // if (formData.banner instanceof Blob) {

@@ -23,7 +23,7 @@ import { cn } from "@/lib/utils";
 
 type SelectOption = {
   label: string;
-  value: string;
+  value: string | number;
 };
 
 type NormalFormSelectProps<T extends FieldValues> = {
@@ -51,6 +51,14 @@ export default function NormalFormSelect<T extends FieldValues>({
   triggerClassName,
   dir = "ltr",
 }: NormalFormSelectProps<T>) {
+  function getOptionValue(value: string) {
+    const selectedOption = options.find(
+      (option) => String(option.value) === value,
+    );
+
+    return selectedOption?.value ?? value;
+  }
+
   return (
     <Controller
       name={name}
@@ -70,7 +78,14 @@ export default function NormalFormSelect<T extends FieldValues>({
 
           <FieldContent>
             <div className="space-y-1.5">
-              <Select value={field.value ?? ""} onValueChange={field.onChange}>
+              <Select
+                value={
+                  field.value === undefined || field.value === null
+                    ? ""
+                    : String(field.value)
+                }
+                onValueChange={(value) => field.onChange(getOptionValue(value))}
+              >
                 <SelectTrigger
                   id={name}
                   aria-invalid={fieldState.invalid}
@@ -89,8 +104,8 @@ export default function NormalFormSelect<T extends FieldValues>({
 
                     {options.map((option) => (
                       <SelectItem
-                        key={option.value}
-                        value={option.value}
+                        key={String(option.value)}
+                        value={String(option.value)}
                         dir={dir}
                         className={cn({
                           "font-cairo!": dir === "rtl",

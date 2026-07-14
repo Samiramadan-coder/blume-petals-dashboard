@@ -25,8 +25,22 @@ export const productSchema = (t: T) =>
         .min(1, t("Errors.DescriptionIsRequired"))
         .min(2, t("Errors.DescriptionMinLength")),
     }),
-    category_id: z.string().min(1, t("Errors.CategoryIsRequired")),
+    category_id: z.number().min(1, t("Errors.CategoryIsRequired")),
     occasion_ids: z.array(z.number()).min(1, t("Errors.OccasionsIsRequired")),
+    status: z.string().min(1, t("Errors.StatusIsRequired")),
+    sku: z
+      .string()
+      .min(1, t("Errors.SKUIsRequired"))
+      .min(2, t("Errors.SKUMinLength")),
+    variants: z.array(
+      z.object({
+        sku: z.string().min(1, t("Errors.SKUIsRequired")),
+        size: z.string().min(1, t("Errors.SizeIsRequired")),
+        price: z.number().min(1, t("Errors.PriceIsRequired")),
+        stock: z.number().min(1, t("Errors.StockQuantityIsRequired")),
+        compare_at_price: z.number().nullable().optional(),
+      }),
+    ),
 
     // price: z.number().min(1, "Price must be a positive number"),
     // salesPrice: z

@@ -155,7 +155,10 @@
       "ShowNewBadge": "عرض شارة 'جديد'",
       "ShowNewBadgeDescription": "يعرض شارة جديدة ذهبية على بطاقة المنتج",
       "FeaturedOnHomepage": "مميز في الصفحة الرئيسية",
-      "FeaturedOnHomepageDescription": "ثبت هذا المنتج في قسم المميز في واجهة متجرك"
+      "FeaturedOnHomepageDescription": "ثبت هذا المنتج في قسم المميز في واجهة متجرك",
+      "Status": "الحالة",
+      "Size": "الحجم",
+      "ComparePrice": "سعر المقارنة (درهم)"
     },
     "Placeholders": {
       "Name": "أدخل اسم المنتج",
@@ -164,7 +167,10 @@
       "Price": "أدخل سعر المنتج",
       "SalesPrice": "أدخل سعر البيع",
       "StockQuantity": "أدخل كمية المخزون",
-      "SKU": "أدخل رمز التخزين"
+      "SKU": "أدخل رمز التخزين",
+      "Status": "اختر حالة المنتج",
+      "Size": "اختر الحجم",
+      "ComparePrice": "أدخل سعر المقارنة"
     },
     "Labels": {
       "BasicInformation": "معلومات أساسية",
@@ -206,13 +212,12 @@
       "DescriptionIsRequired": "وصف المنتج مطلوب",
       "DescriptionMinLength": "يجب أن يكون وصف المنتج مكونًا من 10 أحرف على الأقل",
       "OccasionsIsRequired": "المناسبة مطلوبة",
-
-      "PriceIsRequired": "Product price is required",
-      "PriceMustBePositive": "Product price must be a positive number",
-      "SalesPriceMustBePositive": "Sales price must be a positive number",
-      "StockQuantityIsRequired": "Stock quantity is required",
-      "StockQuantityMustBeNonNegative": "Stock quantity must be a non-negative number",
-      "SKUIsRequired": "SKU is required"
+      "SKUIsRequired": "رمز التخزين مطلوب",
+      "SKUMinLength": "يجب أن يكون رمز التخزين مكونًا من حرفين على الأقل",
+      "StatusIsRequired": "حالة المنتج مطلوبة",
+      "SizeIsRequired": "مطلوب حجم واحد على الأقل",
+      "PriceIsRequired": "سعر المنتج مطلوب",
+      "StockQuantityIsRequired": "كمية المخزون مطلوبة"
     }
   },
   "Occasions": {

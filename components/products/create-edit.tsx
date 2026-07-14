@@ -7,7 +7,7 @@ import Header from "../form/header";
 import Footer from "../form/footer";
 import Select from "../form/select";
 import Switch from "../form/switch";
-import { Check } from "lucide-react";
+import { Check, Plus } from "lucide-react";
 import { Button } from "../ui/button";
 import RichText from "../form/rich-text";
 import AddButton from "../form/add-button";
@@ -24,10 +24,11 @@ import { useRef, useState, type ReactNode } from "react";
 import { postProductAction } from "@/lib/products-actions";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import LocaleFormSwitcher from "../reusable/locale-form-switcher";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { colors, productStatuses, sizes } from "@/constants/products";
 import { Field, FieldContent, FieldError, FieldLabel } from "../ui/field";
 import { Product, ProductFormValues, productSchema } from "@/types/products";
+import { http } from "@/lib/http";
 
 export default function CreateEdit({
   trigger,
@@ -55,6 +56,8 @@ export default function CreateEdit({
     register,
     control,
     handleSubmit,
+    getValues,
+    setValue,
     clearErrors,
     formState: { errors },
   } = useForm<ProductFormValues>({
@@ -64,6 +67,11 @@ export default function CreateEdit({
       category_id: product?.category_id || undefined,
       description: product?.description || { en: "", ar: "" },
       occasion_ids: product?.occasion_ids || [],
+      sku: product?.sku || "",
+      status: product?.status || "published",
+      variants: product?.variants || [
+        { sku: "", size: "", price: 0, stock: 0, compare_at_price: null },
+      ],
 
       // price: product?.price || undefined,
       // salesPrice: product?.salesPrice || undefined,
@@ -78,9 +86,20 @@ export default function CreateEdit({
     },
   });
 
+  const watchedVariants = useWatch({
+    control,
+    name: "variants",
+  });
+
   const onSubmit: SubmitHandler<ProductFormValues> = async (values) => {
     // console.log("Product form values:", values);
-    await postProductAction(values, product?.id);
+    // await postProductAction(values, product?.id);
+    // await http.post("/api/v1/admin/products", values);
+    await http.post(`/api/v1/admin/products/${product?.id}/variants`, {
+      // variant: values.variants[0],
+      price: values.variants[0].price,
+      sku: values.variants[0].sku,
+    });
   };
 
   return (
@@ -119,7 +138,9 @@ export default function CreateEdit({
         >
           <form
             ref={form}
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={(e) => {
+              void handleSubmit(onSubmit)(e);
+            }}
             className="space-y-6 relative"
           >
             {/* <ImageUploader
@@ -156,7 +177,7 @@ export default function CreateEdit({
               required
               dir={dir}
               options={categories.map((category) => ({
-                value: category.id.toString(),
+                value: category.id,
                 label: category.name[activeLocale],
               }))}
             />
@@ -178,6 +199,16 @@ export default function CreateEdit({
                 />
               </div>
             ))}
+
+            <Input<ProductFormValues>
+              label={tLive("Fields.SKU")}
+              name="sku"
+              type="text"
+              placeholder={tLive("Placeholders.SKU")}
+              register={register}
+              errors={errors}
+              required
+            />
 
             <Separator className="bg-border" />
             <Field>
@@ -230,6 +261,86 @@ export default function CreateEdit({
                 />
               </FieldContent>
             </Field>
+
+            <Separator className="bg-border" />
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 justify-between">
+                <SectionLabel>{tLive("Labels.Variants")}</SectionLabel>
+                <Button
+                  type="button"
+                  onClick={() => {
+                    const currentVariants = getValues("variants") || [];
+                    setValue("variants", [
+                      ...currentVariants,
+                      {
+                        sku: "",
+                        size: "",
+                        price: 0,
+                        stock: 0,
+                        compare_at_price: null,
+                      },
+                    ]);
+                  }}
+                >
+                  <Plus />
+                </Button>
+              </div>
+              {watchedVariants.map((_, index) => (
+                <div
+                  key={index}
+                  className="grid grid-cols-1 md:grid-cols-2 gap-4 shadow-sm p-4 rounded-md border border-border"
+                >
+                  <Input<ProductFormValues>
+                    label={tLive("Fields.SKU")}
+                    name={`variants.${index}.sku`}
+                    type="text"
+                    register={register}
+                    placeholder={tLive("Placeholders.SKU")}
+                    required
+                    errors={errors}
+                  />
+
+                  <Input<ProductFormValues>
+                    label={tLive("Fields.Price")}
+                    name={`variants.${index}.price`}
+                    type="number"
+                    register={register}
+                    errors={errors}
+                    required
+                    placeholder={tLive("Placeholders.Price")}
+                  />
+
+                  <Input<ProductFormValues>
+                    label={tLive("Fields.StockQuantity")}
+                    name={`variants.${index}.stock`}
+                    type="number"
+                    register={register}
+                    errors={errors}
+                    required
+                    placeholder={tLive("Placeholders.StockQuantity")}
+                  />
+
+                  <Select<ProductFormValues>
+                    control={control}
+                    label={tLive("Fields.Size")}
+                    name={`variants.${index}.size`}
+                    placeholder={tLive("Placeholders.Size")}
+                    required
+                    dir={dir}
+                    options={sizes((key) => tLive(key as never))}
+                  />
+
+                  <Input<ProductFormValues>
+                    label={tLive("Fields.ComparePrice")}
+                    name={`variants.${index}.compare_at_price`}
+                    type="number"
+                    register={register}
+                    className="md:col-span-2"
+                    placeholder={tLive("Placeholders.ComparePrice")}
+                  />
+                </div>
+              ))}
+            </div>
 
             {/* <SectionLabel>{tLive("Labels.PricingAndStock")}</SectionLabel>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -452,10 +563,11 @@ export default function CreateEdit({
               control={control}
               label={tLive("Fields.FeaturedOnHomepage")}
               description={tLive("Fields.FeaturedOnHomepageDescription")}
-            />
+            /> */}
 
+            <Separator className="bg-border" />
             <Controller
-              name="productStatus"
+              name="status"
               control={control}
               render={({ field }) => {
                 const selectedStatus = field.value ?? "active";
@@ -483,7 +595,7 @@ export default function CreateEdit({
                   </div>
                 );
               }}
-            /> */}
+            />
           </form>
         </div>
 

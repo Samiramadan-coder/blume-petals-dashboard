@@ -155,7 +155,10 @@
       "ShowNewBadge": "Show 'New' Badge",
       "ShowNewBadgeDescription": "Displays a gold NEW badge on the product card",
       "FeaturedOnHomepage": "Featured on Homepage",
-      "FeaturedOnHomepageDescription": "Pin this product to the featured section of your storefront"
+      "FeaturedOnHomepageDescription": "Pin this product to the featured section of your storefront",
+      "Status": "Status",
+      "Size": "Size",
+      "ComparePrice": "Compare Price (AED)"
     },
     "Placeholders": {
       "Name": "Enter product name",
@@ -164,7 +167,10 @@
       "Price": "Enter product price",
       "SalesPrice": "Enter sales price",
       "StockQuantity": "Enter stock quantity",
-      "SKU": "Enter SKU"
+      "SKU": "Enter SKU",
+      "Status": "Select product status",
+      "Size": "Select size",
+      "ComparePrice": "Enter compare price"
     },
     "Labels": {
       "BasicInformation": "Basic Information",
@@ -206,13 +212,12 @@
       "DescriptionIsRequired": "Product description is required",
       "DescriptionMinLength": "Product description must be at least 10 characters",
       "OccasionsIsRequired": "At least one occasion tag is required",
-
+      "SKUIsRequired": "SKU is required",
+      "SKUMinLength": "SKU must be at least 2 characters",
+      "StatusIsRequired": "Product status is required",
+      "SizeIsRequired": "At least one size is required",
       "PriceIsRequired": "Product price is required",
-      "PriceMustBePositive": "Product price must be a positive number",
-      "SalesPriceMustBePositive": "Sales price must be a positive number",
-      "StockQuantityIsRequired": "Stock quantity is required",
-      "StockQuantityMustBeNonNegative": "Stock quantity must be a non-negative number",
-      "SKUIsRequired": "SKU is required"
+      "StockQuantityIsRequired": "Stock quantity is required"
     }
   },
   "Occasions": {

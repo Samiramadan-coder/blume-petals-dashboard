@@ -1,5 +1,4 @@
 import { T } from "@/types/shared";
-import { Product } from "@/types/products";
 import { DataTableColumn } from "@/components/reusable/data-table";
 
 // Table Column
@@ -34,19 +33,19 @@ export const columns = (t: T): DataTableColumn[] => [
 // Sizes
 export const sizes = (t: T) => [
   {
-    value: "s",
+    value: "S",
     label: t("Labels.S"),
   },
   {
-    value: "m",
+    value: "M",
     label: t("Labels.M"),
   },
   {
-    value: "l",
+    value: "L",
     label: t("Labels.L"),
   },
   {
-    value: "xl",
+    value: "XL",
     label: t("Labels.XL"),
   },
 ];
@@ -99,7 +98,7 @@ export const colors = (t: T) => [
 export const productStatuses = (t: T) => [
   {
     label: t("Labels.Active"),
-    value: "active",
+    value: "published",
   },
   {
     label: t("Labels.Draft"),
