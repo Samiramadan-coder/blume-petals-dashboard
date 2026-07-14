@@ -23,7 +23,7 @@ export default async function CategoriesPage({
     {
       params: {
         page: params.page || 1,
-        per_page: 2,
+        per_page: 10,
       },
       cache: "force-cache",
       next: { tags: ["categories"] },
