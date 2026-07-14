@@ -14,27 +14,34 @@ type PostAndPutCategoryResult =
 
 export async function postCategoryAction(
   formData: CategoryFormValues,
+  categoryId?: number,
 ): Promise<PostAndPutCategoryResult> {
+  const method = categoryId ? "put" : "post";
+  const url = categoryId
+    ? `/api/v1/admin/categories/${categoryId}`
+    : "/api/v1/admin/categories";
+
   const dataWithoutFiles: Partial<CategoryFormValues> = { ...formData };
   delete dataWithoutFiles.icon;
   delete dataWithoutFiles.banner;
 
   try {
-    const response = await http.post<{ data: Category }>(
-      "/api/v1/admin/categories",
+    const { data } = await http[method]<{ data: { category: Category } }>(
+      url,
       dataWithoutFiles,
     );
 
     // Post Or Update Icon
     if (formData.icon instanceof Blob) {
       const iconFormData = new FormData();
+      iconFormData.append("kind", "icon");
       iconFormData.append(
-        "icon",
+        "image",
         formData.icon,
         formData.icon instanceof File ? formData.icon.name : "Icon",
       );
       await http.post(
-        `/api/v1/admin/categories/${response.data.data.id}/image`,
+        `/api/v1/admin/categories/${data.data.category.id}/image`,
         iconFormData,
       );
     }
@@ -42,13 +49,14 @@ export async function postCategoryAction(
     // Post Or Update Icon
     if (formData.banner instanceof Blob) {
       const bannerFormData = new FormData();
+      bannerFormData.append("kind", "banner");
       bannerFormData.append(
-        "banner",
+        "image",
         formData.banner,
         formData.banner instanceof File ? formData.banner.name : "Banner",
       );
       await http.post(
-        `/api/v1/admin/categories/${response.data.data.id}/image`,
+        `/api/v1/admin/categories/${data.data.category.id}/image`,
         bannerFormData,
       );
     }
@@ -56,7 +64,6 @@ export async function postCategoryAction(
     updateTag("categories");
     return { success: true };
   } catch (err) {
-    console.error("Error posting category:", err);
     if (err instanceof ValidationError) {
       const errors = Object.fromEntries(
         Object.entries(err.errors).map(([field, messages]) => [

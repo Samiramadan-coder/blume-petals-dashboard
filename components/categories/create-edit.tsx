@@ -114,7 +114,7 @@ export default function CreateEdit({ category, trigger }: CreateEditProps) {
 
   // Handle form submission by calling the postCategoryAction function and displaying appropriate success or error messages
   const onSubmit: SubmitHandler<CategoryFormValues> = async (data) => {
-    const result = await postCategoryAction(data);
+    const result = await postCategoryAction(data, category?.id);
 
     if (result.success) {
       toast.success(
