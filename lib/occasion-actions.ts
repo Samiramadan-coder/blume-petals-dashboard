@@ -14,9 +14,15 @@ type PostAndPutOccasionsResult =
 
 export async function postOccasionAction(
   formData: OccasionFormValues,
+  occasionId?: number,
 ): Promise<PostAndPutOccasionsResult> {
+  const method = occasionId ? "put" : "post";
+  const url = occasionId
+    ? `/api/v1/admin/occasions/${occasionId}`
+    : "/api/v1/admin/occasions";
+
   try {
-    await http.post<{ data: Occasion }>("/api/v1/admin/occasions", formData);
+    await http[method]<{ data: Occasion }>(url, formData);
 
     updateTag("occasions");
     return { success: true };

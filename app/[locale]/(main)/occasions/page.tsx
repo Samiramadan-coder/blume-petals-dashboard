@@ -28,7 +28,16 @@ export default async function OccasionsCollectionsPage() {
 
   return (
     <main className="space-y-6">
-      <DataPreview initialOccasions={data.data.items} />
+      <DataPreview
+        key={JSON.stringify(
+          data.data.items.map((occasion) => [
+            occasion.id,
+            occasion.updated_at,
+            occasion.is_visible,
+          ]),
+        )}
+        initialOccasions={data.data.items}
+      />
     </main>
   );
 }

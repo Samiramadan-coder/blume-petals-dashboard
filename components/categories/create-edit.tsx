@@ -149,7 +149,7 @@ export default function CreateEdit({
       return;
     }
 
-    toast.error(category ? t("CreationFailed") : t("UpdateFailed"));
+    toast.error(category ? tCommon("CreationFailed") : tCommon("UpdateFailed"));
   };
 
   return (
