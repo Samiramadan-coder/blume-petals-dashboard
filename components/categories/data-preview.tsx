@@ -88,7 +88,7 @@ export default function DataPreview({
 
             <TableCell className="px-4 py-3">
               <p className="font-semibold">
-                24 <span className="font-normal">{t("Items")}</span>
+                - <span className="font-normal">{t("Items")}</span>
               </p>
             </TableCell>
 
