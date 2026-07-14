@@ -37,13 +37,7 @@ export default async function CategoriesPage({
   return (
     <main className="space-y-6">
       <DataPreview
-        key={JSON.stringify(
-          data.data.items.map((category) => [
-            category.id,
-            category.updated_at,
-            category.is_visible,
-          ]),
-        )}
+        key={JSON.stringify(data.data.items)}
         initialCategories={data.data.items}
         pagination={data.data.pagination}
       />

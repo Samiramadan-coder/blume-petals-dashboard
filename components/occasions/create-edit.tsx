@@ -69,13 +69,13 @@ export default function CreateEdit({
     useFormLocale("Occasions");
 
   const {
-    register,
     control,
-    handleSubmit,
-    getValues,
+    register,
     setValue,
-    clearErrors,
     setError,
+    getValues,
+    clearErrors,
+    handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<OccasionFormValues>({
     defaultValues: getDefaultValues(occasion),

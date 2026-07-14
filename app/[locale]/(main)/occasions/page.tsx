@@ -20,8 +20,6 @@ export default async function OccasionsCollectionsPage() {
     },
   );
 
-  console.log(data);
-
   if (!ok) {
     throw new Error("Failed to fetch occasions collections");
   }
@@ -29,13 +27,7 @@ export default async function OccasionsCollectionsPage() {
   return (
     <main className="space-y-6">
       <DataPreview
-        key={JSON.stringify(
-          data.data.items.map((occasion) => [
-            occasion.id,
-            occasion.updated_at,
-            occasion.is_visible,
-          ]),
-        )}
+        key={JSON.stringify(data.data.items)}
         initialOccasions={data.data.items}
       />
     </main>
