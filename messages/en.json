@@ -110,8 +110,7 @@
     "Type": "Type",
     "Banner": "Banner",
     "BannerIsRequired": "Category Banner is required",
-    "IconIsRequired": "Category Icon is required",
-    "CategoryDeletedSuccessfully": "Category deleted successfully"
+    "IconIsRequired": "Category Icon is required"
   },
   "Products": {
     "Products": "Products",
