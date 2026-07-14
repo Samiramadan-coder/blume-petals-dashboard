@@ -49,7 +49,7 @@ export async function updateOccasionVisibilityAction(
 ): Promise<UpdateOccasionVisibilityResult> {
   try {
     await http.patch(`/api/v1/admin/occasions/${occasion.id}/visibility`, {
-      is_visible: !occasion.is_visible,
+      is_active: !occasion.is_visible,
     });
 
     updateTag("occasions");
@@ -72,6 +72,24 @@ export async function deleteOccasionAction(
     return { success: true };
   } catch (err) {
     console.error("Error deleting occasion:", err);
+    return { success: false };
+  }
+}
+
+// Reorder Occasions Action
+type ReorderOccasionsResult = { success: boolean };
+
+export async function reorderOccasionsAction(
+  ids: number[],
+): Promise<ReorderOccasionsResult> {
+  try {
+    await http.patch("/api/v1/admin/occasions/reorder", {
+      ids,
+    });
+    updateTag("occasions");
+    return { success: true };
+  } catch (err) {
+    console.error("Error reordering occasions:", err);
     return { success: false };
   }
 }

@@ -24,6 +24,7 @@ export const occasionCollectionSchema = (t: T) =>
       type: z.enum(typesEnum, t("Errors.OccasionCollectionTypeRequired")),
       color: z.string().min(1, t("Errors.OccasionCollectionColorRequired")),
       is_visible: z.boolean(),
+      sort_order: z.number(),
       // banner: imageSchema,
       // startDate: z.string().min(1, "Please select a start date"),
       // endDate: z.string().min(1, "Please select an end date"),
@@ -58,6 +59,7 @@ export type Occasion = {
   name_translations: { ar: string; en: string };
   slug: string;
   type: OccasionType;
+  sort_order: number;
   color: string;
   banner_path: string;
   banner_url: string;

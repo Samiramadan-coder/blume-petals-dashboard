@@ -2,6 +2,7 @@
 
 import {
   deleteOccasionAction,
+  reorderOccasionsAction,
   updateOccasionVisibilityAction,
 } from "@/lib/occasion-actions";
 import { toast } from "sonner";
@@ -45,14 +46,22 @@ export default function DataPreview({
             {t("Description")}
           </p>
         </div>
-        <CreateEdit />
+        <CreateEdit totalOccasionItems={occasions.length} />
       </header>
 
       <ReorderableDataTable
         data={occasions}
         getRowId={(row) => row.id}
-        onReorder={(newOccasions) => {
+        onReorder={async (newOccasions) => {
           setOccasions(newOccasions);
+          const result = await reorderOccasionsAction(
+            newOccasions.map((occasion) => occasion.id),
+          );
+          if (result.success) {
+            toast.success(tCommon("ReorderedSuccessfully"));
+            return;
+          }
+          toast.error(tCommon("ReorderFailed"));
         }}
         rowsCount={occasions.length}
         countUnit="occasions collections"
@@ -93,7 +102,11 @@ export default function DataPreview({
             </TableCell>
 
             <TableCell className="px-4 py-3">
-              <CreateEdit occasion={occasion} trigger={<EditBtn />} />
+              <CreateEdit
+                occasion={occasion}
+                trigger={<EditBtn />}
+                totalOccasionItems={occasions.length}
+              />
               <DeleteBtn
                 onDelete={async () => {
                   setLoadingDelete(true);

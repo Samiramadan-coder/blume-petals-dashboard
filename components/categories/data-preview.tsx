@@ -65,16 +65,13 @@ export default function DataPreview({
         columns={columns((key) => t(key as never))}
         onReorder={async (newCategories) => {
           setCategories(newCategories);
-
           const result = await reorderCategoriesAction(
             newCategories.map((category) => category.id),
           );
-
           if (result.success) {
             toast.success(tCommon("ReorderedSuccessfully"));
             return;
           }
-
           toast.error(tCommon("ReorderFailed"));
         }}
         renderCells={(category) => (

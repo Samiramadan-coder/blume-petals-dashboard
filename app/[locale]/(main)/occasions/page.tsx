@@ -14,10 +14,7 @@ export async function generateMetadata() {
 export default async function OccasionsCollectionsPage() {
   const { data, ok } = await http.get<OccasionResponse>(
     "/api/v1/admin/occasions",
-    {
-      cache: "force-cache",
-      next: { tags: ["occasions"] },
-    },
+    { cache: "force-cache", next: { tags: ["occasions"] } },
   );
 
   if (!ok) {
