@@ -112,7 +112,7 @@ export default function CreateEdit({
   }, [watchSlug]);
 
   const onSubmit = (values: OccasionFormValues) => {
-    console.log("Occasion collection form values:", values);
+    // console.log("Occasion collection form values:", values);
   };
 
   return (

@@ -27,7 +27,11 @@
     "DeletedSuccessfully": "Deleted successfully",
     "DeleteFailed": "Delete failed. Please try again.",
     "ReorderedSuccessfully": "Reordered successfully",
-    "ReorderFailed": "Failed to reorder. Please try again."
+    "ReorderFailed": "Failed to reorder. Please try again.",
+    "CreatedSuccessfully": "Created successfully",
+    "CreationFailed": "Creation failed. Please try again.",
+    "UpdatedSuccessfully": "Updated successfully",
+    "UpdateFailed": "Update failed. Please try again."
   },
   "Auth": {
     "Login": {
@@ -107,11 +111,7 @@
     "Banner": "Banner",
     "BannerIsRequired": "Category Banner is required",
     "IconIsRequired": "Category Icon is required",
-    "CategoryCreatedSuccessfully": "Category created successfully",
-    "CategoryUpdatedSuccessfully": "Category updated successfully",
-    "CategoryDeletedSuccessfully": "Category deleted successfully",
-    "CategoryCreationFailed": "Failed to create category. Please try again.",
-    "CategoryUpdateFailed": "Failed to update category. Please try again."
+    "CategoryDeletedSuccessfully": "Category deleted successfully"
   },
   "Products": {
     "Products": "Products",

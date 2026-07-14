@@ -13,17 +13,19 @@ export async function generateMetadata() {
 }
 
 export default async function OccasionsCollectionsPage() {
-  // const { data, ok } = await http.get<OccasionResponse>(
-  //   "/api/v1/admin/occasions",
-  //   {
-  //     cache: "force-cache",
-  //     next: { tags: ["occasions"] },
-  //   },
-  // );
+  const { data, ok } = await http.get<OccasionResponse>(
+    "/api/v1/admin/occasions",
+    {
+      cache: "force-cache",
+      next: { tags: ["occasions"] },
+    },
+  );
 
-  // if (!ok) {
-  //   throw new Error("Failed to fetch occasions collections");
-  // }
+  console.log(data);
+
+  if (!ok) {
+    throw new Error("Failed to fetch occasions collections");
+  }
 
   return (
     <main className="space-y-6">

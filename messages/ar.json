@@ -27,7 +27,11 @@
     "DeletedSuccessfully": "تم الحذف بنجاح",
     "DeleteFailed": "فشل الحذف. يرجى المحاولة مرة أخرى.",
     "ReorderedSuccessfully": "تم إعادة ترتيب الفئات بنجاح",
-    "ReorderFailed": "فشل إعادة ترتيب الفئات. يرجى المحاولة مرة أخرى."
+    "ReorderFailed": "فشل إعادة ترتيب الفئات. يرجى المحاولة مرة أخرى.",
+    "CreatedSuccessfully": "تم الإنشاء بنجاح",
+    "CreationFailed": "فشل الإنشاء. يرجى المحاولة مرة أخرى.",
+    "UpdatedSuccessfully": "تم التحديث بنجاح",
+    "UpdateFailed": "فشل التحديث. يرجى المحاولة مرة أخرى."
   },
   "Auth": {
     "Login": {
@@ -106,11 +110,7 @@
     "Type": "النوع",
     "Banner": "بانر",
     "BannerIsRequired": "بانر الفئة مطلوب",
-    "IconIsRequired": "أيقونة الفئة مطلوبة",
-    "CategoryCreatedSuccessfully": "تم إنشاء الفئة بنجاح",
-    "CategoryUpdatedSuccessfully": "تم تحديث الفئة بنجاح",
-    "CategoryCreationFailed": "فشل إنشاء الفئة. يرجى المحاولة مرة أخرى.",
-    "CategoryUpdateFailed": "فشل تحديث الفئة. يرجى المحاولة مرة أخرى."
+    "IconIsRequired": "أيقونة الفئة مطلوبة"
   },
   "Products": {
     "Products": "المنتجات",
