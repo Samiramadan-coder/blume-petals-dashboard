@@ -63,6 +63,7 @@ export default function DataPreview({
         countUnit={t("Categories")}
         columns={columns((key) => t(key as never))}
         onReorder={(newCategories) => {
+          console.log(newCategories.map((category) => category.id));
           setCategories(newCategories);
         }}
         renderCells={(category) => (

@@ -112,3 +112,21 @@ export async function deleteCategoryAction(
     return { success: false };
   }
 }
+
+// Reorder Categories Action
+type ReorderCategoriesResult = { success: boolean };
+
+export async function reorderCategoriesAction(
+  ids: number[],
+): Promise<ReorderCategoriesResult> {
+  try {
+    await http.post("/api/v1/admin/categories/reorder", {
+      ids,
+    });
+    updateTag("categories");
+    return { success: true };
+  } catch (err) {
+    console.error("Error reordering categories:", err);
+    return { success: false };
+  }
+}
