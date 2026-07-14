@@ -1,8 +1,7 @@
 import { http } from "@/lib/http";
 import { getTranslations } from "next-intl/server";
-import DataPreview from "@/components/occasions/data-preview";
 import { OccasionResponse } from "@/types/occasions";
-import occasions from "@/data/occasions.json";
+import DataPreview from "@/components/occasions/data-preview";
 
 export async function generateMetadata() {
   const t = await getTranslations("Occasions");
@@ -29,11 +28,7 @@ export default async function OccasionsCollectionsPage() {
 
   return (
     <main className="space-y-6">
-      <DataPreview
-        initialOccasions={
-          occasions.data.items as unknown as OccasionResponse["data"]["items"]
-        }
-      />
+      <DataPreview initialOccasions={data.data.items} />
     </main>
   );
 }

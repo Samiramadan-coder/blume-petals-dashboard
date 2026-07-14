@@ -24,17 +24,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { availableLocales } from "@/constants/shared";
 import { useLocale, useTranslations } from "next-intl";
 import { useFormLocale } from "@/hooks/use-form-locale";
+import { postOccasionAction } from "@/lib/occasion-actions";
 import { colors, occasionTypes } from "@/constants/occasions";
-import { Controller, useForm, useWatch } from "react-hook-form";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
-import SingleImageUploader from "../form/single-image-uploader";
 import LocaleFormSwitcher from "../reusable/locale-form-switcher";
+import { Controller, SubmitHandler, useForm, useWatch } from "react-hook-form";
 
 // Get default values for the form based on the occasion collection data
 function getDefaultValues(occasion?: Occasion) {
   return {
-    banner: occasion?.banner_url || "",
-    name: occasion?.name || { en: "", ar: "" },
+    name: occasion?.name_translations || { en: "", ar: "" },
     slug: occasion?.slug || "",
     is_visible: occasion?.is_visible ?? true,
     type: occasion?.type || "bouquet",
@@ -111,7 +110,8 @@ export default function CreateEdit({
     }
   }, [watchSlug]);
 
-  const onSubmit = (values: OccasionFormValues) => {
+  const onSubmit: SubmitHandler<OccasionFormValues> = async (data) => {
+    await postOccasionAction(data);
     // console.log("Occasion collection form values:", values);
   };
 
@@ -239,11 +239,11 @@ export default function CreateEdit({
               </div>
             </div> */}
 
-            <SingleImageUploader
+            {/* <SingleImageUploader
               control={control}
               name="banner"
               label={tLive("Fields.Banner")}
-            />
+            /> */}
 
             <Separator className="bg-border" />
             <SectionLabel>{tLive("Labels.Color")}</SectionLabel>

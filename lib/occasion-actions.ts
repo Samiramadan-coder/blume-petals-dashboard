@@ -15,28 +15,8 @@ type PostAndPutOccasionsResult =
 export async function postOccasionAction(
   formData: OccasionFormValues,
 ): Promise<PostAndPutOccasionsResult> {
-  const dataWithoutFiles: Partial<OccasionFormValues> = { ...formData };
-  delete dataWithoutFiles.banner;
-
   try {
-    const response = await http.post<{ data: Occasion }>(
-      "/api/v1/admin/occasions",
-      dataWithoutFiles,
-    );
-
-    // Post Or Update Icon
-    if (formData.banner instanceof Blob) {
-      const bannerFormData = new FormData();
-      bannerFormData.append(
-        "banner",
-        formData.banner,
-        formData.banner instanceof File ? formData.banner.name : "Banner",
-      );
-      await http.post(
-        `/api/v1/admin/occasions/${response.data.data.id}/image`,
-        bannerFormData,
-      );
-    }
+    await http.post<{ data: Occasion }>("/api/v1/admin/occasions", formData);
 
     updateTag("occasions");
     return { success: true };

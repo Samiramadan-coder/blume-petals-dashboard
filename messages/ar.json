@@ -202,6 +202,7 @@
   "Occasions": {
     "Title": "مجموعات المناسبات",
     "Description": "نظم منتجاتك وتحكم فيما يظهر في واجهة المتجر.",
+    "Items": "العناصر",
     "Errors": {
       "OccasionCollectionNameRequired": "اسم المناسبة/المجموعة مطلوب",
       "OccasionCollectionNameMinLength": "يجب أن يكون اسم المناسبة/المجموعة مكونًا من حرفين على الأقل",
@@ -235,11 +236,10 @@
       "Slug": "أدخل الرابط"
     },
     "Table": {
-      "Banner": "بانر",
       "Name": "الاسم",
-      "DateRange": "نطاق التاريخ",
       "Products": "المنتجات",
       "Visibility": "الرؤية",
+      "Status": "الحالة",
       "Actions": "الإجراءات"
     }
   }

@@ -2,7 +2,7 @@ import z from "zod";
 import { Pagination, T } from "./shared";
 import { typesEnum } from "@/constants/shared";
 
-const imageSchema = z.union([z.string(), z.instanceof(Blob)]);
+// const imageSchema = z.union([z.string(), z.instanceof(Blob)]);
 
 export const occasionCollectionSchema = (t: T) =>
   z
@@ -23,19 +23,19 @@ export const occasionCollectionSchema = (t: T) =>
         .min(2, t("Errors.OccasionCollectionSlugMinLength")),
       type: z.enum(typesEnum, t("Errors.OccasionCollectionTypeRequired")),
       color: z.string().min(1, t("Errors.OccasionCollectionColorRequired")),
-      banner: imageSchema,
       is_visible: z.boolean(),
+      // banner: imageSchema,
       // startDate: z.string().min(1, "Please select a start date"),
       // endDate: z.string().min(1, "Please select an end date"),
     })
     .superRefine((data, ctx) => {
-      if (!data.banner) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["banner"],
-          message: t("Errors.BannerIsRequired"),
-        });
-      }
+      // if (!data.banner) {
+      //   ctx.addIssue({
+      //     code: "custom",
+      //     path: ["banner"],
+      //     message: t("Errors.BannerIsRequired"),
+      //   });
+      // }
       // if (!data.startDate || !data.endDate) return;
       // if (data.startDate > data.endDate) {
       //   ctx.addIssue({
@@ -54,7 +54,8 @@ export type OccasionType = OccasionFormValues["type"];
 
 export type Occasion = {
   id: number;
-  name: { ar: string; en: string };
+  name: string;
+  name_translations: { ar: string; en: string };
   slug: string;
   type: OccasionType;
   color: string;

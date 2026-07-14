@@ -202,6 +202,7 @@
   "Occasions": {
     "Title": "Occasions Collections",
     "Description": "Organise your products and control what appears on the storefront.",
+    "Items": "Items",
     "Errors": {
       "OccasionCollectionNameRequired": "Occasion/Collection name is required",
       "OccasionCollectionNameMinLength": "Occasion/Collection name must be at least 2 characters",
@@ -235,11 +236,10 @@
       "Slug": "Enter Slug"
     },
     "Table": {
-      "Banner": "Banner",
       "Name": "Name",
-      "DateRange": "Date Range",
       "Products": "Products",
       "Visibility": "Visibility",
+      "Status": "Status",
       "Actions": "Actions"
     }
   }

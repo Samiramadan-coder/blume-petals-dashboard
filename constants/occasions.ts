@@ -1,5 +1,5 @@
 import { DataTableColumn } from "@/components/reusable/date-sortable-table";
-import { OccasionCollectionType } from "@/types/occasions";
+import { OccasionType } from "@/types/occasions";
 import { T } from "@/types/shared";
 
 // Occasion Types
@@ -7,7 +7,7 @@ export const occasionTypes = (
   t: T,
 ): {
   label: string;
-  value: OccasionCollectionType;
+  value: OccasionType;
 }[] => [
   {
     label: t("Bouquet"),
@@ -42,16 +42,8 @@ export const occasionTypes = (
 // Occasion Columns
 export const columns = (t: T): DataTableColumn[] => [
   {
-    key: "banner",
-    label: t("Table.Banner"),
-  },
-  {
     key: "name",
     label: t("Table.Name"),
-  },
-  {
-    key: "date-range",
-    label: t("Table.DateRange"),
   },
   {
     key: "products",
@@ -60,6 +52,10 @@ export const columns = (t: T): DataTableColumn[] => [
   {
     key: "visibility",
     label: t("Table.Visibility"),
+  },
+  {
+    key: "status",
+    label: t("Table.Status"),
   },
   {
     key: "actions",

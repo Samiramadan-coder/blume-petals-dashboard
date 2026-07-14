@@ -23,11 +23,11 @@ export default function DataPreview({
 }: {
   initialOccasions: Occasion[];
 }) {
+  const locale = useLocale();
   const t = useTranslations("Occasions");
   const tCommon = useTranslations("Common");
-  const locale = useLocale();
-  const [occasions, setOccasions] = useState(initialOccasions);
   const [loadingDelete, setLoadingDelete] = useState(false);
+  const [occasions, setOccasions] = useState(initialOccasions);
 
   return (
     <>
@@ -59,28 +59,28 @@ export default function DataPreview({
         columns={columns(t)}
         renderCells={(occasion) => (
           <>
-            <TableCell className="px-4 py-3">-</TableCell>
-
             <TableCell className="px-4 py-3">
-              <p className="font-semibold">{occasion.name[locale]}</p>
+              <p className="font-semibold">
+                {occasion.name_translations[locale]}
+              </p>
               <p className="text-muted-foreground text-xs mt-1">
                 /{occasion.slug}
               </p>
             </TableCell>
 
-            <TableCell className="px-4 py-3">-</TableCell>
+            <TableCell>
+              - <span className="font-normal">{t("Items")}</span>
+            </TableCell>
 
             <TableCell className="px-4 py-3">
               <Switch
                 checked={occasion.is_visible}
                 onClick={async () => {
                   const result = await updateOccasionVisibilityAction(occasion);
-
                   if (result.success) {
                     toast.success(tCommon("VisibilityUpdated"));
                     return;
                   }
-
                   toast.error(tCommon("VisibilityUpdateFailed"));
                 }}
               />
@@ -98,14 +98,11 @@ export default function DataPreview({
                 onDelete={async () => {
                   setLoadingDelete(true);
                   const result = await deleteOccasionAction(occasion);
-
                   setLoadingDelete(false);
-
                   if (result.success) {
                     toast.success(tCommon("DeletedSuccessfully"));
                     return;
                   }
-
                   toast.error(tCommon("DeleteFailed"));
                 }}
                 loading={loadingDelete}
