@@ -18,24 +18,31 @@ import { Button } from "../ui/button";
 import RichText from "../form/rich-text";
 import AddButton from "../form/add-button";
 import { Separator } from "../ui/separator";
-import { useRef, useState, type ReactNode } from "react";
 import SectionLabel from "../form/section-label";
 import ImageUploader from "../form/image-uploader";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { availableLocales } from "@/constants/shared";
 import { useLocale, useTranslations } from "next-intl";
 import { useFormLocale } from "@/hooks/use-form-locale";
+import { useRef, useState, type ReactNode } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import LocaleFormSwitcher from "../reusable/locale-form-switcher";
 import { Field, FieldContent, FieldError, FieldLabel } from "../ui/field";
 import { Product, ProductFormValues, productSchema } from "@/types/products";
+import { Category } from "@/types/categories";
+import { Occasion } from "@/types/occasions";
 
 export default function CreateEdit({
   trigger,
   product,
+  categories,
+  occasions,
 }: {
   trigger?: ReactNode;
   product?: Product;
+  categories: Category[];
+  occasions: Occasion[];
 }) {
   const locale = useLocale();
   const t = useTranslations("Products");
@@ -55,21 +62,23 @@ export default function CreateEdit({
     clearErrors,
     formState: { errors },
   } = useForm<ProductFormValues>({
-    resolver: zodResolver(productSchema),
+    resolver: zodResolver(productSchema((key) => tLive(key as never))),
     defaultValues: {
-      name: product?.name || "",
-      category: product?.category || "",
-      description: product?.description || "",
-      price: product?.price || undefined,
-      salesPrice: product?.salesPrice || undefined,
-      stockQuantity: product?.stockQuantity || undefined,
-      images: product?.images || [],
-      sizes: product?.sizes || [],
-      colors: product?.colors || [],
-      occasions: product?.occasions || [],
-      showNewBadge: product?.showNewBadge || false,
-      featuredOnHomepage: product?.featuredOnHomepage || false,
-      productStatus: product?.productStatus || "active",
+      name: product?.name || { en: "", ar: "" },
+      category_id: product?.category_id || undefined,
+      description: product?.description || { en: "", ar: "" },
+      occasion_ids: product?.occasion_ids || [],
+
+      // price: product?.price || undefined,
+      // salesPrice: product?.salesPrice || undefined,
+      // stockQuantity: product?.stockQuantity || undefined,
+      // images: product?.images || [],
+      // sizes: product?.sizes || [],
+      // colors: product?.colors || [],
+      // occasions: product?.occasions || [],
+      // showNewBadge: product?.showNewBadge || false,
+      // featuredOnHomepage: product?.featuredOnHomepage || false,
+      // productStatus: product?.productStatus || "active",
     },
   });
 
@@ -116,50 +125,116 @@ export default function CreateEdit({
             onSubmit={handleSubmit(onSubmit)}
             className="space-y-6 relative"
           >
-            <ImageUploader
+            {/* <ImageUploader
               control={control}
               name="images"
               label={tLive("Fields.Photo")}
               required
               buttonLabel={tLive("AddPhoto")}
               mainLabel={tLive("MainLabel")}
-            />
+            /> */}
 
             <SectionLabel>{tLive("Labels.BasicInformation")}</SectionLabel>
-
-            <Input<ProductFormValues>
-              label={tLive("Fields.Name")}
-              name="name"
-              type="text"
-              placeholder={tLive("Placeholders.Name")}
-              register={register}
-              errors={errors}
-              required
-            />
+            {availableLocales.map((locale) => (
+              <Input<ProductFormValues>
+                key={locale}
+                label={tLive("Fields.Name")}
+                name={`name.${locale}`}
+                type="text"
+                placeholder={tLive("Placeholders.Name")}
+                className={cn({
+                  hidden: activeLocale !== locale,
+                })}
+                register={register}
+                errors={errors}
+                required
+              />
+            ))}
 
             <Select<ProductFormValues>
               control={control}
               label={tLive("Fields.Category")}
-              name="category"
+              name="category_id"
               placeholder={tLive("Placeholders.Category")}
               required
               dir={dir}
-              options={[
-                { label: "Category 1", value: "category1" },
-                { label: "Category 2", value: "category2" },
-              ]}
+              options={categories.map((category) => ({
+                value: category.id.toString(),
+                label: category.name[activeLocale],
+              }))}
             />
 
-            <RichText<ProductFormValues>
-              key={activeLocale}
-              control={control}
-              label={tLive("Fields.Description")}
-              name="description"
-              placeholder={tLive("Placeholders.Description")}
-            />
+            {availableLocales.map((locale) => (
+              <div
+                key={locale}
+                className={cn({
+                  hidden: activeLocale !== locale,
+                })}
+              >
+                <RichText<ProductFormValues>
+                  key={activeLocale}
+                  control={control}
+                  label={tLive("Fields.Description")}
+                  name={`description.${locale}`}
+                  placeholder={tLive("Placeholders.Description")}
+                  required
+                />
+              </div>
+            ))}
 
-            <SectionLabel>{tLive("Labels.PricingAndStock")}</SectionLabel>
+            <Separator className="bg-border" />
+            <Field>
+              <FieldLabel htmlFor="occasions" className="text-sm font-semibold">
+                {tLive("Fields.OccasionTags")}
+                <span className="text-red-500">*</span>
+              </FieldLabel>
 
+              <FieldContent>
+                <Controller
+                  name="occasion_ids"
+                  control={control}
+                  render={({ field }) => {
+                    const selectedOccasions = field.value ?? [];
+
+                    return (
+                      <div className="space-y-1.5">
+                        <div className="flex flex-wrap gap-2">
+                          {occasions.map((occasion) => {
+                            const isSelected = selectedOccasions.includes(
+                              occasion.id,
+                            );
+
+                            return (
+                              <Badge
+                                key={occasion.id}
+                                variant="outline"
+                                className={cn(
+                                  `h-7 text-sm px-4 cursor-pointer`,
+                                  { "bg-primary/20 border": isSelected },
+                                )}
+                                onClick={() => {
+                                  const nextOccasions = isSelected
+                                    ? selectedOccasions.filter(
+                                        (i) => i !== occasion.id,
+                                      )
+                                    : [...selectedOccasions, occasion.id];
+                                  field.onChange(nextOccasions);
+                                }}
+                              >
+                                {occasion.name_translations[activeLocale]}
+                              </Badge>
+                            );
+                          })}
+                        </div>
+                        <FieldError errors={[errors.occasion_ids]} />
+                      </div>
+                    );
+                  }}
+                />
+              </FieldContent>
+            </Field>
+
+            {/* <SectionLabel>{tLive("Labels.PricingAndStock")}</SectionLabel>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Input<ProductFormValues>
                 label={tLive("Fields.Price")}
@@ -196,9 +271,9 @@ export default function CreateEdit({
                 register={register}
                 placeholder={tLive("Placeholders.SKU")}
               />
-            </div>
+            </div> */}
 
-            <Separator className="bg-border" />
+            {/* <Separator className="bg-border" />
             <SectionLabel>{tLive("Labels.Variants")}</SectionLabel>
             <Field>
               <FieldLabel htmlFor="sizes" className="text-sm font-semibold">
@@ -249,9 +324,9 @@ export default function CreateEdit({
                   }}
                 />
               </FieldContent>
-            </Field>
+            </Field> */}
 
-            <Field>
+            {/* <Field>
               <FieldLabel htmlFor="colors" className="text-sm font-semibold">
                 {tLive("Fields.ColorVariants")}
                 <span className="text-red-500">*</span>
@@ -364,63 +439,9 @@ export default function CreateEdit({
                   }}
                 />
               </FieldContent>
-            </Field>
+            </Field> */}
 
-            <Separator className="bg-border" />
-            <Field>
-              <FieldLabel htmlFor="occasions" className="text-sm font-semibold">
-                {tLive("Fields.OccasionTags")}
-                <span className="text-red-500">*</span>
-              </FieldLabel>
-
-              <FieldContent>
-                <Controller
-                  name="occasions"
-                  control={control}
-                  render={({ field }) => {
-                    const selectedOccasions = field.value ?? [];
-
-                    return (
-                      <div className="space-y-1.5">
-                        <div className="flex flex-wrap gap-2">
-                          {occasions((key) => tLive(key as never)).map(
-                            (occasion) => {
-                              const isSelected = selectedOccasions.includes(
-                                occasion.value,
-                              );
-
-                              return (
-                                <Badge
-                                  key={occasion.value}
-                                  variant="outline"
-                                  className={cn(
-                                    `h-7 text-sm px-4 cursor-pointer`,
-                                    { "bg-primary/20 border": isSelected },
-                                  )}
-                                  onClick={() => {
-                                    const nextOccasions = isSelected
-                                      ? selectedOccasions.filter(
-                                          (i) => i !== occasion.value,
-                                        )
-                                      : [...selectedOccasions, occasion.value];
-                                    field.onChange(nextOccasions);
-                                  }}
-                                >
-                                  {occasion.label}
-                                </Badge>
-                              );
-                            },
-                          )}
-                        </div>
-                        <FieldError errors={[errors.occasions]} />
-                      </div>
-                    );
-                  }}
-                />
-              </FieldContent>
-            </Field>
-
-            <Separator className="bg-border" />
+            {/* <Separator className="bg-border" />
             <SectionLabel>{tLive("Labels.DisplayOptions")}</SectionLabel>
             <Switch
               name="showNewBadge"
@@ -465,7 +486,7 @@ export default function CreateEdit({
                   </div>
                 );
               }}
-            />
+            /> */}
           </form>
         </div>
 

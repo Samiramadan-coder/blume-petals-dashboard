@@ -198,6 +198,21 @@
       "Terracotta": "تراكوتا",
       "DustyRose": "وردي مغبر",
       "Units": "وحدات"
+    },
+    "Errors": {
+      "NameIsRequired": "اسم المنتج مطلوب",
+      "NameMinLength": "يجب أن يكون اسم المنتج مكونًا من 3 أحرف على الأقل",
+      "CategoryIsRequired": "الفئة مطلوبة",
+      "DescriptionIsRequired": "وصف المنتج مطلوب",
+      "DescriptionMinLength": "يجب أن يكون وصف المنتج مكونًا من 10 أحرف على الأقل",
+      "OccasionIsRequired": "المناسبة مطلوبة",
+
+      "PriceIsRequired": "Product price is required",
+      "PriceMustBePositive": "Product price must be a positive number",
+      "SalesPriceMustBePositive": "Sales price must be a positive number",
+      "StockQuantityIsRequired": "Stock quantity is required",
+      "StockQuantityMustBeNonNegative": "Stock quantity must be a non-negative number",
+      "SKUIsRequired": "SKU is required"
     }
   },
   "Occasions": {

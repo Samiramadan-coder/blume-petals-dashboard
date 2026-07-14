@@ -15,15 +15,25 @@ import { DataTable } from "../reusable/data-table";
 import { Switch } from "../ui/switch";
 import { Dot, Star } from "lucide-react";
 import { Badge } from "../ui/badge";
+import { Category } from "@/types/categories";
+import { Occasion } from "@/types/occasions";
 
-export default function DataPreview({ products }: { products: Product[] }) {
+export default function DataPreview({
+  products,
+  categories,
+  occasions,
+}: {
+  products: Product[];
+  categories: Category[];
+  occasions: Occasion[];
+}) {
   const t = useTranslations("Products");
 
   return (
     <>
       <header className="flex items-center justify-between">
         <FiltersControl />
-        <CreateEdit />
+        <CreateEdit categories={categories} occasions={occasions} />
       </header>
 
       <Statistics />
@@ -43,25 +53,25 @@ export default function DataPreview({ products }: { products: Product[] }) {
             </TableCell>
 
             <TableCell className="px-4 py-3">
-              <Image
+              {/* <Image
                 src={product.images[0] as string}
                 alt={product.name}
                 width={50}
                 height={80}
-              />
+              /> */}
             </TableCell>
 
             <TableCell className="px-4 py-3">
-              <p className="font-semibold">{product.name}</p>
+              <p className="font-semibold">{""}</p>
               <p className="text-muted-foreground text-xs mt-1">BP-ADN-010</p>
             </TableCell>
 
             <TableCell className="px-4 py-3">
-              <span className="text-muted-foreground">{product.category}</span>
+              <span className="text-muted-foreground">{""}</span>
             </TableCell>
 
             <TableCell className="px-4 py-3">
-              <span className="font-semibold">{product.price}</span>
+              <span className="font-semibold">{""}</span>
             </TableCell>
 
             <TableCell className="px-4 py-3">
@@ -87,7 +97,12 @@ export default function DataPreview({ products }: { products: Product[] }) {
             </TableCell>
 
             <TableCell className="px-4 py-3 text-center">
-              <CreateEdit product={product} trigger={<EditBtn />} />
+              <CreateEdit
+                categories={categories}
+                occasions={occasions}
+                product={product}
+                trigger={<EditBtn />}
+              />
               <DeleteBtn />
             </TableCell>
           </TableRow>

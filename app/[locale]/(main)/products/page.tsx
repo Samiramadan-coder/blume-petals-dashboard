@@ -1,5 +1,8 @@
 import { productsPlaceholder } from "@/constants/products";
 import DataPreview from "@/components/products/data-preview";
+import { http } from "@/lib/http";
+import { CategoryResponse } from "@/types/categories";
+import { OccasionResponse } from "@/types/occasions";
 
 export const metadata = {
   title: "Products",
@@ -16,11 +19,22 @@ export default async function ProductsPage({
   searchParams: SearchParams;
 }) {
   const params = await searchParams;
-  console.log(params);
+
+  const { data: categories } = await http.get<CategoryResponse>(
+    "/api/v1/admin/categories",
+  );
+
+  const { data: products } = await http.get<OccasionResponse>(
+    "/api/v1/admin/occasions",
+  );
 
   return (
     <main className="space-y-6">
-      <DataPreview products={productsPlaceholder} />
+      <DataPreview
+        products={productsPlaceholder}
+        categories={categories.data.items}
+        occasions={products.data.items}
+      />
     </main>
   );
 }

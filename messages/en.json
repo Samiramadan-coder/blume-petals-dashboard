@@ -198,6 +198,21 @@
       "Terracotta": "Terracotta",
       "DustyRose": "Dusty Rose",
       "Units": "Units"
+    },
+    "Errors": {
+      "NameIsRequired": "Product name is required",
+      "NameMinLength": "Product name must be at least 3 characters",
+      "CategoryIsRequired": "Category is required",
+      "DescriptionIsRequired": "Product description is required",
+      "DescriptionMinLength": "Product description must be at least 10 characters",
+      "OccasionIsRequired": "At least one occasion tag is required",
+
+      "PriceIsRequired": "Product price is required",
+      "PriceMustBePositive": "Product price must be a positive number",
+      "SalesPriceMustBePositive": "Sales price must be a positive number",
+      "StockQuantityIsRequired": "Stock quantity is required",
+      "StockQuantityMustBeNonNegative": "Stock quantity must be a non-negative number",
+      "SKUIsRequired": "SKU is required"
     }
   },
   "Occasions": {
