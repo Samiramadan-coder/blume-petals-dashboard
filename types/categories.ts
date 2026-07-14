@@ -2,8 +2,6 @@ import z from "zod";
 import { Pagination, T } from "./shared";
 import { typesEnum } from "@/constants/shared";
 
-const imageSchema = z.union([z.string(), z.instanceof(Blob)]);
-
 export const categorySchema = (t: T) =>
   z
     .object({
@@ -16,8 +14,18 @@ export const categorySchema = (t: T) =>
       color: z.string().min(1, t("SelectColor")),
       is_visible: z.boolean(),
       sort_order: z.number(),
-      icon: imageSchema,
-      banner: imageSchema,
+      icon: z.union([
+        z.string(),
+        z
+          .instanceof(Blob)
+          .refine((file) => file.size <= 1024 * 1024, t("FileLessThan1MB")),
+      ]),
+      banner: z.union([
+        z.string(),
+        z
+          .instanceof(Blob)
+          .refine((file) => file.size <= 1024 * 1024, t("FileLessThan1MB")),
+      ]),
     })
     .superRefine((data, ctx) => {
       if (!data.icon) {

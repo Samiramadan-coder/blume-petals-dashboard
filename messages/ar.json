@@ -110,7 +110,8 @@
     "Type": "النوع",
     "Banner": "بانر",
     "BannerIsRequired": "بانر الفئة مطلوب",
-    "IconIsRequired": "أيقونة الفئة مطلوبة"
+    "IconIsRequired": "أيقونة الفئة مطلوبة",
+    "FileLessThan1MB": "يجب أن يكون حجم الملف أقل من 1 ميغابايت"
   },
   "Products": {
     "Products": "المنتجات",

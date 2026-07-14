@@ -110,7 +110,8 @@
     "Type": "Type",
     "Banner": "Banner",
     "BannerIsRequired": "Category Banner is required",
-    "IconIsRequired": "Category Icon is required"
+    "IconIsRequired": "Category Icon is required",
+    "FileLessThan1MB": "File must be less than 1MB"
   },
   "Products": {
     "Products": "Products",
