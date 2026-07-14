@@ -12,22 +12,27 @@ import { Switch } from "../ui/switch";
 import CreateEdit from "./create-edit";
 import { TableCell } from "../ui/table";
 import EditBtn from "../reusable/edit-btn";
+import { Pagination } from "@/types/shared";
 import { Category } from "@/types/categories";
 import DeleteBtn from "../reusable/delete-btn";
 import { columns } from "@/constants/categories";
 import { useLocale, useTranslations } from "next-intl";
 import { ReorderableDataTable } from "../reusable/date-sortable-table";
+import { useQueryParam } from "@/hooks/use-search-params";
 
 export default function DataPreview({
   initialCategories,
+  pagination,
 }: {
   initialCategories: Category[];
+  pagination: Pagination;
 }) {
+  const locale = useLocale();
+  const t = useTranslations("Categories");
+  const { setQueryParam } = useQueryParam();
+  const tCommon = useTranslations("Common");
   const [loadingDelete, setLoadingDelete] = useState(false);
   const [categories, setCategories] = useState(initialCategories);
-  const t = useTranslations("Categories");
-  const tCommon = useTranslations("Common");
-  const locale = useLocale();
 
   return (
     <>
@@ -51,14 +56,15 @@ export default function DataPreview({
       <ReorderableDataTable
         data={categories}
         getRowId={(row) => row.id}
-        onReorder={(newCategories) => {
-          setCategories(newCategories);
-        }}
-        onNextPage={() => {}}
-        onPreviousPage={() => {}}
+        currentPage={pagination.current_page}
+        totalPages={pagination.last_page}
+        onPageChange={(page) => setQueryParam("page", page.toString())}
         rowsCount={categories.length}
         countUnit={t("Categories")}
         columns={columns((key) => t(key as never))}
+        onReorder={(newCategories) => {
+          setCategories(newCategories);
+        }}
         renderCells={(category) => (
           <>
             <TableCell className="px-4 py-3">

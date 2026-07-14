@@ -10,6 +10,7 @@ import {
   type DragEndEvent,
   type UniqueIdentifier,
 } from "@dnd-kit/core";
+
 import {
   SortableContext,
   arrayMove,
@@ -17,6 +18,7 @@ import {
   useSortable,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
+
 import {
   Table,
   TableBody,
@@ -26,12 +28,22 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "../ui/pagination";
+
+import { useId } from "react";
 import { cn } from "@/lib/utils";
-import { Button } from "../ui/button";
 import { CSS } from "@dnd-kit/utilities";
 import { GripVertical } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useId } from "react";
 
 export type DataTableColumn = {
   key: string;
@@ -47,11 +59,43 @@ type ReorderableDataTableProps<T> = {
   onReorder?: (rows: T[]) => void;
   rowsCount?: number;
   countUnit?: string;
-  onNextPage?: () => void;
-  onPreviousPage?: () => void;
-  page?: number;
+  currentPage?: number;
+  totalPages?: number;
+  onPageChange?: (page: number) => void;
   className?: string;
 };
+
+function getVisiblePages(currentPage: number, totalPages: number) {
+  if (totalPages <= 7) {
+    return Array.from({ length: totalPages }, (_, index) => index + 1);
+  }
+
+  if (currentPage <= 4) {
+    return [1, 2, 3, 4, 5, "ellipsis-end", totalPages] as const;
+  }
+
+  if (currentPage >= totalPages - 3) {
+    return [
+      1,
+      "ellipsis-start",
+      totalPages - 4,
+      totalPages - 3,
+      totalPages - 2,
+      totalPages - 1,
+      totalPages,
+    ] as const;
+  }
+
+  return [
+    1,
+    "ellipsis-start",
+    currentPage - 1,
+    currentPage,
+    currentPage + 1,
+    "ellipsis-end",
+    totalPages,
+  ] as const;
+}
 
 function SortableTableRow<T>({
   row,
@@ -108,10 +152,9 @@ export function ReorderableDataTable<T>({
   onReorder,
   rowsCount,
   countUnit = "items",
-  onNextPage,
-  onPreviousPage,
-  page = 1,
-
+  currentPage,
+  totalPages,
+  onPageChange,
   className,
 }: ReorderableDataTableProps<T>) {
   const dndContextId = useId();
@@ -137,6 +180,8 @@ export function ReorderableDataTable<T>({
   }
 
   const footerColSpan = columns.length + 1;
+  const visiblePages =
+    currentPage && totalPages ? getVisiblePages(currentPage, totalPages) : [];
 
   return (
     <div
@@ -194,10 +239,7 @@ export function ReorderableDataTable<T>({
           {rowsCount !== undefined && (
             <TableFooter className="bg-white">
               <TableRow>
-                <TableCell
-                  className="px-4 py-3 text-sm text-muted-foreground"
-                  colSpan={footerColSpan - 1}
-                >
+                <TableCell className="px-4 py-3 text-sm text-muted-foreground">
                   {rowsCount !== undefined && (
                     <>
                       {t("Showing")}{" "}
@@ -209,33 +251,74 @@ export function ReorderableDataTable<T>({
                   )}
                 </TableCell>
 
-                <TableCell className="px-4 py-3">
-                  {(onNextPage || onPreviousPage) && (
-                    <div className="flex items-center justify-end gap-1">
-                      <Button
-                        type="button"
-                        variant="outline"
-                        className="text-xs"
-                        onClick={onPreviousPage}
-                        disabled={!onPreviousPage}
-                      >
-                        {t("Previous")}
-                      </Button>
+                <TableCell className="px-4 py-3" colSpan={footerColSpan - 1}>
+                  {onPageChange && totalPages && currentPage && (
+                    <Pagination className="justify-end">
+                      <PaginationContent>
+                        <PaginationItem>
+                          <PaginationPrevious
+                            href="#"
+                            text={t("Previous")}
+                            aria-label={t("Previous")}
+                            onClick={(event) => {
+                              event.preventDefault();
 
-                      <Button type="button" className="min-w-8 text-xs">
-                        {page}
-                      </Button>
+                              if (currentPage > 1) {
+                                onPageChange(currentPage - 1);
+                              }
+                            }}
+                            className={
+                              currentPage === 1
+                                ? "pointer-events-none opacity-50"
+                                : "cursor-pointer"
+                            }
+                          />
+                        </PaginationItem>
 
-                      <Button
-                        type="button"
-                        variant="outline"
-                        className="text-xs"
-                        onClick={onNextPage}
-                        disabled={!onNextPage}
-                      >
-                        {t("Next")}
-                      </Button>
-                    </div>
+                        {visiblePages.map((item) =>
+                          typeof item === "number" ? (
+                            <PaginationItem key={item}>
+                              <PaginationLink
+                                href="#"
+                                isActive={item === currentPage}
+                                aria-label={`${t("Showing")} ${item}`}
+                                onClick={(event) => {
+                                  event.preventDefault();
+                                  onPageChange(item);
+                                }}
+                                className="cursor-pointer"
+                              >
+                                {item}
+                              </PaginationLink>
+                            </PaginationItem>
+                          ) : (
+                            <PaginationItem key={item}>
+                              <PaginationEllipsis />
+                            </PaginationItem>
+                          ),
+                        )}
+
+                        <PaginationItem>
+                          <PaginationNext
+                            href="#"
+                            text={t("Next")}
+                            aria-label={t("Next")}
+                            onClick={(event) => {
+                              event.preventDefault();
+
+                              if (currentPage < totalPages) {
+                                onPageChange(currentPage + 1);
+                              }
+                            }}
+                            className={
+                              currentPage === totalPages
+                                ? "pointer-events-none opacity-50"
+                                : "cursor-pointer"
+                            }
+                          />
+                        </PaginationItem>
+                      </PaginationContent>
+                    </Pagination>
                   )}
                 </TableCell>
               </TableRow>

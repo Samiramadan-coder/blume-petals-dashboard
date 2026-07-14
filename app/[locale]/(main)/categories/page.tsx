@@ -11,10 +11,23 @@ export async function generateMetadata() {
   };
 }
 
-export default async function CategoriesPage() {
+export default async function CategoriesPage({
+  searchParams,
+}: {
+  searchParams: { page?: string };
+}) {
+  const params = await searchParams;
+
   const { data, ok } = await http.get<CategoryResponse>(
     "/api/v1/admin/categories",
-    { cache: "force-cache", next: { tags: ["categories"] } },
+    {
+      params: {
+        page: params.page || 1,
+        per_page: 10,
+      },
+      cache: "force-cache",
+      next: { tags: ["categories"] },
+    },
   );
 
   if (!ok) {
@@ -32,6 +45,7 @@ export default async function CategoriesPage() {
           ]),
         )}
         initialCategories={data.data.items}
+        pagination={data.data.pagination}
       />
     </main>
   );
