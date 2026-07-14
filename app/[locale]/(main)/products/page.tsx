@@ -1,8 +1,8 @@
-import { productsPlaceholder } from "@/constants/products";
-import DataPreview from "@/components/products/data-preview";
 import { http } from "@/lib/http";
-import { CategoryResponse } from "@/types/categories";
 import { OccasionResponse } from "@/types/occasions";
+import { CategoryResponse } from "@/types/categories";
+import DataPreview from "@/components/products/data-preview";
+import { ProductResponse } from "@/types/products";
 
 export const metadata = {
   title: "Products",
@@ -24,16 +24,22 @@ export default async function ProductsPage({
     "/api/v1/admin/categories",
   );
 
-  const { data: products } = await http.get<OccasionResponse>(
+  const { data: occasions } = await http.get<OccasionResponse>(
     "/api/v1/admin/occasions",
   );
+
+  const { data: products } = await http.get<ProductResponse>(
+    "/api/v1/admin/products",
+  );
+
+  console.log("products", products);
 
   return (
     <main className="space-y-6">
       <DataPreview
-        products={productsPlaceholder}
+        products={products.data.items}
         categories={categories.data.items}
-        occasions={products.data.items}
+        occasions={occasions.data.items}
       />
     </main>
   );

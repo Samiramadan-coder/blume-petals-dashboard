@@ -205,7 +205,7 @@
       "CategoryIsRequired": "Category is required",
       "DescriptionIsRequired": "Product description is required",
       "DescriptionMinLength": "Product description must be at least 10 characters",
-      "OccasionIsRequired": "At least one occasion tag is required",
+      "OccasionsIsRequired": "At least one occasion tag is required",
 
       "PriceIsRequired": "Product price is required",
       "PriceMustBePositive": "Product price must be a positive number",

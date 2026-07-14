@@ -205,7 +205,7 @@
       "CategoryIsRequired": "الفئة مطلوبة",
       "DescriptionIsRequired": "وصف المنتج مطلوب",
       "DescriptionMinLength": "يجب أن يكون وصف المنتج مكونًا من 10 أحرف على الأقل",
-      "OccasionIsRequired": "المناسبة مطلوبة",
+      "OccasionsIsRequired": "المناسبة مطلوبة",
 
       "PriceIsRequired": "Product price is required",
       "PriceMustBePositive": "Product price must be a positive number",

@@ -1,5 +1,5 @@
 import z from "zod";
-import { T } from "./shared";
+import { Pagination, T } from "./shared";
 
 const imageSchema = z.union([z.string(), z.instanceof(Blob)]);
 
@@ -52,5 +52,69 @@ export type ProductFormValues = z.infer<ReturnType<typeof productSchema>>;
 
 export type Product = ProductFormValues & {
   id: number;
-  rating: number;
+  sku: string;
+  slug: string;
+  category_id: number;
+  name: {
+    en: string;
+    ar: string;
+  };
+  description: {
+    en: string;
+    ar: string;
+  };
+  components: {
+    en: string;
+    ar: string;
+  };
+  dimensions: string;
+  tags: string[];
+  price_from: string;
+  status: string;
+  published_at: string;
+  is_purchasable: boolean;
+  is_best_seller: boolean;
+  is_new_arrival: boolean;
+  is_new: boolean;
+  show_in_builder: boolean;
+  builder_sort: number;
+  rating_avg: string;
+  rating_count: number;
+  sold_count: number;
+  eta_text: {
+    en: string;
+    ar: string;
+  };
+  meta_title: {
+    en: string;
+    ar: string;
+  };
+  meta_description: {
+    en: string;
+    ar: string;
+  };
+  sort_order: number;
+  variants: {
+    id: number;
+    sku: string;
+    size: string;
+    color_slug: string | null;
+    color_hex: string | null;
+    price: string;
+    compare_at_price: string | null;
+    is_on_sale: boolean;
+    in_stock: boolean;
+    available_stock: number;
+  }[];
+  images: string[];
+  occasion_ids: number[];
+  created_at: string;
+  updated_at: string;
+};
+
+export type ProductResponse = {
+  data: {
+    items: Product[];
+    pagination: Pagination;
+  };
 };

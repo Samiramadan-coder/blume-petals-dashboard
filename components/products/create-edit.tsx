@@ -1,11 +1,5 @@
 "use client";
 
-import {
-  colors,
-  occasions,
-  productStatuses,
-  sizes,
-} from "@/constants/products";
 import { cn } from "@/lib/utils";
 import Input from "../form/input";
 import { Badge } from "../ui/badge";
@@ -18,20 +12,22 @@ import { Button } from "../ui/button";
 import RichText from "../form/rich-text";
 import AddButton from "../form/add-button";
 import { Separator } from "../ui/separator";
+import { Occasion } from "@/types/occasions";
+import { Category } from "@/types/categories";
 import SectionLabel from "../form/section-label";
 import ImageUploader from "../form/image-uploader";
-import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { availableLocales } from "@/constants/shared";
 import { useLocale, useTranslations } from "next-intl";
 import { useFormLocale } from "@/hooks/use-form-locale";
 import { useRef, useState, type ReactNode } from "react";
+import { postProductAction } from "@/lib/products-actions";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import LocaleFormSwitcher from "../reusable/locale-form-switcher";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { colors, productStatuses, sizes } from "@/constants/products";
 import { Field, FieldContent, FieldError, FieldLabel } from "../ui/field";
 import { Product, ProductFormValues, productSchema } from "@/types/products";
-import { Category } from "@/types/categories";
-import { Occasion } from "@/types/occasions";
 
 export default function CreateEdit({
   trigger,
@@ -82,8 +78,9 @@ export default function CreateEdit({
     },
   });
 
-  const onSubmit = (values: ProductFormValues) => {
-    console.log("Product form values:", values);
+  const onSubmit: SubmitHandler<ProductFormValues> = async (values) => {
+    // console.log("Product form values:", values);
+    await postProductAction(values, product?.id);
   };
 
   return (
