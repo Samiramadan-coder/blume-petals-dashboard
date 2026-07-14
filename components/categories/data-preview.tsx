@@ -2,6 +2,7 @@
 
 import {
   deleteCategoryAction,
+  reorderCategoriesAction,
   updateCategoryVisibilityAction,
 } from "@/lib/categories-actions";
 import { toast } from "sonner";
@@ -62,9 +63,19 @@ export default function DataPreview({
         rowsCount={categories.length}
         countUnit={t("Categories")}
         columns={columns((key) => t(key as never))}
-        onReorder={(newCategories) => {
-          console.log(newCategories.map((category) => category.id));
+        onReorder={async (newCategories) => {
           setCategories(newCategories);
+
+          const result = await reorderCategoriesAction(
+            newCategories.map((category) => category.id),
+          );
+
+          if (result.success) {
+            toast.success(tCommon("ReorderedSuccessfully"));
+            return;
+          }
+
+          toast.error(tCommon("ReorderFailed"));
         }}
         renderCells={(category) => (
           <>

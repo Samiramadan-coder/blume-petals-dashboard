@@ -120,7 +120,7 @@ export async function reorderCategoriesAction(
   ids: number[],
 ): Promise<ReorderCategoriesResult> {
   try {
-    await http.post("/api/v1/admin/categories/reorder", {
+    await http.patch("/api/v1/admin/categories/reorder", {
       ids,
     });
     updateTag("categories");

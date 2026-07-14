@@ -25,7 +25,9 @@
     "VisibilityUpdated": "Visibility updated successfully",
     "VisibilityUpdateFailed": "Failed to update visibility. Please try again.",
     "DeletedSuccessfully": "Deleted successfully",
-    "DeleteFailed": "Delete failed. Please try again."
+    "DeleteFailed": "Delete failed. Please try again.",
+    "ReorderedSuccessfully": "Reordered successfully",
+    "ReorderFailed": "Failed to reorder. Please try again."
   },
   "Auth": {
     "Login": {
