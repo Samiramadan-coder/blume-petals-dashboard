@@ -1,34 +1,74 @@
 "use client";
 
+import {
+  Controller,
+  SubmitHandler,
+  useForm,
+  useWatch,
+  type Path,
+} from "react-hook-form";
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import Input from "../form/input";
 import { Badge } from "../ui/badge";
 import Header from "../form/header";
 import Footer from "../form/footer";
 import Select from "../form/select";
-import Switch from "../form/switch";
-import { Check, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { Button } from "../ui/button";
 import RichText from "../form/rich-text";
 import AddButton from "../form/add-button";
 import { Separator } from "../ui/separator";
 import { Occasion } from "@/types/occasions";
 import { Category } from "@/types/categories";
+import { useRef, useState, type ReactNode } from "react";
 import SectionLabel from "../form/section-label";
 import ImageUploader from "../form/image-uploader";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { availableLocales } from "@/constants/shared";
 import { useLocale, useTranslations } from "next-intl";
 import { useFormLocale } from "@/hooks/use-form-locale";
-import { useRef, useState, type ReactNode } from "react";
 import { postProductAction } from "@/lib/products-actions";
-import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
+import { productStatuses, sizes } from "@/constants/products";
 import LocaleFormSwitcher from "../reusable/locale-form-switcher";
-import { Controller, SubmitHandler, useForm, useWatch } from "react-hook-form";
-import { colors, productStatuses, sizes } from "@/constants/products";
 import { Field, FieldContent, FieldError, FieldLabel } from "../ui/field";
+import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Product, ProductFormValues, productSchema } from "@/types/products";
-import { http } from "@/lib/http";
+
+function getDefaultValues(product?: Product): ProductFormValues {
+  return {
+    name: product?.name || { en: "", ar: "" },
+    description: product?.description || { en: "", ar: "" },
+    category_id: product?.category_id || 0,
+    occasion_ids: product?.occasion_ids || [],
+    sku: product?.sku || "",
+    status: product?.status || "published",
+    images: product?.images.map((image) => image.url) || [],
+    variants: product?.variants.map((variant) => ({
+      id: variant.id,
+      sku: variant.sku,
+      size: variant.size,
+      price: variant.price,
+      stock: variant.available_stock,
+      compare_at_price: variant.compare_at_price,
+      color_hex: variant.color_hex,
+      in_stock: variant.in_stock,
+      is_on_sale: variant.is_on_sale,
+    })) || [
+      {
+        id: undefined,
+        sku: "",
+        size: "",
+        price: 0,
+        stock: 0,
+        compare_at_price: null,
+        color_hex: "",
+        in_stock: true,
+        is_on_sale: false,
+      },
+    ],
+  };
+}
 
 export default function CreateEdit({
   trigger,
@@ -43,14 +83,12 @@ export default function CreateEdit({
 }) {
   const locale = useLocale();
   const t = useTranslations("Products");
+  const tCommon = useTranslations("Common");
   const form = useRef<HTMLFormElement>(null);
-
+  const closeBtn = useRef<HTMLButtonElement>(null);
+  const [productId, setProductId] = useState<number | undefined>(product?.id);
   const { activeLocale, changeLocale, dir, isArabic, tLive } =
     useFormLocale("Products");
-
-  const [listOfColors, setListOfColors] = useState(
-    colors((key) => tLive(key as never)),
-  );
 
   const {
     register,
@@ -59,31 +97,11 @@ export default function CreateEdit({
     getValues,
     setValue,
     clearErrors,
-    formState: { errors },
+    setError,
+    formState: { errors, isSubmitting },
   } = useForm<ProductFormValues>({
     resolver: zodResolver(productSchema((key) => tLive(key as never))),
-    defaultValues: {
-      name: product?.name || { en: "", ar: "" },
-      category_id: product?.category_id || undefined,
-      description: product?.description || { en: "", ar: "" },
-      occasion_ids: product?.occasion_ids || [],
-      sku: product?.sku || "",
-      status: product?.status || "published",
-      variants: product?.variants || [
-        { sku: "", size: "", price: 0, stock: 0, compare_at_price: null },
-      ],
-
-      // price: product?.price || undefined,
-      // salesPrice: product?.salesPrice || undefined,
-      // stockQuantity: product?.stockQuantity || undefined,
-      // images: product?.images || [],
-      // sizes: product?.sizes || [],
-      // colors: product?.colors || [],
-      // occasions: product?.occasions || [],
-      // showNewBadge: product?.showNewBadge || false,
-      // featuredOnHomepage: product?.featuredOnHomepage || false,
-      // productStatus: product?.productStatus || "active",
-    },
+    defaultValues: getDefaultValues(product),
   });
 
   const watchedVariants = useWatch({
@@ -92,9 +110,39 @@ export default function CreateEdit({
   });
 
   const onSubmit: SubmitHandler<ProductFormValues> = async (values) => {
-    // console.log("Product form values:", values);
-    await postProductAction(values, product?.id);
-    // await http.post("/api/v1/admin/products", values);
+    const result = await postProductAction(values, productId);
+
+    if (result.success) {
+      toast.success(
+        product
+          ? tCommon("UpdatedSuccessfully")
+          : tCommon("CreatedSuccessfully"),
+      );
+      form.current?.reset();
+      closeBtn.current?.click();
+      return;
+    }
+
+    if (result.errors) {
+      setProductId(result.productId);
+      const shownMessages = new Set<string>();
+
+      Object.entries(result.errors).forEach(([field, message]) => {
+        const normalizedField = field.replace(/\[(\d+)\]/g, ".$1");
+        setError(normalizedField as Path<ProductFormValues>, {
+          type: "server",
+          message,
+        });
+        if (!shownMessages.has(message)) {
+          shownMessages.add(message);
+          toast.error(message);
+        }
+      });
+
+      return;
+    }
+
+    toast.error(product ? tCommon("UpdateFailed") : tCommon("CreationFailed"));
   };
 
   return (
@@ -111,6 +159,10 @@ export default function CreateEdit({
         onInteractOutside={(event) => event.preventDefault()}
         side={locale === "ar" ? "left" : "right"}
       >
+        <SheetClose asChild>
+          <Button ref={closeBtn} className="hidden"></Button>
+        </SheetClose>
+
         <Header
           title={product ? t("EditProduct") : t("AddProduct")}
           description={t("AddProductDescription")}
@@ -258,7 +310,7 @@ export default function CreateEdit({
             </Field>
 
             <Separator className="bg-border" />
-            <div className="space-y-2">
+            <div className="space-y-4">
               <div className="flex items-center gap-2 justify-between">
                 <SectionLabel>{tLive("Labels.Variants")}</SectionLabel>
                 <Button
@@ -283,7 +335,7 @@ export default function CreateEdit({
               {watchedVariants.map((_, index) => (
                 <div
                   key={index}
-                  className="grid grid-cols-1 md:grid-cols-2 gap-4 shadow-sm p-4 rounded-md border border-border"
+                  className="grid grid-cols-1 md:grid-cols-2 gap-4 border border-border p-4 rounded-md bg-primary/10"
                 >
                   <Input<ProductFormValues>
                     label={tLive("Fields.SKU")}
@@ -332,49 +384,11 @@ export default function CreateEdit({
                     register={register}
                     className="md:col-span-2"
                     placeholder={tLive("Placeholders.ComparePrice")}
+                    errors={errors}
                   />
                 </div>
               ))}
             </div>
-
-            {/* <SectionLabel>{tLive("Labels.PricingAndStock")}</SectionLabel>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Input<ProductFormValues>
-                label={tLive("Fields.Price")}
-                name="price"
-                type="number"
-                register={register}
-                errors={errors}
-                required
-                placeholder={tLive("Placeholders.Price")}
-              />
-
-              <Input<ProductFormValues>
-                label={tLive("Fields.SalesPrice")}
-                name="salesPrice"
-                type="number"
-                register={register}
-                placeholder={tLive("Placeholders.SalesPrice")}
-              />
-
-              <Input<ProductFormValues>
-                label={tLive("Fields.StockQuantity")}
-                name="stockQuantity"
-                type="number"
-                register={register}
-                errors={errors}
-                required
-                placeholder={tLive("Placeholders.StockQuantity")}
-              />
-
-              <Input<ProductFormValues>
-                label={tLive("Fields.SKU")}
-                name="sku"
-                type="text"
-                register={register}
-                placeholder={tLive("Placeholders.SKU")}
-              />
-            </div> */}
 
             {/* <Separator className="bg-border" />
             <SectionLabel>{tLive("Labels.Variants")}</SectionLabel>
@@ -594,7 +608,7 @@ export default function CreateEdit({
           </form>
         </div>
 
-        <Footer form={form} />
+        <Footer form={form} loading={isSubmitting} />
       </SheetContent>
     </Sheet>
   );

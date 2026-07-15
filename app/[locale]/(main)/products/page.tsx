@@ -29,15 +29,18 @@ export default async function ProductsPage({
   );
 
   const { data: products } = await http.get<ProductResponse>(
-    "/api/v1/admin/products/2",
+    "/api/v1/admin/products",
+    {
+      cache: "no-store",
+      next: { tags: ["products"] },
+    },
   );
-
-  console.log("products", products);
 
   return (
     <main className="space-y-6">
       <DataPreview
-        products={[]}
+        key={JSON.stringify(products.data.items)}
+        products={products.data.items}
         categories={categories.data.items}
         occasions={occasions.data.items}
       />

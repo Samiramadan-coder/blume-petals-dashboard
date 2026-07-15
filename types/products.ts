@@ -1,5 +1,5 @@
 import z from "zod";
-import { Pagination, T } from "./shared";
+import { LocaleObj, Pagination, T } from "./shared";
 
 const imageSchema = z.union([z.string(), z.instanceof(Blob)]);
 
@@ -34,11 +34,15 @@ export const productSchema = (t: T) =>
       .min(2, t("Errors.SKUMinLength")),
     variants: z.array(
       z.object({
+        id: z.number().optional(),
         sku: z.string().min(1, t("Errors.SKUIsRequired")),
         size: z.string().min(1, t("Errors.SizeIsRequired")),
         price: z.number().min(1, t("Errors.PriceIsRequired")),
         stock: z.number().min(1, t("Errors.StockQuantityIsRequired")),
         compare_at_price: z.number().nullable().optional(),
+        color_hex: z.string().nullable().optional(),
+        is_on_sale: z.boolean().optional(),
+        in_stock: z.boolean().optional(),
       }),
     ),
     images: z.array(imageSchema).min(1, "Please upload at least one image"),
@@ -65,23 +69,14 @@ export const productSchema = (t: T) =>
 
 export type ProductFormValues = z.infer<ReturnType<typeof productSchema>>;
 
-export type Product = ProductFormValues & {
+export type Product = {
   id: number;
   sku: string;
   slug: string;
   category_id: number;
-  name: {
-    en: string;
-    ar: string;
-  };
-  description: {
-    en: string;
-    ar: string;
-  };
-  components: {
-    en: string;
-    ar: string;
-  };
+  name: LocaleObj;
+  description: LocaleObj;
+  components: LocaleObj;
   dimensions: string;
   tags: string[];
   price_from: string;
@@ -96,18 +91,9 @@ export type Product = ProductFormValues & {
   rating_avg: string;
   rating_count: number;
   sold_count: number;
-  eta_text: {
-    en: string;
-    ar: string;
-  };
-  meta_title: {
-    en: string;
-    ar: string;
-  };
-  meta_description: {
-    en: string;
-    ar: string;
-  };
+  eta_text: LocaleObj;
+  meta_title: LocaleObj;
+  meta_description: LocaleObj;
   sort_order: number;
   variants: {
     id: number;
@@ -115,13 +101,19 @@ export type Product = ProductFormValues & {
     size: string;
     color_slug: string | null;
     color_hex: string | null;
-    price: string;
-    compare_at_price: string | null;
+    price: number;
+    compare_at_price: number | null;
     is_on_sale: boolean;
     in_stock: boolean;
     available_stock: number;
   }[];
-  images: string[];
+  images: {
+    id: number;
+    is_primary: boolean;
+    product_variant_id: number | null;
+    sort_order: number;
+    url: string;
+  }[];
   occasion_ids: number[];
   created_at: string;
   updated_at: string;

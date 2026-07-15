@@ -5,12 +5,40 @@ import { http, ValidationError } from "@/lib/http";
 import { Product, ProductFormValues } from "@/types/products";
 
 // Post And Put Category Actions
+type ProductActionErrors = Record<string, string>;
+
 type PostAndPutCategoryResult =
   | { success: true }
   | {
       success: false;
-      errors?: Partial<Record<keyof ProductFormValues, string>>;
+      errors?: ProductActionErrors;
+      productId?: number;
     };
+
+function mapValidationErrors(
+  errors: Record<string, string[]>,
+  prefix?: string,
+): ProductActionErrors {
+  const mapped: ProductActionErrors = {};
+
+  for (const [rawField, messages] of Object.entries(errors)) {
+    const normalizedField = rawField.replace(/\[(\d+)\]/g, ".$1");
+    let field = normalizedField;
+    if (prefix) {
+      if (normalizedField === "image" || normalizedField === "images") {
+        field = prefix;
+      } else if (
+        normalizedField !== prefix &&
+        !normalizedField.startsWith(`${prefix}.`)
+      ) {
+        field = `${prefix}.${normalizedField}`;
+      }
+    }
+    mapped[field] = messages[0] ?? "Invalid value";
+  }
+
+  return mapped;
+}
 
 export async function postProductAction(
   formData: ProductFormValues,
@@ -23,7 +51,6 @@ export async function postProductAction(
 
   const dataWithoutFiles: Partial<ProductFormValues> = { ...formData };
   delete dataWithoutFiles.images;
-  // delete dataWithoutFiles.banner;
 
   try {
     const { data } = await http[method]<{ data: { product: Product } }>(
@@ -31,51 +58,72 @@ export async function postProductAction(
       dataWithoutFiles,
     );
 
+    const actionErrors: ProductActionErrors = {};
+
     // Post Variants
-    await http.post(`/api/v1/admin/products/${data.data.product.id}/variants`, {
-      variant: formData.variants[0],
-    });
+    for (const [index, variant] of formData.variants.entries()) {
+      const variantId = variant.id;
+      const variantMethod = variantId ? "put" : "post";
+      const variantUrl = variantId
+        ? `/api/v1/admin/products/${data.data.product.id}/variants/${variantId}`
+        : `/api/v1/admin/products/${data.data.product.id}/variants`;
+
+      try {
+        await http[variantMethod](variantUrl, {
+          ...variant,
+        });
+      } catch (err) {
+        if (err instanceof ValidationError) {
+          Object.assign(
+            actionErrors,
+            mapValidationErrors(err.errors, `variants.${index}`),
+          );
+          continue;
+        }
+
+        throw err;
+      }
+    }
 
     // Post Or Update Images
-    formData.images.forEach(async (image, index) => {
-      console.log("image", image);
-      if (!(image instanceof Blob)) return;
-
+    for (const [index, image] of formData.images.entries()) {
+      if (!(image instanceof Blob)) continue;
       const imageFormData = new FormData();
       imageFormData.append("image", image);
-      imageFormData.append("is_primary", index === 0 ? "true" : "false");
-      await http.post(
-        `/api/v1/admin/products/${data.data.product.id}/images`,
-        imageFormData,
-      );
-    });
+      imageFormData.append("is_primary", index === 0 ? "1" : "0");
 
-    // Post Or Update Images
-    // if (formData.images instanceof Blob) {
-    //   const bannerFormData = new FormData();
-    //   bannerFormData.append("kind", "banner");
-    //   bannerFormData.append(
-    //     "image",
-    //     formData.banner,
-    //     formData.banner instanceof File ? formData.banner.name : "Banner",
-    //   );
-    //   await http.post(
-    //     `/api/v1/admin/categories/${data.data.category.id}/image`,
-    //     bannerFormData,
-    //   );
-    // }
+      try {
+        await http.post(
+          `/api/v1/admin/products/${data.data.product.id}/images`,
+          imageFormData,
+        );
+      } catch (err) {
+        if (err instanceof ValidationError) {
+          Object.assign(
+            actionErrors,
+            mapValidationErrors(err.errors, "images"),
+          );
+          continue;
+        }
+
+        throw err;
+      }
+    }
+
+    if (Object.keys(actionErrors).length > 0) {
+      return {
+        success: false,
+        errors: actionErrors,
+        productId: data.data.product.id,
+      };
+    }
 
     updateTag("products");
     return { success: true };
   } catch (err) {
+    console.error("Product create/update request failed", err);
     if (err instanceof ValidationError) {
-      const errors = Object.fromEntries(
-        Object.entries(err.errors).map(([field, messages]) => [
-          field,
-          messages[0] ?? "Invalid value",
-        ]),
-      ) as Partial<Record<keyof ProductFormValues, string>>;
-
+      const errors = mapValidationErrors(err.errors);
       return { success: false, errors };
     }
     return { success: false };
