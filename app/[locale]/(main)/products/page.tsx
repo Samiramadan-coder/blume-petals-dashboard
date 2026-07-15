@@ -32,11 +32,11 @@ export default async function ProductsPage({
   const { data: products } = await http.get<ProductResponse>(
     "/api/v1/admin/products",
     {
-      cache: "no-store",
+      cache: "force-cache",
       next: { tags: ["products"] },
       params: {
         page: params.page ?? 1,
-        per_page: 10,
+        per_page: 1,
       },
     },
   );
