@@ -14,7 +14,7 @@ import { Badge } from "../ui/badge";
 import Header from "../form/header";
 import Footer from "../form/footer";
 import Select from "../form/select";
-import { Plus } from "lucide-react";
+import { Check, Plus } from "lucide-react";
 import { Button } from "../ui/button";
 import RichText from "../form/rich-text";
 import AddButton from "../form/add-button";
@@ -29,7 +29,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useFormLocale } from "@/hooks/use-form-locale";
 import { useRef, useState, type ReactNode } from "react";
 import { postProductAction } from "@/lib/products-actions";
-import { productStatuses, sizes } from "@/constants/products";
+import { colors, productStatuses, sizes } from "@/constants/products";
 import LocaleFormSwitcher from "../reusable/locale-form-switcher";
 import { Field, FieldContent, FieldError, FieldLabel } from "../ui/field";
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../ui/sheet";
@@ -388,177 +388,134 @@ export default function CreateEdit({
                     placeholder={tLive("Placeholders.ComparePrice")}
                     errors={errors}
                   />
+
+                  {/* <div className="md:col-span-5">
+                    <Field>
+                      <FieldLabel
+                        htmlFor="colors"
+                        className="text-sm font-semibold"
+                      >
+                        {tLive("Fields.ColorVariants")}
+                        <span className="text-red-500">*</span>
+                      </FieldLabel>
+                      <FieldContent>
+                        <Controller
+                          name={`variants.${index}.color_hex`}
+                          control={control}
+                          render={({ field }) => {
+                            const selectedColors = field.value ?? [];
+
+                            return (
+                              <div className="space-y-1.5">
+                                <div className="flex flex-wrap gap-2">
+                                  {colors.map((color) => {
+                                    const isSelected = selectedColors.includes(
+                                      color.value,
+                                    );
+
+                                    return (
+                                      <Button
+                                        key={color.value}
+                                        type="button"
+                                        variant="outline"
+                                        className={cn(
+                                          "h-8 w-8 rounded-full border border-border",
+                                          {
+                                            "border-2 border-primary":
+                                              isSelected,
+                                          },
+                                        )}
+                                        style={{ backgroundColor: color.value }}
+                                        onClick={() => {
+                                          const nextColors = isSelected
+                                            ? selectedColors.filter(
+                                                (i) => i !== color.value,
+                                              )
+                                            : [...selectedColors, color.value];
+
+                                          field.onChange(nextColors);
+                                        }}
+                                      >
+                                        {isSelected && <Check />}
+                                      </Button>
+                                    );
+                                  })}
+                                  <div className="relative h-8 w-8">
+                                    <Button
+                                      variant="outline"
+                                      className="w-8 h-8 rounded-full border-2 border-dashed bg-white"
+                                    ></Button>
+                                    <input
+                                      type="color"
+                                      className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+                                      onChange={(event) => {
+                                        setListOfColors((prevColors) => [
+                                          ...prevColors,
+                                          {
+                                            value: event.target.value,
+                                            label: event.target.value,
+                                          },
+                                        ]);
+
+                                        field.onChange([
+                                          event.target.value,
+                                          ...selectedColors,
+                                        ]);
+                                      }}
+                                    />
+                                  </div>
+                                </div>
+
+                                {selectedColors.length ? (
+                                  <div className="flex flex-wrap gap-2 mt-4">
+                                    {selectedColors.map((colorValue) => {
+                                      const label = listOfColors.find(
+                                        (c) => c.value === colorValue,
+                                      )?.label;
+
+                                      return (
+                                        <Badge
+                                          key={colorValue}
+                                          variant="outline"
+                                          className="h-6 border border-border"
+                                        >
+                                          <div
+                                            className="h-3 w-3 rounded-full"
+                                            style={{
+                                              backgroundColor: colorValue,
+                                            }}
+                                          ></div>
+                                          {label ?? colorValue}
+                                          <span
+                                            className="text-muted-foreground cursor-pointer"
+                                            onClick={() => {
+                                              const nextColors =
+                                                selectedColors.filter(
+                                                  (color) =>
+                                                    color !== colorValue,
+                                                );
+                                              field.onChange(nextColors);
+                                            }}
+                                          >
+                                            x
+                                          </span>
+                                        </Badge>
+                                      );
+                                    })}
+                                  </div>
+                                ) : null}
+
+                                <FieldError errors={[errors.colors]} />
+                              </div>
+                            );
+                          }}
+                        />
+                      </FieldContent>
+                    </Field>
+                  </div> */}
                 </div>
               ))}
             </div>
-
-            {/* <Separator className="bg-border" />
-            <SectionLabel>{tLive("Labels.Variants")}</SectionLabel>
-            <Field>
-              <FieldLabel htmlFor="sizes" className="text-sm font-semibold">
-                {tLive("Fields.AvailableSizes")}
-                <span className="text-red-500">*</span>
-              </FieldLabel>
-              <FieldContent>
-                <Controller
-                  name="sizes"
-                  control={control}
-                  render={({ field }) => {
-                    const selectedSizes = field.value ?? [];
-
-                    return (
-                      <div className="space-y-1.5">
-                        <div className="flex flex-wrap gap-2">
-                          {sizes((key) => tLive(key as never)).map((size) => {
-                            const isSelected = selectedSizes.includes(
-                              size.value,
-                            );
-
-                            return (
-                              <Button
-                                key={size.value}
-                                type="button"
-                                variant="outline"
-                                className={cn(`h-11 w-11 bg-white`, {
-                                  "bg-primary/20 border-2": isSelected,
-                                })}
-                                onClick={() => {
-                                  const nextSizes = isSelected
-                                    ? selectedSizes.filter(
-                                        (i) => i !== size.value,
-                                      )
-                                    : [...selectedSizes, size.value];
-
-                                  field.onChange(nextSizes);
-                                }}
-                              >
-                                {size.label}
-                              </Button>
-                            );
-                          })}
-                        </div>
-                        <FieldError errors={[errors.sizes]} />
-                      </div>
-                    );
-                  }}
-                />
-              </FieldContent>
-            </Field> */}
-
-            {/* <Field>
-              <FieldLabel htmlFor="colors" className="text-sm font-semibold">
-                {tLive("Fields.ColorVariants")}
-                <span className="text-red-500">*</span>
-              </FieldLabel>
-              <FieldContent>
-                <Controller
-                  name="colors"
-                  control={control}
-                  render={({ field }) => {
-                    const selectedColors = field.value ?? [];
-
-                    return (
-                      <div className="space-y-1.5">
-                        <div className="flex flex-wrap gap-2">
-                          {listOfColors.map((color) => {
-                            const isSelected = selectedColors.includes(
-                              color.value,
-                            );
-
-                            return (
-                              <Button
-                                key={color.value}
-                                type="button"
-                                variant="outline"
-                                className={cn(
-                                  "h-8 w-8 rounded-full border border-border",
-                                  {
-                                    "border-2 border-primary": isSelected,
-                                  },
-                                )}
-                                style={{ backgroundColor: color.value }}
-                                onClick={() => {
-                                  const nextColors = isSelected
-                                    ? selectedColors.filter(
-                                        (i) => i !== color.value,
-                                      )
-                                    : [...selectedColors, color.value];
-
-                                  field.onChange(nextColors);
-                                }}
-                              >
-                                {isSelected && <Check />}
-                              </Button>
-                            );
-                          })}
-                          <div className="relative h-8 w-8">
-                            <Button
-                              variant="outline"
-                              className="w-8 h-8 rounded-full border-2 border-dashed bg-white"
-                            ></Button>
-                            <input
-                              type="color"
-                              className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
-                              onChange={(event) => {
-                                setListOfColors((prevColors) => [
-                                  ...prevColors,
-                                  {
-                                    value: event.target.value,
-                                    label: event.target.value,
-                                  },
-                                ]);
-
-                                field.onChange([
-                                  event.target.value,
-                                  ...selectedColors,
-                                ]);
-                              }}
-                            />
-                          </div>
-                        </div>
-
-                        {selectedColors.length ? (
-                          <div className="flex flex-wrap gap-2 mt-4">
-                            {selectedColors.map((colorValue) => {
-                              const label = listOfColors.find(
-                                (c) => c.value === colorValue,
-                              )?.label;
-
-                              return (
-                                <Badge
-                                  key={colorValue}
-                                  variant="outline"
-                                  className="h-6 border border-border"
-                                >
-                                  <div
-                                    className="h-3 w-3 rounded-full"
-                                    style={{ backgroundColor: colorValue }}
-                                  ></div>
-                                  {label ?? colorValue}
-                                  <span
-                                    className="text-muted-foreground cursor-pointer"
-                                    onClick={() => {
-                                      const nextColors = selectedColors.filter(
-                                        (color) => color !== colorValue,
-                                      );
-                                      field.onChange(nextColors);
-                                    }}
-                                  >
-                                    x
-                                  </span>
-                                </Badge>
-                              );
-                            })}
-                          </div>
-                        ) : null}
-
-                        <FieldError errors={[errors.colors]} />
-                      </div>
-                    );
-                  }}
-                />
-              </FieldContent>
-            </Field> */}
 
             <Separator className="bg-border" />
             <SectionLabel>{tLive("Labels.DisplayOptions")}</SectionLabel>
