@@ -18,7 +18,10 @@ import { Badge } from "../ui/badge";
 import { Category } from "@/types/categories";
 import { Occasion } from "@/types/occasions";
 import { toast } from "sonner";
-import { deleteProductAction } from "@/lib/products-actions";
+import {
+  deleteProductAction,
+  updateProductStatusAction,
+} from "@/lib/products-actions";
 import { useState } from "react";
 import { Pagination } from "@/types/shared";
 import { useQueryParam } from "@/hooks/use-search-params";
@@ -43,7 +46,7 @@ export default function DataPreview({
   return (
     <>
       <header className="flex items-center justify-between">
-        <FiltersControl />
+        <FiltersControl categories={categories} />
         <CreateEdit categories={categories} occasions={occasions} />
       </header>
 
@@ -120,7 +123,17 @@ export default function DataPreview({
             </TableCell>
 
             <TableCell className="px-4 py-3">
-              <Switch />
+              <Switch
+                checked={product.status === "published"}
+                onClick={async () => {
+                  const result = await updateProductStatusAction(product);
+                  if (result.success) {
+                    toast.success(tCommon("VisibilityUpdated"));
+                    return;
+                  }
+                  toast.error(tCommon("VisibilityUpdateFailed"));
+                }}
+              />
             </TableCell>
 
             <TableCell className="px-4 py-3 text-center">

@@ -35,8 +35,10 @@ export default async function ProductsPage({
       cache: "force-cache",
       next: { tags: ["products"] },
       params: {
+        per_page: 10,
+        q: params.query ?? "",
         page: params.page ?? 1,
-        per_page: 1,
+        category_id: params.category ?? "",
       },
     },
   );

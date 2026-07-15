@@ -131,23 +131,23 @@ export async function postProductAction(
 }
 
 // Update Visibility Action
-// type UpdateCategoryVisibilityResult = { success: boolean };
+type UpdateProductStatusResult = { success: boolean };
 
-// export async function updateCategoryVisibilityAction(
-//   category: Category,
-// ): Promise<UpdateCategoryVisibilityResult> {
-//   try {
-//     await http.patch(`/api/v1/admin/categories/${category.id}/visibility`, {
-//       is_visible: !category.is_visible,
-//     });
+export async function updateProductStatusAction(
+  product: Product,
+): Promise<UpdateProductStatusResult> {
+  try {
+    await http.patch(`/api/v1/admin/products/${product.id}/status`, {
+      status: product.status === "published" ? "draft" : "published",
+    });
 
-//     updateTag("categories");
-//     return { success: true };
-//   } catch (err) {
-//     console.error("Error updating category visibility:", err);
-//     return { success: false };
-//   }
-// }
+    updateTag("products");
+    return { success: true };
+  } catch (err) {
+    console.error("Error updating product status:", err);
+    return { success: false };
+  }
+}
 
 // Delete Category Action
 type DeleteProductResult = { success: boolean };

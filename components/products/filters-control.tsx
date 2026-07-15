@@ -22,13 +22,20 @@ import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useQueryParam } from "@/hooks/use-search-params";
+import { Category } from "@/types/categories";
+import { useLocale } from "next-intl";
 
-export default function FiltersControl() {
+export default function FiltersControl({
+  categories,
+}: {
+  categories: Category[];
+}) {
+  const locale = useLocale();
   const firstRender = useRef(true);
   const t = useTranslations("Products");
   const searchParams = useSearchParams();
   const { setQueryParam } = useQueryParam();
-  const [query, setQuery] = useState(searchParams.get("search") || "");
+  const [query, setQuery] = useState(searchParams.get("query") || "");
   const [category, setCategory] = useState(searchParams.get("category") || "");
 
   useEffect(() => {
@@ -38,7 +45,7 @@ export default function FiltersControl() {
     }
 
     const timer = setTimeout(() => {
-      setQueryParam("search", query);
+      setQueryParam("query", query);
     }, 500);
 
     return () => clearTimeout(timer);
@@ -74,7 +81,11 @@ export default function FiltersControl() {
         <SelectContent>
           <SelectGroup>
             <SelectLabel>Categories</SelectLabel>
-            <SelectItem value="category1">Category 1</SelectItem>
+            {categories.map((category) => (
+              <SelectItem key={category.id} value={category.id.toString()}>
+                {category.name[locale]}
+              </SelectItem>
+            ))}
           </SelectGroup>
         </SelectContent>
       </Select>
