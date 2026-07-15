@@ -34,6 +34,7 @@ import LocaleFormSwitcher from "../reusable/locale-form-switcher";
 import { Field, FieldContent, FieldError, FieldLabel } from "../ui/field";
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Product, ProductFormValues, productSchema } from "@/types/products";
+import Switch from "../form/switch";
 
 function getDefaultValues(product?: Product): ProductFormValues {
   return {
@@ -44,6 +45,8 @@ function getDefaultValues(product?: Product): ProductFormValues {
     sku: product?.sku || "",
     status: product?.status || "published",
     images: product?.images.map((image) => image.url) || [],
+    is_new: product?.is_new || false,
+    show_in_builder: product?.show_in_builder || false,
     variants: product?.variants.map((variant) => ({
       id: variant.id,
       sku: variant.sku,
@@ -155,7 +158,7 @@ export default function CreateEdit({
 
       <SheetContent
         showCloseButton={false}
-        className="flex h-full flex-col sm:max-w-2xl"
+        className="flex h-full flex-col data-[side=left]:md:max-w-4xl data-[side=right]:md:max-w-4xl"
         onInteractOutside={(event) => event.preventDefault()}
         side={locale === "ar" ? "left" : "right"}
       >
@@ -335,7 +338,7 @@ export default function CreateEdit({
               {watchedVariants.map((_, index) => (
                 <div
                   key={index}
-                  className="grid grid-cols-1 md:grid-cols-2 gap-4 border border-border p-4 rounded-md bg-primary/10"
+                  className="grid grid-cols-1 md:grid-cols-5 gap-2 border border-border p-4 rounded-md bg-primary/10"
                 >
                   <Input<ProductFormValues>
                     label={tLive("Fields.SKU")}
@@ -382,7 +385,6 @@ export default function CreateEdit({
                     name={`variants.${index}.compare_at_price`}
                     type="number"
                     register={register}
-                    className="md:col-span-2"
                     placeholder={tLive("Placeholders.ComparePrice")}
                     errors={errors}
                   />
@@ -558,21 +560,21 @@ export default function CreateEdit({
               </FieldContent>
             </Field> */}
 
-            {/* <Separator className="bg-border" />
+            <Separator className="bg-border" />
             <SectionLabel>{tLive("Labels.DisplayOptions")}</SectionLabel>
             <Switch
-              name="showNewBadge"
+              name="is_new"
               control={control}
               label={tLive("Fields.ShowNewBadge")}
               description={tLive("Fields.ShowNewBadgeDescription")}
             />
 
             <Switch
-              name="featuredOnHomepage"
+              name="show_in_builder"
               control={control}
               label={tLive("Fields.FeaturedOnHomepage")}
               description={tLive("Fields.FeaturedOnHomepageDescription")}
-            /> */}
+            />
 
             <Separator className="bg-border" />
             <Controller

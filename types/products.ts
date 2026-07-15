@@ -15,6 +15,7 @@ export const productSchema = (t: T) =>
         .min(1, t("Errors.NameIsRequired"))
         .min(2, t("Errors.NameMinLength")),
     }),
+
     description: z.object({
       en: z
         .string()
@@ -25,13 +26,18 @@ export const productSchema = (t: T) =>
         .min(1, t("Errors.DescriptionIsRequired"))
         .min(2, t("Errors.DescriptionMinLength")),
     }),
+
     category_id: z.number().min(1, t("Errors.CategoryIsRequired")),
+
     occasion_ids: z.array(z.number()).min(1, t("Errors.OccasionsIsRequired")),
+
     status: z.string().min(1, t("Errors.StatusIsRequired")),
+
     sku: z
       .string()
       .min(1, t("Errors.SKUIsRequired"))
       .min(2, t("Errors.SKUMinLength")),
+
     variants: z.array(
       z.object({
         id: z.number().optional(),
@@ -45,26 +51,12 @@ export const productSchema = (t: T) =>
         in_stock: z.boolean().optional(),
       }),
     ),
+
     images: z.array(imageSchema).min(1, "Please upload at least one image"),
 
-    // price: z.number().min(1, "Price must be a positive number"),
-    // salesPrice: z
-    //   .number()
-    //   .min(0, "Sales price must be a positive number")
-    //   .optional(),
-    // stockQuantity: z
-    //   .number()
-    //   .min(1, "Stock quantity must be a positive number"),
-    // sku: z.string().optional(),
-    // images: z.array(imageSchema).min(1, "Please upload at least one image"),
-    // sizes: z.array(z.string()).min(1, "Please select at least one size"),
-    // colors: z.array(z.string()).min(1, "Please select at least one color"),
-    // occasions: z
-    //   .array(z.string())
-    //   .min(1, "Please select at least one occasion"),
-    // showNewBadge: z.boolean(),
-    // featuredOnHomepage: z.boolean(),
-    // productStatus: z.string(),
+    is_new: z.boolean(),
+
+    show_in_builder: z.boolean(),
   });
 
 export type ProductFormValues = z.infer<ReturnType<typeof productSchema>>;
