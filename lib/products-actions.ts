@@ -21,14 +21,14 @@ export async function postProductAction(
     ? `/api/v1/admin/products/${productId}`
     : "/api/v1/admin/products";
 
-  // const dataWithoutFiles: Partial<ProductFormValues> = { ...formData };
-  // delete dataWithoutFiles.icon;
+  const dataWithoutFiles: Partial<ProductFormValues> = { ...formData };
+  delete dataWithoutFiles.images;
   // delete dataWithoutFiles.banner;
 
   try {
     const { data } = await http[method]<{ data: { product: Product } }>(
       url,
-      formData,
+      dataWithoutFiles,
     );
 
     // Post Variants
@@ -36,8 +36,22 @@ export async function postProductAction(
       variant: formData.variants[0],
     });
 
-    // Post Or Update Icon
-    // if (formData.banner instanceof Blob) {
+    // Post Or Update Images
+    formData.images.forEach(async (image, index) => {
+      console.log("image", image);
+      if (!(image instanceof Blob)) return;
+
+      const imageFormData = new FormData();
+      imageFormData.append("image", image);
+      imageFormData.append("is_primary", index === 0 ? "true" : "false");
+      await http.post(
+        `/api/v1/admin/products/${data.data.product.id}/images`,
+        imageFormData,
+      );
+    });
+
+    // Post Or Update Images
+    // if (formData.images instanceof Blob) {
     //   const bannerFormData = new FormData();
     //   bannerFormData.append("kind", "banner");
     //   bannerFormData.append(

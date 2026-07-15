@@ -29,7 +29,7 @@ export default async function ProductsPage({
   );
 
   const { data: products } = await http.get<ProductResponse>(
-    "/api/v1/admin/products",
+    "/api/v1/admin/products/2",
   );
 
   console.log("products", products);
@@ -37,7 +37,7 @@ export default async function ProductsPage({
   return (
     <main className="space-y-6">
       <DataPreview
-        products={products.data.items}
+        products={[]}
         categories={categories.data.items}
         occasions={occasions.data.items}
       />

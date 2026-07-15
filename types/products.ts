@@ -41,6 +41,7 @@ export const productSchema = (t: T) =>
         compare_at_price: z.number().nullable().optional(),
       }),
     ),
+    images: z.array(imageSchema).min(1, "Please upload at least one image"),
 
     // price: z.number().min(1, "Price must be a positive number"),
     // salesPrice: z

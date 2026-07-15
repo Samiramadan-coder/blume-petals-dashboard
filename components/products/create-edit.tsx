@@ -93,13 +93,8 @@ export default function CreateEdit({
 
   const onSubmit: SubmitHandler<ProductFormValues> = async (values) => {
     // console.log("Product form values:", values);
-    // await postProductAction(values, product?.id);
+    await postProductAction(values, product?.id);
     // await http.post("/api/v1/admin/products", values);
-    await http.post(`/api/v1/admin/products/${product?.id}/variants`, {
-      // variant: values.variants[0],
-      price: values.variants[0].price,
-      sku: values.variants[0].sku,
-    });
   };
 
   return (
@@ -143,14 +138,14 @@ export default function CreateEdit({
             }}
             className="space-y-6 relative"
           >
-            {/* <ImageUploader
+            <ImageUploader
               control={control}
               name="images"
               label={tLive("Fields.Photo")}
               required
               buttonLabel={tLive("AddPhoto")}
               mainLabel={tLive("MainLabel")}
-            /> */}
+            />
 
             <SectionLabel>{tLive("Labels.BasicInformation")}</SectionLabel>
             {availableLocales.map((locale) => (
