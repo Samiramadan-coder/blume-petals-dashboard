@@ -24,6 +24,7 @@ export default function FormFooter({
           type="submit"
           className="h-10 flex-1"
           onClick={() => form.current?.requestSubmit()}
+          disabled={loading}
         >
           {loading ? <Spinner /> : t("Save")}
         </Button>

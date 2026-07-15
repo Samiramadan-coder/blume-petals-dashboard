@@ -20,6 +20,7 @@ import { columns } from "@/constants/categories";
 import { useLocale, useTranslations } from "next-intl";
 import { useQueryParam } from "@/hooks/use-search-params";
 import { ReorderableDataTable } from "../reusable/date-sortable-table";
+import Image from "next/image";
 
 export default function DataPreview({
   pagination,
@@ -77,10 +78,21 @@ export default function DataPreview({
         renderCells={(category) => (
           <>
             <TableCell className="px-4 py-3">
-              <p className="font-semibold">{category.name[locale]}</p>
-              <p className="text-muted-foreground text-xs mt-1">
-                /{category.slug}
-              </p>
+              <div className="flex gap-4">
+                <Image
+                  src={category.banner_url as string}
+                  alt={category.name[locale]}
+                  width={40}
+                  height={60}
+                  className="rounded-md shadow-sm"
+                />
+                <div>
+                  <p className="font-semibold">{category.name[locale]}</p>
+                  <p className="text-muted-foreground text-xs mt-1">
+                    /{category.slug}
+                  </p>
+                </div>
+              </div>
             </TableCell>
 
             <TableCell className="px-4 py-3">
