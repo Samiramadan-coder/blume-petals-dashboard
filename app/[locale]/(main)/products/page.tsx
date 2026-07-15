@@ -9,6 +9,7 @@ export const metadata = {
 };
 
 type SearchParams = {
+  page?: string;
   query?: string;
   category?: string;
 };
@@ -33,6 +34,10 @@ export default async function ProductsPage({
     {
       cache: "no-store",
       next: { tags: ["products"] },
+      params: {
+        page: params.page ?? 1,
+        per_page: 10,
+      },
     },
   );
 
@@ -43,6 +48,7 @@ export default async function ProductsPage({
         products={products.data.items}
         categories={categories.data.items}
         occasions={occasions.data.items}
+        pagination={products.data.pagination}
       />
     </main>
   );

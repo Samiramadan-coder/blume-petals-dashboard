@@ -8,9 +8,17 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { useTranslations } from "next-intl";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "../ui/pagination";
 
 export type DataTableColumn = {
   label: string;
@@ -23,8 +31,41 @@ interface DataTableProps {
   countUnit: string;
   children: React.ReactNode;
   onCheckboxChange: (checked: boolean) => void;
-  onNextPage: () => void;
-  onPreviousPage: () => void;
+  currentPage?: number;
+  totalPages?: number;
+  onPageChange?: (page: number) => void;
+}
+
+function getVisiblePages(currentPage: number, totalPages: number) {
+  if (totalPages <= 7) {
+    return Array.from({ length: totalPages }, (_, index) => index + 1);
+  }
+
+  if (currentPage <= 4) {
+    return [1, 2, 3, 4, 5, "ellipsis-end", totalPages] as const;
+  }
+
+  if (currentPage >= totalPages - 3) {
+    return [
+      1,
+      "ellipsis-start",
+      totalPages - 4,
+      totalPages - 3,
+      totalPages - 2,
+      totalPages - 1,
+      totalPages,
+    ] as const;
+  }
+
+  return [
+    1,
+    "ellipsis-start",
+    currentPage - 1,
+    currentPage,
+    currentPage + 1,
+    "ellipsis-end",
+    totalPages,
+  ] as const;
 }
 
 export function DataTable({
@@ -33,10 +74,14 @@ export function DataTable({
   countUnit,
   children,
   onCheckboxChange,
-  onNextPage,
-  onPreviousPage,
+  currentPage,
+  totalPages,
+  onPageChange,
 }: DataTableProps) {
   const t = useTranslations("Common");
+
+  const visiblePages =
+    currentPage && totalPages ? getVisiblePages(currentPage, totalPages) : [];
 
   return (
     <div className="border border-border rounded-lg overflow-hidden">
@@ -71,24 +116,76 @@ export function DataTable({
               <span className="font-semibold text-black">{rowsCount}</span>{" "}
               {countUnit}
             </TableCell>
-            <TableCell className="px-4 py-3">
-              <div className="flex items-center justify-end gap-1">
-                <Button
-                  variant="outline"
-                  className="text-sm"
-                  onClick={onPreviousPage}
-                >
-                  {t("Previous")}
-                </Button>
-                <Button className="text-sm min-w-8">1</Button>
-                <Button
-                  variant="outline"
-                  className="text-xs"
-                  onClick={onNextPage}
-                >
-                  {t("Next")}
-                </Button>
-              </div>
+
+            <TableCell className="px-4 py-3" colSpan={columns.length - 1}>
+              {onPageChange && totalPages && currentPage && (
+                <Pagination className="justify-end">
+                  <PaginationContent>
+                    <PaginationItem>
+                      <PaginationPrevious
+                        href="#"
+                        text={t("Previous")}
+                        aria-label={t("Previous")}
+                        onClick={(event) => {
+                          event.preventDefault();
+
+                          if (currentPage > 1) {
+                            onPageChange(currentPage - 1);
+                          }
+                        }}
+                        className={
+                          currentPage === 1
+                            ? "pointer-events-none opacity-50"
+                            : "cursor-pointer"
+                        }
+                      />
+                    </PaginationItem>
+
+                    {visiblePages.map((item) =>
+                      typeof item === "number" ? (
+                        <PaginationItem key={item}>
+                          <PaginationLink
+                            href="#"
+                            isActive={item === currentPage}
+                            aria-label={`${t("Showing")} ${item}`}
+                            onClick={(event) => {
+                              event.preventDefault();
+                              onPageChange(item);
+                            }}
+                            className="cursor-pointer"
+                          >
+                            {item}
+                          </PaginationLink>
+                        </PaginationItem>
+                      ) : (
+                        <PaginationItem key={item}>
+                          <PaginationEllipsis />
+                        </PaginationItem>
+                      ),
+                    )}
+
+                    <PaginationItem>
+                      <PaginationNext
+                        href="#"
+                        text={t("Next")}
+                        aria-label={t("Next")}
+                        onClick={(event) => {
+                          event.preventDefault();
+
+                          if (currentPage < totalPages) {
+                            onPageChange(currentPage + 1);
+                          }
+                        }}
+                        className={
+                          currentPage === totalPages
+                            ? "pointer-events-none opacity-50"
+                            : "cursor-pointer"
+                        }
+                      />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
+              )}
             </TableCell>
           </TableRow>
         </TableFooter>

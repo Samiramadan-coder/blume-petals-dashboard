@@ -13,25 +13,30 @@ import DeleteBtn from "../reusable/delete-btn";
 import { TableCell, TableRow } from "../ui/table";
 import { DataTable } from "../reusable/data-table";
 import { Switch } from "../ui/switch";
-import { Dot, Star } from "lucide-react";
+import { Star } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { Category } from "@/types/categories";
 import { Occasion } from "@/types/occasions";
 import { toast } from "sonner";
 import { deleteProductAction } from "@/lib/products-actions";
 import { useState } from "react";
+import { Pagination } from "@/types/shared";
+import { useQueryParam } from "@/hooks/use-search-params";
 
 export default function DataPreview({
   products,
   categories,
   occasions,
+  pagination,
 }: {
   products: Product[];
   categories: Category[];
   occasions: Occasion[];
+  pagination: Pagination;
 }) {
   const locale = useLocale();
   const t = useTranslations("Products");
+  const { setQueryParam } = useQueryParam();
   const tCommon = useTranslations("Common");
   const [loadingDelete, setLoadingDelete] = useState(false);
 
@@ -48,8 +53,9 @@ export default function DataPreview({
         columns={columns(t)}
         rowsCount={products.length}
         countUnit={t("Products")}
-        onNextPage={() => {}}
-        onPreviousPage={() => {}}
+        currentPage={pagination.current_page}
+        totalPages={pagination.last_page}
+        onPageChange={(page) => setQueryParam("page", page.toString())}
         onCheckboxChange={(checked) => console.log(checked)}
       >
         {products.map((product, index) => (
