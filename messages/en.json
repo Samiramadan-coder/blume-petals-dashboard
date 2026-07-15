@@ -233,7 +233,10 @@
       "OccasionCollectionColorRequired": "Occasion/Collection color is required",
       "OccasionCollectionSlugRequired": "Occasion/Collection slug is required",
       "OccasionCollectionSlugMinLength": "Occasion/Collection slug must be at least 2 characters",
-      "BannerIsRequired": "Occasion/Collection banner is required"
+      "BannerIsRequired": "Occasion/Collection banner is required",
+      "StartDateIsRequired": "Start date is required",
+      "EndDateIsRequired": "End date is required",
+      "EndDateMustBeAfterStartDate": "End date must be after start date"
     },
     "Labels": {
       "AddOccasionCollection": "Add Occasion/Collection",

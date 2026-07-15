@@ -2,7 +2,7 @@ import z from "zod";
 import { Pagination, T } from "./shared";
 import { typesEnum } from "@/constants/shared";
 
-// const imageSchema = z.union([z.string(), z.instanceof(Blob)]);
+const imageSchema = z.union([z.string(), z.instanceof(Blob)]);
 
 export const occasionCollectionSchema = (t: T) =>
   z
@@ -25,26 +25,26 @@ export const occasionCollectionSchema = (t: T) =>
       color: z.string().min(1, t("Errors.OccasionCollectionColorRequired")),
       is_visible: z.boolean(),
       sort_order: z.number(),
-      // banner: imageSchema,
-      // startDate: z.string().min(1, "Please select a start date"),
-      // endDate: z.string().min(1, "Please select an end date"),
+      banner: imageSchema,
+      starts_at: z.string().min(1, t("Errors.StartDateIsRequired")),
+      ends_at: z.string().min(1, t("Errors.EndDateIsRequired")),
     })
     .superRefine((data, ctx) => {
-      // if (!data.banner) {
-      //   ctx.addIssue({
-      //     code: "custom",
-      //     path: ["banner"],
-      //     message: t("Errors.BannerIsRequired"),
-      //   });
-      // }
-      // if (!data.startDate || !data.endDate) return;
-      // if (data.startDate > data.endDate) {
-      //   ctx.addIssue({
-      //     code: "custom",
-      //     path: ["endDate"],
-      //     message: "End date must be after start date",
-      //   });
-      // }
+      if (!data.banner) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["banner"],
+          message: t("Errors.BannerIsRequired"),
+        });
+      }
+      if (!data.starts_at || !data.ends_at) return;
+      if (data.starts_at > data.ends_at) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["ends_at"],
+          message: t("Errors.EndDateMustBeAfterStartDate"),
+        });
+      }
     });
 
 export type OccasionFormValues = z.infer<
@@ -64,6 +64,8 @@ export type Occasion = {
   banner_path: string;
   banner_url: string;
   is_visible: boolean;
+  starts_at: string;
+  ends_at: string;
   created_at: string;
   updated_at: string;
 };

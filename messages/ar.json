@@ -233,7 +233,10 @@
       "OccasionCollectionColorRequired": "لون المناسبة/المجموعة مطلوب",
       "OccasionCollectionSlugRequired": "رابط المناسبة/المجموعة مطلوب",
       "OccasionCollectionSlugMinLength": "يجب أن يكون رابط المناسبة/المجموعة مكونًا من حرفين على الأقل",
-      "BannerIsRequired": "بانر المناسبة/المجموعة مطلوب"
+      "BannerIsRequired": "بانر المناسبة/المجموعة مطلوب",
+      "StartDateIsRequired": "تاريخ البدء مطلوب",
+      "EndDateIsRequired": "تاريخ الانتهاء مطلوب",
+      "EndDateMustBeAfterStartDate": "يجب أن يكون تاريخ الانتهاء بعد تاريخ البدء"
     },
     "Labels": {
       "AddOccasionCollection": "إضافة مناسبة/مجموعة",

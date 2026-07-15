@@ -5,6 +5,7 @@ import {
   occasionCollectionSchema,
   OccasionFormValues,
 } from "@/types/occasions";
+import { toast } from "sonner";
 import Input from "../form/input";
 import Footer from "../form/footer";
 import Header from "../form/header";
@@ -20,16 +21,16 @@ import NormalFormSelect from "../form/select";
 import { Card, CardContent } from "../ui/card";
 import SectionLabel from "../form/section-label";
 import { zodResolver } from "@hookform/resolvers/zod";
-// import DayMonthPicker from "../form/day-month-picker";
+import DayMonthPicker from "../form/day-month-picker";
 import { availableLocales } from "@/constants/shared";
 import { useLocale, useTranslations } from "next-intl";
 import { useFormLocale } from "@/hooks/use-form-locale";
 import { postOccasionAction } from "@/lib/occasion-actions";
 import { colors, occasionTypes } from "@/constants/occasions";
-import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../ui/sheet";
 import LocaleFormSwitcher from "../reusable/locale-form-switcher";
+import SingleFormImageUploader from "../form/single-image-uploader";
+import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Controller, SubmitHandler, useForm, useWatch } from "react-hook-form";
-import { toast } from "sonner";
 
 // Get default values for the form based on the occasion collection data
 function getDefaultValues(sortOrder: number, occasion?: Occasion) {
@@ -40,6 +41,9 @@ function getDefaultValues(sortOrder: number, occasion?: Occasion) {
     type: occasion?.type || "bouquet",
     color: occasion?.color || "",
     sort_order: occasion?.sort_order || sortOrder || 0,
+    banner: occasion?.banner_url || "",
+    starts_at: occasion?.starts_at || "",
+    ends_at: occasion?.ends_at || "",
   };
 }
 
@@ -196,6 +200,12 @@ export default function CreateEdit({
             }}
             className="space-y-4 relative"
           >
+            <SingleFormImageUploader
+              control={control}
+              name="banner"
+              label={tLive("Fields.Banner")}
+            />
+
             <Card>
               <CardContent className="flex items-center gap-2">
                 <div className="bg-[#f4c2c233] p-2.5 rounded-lg">
@@ -249,7 +259,7 @@ export default function CreateEdit({
               dir={dir}
             />
 
-            {/* <Separator className="bg-border" />
+            <Separator className="bg-border" />
             <SectionLabel>Promotional Date Range</SectionLabel>
             <div className="space-y-3">
               <p className="text-xs text-muted-foreground">
@@ -261,24 +271,18 @@ export default function CreateEdit({
                 <DayMonthPicker
                   label="Start Date"
                   control={control}
-                  name="startDate"
+                  name="starts_at"
                   required
                 />
 
                 <DayMonthPicker
                   label="End Date"
                   control={control}
-                  name="endDate"
+                  name="ends_at"
                   required
                 />
               </div>
-            </div> */}
-
-            {/* <SingleImageUploader
-              control={control}
-              name="banner"
-              label={tLive("Fields.Banner")}
-            /> */}
+            </div>
 
             <Separator className="bg-border" />
             <SectionLabel>{tLive("Labels.Color")}</SectionLabel>

@@ -21,8 +21,29 @@ export async function postOccasionAction(
     ? `/api/v1/admin/occasions/${occasionId}`
     : "/api/v1/admin/occasions";
 
+  const dataWithoutFiles: Partial<OccasionFormValues> = { ...formData };
+  delete dataWithoutFiles.banner;
+
   try {
-    await http[method]<{ data: Occasion }>(url, formData);
+    const { data } = await http[method]<{ data: { occasion: Occasion } }>(
+      url,
+      dataWithoutFiles,
+    );
+
+    // Post Or Update Icon
+    if (formData.banner instanceof Blob) {
+      const bannerFormData = new FormData();
+      bannerFormData.append("kind", "banner");
+      bannerFormData.append(
+        "image",
+        formData.banner,
+        formData.banner instanceof File ? formData.banner.name : "Banner",
+      );
+      await http.post(
+        `/api/v1/admin/occasions/${data.data.occasion.id}/image`,
+        bannerFormData,
+      );
+    }
 
     updateTag("occasions");
     return { success: true };
@@ -49,7 +70,7 @@ export async function updateOccasionVisibilityAction(
 ): Promise<UpdateOccasionVisibilityResult> {
   try {
     await http.patch(`/api/v1/admin/occasions/${occasion.id}/visibility`, {
-      is_active: !occasion.is_visible,
+      is_visible: !occasion.is_visible,
     });
 
     updateTag("occasions");
