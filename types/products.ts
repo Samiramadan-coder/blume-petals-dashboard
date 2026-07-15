@@ -105,7 +105,7 @@ export type Product = {
     compare_at_price: number | null;
     is_on_sale: boolean;
     in_stock: boolean;
-    available_stock: number;
+    stock: number;
   }[];
   images: {
     id: number;

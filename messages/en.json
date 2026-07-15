@@ -203,7 +203,9 @@
       "Gold": "Gold",
       "Terracotta": "Terracotta",
       "DustyRose": "Dusty Rose",
-      "Units": "Units"
+      "Units": "Units",
+      "InStock": "In Stock",
+      "OutOfStock": "Out of Stock"
     },
     "Errors": {
       "NameIsRequired": "Product name is required",

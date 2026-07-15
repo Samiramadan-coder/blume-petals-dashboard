@@ -203,7 +203,9 @@
       "Gold": "ذهبي",
       "Terracotta": "تراكوتا",
       "DustyRose": "وردي مغبر",
-      "Units": "وحدات"
+      "Units": "وحدات",
+      "InStock": "متوفر",
+      "OutOfStock": "نفد من المخزون"
     },
     "Errors": {
       "NameIsRequired": "اسم المنتج مطلوب",

@@ -21,13 +21,13 @@ import AddButton from "../form/add-button";
 import { Separator } from "../ui/separator";
 import { Occasion } from "@/types/occasions";
 import { Category } from "@/types/categories";
-import { useRef, useState, type ReactNode } from "react";
 import SectionLabel from "../form/section-label";
 import ImageUploader from "../form/image-uploader";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { availableLocales } from "@/constants/shared";
 import { useLocale, useTranslations } from "next-intl";
 import { useFormLocale } from "@/hooks/use-form-locale";
+import { useRef, useState, type ReactNode } from "react";
 import { postProductAction } from "@/lib/products-actions";
 import { productStatuses, sizes } from "@/constants/products";
 import LocaleFormSwitcher from "../reusable/locale-form-switcher";
@@ -49,7 +49,7 @@ function getDefaultValues(product?: Product): ProductFormValues {
       sku: variant.sku,
       size: variant.size,
       price: variant.price,
-      stock: variant.available_stock,
+      stock: variant.stock,
       compare_at_price: variant.compare_at_price,
       color_hex: variant.color_hex,
       in_stock: variant.in_stock,
