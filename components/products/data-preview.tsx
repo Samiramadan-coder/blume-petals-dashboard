@@ -104,7 +104,9 @@ export default function DataPreview({
             <TableCell className="px-4 py-3">
               <div className="flex items-center gap-1">
                 <Star className="size-2.5 text-primary fill-primary" />
-                <span className="font-semibold text-xs">4.9</span>
+                <span className="font-semibold text-xs">
+                  {product.rating_avg}
+                </span>
                 <span className="text-xs text-muted-foreground">
                   ({product.rating_count})
                 </span>
