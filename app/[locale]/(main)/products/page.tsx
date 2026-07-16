@@ -43,8 +43,6 @@ export default async function ProductsPage({
     },
   );
 
-  console.log("products", products.data.items);
-
   return (
     <main className="space-y-6">
       <DataPreview

@@ -61,29 +61,29 @@ export async function postProductAction(
     const actionErrors: ProductActionErrors = {};
 
     // Post Variants
-    for (const [index, variant] of formData.variants.entries()) {
-      const variantId = variant.id;
-      const variantMethod = variantId ? "put" : "post";
-      const variantUrl = variantId
-        ? `/api/v1/admin/products/${data.data.product.id}/variants/${variantId}`
-        : `/api/v1/admin/products/${data.data.product.id}/variants`;
+    // for (const [index, variant] of formData.variants.entries()) {
+    //   const variantId = variant.id;
+    //   const variantMethod = variantId ? "put" : "post";
+    //   const variantUrl = variantId
+    //     ? `/api/v1/admin/products/${data.data.product.id}/variants/${variantId}`
+    //     : `/api/v1/admin/products/${data.data.product.id}/variants`;
 
-      try {
-        await http[variantMethod](variantUrl, {
-          ...variant,
-        });
-      } catch (err) {
-        if (err instanceof ValidationError) {
-          Object.assign(
-            actionErrors,
-            mapValidationErrors(err.errors, `variants.${index}`),
-          );
-          continue;
-        }
+    //   try {
+    //     await http[variantMethod](variantUrl, {
+    //       ...variant,
+    //     });
+    //   } catch (err) {
+    //     if (err instanceof ValidationError) {
+    //       Object.assign(
+    //         actionErrors,
+    //         mapValidationErrors(err.errors, `variants.${index}`),
+    //       );
+    //       continue;
+    //     }
 
-        throw err;
-      }
-    }
+    //     throw err;
+    //   }
+    // }
 
     // Post Or Update Images
     for (const [index, image] of formData.images.entries()) {
