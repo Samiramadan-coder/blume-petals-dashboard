@@ -71,7 +71,7 @@ export default function DataPreview({
               <Image
                 src={product.images[0].url as string}
                 alt={product.name[locale]}
-                width={60}
+                width={40}
                 height={80}
                 className="rounded-md shadow-sm"
               />
