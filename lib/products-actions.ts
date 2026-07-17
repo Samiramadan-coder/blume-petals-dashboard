@@ -12,33 +12,7 @@ type PostAndPutCategoryResult =
   | {
       success: false;
       errors?: ProductActionErrors;
-      productId?: number;
     };
-
-function mapValidationErrors(
-  errors: Record<string, string[]>,
-  prefix?: string,
-): ProductActionErrors {
-  const mapped: ProductActionErrors = {};
-
-  for (const [rawField, messages] of Object.entries(errors)) {
-    const normalizedField = rawField.replace(/\[(\d+)\]/g, ".$1");
-    let field = normalizedField;
-    if (prefix) {
-      if (normalizedField === "image" || normalizedField === "images") {
-        field = prefix;
-      } else if (
-        normalizedField !== prefix &&
-        !normalizedField.startsWith(`${prefix}.`)
-      ) {
-        field = `${prefix}.${normalizedField}`;
-      }
-    }
-    mapped[field] = messages[0] ?? "Invalid value";
-  }
-
-  return mapped;
-}
 
 export async function postProductAction(
   formData: ProductFormValues,
@@ -58,33 +32,6 @@ export async function postProductAction(
       dataWithoutFiles,
     );
 
-    const actionErrors: ProductActionErrors = {};
-
-    // Post Variants
-    // for (const [index, variant] of formData.variants.entries()) {
-    //   const variantId = variant.id;
-    //   const variantMethod = variantId ? "put" : "post";
-    //   const variantUrl = variantId
-    //     ? `/api/v1/admin/products/${data.data.product.id}/variants/${variantId}`
-    //     : `/api/v1/admin/products/${data.data.product.id}/variants`;
-
-    //   try {
-    //     await http[variantMethod](variantUrl, {
-    //       ...variant,
-    //     });
-    //   } catch (err) {
-    //     if (err instanceof ValidationError) {
-    //       Object.assign(
-    //         actionErrors,
-    //         mapValidationErrors(err.errors, `variants.${index}`),
-    //       );
-    //       continue;
-    //     }
-
-    //     throw err;
-    //   }
-    // }
-
     // Post Or Update Images
     for (const [index, image] of formData.images.entries()) {
       if (!(image instanceof Blob)) continue;
@@ -92,30 +39,10 @@ export async function postProductAction(
       imageFormData.append("image", image);
       imageFormData.append("is_primary", index === 0 ? "1" : "0");
 
-      try {
-        await http.post(
-          `/api/v1/admin/products/${data.data.product.id}/images`,
-          imageFormData,
-        );
-      } catch (err) {
-        if (err instanceof ValidationError) {
-          Object.assign(
-            actionErrors,
-            mapValidationErrors(err.errors, "images"),
-          );
-          continue;
-        }
-
-        throw err;
-      }
-    }
-
-    if (Object.keys(actionErrors).length > 0) {
-      return {
-        success: false,
-        errors: actionErrors,
-        productId: data.data.product.id,
-      };
+      await http.post(
+        `/api/v1/admin/products/${data.data.product.id}/images`,
+        imageFormData,
+      );
     }
 
     updateTag("products");
@@ -123,7 +50,13 @@ export async function postProductAction(
   } catch (err) {
     console.error("Product create/update request failed", err);
     if (err instanceof ValidationError) {
-      const errors = mapValidationErrors(err.errors);
+      const errors = Object.fromEntries(
+        Object.entries(err.errors).map(([field, messages]) => [
+          field,
+          messages[0] ?? "Invalid value",
+        ]),
+      ) as Partial<Record<keyof ProductFormValues, string>>;
+
       return { success: false, errors };
     }
     return { success: false };

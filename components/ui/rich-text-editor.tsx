@@ -26,7 +26,7 @@ export function RichTextEditor({
       Placeholder.configure({
         placeholder,
         emptyEditorClass:
-          "before:content-[attr(data-placeholder)] before:text-muted-foreground before:float-left before:h-0",
+          "before:pointer-events-none before:h-0 before:block before:text-start before:text-muted-foreground before:content-[attr(data-placeholder)]",
       }),
     ],
     content: value,
@@ -34,7 +34,7 @@ export function RichTextEditor({
     editorProps: {
       attributes: {
         class:
-          "min-h-[140px] w-full border-0 bg-white px-3 py-2 text-sm outline-none",
+          "min-h-[140px] w-full border-0 bg-white px-3 py-2 text-start text-sm outline-none",
       },
     },
     onUpdate: ({ editor }) => {

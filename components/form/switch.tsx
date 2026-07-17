@@ -15,9 +15,8 @@ import {
   FieldLabel,
 } from "../ui/field";
 
-import { Switch } from "../ui/switch";
 import { cn } from "@/lib/utils";
-import { useLocale } from "next-intl";
+import { Switch } from "../ui/switch";
 
 type NormalFormSwitchProps<T extends FieldValues> = {
   name: Path<T>;
@@ -39,8 +38,6 @@ export default function NormalFormSwitch<T extends FieldValues>({
   descriptionClassName,
 }: NormalFormSwitchProps<T>) {
   const switchId = `switch-${name}`;
-  const locale = useLocale();
-  const dir = locale === "ar" ? "rtl" : "ltr";
 
   return (
     <Controller
@@ -57,7 +54,6 @@ export default function NormalFormSwitch<T extends FieldValues>({
             checked={field.value ?? false}
             onCheckedChange={field.onChange}
             aria-invalid={fieldState.invalid}
-            dir={dir}
           />
 
           <FieldContent>

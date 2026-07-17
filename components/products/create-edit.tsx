@@ -1,12 +1,5 @@
 "use client";
 
-import {
-  Controller,
-  SubmitHandler,
-  useForm,
-  useWatch,
-  type Path,
-} from "react-hook-form";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import Input from "../form/input";
@@ -14,26 +7,26 @@ import { Badge } from "../ui/badge";
 import Header from "../form/header";
 import Footer from "../form/footer";
 import Select from "../form/select";
-import { Check, Plus } from "lucide-react";
 import { Button } from "../ui/button";
 import RichText from "../form/rich-text";
 import AddButton from "../form/add-button";
 import { Separator } from "../ui/separator";
 import { Occasion } from "@/types/occasions";
 import { Category } from "@/types/categories";
+import { useRef, type ReactNode } from "react";
 import SectionLabel from "../form/section-label";
 import ImageUploader from "../form/image-uploader";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { availableLocales } from "@/constants/shared";
 import { useLocale, useTranslations } from "next-intl";
 import { useFormLocale } from "@/hooks/use-form-locale";
-import { useRef, useState, type ReactNode } from "react";
 import { postProductAction } from "@/lib/products-actions";
-import { colors, productStatuses, sizes } from "@/constants/products";
 import LocaleFormSwitcher from "../reusable/locale-form-switcher";
+import { colors, productStatuses, sizes } from "@/constants/products";
 import { Field, FieldContent, FieldError, FieldLabel } from "../ui/field";
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Product, ProductFormValues, productSchema } from "@/types/products";
+import { Controller, SubmitHandler, useForm, useWatch } from "react-hook-form";
 import Switch from "../form/switch";
 
 function getDefaultValues(product?: Product): ProductFormValues {
@@ -89,7 +82,6 @@ export default function CreateEdit({
   const tCommon = useTranslations("Common");
   const form = useRef<HTMLFormElement>(null);
   const closeBtn = useRef<HTMLButtonElement>(null);
-  const [productId, setProductId] = useState<number | undefined>(product?.id);
   const { activeLocale, changeLocale, dir, isArabic, tLive } =
     useFormLocale("Products");
 
@@ -97,8 +89,6 @@ export default function CreateEdit({
     register,
     control,
     handleSubmit,
-    getValues,
-    setValue,
     clearErrors,
     setError,
     formState: { errors, isSubmitting },
@@ -113,7 +103,7 @@ export default function CreateEdit({
   });
 
   const onSubmit: SubmitHandler<ProductFormValues> = async (values) => {
-    const result = await postProductAction(values, productId);
+    const result = await postProductAction(values, product?.id);
 
     if (result.success) {
       toast.success(
@@ -127,19 +117,12 @@ export default function CreateEdit({
     }
 
     if (result.errors) {
-      setProductId(result.productId);
-      const shownMessages = new Set<string>();
-
       Object.entries(result.errors).forEach(([field, message]) => {
-        const normalizedField = field.replace(/\[(\d+)\]/g, ".$1");
-        setError(normalizedField as Path<ProductFormValues>, {
+        toast.error(message);
+        setError(field as keyof ProductFormValues, {
           type: "server",
           message,
         });
-        if (!shownMessages.has(message)) {
-          shownMessages.add(message);
-          toast.error(message);
-        }
       });
 
       return;
@@ -158,7 +141,7 @@ export default function CreateEdit({
 
       <SheetContent
         showCloseButton={false}
-        className="flex h-full flex-col data-[side=left]:md:max-w-4xl data-[side=right]:md:max-w-4xl"
+        className="flex h-full flex-col sm:max-w-4xl"
         onInteractOutside={(event) => event.preventDefault()}
         side={locale === "ar" ? "left" : "right"}
       >
@@ -316,29 +299,11 @@ export default function CreateEdit({
             <div className="space-y-4">
               <div className="flex items-center gap-2 justify-between">
                 <SectionLabel>{tLive("Labels.Variants")}</SectionLabel>
-                <Button
-                  type="button"
-                  onClick={() => {
-                    const currentVariants = getValues("variants") || [];
-                    setValue("variants", [
-                      ...currentVariants,
-                      {
-                        sku: "",
-                        size: "",
-                        price: 0,
-                        stock: 0,
-                        compare_at_price: null,
-                      },
-                    ]);
-                  }}
-                >
-                  <Plus />
-                </Button>
               </div>
               {watchedVariants.map((_, index) => (
                 <div
                   key={index}
-                  className="grid grid-cols-1 md:grid-cols-5 gap-2 border border-border p-4 rounded-md bg-primary/10"
+                  className="grid grid-cols-1 md:grid-cols-2 gap-2 border border-border p-4 rounded-md bg-primary/10"
                 >
                   <Input<ProductFormValues>
                     label={tLive("Fields.SKU")}

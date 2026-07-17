@@ -80,7 +80,9 @@ export default function NormalFormSelect<T extends FieldValues>({
             <div className="space-y-1.5">
               <Select
                 value={
-                  field.value === undefined || field.value === null
+                  field.value === undefined ||
+                  field.value === null ||
+                  field.value === 0
                     ? ""
                     : String(field.value)
                 }
