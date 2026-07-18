@@ -63,11 +63,11 @@ export default async function ProductDetails({ params }: { params: Params }) {
         />
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {data.data.product.images.map((image, index) => (
           <div
             key={index}
-            className="relative aspect-square w-full overflow-hidden rounded-md"
+            className="relative aspect-square w-full overflow-hidden rounded-md shadow-sm"
           >
             <Image
               src={image.url as string}
