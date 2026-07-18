@@ -7,13 +7,13 @@ import Image from "next/image";
 import { http } from "@/lib/http";
 import { Product } from "@/types/products";
 import { AppLocale } from "@/i18n/routing";
-import { MoreVertical, Plus } from "lucide-react";
+import { MoreVertical } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getTranslations } from "next-intl/server";
 import DeleteImage from "@/components/products/delete-image";
-import SetPrimaryImage from "@/components/products/set-primary-image";
 import AddImageBtn from "@/components/products/add-image-btn";
+import SetPrimaryImage from "@/components/products/set-primary-image";
 
 type Params = {
   "product-id": string;

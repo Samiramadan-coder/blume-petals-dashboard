@@ -34,7 +34,7 @@ export default async function MainLayout({
       <Sidebar
         side="left"
         collapsible="icon"
-        className="relative border-e border-border bg-white"
+        className="border-e border-border bg-white"
       >
         <SidebarContent>
           <SidebarGroup>
