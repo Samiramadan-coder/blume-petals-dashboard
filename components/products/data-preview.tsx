@@ -78,7 +78,14 @@ export default function DataPreview({
             </TableCell>
 
             <TableCell className="px-4 py-3">
-              <p className="font-semibold">{product.name[locale]}</p>
+              <p className="font-semibold">
+                {product.name[locale]}
+                {product.is_new && (
+                  <Badge className="mx-2 text-[10px] font-semibold text-foreground">
+                    NEW
+                  </Badge>
+                )}
+              </p>
               <p className="text-muted-foreground text-xs mt-1">
                 {product.sku}
               </p>
