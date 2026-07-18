@@ -82,7 +82,7 @@ export async function updateProductStatusAction(
   }
 }
 
-// Delete Category Action
+// Delete Product Action
 type DeleteProductResult = { success: boolean };
 
 export async function deleteProductAction(
@@ -94,6 +94,28 @@ export async function deleteProductAction(
     return { success: true };
   } catch (err) {
     console.error("Error deleting product:", err);
+    return { success: false };
+  }
+}
+
+// Add Image Action
+type AddImageResult = { success: boolean };
+
+export async function addImageAction(
+  productId: number,
+  image: Blob,
+): Promise<AddImageResult> {
+  try {
+    const formData = new FormData();
+    formData.append("image", image);
+    formData.append("is_primary", "0");
+    await http.post(`/api/v1/admin/products/${productId}/images`, formData);
+
+    updateTag("products");
+    updateTag(`product-${productId}`);
+    return { success: true };
+  } catch (err) {
+    console.error("Error adding image:", err);
     return { success: false };
   }
 }

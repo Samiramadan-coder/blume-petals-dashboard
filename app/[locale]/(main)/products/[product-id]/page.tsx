@@ -7,12 +7,13 @@ import Image from "next/image";
 import { http } from "@/lib/http";
 import { Product } from "@/types/products";
 import { AppLocale } from "@/i18n/routing";
-import { MoreVertical } from "lucide-react";
+import { MoreVertical, Plus } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getTranslations } from "next-intl/server";
 import DeleteImage from "@/components/products/delete-image";
 import SetPrimaryImage from "@/components/products/set-primary-image";
+import AddImageBtn from "@/components/products/add-image-btn";
 
 type Params = {
   "product-id": string;
@@ -60,9 +61,13 @@ export default async function ProductDetails({ params }: { params: Params }) {
       </div>
 
       <div>
-        <h2 className="text-base text-primary mb-2 font-bold">
-          {t("Labels.Gallery")} ({data.data.product.images.length})
-        </h2>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-base text-primary font-bold">
+            {t("Labels.Gallery")} ({data.data.product.images.length})
+          </h2>
+
+          <AddImageBtn productId={data.data.product.id} />
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {data.data.product.images.map((image, index) => (
             <div

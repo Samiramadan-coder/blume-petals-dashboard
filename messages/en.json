@@ -33,7 +33,9 @@
     "UpdatedSuccessfully": "Updated successfully",
     "UpdateFailed": "Update failed. Please try again.",
     "New": "New",
-    "AED": "AED"
+    "AED": "AED",
+    "ImageAddedSuccessfully": "Image added successfully",
+    "ImageAddFailed": "Failed to add image. Please try again."
   },
   "Auth": {
     "Login": {
