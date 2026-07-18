@@ -26,8 +26,8 @@ export const occasionCollectionSchema = (t: T) =>
       is_visible: z.boolean(),
       sort_order: z.number(),
       banner: imageSchema,
-      starts_at: z.string().min(1, t("Errors.StartDateIsRequired")),
-      ends_at: z.string().min(1, t("Errors.EndDateIsRequired")),
+      starts_at: z.string(),
+      ends_at: z.string(),
     })
     .superRefine((data, ctx) => {
       if (!data.banner) {
@@ -37,7 +37,23 @@ export const occasionCollectionSchema = (t: T) =>
           message: t("Errors.BannerIsRequired"),
         });
       }
-      if (!data.starts_at || !data.ends_at) return;
+
+      if (data.starts_at && !data.ends_at) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["ends_at"],
+          message: t("Errors.EndDateIsRequired"),
+        });
+      }
+
+      if (!data.starts_at && data.ends_at) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["starts_at"],
+          message: t("Errors.StartDateIsRequired"),
+        });
+      }
+
       if (data.starts_at > data.ends_at) {
         ctx.addIssue({
           code: "custom",

@@ -8,9 +8,8 @@ import {
   type FieldValues,
   type Path,
 } from "react-hook-form";
-import { Image as ImageIcon, Star, X } from "lucide-react";
+import { Image as ImageIcon, X } from "lucide-react";
 
-import { Badge } from "../ui/badge";
 import { Field, FieldContent, FieldError, FieldLabel } from "../ui/field";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
@@ -24,14 +23,12 @@ type NormalFormImageUploaderProps<T extends FieldValues> = {
   required?: boolean;
   className?: string;
   buttonLabel: string;
-  mainLabel: string;
 };
 
 type ImagePreviewProps = {
   image: ImageValue;
   imageUrl: string;
   index: number;
-  mainLabel: string;
   isDragged: boolean;
   onDragStart: () => void;
   onDragOver: (event: React.DragEvent<HTMLDivElement>) => void;
@@ -44,7 +41,6 @@ function ImagePreview({
   image,
   imageUrl,
   index,
-  mainLabel,
   isDragged,
   onDragStart,
   onDragOver,
@@ -99,13 +95,6 @@ function ImagePreview({
       >
         <X className="size-3.5" />
       </Button>
-
-      {index === 0 && (
-        <Badge className="absolute bottom-2 inset-s-2 rounded-sm text-[10px] uppercase text-foreground">
-          <Star className="size-3" />
-          {mainLabel}
-        </Badge>
-      )}
     </div>
   );
 }
@@ -117,7 +106,6 @@ export default function NormalFormImageUploader<T extends FieldValues>({
   required,
   className,
   buttonLabel,
-  mainLabel,
 }: NormalFormImageUploaderProps<T>) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -257,7 +245,6 @@ export default function NormalFormImageUploader<T extends FieldValues>({
                         image={image}
                         imageUrl={getImageUrl(image)}
                         index={index}
-                        mainLabel={mainLabel}
                         isDragged={draggedImageIndex === index}
                         onDragStart={() => setDraggedImageIndex(index)}
                         onDragOver={(event) => event.preventDefault()}

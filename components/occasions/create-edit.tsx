@@ -272,14 +272,12 @@ export default function CreateEdit({
                   label="Start Date"
                   control={control}
                   name="starts_at"
-                  required
                 />
 
                 <DayMonthPicker
                   label="End Date"
                   control={control}
                   name="ends_at"
-                  required
                 />
               </div>
             </div>
