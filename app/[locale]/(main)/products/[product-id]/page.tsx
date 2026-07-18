@@ -1,7 +1,6 @@
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Image from "next/image";
@@ -12,6 +11,7 @@ import { MoreVertical } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getTranslations } from "next-intl/server";
+import DeleteImage from "@/components/products/delete-image";
 import SetPrimaryImage from "@/components/products/set-primary-image";
 
 type Params = {
@@ -40,8 +40,10 @@ export default async function ProductDetails({ params }: { params: Params }) {
   }
 
   return (
-    <div className="container max-w-7xl space-y-6 py-6">
-      <h2 className="text-2xl text-primary font-bold">Product Details</h2>
+    <div className="container max-w-5xl space-y-6 py-6">
+      <h2 className="text-2xl text-primary font-bold">
+        {t("Labels.ProductDetails")}
+      </h2>
 
       <div className="space-y-3">
         <h1 className="text-2xl font-bold flex items-center">
@@ -55,6 +57,67 @@ export default async function ProductDetails({ params }: { params: Params }) {
         <p className="text-muted-foreground text-sm">
           /{data.data.product.slug}
         </p>
+      </div>
+
+      <div>
+        <h2 className="text-base text-primary mb-2 font-bold">
+          {t("Labels.Gallery")} ({data.data.product.images.length})
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {data.data.product.images.map((image, index) => (
+            <div
+              key={index}
+              className="relative aspect-square w-full overflow-hidden rounded-md shadow-sm"
+            >
+              <Image
+                src={image.url as string}
+                alt={data.data.product.name[locale]}
+                fill
+                sizes="200px"
+                className="object-cover shadow-sm"
+              />
+
+              {image.is_primary && (
+                <Badge className="absolute inset-s-2 top-2 z-10 bg-red-400 text-sm text-foreground shadow-md">
+                  {t("MainLabel")}
+                </Badge>
+              )}
+
+              {!image.is_primary && (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      type="button"
+                      variant="default"
+                      size="icon"
+                      className="absolute inset-e-2 top-2 z-20 size-8 rounded-full bg-background/90 shadow-md hover:bg-background/80"
+                    >
+                      <MoreVertical className="size-4 text-primary" />
+                    </Button>
+                  </DropdownMenuTrigger>
+
+                  <DropdownMenuContent align="end">
+                    <SetPrimaryImage
+                      imageId={image.id}
+                      productId={data.data.product.id}
+                    />
+
+                    <DeleteImage
+                      imageId={image.id}
+                      productId={data.data.product.id}
+                    />
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <h2 className="text-base text-primary mb-2 font-bold">
+          {t("Fields.Description")}{" "}
+        </h2>
         <div
           className="text-muted-foreground"
           dangerouslySetInnerHTML={{
@@ -63,51 +126,25 @@ export default async function ProductDetails({ params }: { params: Params }) {
         />
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {data.data.product.images.map((image, index) => (
-          <div
-            key={index}
-            className="relative aspect-square w-full overflow-hidden rounded-md shadow-sm"
-          >
-            <Image
-              src={image.url as string}
-              alt={data.data.product.name[locale]}
-              fill
-              sizes="200px"
-              className="object-cover shadow-sm"
-            />
+      <div>
+        <h2 className="text-base text-primary mb-2 font-bold">
+          {t("Labels.Variants")}{" "}
+        </h2>
 
-            {image.is_primary && (
-              <Badge className="absolute inset-s-2 top-2 z-10 bg-red-400 text-sm text-foreground shadow-md">
-                {t("MainLabel")}
-              </Badge>
-            )}
-
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  type="button"
-                  variant="default"
-                  size="icon"
-                  className="absolute inset-e-2 top-2 z-20 size-8 rounded-full bg-background/90 shadow-md hover:bg-background/80"
-                >
-                  <MoreVertical className="size-4 text-primary" />
-                </Button>
-              </DropdownMenuTrigger>
-
-              <DropdownMenuContent align="end">
-                {!image.is_primary && (
-                  <SetPrimaryImage
-                    imageId={image.id}
-                    productId={data.data.product.id}
-                  />
-                )}
-
-                <DropdownMenuItem variant="destructive">
-                  {tCommon("Delete")}
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+        {data.data.product.variants.map((variant, index) => (
+          <div key={index} className="space-y-1">
+            <div className="text-sm">
+              {t("Fields.Price")}: {variant.price}
+            </div>
+            <div className="text-sm">
+              {t("Fields.SKU")}: {variant.sku}
+            </div>
+            <div className="text-sm">
+              {t("Fields.Size")}: {variant.size}
+            </div>
+            <div className="text-sm">
+              {t("Fields.StockQuantity")}: {variant.stock}
+            </div>
           </div>
         ))}
       </div>

@@ -32,7 +32,8 @@
     "CreationFailed": "Creation failed. Please try again.",
     "UpdatedSuccessfully": "Updated successfully",
     "UpdateFailed": "Update failed. Please try again.",
-    "New": "New"
+    "New": "New",
+    "AED": "AED"
   },
   "Auth": {
     "Login": {
@@ -122,6 +123,8 @@
     "AddPhoto": "Add Photo",
     "MainLabel": "Main",
     "SetAsMain": "Set as Main",
+    "SetAsMainSuccess": "Image set as main successfully",
+    "SetAsMainFailed": "Failed to set image as main. Please try again.",
     "Table": {
       "Photo": "Photo",
       "Name": "Name",
@@ -207,7 +210,9 @@
       "DustyRose": "Dusty Rose",
       "Units": "Units",
       "InStock": "In Stock",
-      "OutOfStock": "Out of Stock"
+      "OutOfStock": "Out of Stock",
+      "ProductDetails": "Product Details",
+      "Gallery": "Gallery"
     },
     "Errors": {
       "NameIsRequired": "Product name is required",

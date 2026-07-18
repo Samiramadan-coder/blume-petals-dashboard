@@ -118,3 +118,21 @@ export async function setAsMainImageAction(
     return { success: false };
   }
 }
+
+// Delete Image Action
+type DeleteImageResult = { success: boolean };
+
+export async function deleteImageAction(
+  productId: number,
+  imageId: number,
+): Promise<DeleteImageResult> {
+  try {
+    await http.delete(`/api/v1/admin/products/${productId}/images/${imageId}`);
+    updateTag("products");
+    updateTag(`product-${productId}`);
+    return { success: true };
+  } catch (err) {
+    console.error("Error deleting image:", err);
+    return { success: false };
+  }
+}

@@ -1,5 +1,6 @@
 "use client";
 
+import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { DropdownMenuItem } from "../ui/dropdown-menu";
 import { setAsMainImageAction } from "@/lib/products-actions";
@@ -16,7 +17,14 @@ export default function SetPrimaryImage({
   async function handleSetPrimaryImage() {
     try {
       const result = await setAsMainImageAction(productId, imageId);
-    } catch (err) {}
+
+      if (result.success) {
+        toast.success(t("SetAsMainSuccess"));
+      }
+    } catch (err) {
+      console.error("Error setting image as main:", err);
+      toast.error(t("SetAsMainFailed"));
+    }
   }
 
   return (

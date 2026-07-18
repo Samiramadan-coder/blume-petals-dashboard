@@ -32,7 +32,8 @@
     "CreationFailed": "فشل الإنشاء. يرجى المحاولة مرة أخرى.",
     "UpdatedSuccessfully": "تم التحديث بنجاح",
     "UpdateFailed": "فشل التحديث. يرجى المحاولة مرة أخرى.",
-    "New": "جديد"
+    "New": "جديد",
+    "AED": "درهم"
   },
   "Auth": {
     "Login": {
@@ -122,6 +123,8 @@
     "AddPhoto": "أضف صورة",
     "MainLabel": "رئيسي",
     "SetAsMain": "تعيين كصورة رئيسية",
+    "SetAsMainSuccess": "تم تعيين الصورة كصورة رئيسية بنجاح",
+    "SetAsMainFailed": "فشل في تعيين الصورة كصورة رئيسية. يرجى المحاولة مرة أخرى.",
     "Table": {
       "Photo": "الصورة",
       "Name": "الاسم",
@@ -207,7 +210,9 @@
       "DustyRose": "وردي مغبر",
       "Units": "وحدات",
       "InStock": "متوفر",
-      "OutOfStock": "نفد من المخزون"
+      "OutOfStock": "نفد من المخزون",
+      "ProductDetails": "تفاصيل المنتج",
+      "Gallery": "معرض الصور"
     },
     "Errors": {
       "NameIsRequired": "اسم المنتج مطلوب",
