@@ -7,13 +7,14 @@ import Image from "next/image";
 import { http } from "@/lib/http";
 import { Product } from "@/types/products";
 import { AppLocale } from "@/i18n/routing";
-import { MoreVertical } from "lucide-react";
+import { MoreVertical, Pencil } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getTranslations } from "next-intl/server";
 import DeleteImage from "@/components/products/delete-image";
 import AddImageBtn from "@/components/products/add-image-btn";
 import SetPrimaryImage from "@/components/products/set-primary-image";
+import CreateEditVariant from "@/components/products/creat-edit-variant";
 
 type Params = {
   "product-id": string;
@@ -61,7 +62,7 @@ export default async function ProductDetails({ params }: { params: Params }) {
       </div>
 
       <div>
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center justify-between mb-4 gap-4">
           <h2 className="text-base text-primary font-bold">
             {t("Labels.Gallery")} ({data.data.product.images.length})
           </h2>
@@ -132,26 +133,42 @@ export default async function ProductDetails({ params }: { params: Params }) {
       </div>
 
       <div>
-        <h2 className="text-base text-primary mb-2 font-bold">
-          {t("Labels.Variants")}{" "}
-        </h2>
+        <div className="flex items-center justify-between mb-4 gap-4">
+          <h2 className="text-base text-primary mb-2 font-bold">
+            {t("Labels.Variants")}{" "}
+          </h2>
 
-        {data.data.product.variants.map((variant, index) => (
-          <div key={index} className="space-y-1">
-            <div className="text-sm">
-              {t("Fields.Price")}: {variant.price}
+          <CreateEditVariant productId={data.data.product.id} />
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {data.data.product.variants.map((variant, index) => (
+            <div key={index} className="space-y-1">
+              <div className="text-sm">
+                {t("Fields.Price")}: {variant.price}
+              </div>
+              <div className="text-sm">
+                {t("Fields.SKU")}: {variant.sku}
+              </div>
+              <div className="text-sm">
+                {t("Fields.Size")}: {variant.size}
+              </div>
+              <div className="text-sm">
+                {t("Fields.StockQuantity")}: {variant.stock}
+              </div>
+
+              <CreateEditVariant
+                productId={data.data.product.id}
+                variant={variant}
+                trigger={
+                  <Button size="icon">
+                    <Pencil />
+                  </Button>
+                }
+              />
             </div>
-            <div className="text-sm">
-              {t("Fields.SKU")}: {variant.sku}
-            </div>
-            <div className="text-sm">
-              {t("Fields.Size")}: {variant.size}
-            </div>
-            <div className="text-sm">
-              {t("Fields.StockQuantity")}: {variant.stock}
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );

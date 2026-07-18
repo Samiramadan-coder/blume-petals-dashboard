@@ -2,7 +2,11 @@
 
 import { updateTag } from "next/cache";
 import { http, ValidationError } from "@/lib/http";
-import { Product, ProductFormValues } from "@/types/products";
+import {
+  Product,
+  ProductFormValues,
+  VariantFormValues,
+} from "@/types/products";
 
 // Post And Put Category Actions
 type ProductActionErrors = Record<string, string>;
@@ -155,6 +159,43 @@ export async function deleteImageAction(
     return { success: true };
   } catch (err) {
     console.error("Error deleting image:", err);
+    return { success: false };
+  }
+}
+
+// Add Variant Action
+type AddVariantResult = {
+  success: boolean;
+  errors?: Partial<Record<keyof VariantFormValues, string>>;
+};
+
+export async function addVariantAction(
+  productId: number,
+  variantData: VariantFormValues,
+  variantId?: number,
+): Promise<AddVariantResult> {
+  const method = variantId ? "put" : "post";
+  const url = variantId
+    ? `/api/v1/admin/products/${productId}/variants/${variantId}`
+    : `/api/v1/admin/products/${productId}/variants`;
+
+  try {
+    await http[method](url, variantData);
+
+    updateTag("products");
+    updateTag(`product-${productId}`);
+    return { success: true };
+  } catch (err) {
+    console.error("Error adding variant:", err);
+    if (err instanceof ValidationError) {
+      const errors = Object.fromEntries(
+        Object.entries(err.errors).map(([field, messages]) => [
+          field,
+          messages[0] ?? "Invalid value",
+        ]),
+      ) as Partial<Record<keyof VariantFormValues, string>>;
+      return { success: false, errors };
+    }
     return { success: false };
   }
 }

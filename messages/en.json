@@ -127,6 +127,8 @@
     "SetAsMain": "Set as Main",
     "SetAsMainSuccess": "Image set as main successfully",
     "SetAsMainFailed": "Failed to set image as main. Please try again.",
+    "AddVariant": "Add Variant",
+    "EditVariant": "Edit Variant",
     "Table": {
       "Photo": "Photo",
       "Name": "Name",

@@ -61,6 +61,18 @@ export const productSchema = (t: T) =>
 
 export type ProductFormValues = z.infer<ReturnType<typeof productSchema>>;
 
+export type Variant = {
+  id?: number;
+  sku: string;
+  size: string;
+  price: number;
+  stock: number;
+  compare_at_price?: number | null;
+  color_hex?: string | null;
+  is_on_sale?: boolean;
+  in_stock?: boolean;
+};
+
 export type Product = {
   id: number;
   sku: string;
@@ -87,18 +99,7 @@ export type Product = {
   meta_title: LocaleObj;
   meta_description: LocaleObj;
   sort_order: number;
-  variants: {
-    id: number;
-    sku: string;
-    size: string;
-    color_slug: string | null;
-    color_hex: string | null;
-    price: number;
-    compare_at_price: number | null;
-    is_on_sale: boolean;
-    in_stock: boolean;
-    stock: number;
-  }[];
+  variants: Variant[];
   images: {
     id: number;
     is_primary: boolean;
@@ -117,3 +118,17 @@ export type ProductResponse = {
     pagination: Pagination;
   };
 };
+
+export const variantSchema = (t: T) =>
+  z.object({
+    sku: z.string().min(1, t("Errors.SKUIsRequired")),
+    size: z.string().min(1, t("Errors.SizeIsRequired")),
+    price: z.number().min(1, t("Errors.PriceIsRequired")),
+    stock: z.number().min(1, t("Errors.StockQuantityIsRequired")),
+    compare_at_price: z.number().nullable().optional(),
+    color_hex: z.string().nullable().optional(),
+    is_on_sale: z.boolean().optional(),
+    in_stock: z.boolean().optional(),
+  });
+
+export type VariantFormValues = z.infer<ReturnType<typeof variantSchema>>;
