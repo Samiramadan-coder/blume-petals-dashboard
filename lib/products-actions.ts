@@ -98,20 +98,23 @@ export async function deleteProductAction(
   }
 }
 
-// Reorder Categories Action
-// type ReorderCategoriesResult = { success: boolean };
+// Set As Main Image Action
+type SetAsMainImageResult = { success: boolean };
 
-// export async function reorderCategoriesAction(
-//   ids: number[],
-// ): Promise<ReorderCategoriesResult> {
-//   try {
-//     await http.patch("/api/v1/admin/categories/reorder", {
-//       ids,
-//     });
-//     updateTag("categories");
-//     return { success: true };
-//   } catch (err) {
-//     console.error("Error reordering categories:", err);
-//     return { success: false };
-//   }
-// }
+export async function setAsMainImageAction(
+  productId: number,
+  imageId: number,
+): Promise<SetAsMainImageResult> {
+  try {
+    await http.patch(
+      `/api/v1/admin/products/${productId}/images/${imageId}/primary`,
+    );
+
+    updateTag("products");
+    updateTag(`product-${productId}`);
+    return { success: true };
+  } catch (err) {
+    console.error("Error setting image as main:", err);
+    return { success: false };
+  }
+}

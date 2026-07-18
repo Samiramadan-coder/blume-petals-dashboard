@@ -31,7 +31,8 @@
     "CreatedSuccessfully": "تم الإنشاء بنجاح",
     "CreationFailed": "فشل الإنشاء. يرجى المحاولة مرة أخرى.",
     "UpdatedSuccessfully": "تم التحديث بنجاح",
-    "UpdateFailed": "فشل التحديث. يرجى المحاولة مرة أخرى."
+    "UpdateFailed": "فشل التحديث. يرجى المحاولة مرة أخرى.",
+    "New": "جديد"
   },
   "Auth": {
     "Login": {
@@ -120,6 +121,7 @@
     "AddProductDescription": "املأ تفاصيل المنتج أدناه",
     "AddPhoto": "أضف صورة",
     "MainLabel": "رئيسي",
+    "SetAsMain": "تعيين كصورة رئيسية",
     "Table": {
       "Photo": "الصورة",
       "Name": "الاسم",

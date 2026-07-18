@@ -13,7 +13,7 @@ import DeleteBtn from "../reusable/delete-btn";
 import { TableCell, TableRow } from "../ui/table";
 import { DataTable } from "../reusable/data-table";
 import { Switch } from "../ui/switch";
-import { Star } from "lucide-react";
+import { Eye, Star } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { Category } from "@/types/categories";
 import { Occasion } from "@/types/occasions";
@@ -25,6 +25,8 @@ import {
 import { useState } from "react";
 import { Pagination } from "@/types/shared";
 import { useQueryParam } from "@/hooks/use-search-params";
+import { Link } from "@/i18n/navigation";
+import { Button } from "../ui/button";
 
 export default function DataPreview({
   products,
@@ -82,7 +84,7 @@ export default function DataPreview({
                 {product.name[locale]}
                 {product.is_new && (
                   <Badge className="mx-2 text-[10px] font-semibold text-foreground">
-                    NEW
+                    {tCommon("New")}
                   </Badge>
                 )}
               </p>
@@ -150,6 +152,12 @@ export default function DataPreview({
                 product={product}
                 trigger={<EditBtn />}
               />
+
+              <Link href={`/products/${product.id}`} locale={locale}>
+                <Button variant="ghost">
+                  <Eye className="size-4 text-muted-foreground" />
+                </Button>
+              </Link>
 
               <DeleteBtn
                 onDelete={async () => {

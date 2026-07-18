@@ -31,7 +31,8 @@
     "CreatedSuccessfully": "Created successfully",
     "CreationFailed": "Creation failed. Please try again.",
     "UpdatedSuccessfully": "Updated successfully",
-    "UpdateFailed": "Update failed. Please try again."
+    "UpdateFailed": "Update failed. Please try again.",
+    "New": "New"
   },
   "Auth": {
     "Login": {
@@ -120,6 +121,7 @@
     "AddProductDescription": "Fill in product details below",
     "AddPhoto": "Add Photo",
     "MainLabel": "Main",
+    "SetAsMain": "Set as Main",
     "Table": {
       "Photo": "Photo",
       "Name": "Name",
