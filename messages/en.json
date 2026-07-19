@@ -260,24 +260,31 @@
       "Visibility": "Visibility",
       "VisibilityLabel": "Show on storefront",
       "VisibilityDescription": "Occasion is visible to customers",
-      "SlugHint": "URL path used on the storefront"
+      "SlugHint": "URL path used on the storefront",
+      "PromotionalDateRange": "Promotional Date Range",
+      "PromotionalDateRangeDescription": "Optional — occasion will only appear during this window each year. Leave blank to show year-round."
     },
     "Fields": {
       "Banner": "Banner",
       "Name": "Occasion/Collection Name",
       "Type": "Type",
-      "Slug": "Slug"
+      "Slug": "Slug",
+      "Description": "Occasion/Collection Description",
+      "StartDate": "Start Date",
+      "EndDate": "End Date"
     },
     "Placeholders": {
       "Name": "Enter Occasion/Collection Name",
-      "Slug": "Enter Slug"
+      "Slug": "Enter Slug",
+      "Description": "Enter Occasion/Collection Description"
     },
     "Table": {
       "Name": "Name",
       "Products": "Products",
       "Visibility": "Visibility",
       "Status": "Status",
-      "Actions": "Actions"
+      "Actions": "Actions",
+      "DateRange": "Date Range"
     }
   }
 }

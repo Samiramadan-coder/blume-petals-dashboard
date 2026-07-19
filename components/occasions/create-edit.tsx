@@ -20,8 +20,8 @@ import { Check, Flower2 } from "lucide-react";
 import NormalFormSelect from "../form/select";
 import { Card, CardContent } from "../ui/card";
 import SectionLabel from "../form/section-label";
+import NormalFormRichText from "../form/rich-text";
 import { zodResolver } from "@hookform/resolvers/zod";
-import DayMonthPicker from "../form/day-month-picker";
 import { availableLocales } from "@/constants/shared";
 import { useLocale, useTranslations } from "next-intl";
 import { useFormLocale } from "@/hooks/use-form-locale";
@@ -36,14 +36,15 @@ import { Controller, SubmitHandler, useForm, useWatch } from "react-hook-form";
 function getDefaultValues(sortOrder: number, occasion?: Occasion) {
   return {
     name: occasion?.name_translations || { en: "", ar: "" },
+    // description: occasion?.description_translations || { en: "", ar: "" },
     slug: occasion?.slug || "",
     is_visible: occasion?.is_visible ?? true,
     type: occasion?.type || "bouquet",
     color: occasion?.color || "",
     sort_order: occasion?.sort_order || sortOrder || 0,
     banner: occasion?.banner_url || "",
-    starts_at: occasion?.starts_at || "",
-    ends_at: occasion?.ends_at || "",
+    starts_at: occasion?.starts_at?.split("T")[0] || "",
+    ends_at: occasion?.ends_at?.split("T")[0] || "",
   };
 }
 
@@ -249,6 +250,23 @@ export default function CreateEdit({
               description={tLive("Labels.SlugHint")}
             />
 
+            {availableLocales.map((locale) => (
+              <div
+                key={locale}
+                className={cn({
+                  hidden: activeLocale !== locale,
+                })}
+              >
+                <NormalFormRichText<OccasionFormValues>
+                  key={activeLocale}
+                  control={control}
+                  label={tLive("Fields.Description")}
+                  name={`description.${locale}`}
+                  placeholder={tLive("Placeholders.Description")}
+                />
+              </div>
+            ))}
+
             <NormalFormSelect<OccasionFormValues>
               control={control}
               name="type"
@@ -260,24 +278,27 @@ export default function CreateEdit({
             />
 
             <Separator className="bg-border" />
-            <SectionLabel>Promotional Date Range</SectionLabel>
+            <SectionLabel>{tLive("Labels.PromotionalDateRange")}</SectionLabel>
             <div className="space-y-3">
               <p className="text-xs text-muted-foreground">
-                Optional — occasion will only appear during this window each
-                year. Leave blank to show year-round.
+                {tLive("Labels.PromotionalDateRangeDescription")}
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <DayMonthPicker
-                  label="Start Date"
-                  control={control}
+                <Input<OccasionFormValues>
                   name="starts_at"
+                  register={register}
+                  label={tLive("Fields.StartDate")}
+                  type="date"
+                  errors={errors}
                 />
 
-                <DayMonthPicker
-                  label="End Date"
-                  control={control}
+                <Input<OccasionFormValues>
                   name="ends_at"
+                  register={register}
+                  label={tLive("Fields.EndDate")}
+                  type="date"
+                  errors={errors}
                 />
               </div>
             </div>

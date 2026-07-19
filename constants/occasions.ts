@@ -46,6 +46,10 @@ export const columns = (t: T): DataTableColumn[] => [
     label: t("Table.Name"),
   },
   {
+    key: "dateRange",
+    label: t("Table.DateRange"),
+  },
+  {
     key: "products",
     label: t("Table.Products"),
   },

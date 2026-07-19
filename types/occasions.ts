@@ -17,6 +17,10 @@ export const occasionCollectionSchema = (t: T) =>
           .min(1, t("Errors.OccasionCollectionNameRequired"))
           .min(2, t("Errors.OccasionCollectionNameMinLength")),
       }),
+      description: z.object({
+        en: z.string().optional(),
+        ar: z.string().optional(),
+      }),
       slug: z
         .string()
         .min(1, t("Errors.OccasionCollectionSlugRequired"))
@@ -73,6 +77,8 @@ export type Occasion = {
   id: number;
   name: string;
   name_translations: { ar: string; en: string };
+  description: string;
+  description_translations: { ar: string; en: string };
   slug: string;
   type: OccasionType;
   sort_order: number;
@@ -84,6 +90,7 @@ export type Occasion = {
   ends_at: string;
   created_at: string;
   updated_at: string;
+  products_count: number;
 };
 
 export type OccasionResponse = {

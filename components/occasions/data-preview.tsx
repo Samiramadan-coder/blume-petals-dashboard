@@ -6,19 +6,20 @@ import {
   updateOccasionVisibilityAction,
 } from "@/lib/occasion-actions";
 import { toast } from "sonner";
+import Image from "next/image";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Badge } from "../ui/badge";
 import { Switch } from "../ui/switch";
 import CreateEdit from "./create-edit";
 import { TableCell } from "../ui/table";
+import { Spinner } from "../ui/spinner";
 import EditBtn from "../reusable/edit-btn";
 import { Occasion } from "@/types/occasions";
 import DeleteBtn from "../reusable/delete-btn";
 import { columns } from "@/constants/occasions";
 import { useLocale, useTranslations } from "next-intl";
 import { ReorderableDataTable } from "../reusable/date-sortable-table";
-import Image from "next/image";
 
 export default function DataPreview({
   initialOccasions,
@@ -65,7 +66,7 @@ export default function DataPreview({
           toast.error(tCommon("ReorderFailed"));
         }}
         rowsCount={occasions.length}
-        countUnit="occasions collections"
+        countUnit={t("Title")}
         columns={columns(t)}
         renderCells={(occasion) => (
           <>
@@ -90,21 +91,23 @@ export default function DataPreview({
             </TableCell>
 
             <TableCell>
-              - <span className="font-normal">{t("Items")}</span>
+              {occasion.starts_at && occasion.ends_at ? (
+                <span>
+                  {new Date(occasion.starts_at).toLocaleDateString(locale)} -{" "}
+                  {new Date(occasion.ends_at).toLocaleDateString(locale)}
+                </span>
+              ) : (
+                <span>-</span>
+              )}
+            </TableCell>
+
+            <TableCell>
+              {occasion.products_count}{" "}
+              <span className="font-normal">{t("Items")}</span>
             </TableCell>
 
             <TableCell className="px-4 py-3">
-              <Switch
-                checked={occasion.is_visible}
-                onClick={async () => {
-                  const result = await updateOccasionVisibilityAction(occasion);
-                  if (result.success) {
-                    toast.success(tCommon("VisibilityUpdated"));
-                    return;
-                  }
-                  toast.error(tCommon("VisibilityUpdateFailed"));
-                }}
-              />
+              <VisibilitySwitch occasion={occasion} />
             </TableCell>
 
             <TableCell className="px-4 py-3">
@@ -136,6 +139,36 @@ export default function DataPreview({
           </>
         )}
       />
+    </>
+  );
+}
+
+/**
+ * Visibility switch component for an occasion.
+ */
+function VisibilitySwitch({ occasion }: { occasion: Occasion }) {
+  const tCommon = useTranslations("Common");
+  const [loadingVisibility, setLoadingVisibility] = useState(false);
+
+  return (
+    <>
+      {loadingVisibility ? (
+        <Spinner className="text-primary" />
+      ) : (
+        <Switch
+          checked={occasion.is_visible}
+          onClick={async () => {
+            setLoadingVisibility(true);
+            const result = await updateOccasionVisibilityAction(occasion);
+            setLoadingVisibility(false);
+            if (result.success) {
+              toast.success(tCommon("VisibilityUpdated"));
+              return;
+            }
+            toast.error(tCommon("VisibilityUpdateFailed"));
+          }}
+        />
+      )}
     </>
   );
 }

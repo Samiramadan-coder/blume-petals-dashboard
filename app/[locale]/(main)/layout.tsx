@@ -16,6 +16,7 @@ import SidebarNavSection from "@/components/dashboard-layout/sidebar-nav-section
 import SidebarToggleControl from "@/components/dashboard-layout/sidebar-toggle-control";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { getLocale } from "next-intl/server";
 
 export default async function MainLayout({
   children,
@@ -24,6 +25,7 @@ export default async function MainLayout({
 }) {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
+  const locale = await getLocale();
 
   if (!token) {
     redirect("/login");
@@ -32,7 +34,7 @@ export default async function MainLayout({
   return (
     <SidebarProvider defaultOpen>
       <Sidebar
-        side="left"
+        side={locale === "ar" ? "right" : "left"}
         collapsible="icon"
         className="border-e border-border bg-white"
       >

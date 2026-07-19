@@ -26,8 +26,8 @@
     "VisibilityUpdateFailed": "فشل تحديث رؤية الفئة. يرجى المحاولة مرة أخرى.",
     "DeletedSuccessfully": "تم الحذف بنجاح",
     "DeleteFailed": "فشل الحذف. يرجى المحاولة مرة أخرى.",
-    "ReorderedSuccessfully": "تم إعادة ترتيب الفئات بنجاح",
-    "ReorderFailed": "فشل إعادة ترتيب الفئات. يرجى المحاولة مرة أخرى.",
+    "ReorderedSuccessfully": "تم إعادة الترتيب بنجاح",
+    "ReorderFailed": "فشل إعادة الترتيب. يرجى المحاولة مرة أخرى.",
     "CreatedSuccessfully": "تم الإنشاء بنجاح",
     "CreationFailed": "فشل الإنشاء. يرجى المحاولة مرة أخرى.",
     "UpdatedSuccessfully": "تم التحديث بنجاح",
@@ -260,24 +260,31 @@
       "Visibility": "الرؤية",
       "VisibilityLabel": "عرض في المتجر",
       "VisibilityDescription": "المناسبة مرئية للعملاء",
-      "SlugHint": "مسار URL المستخدم في المتجر"
+      "SlugHint": "مسار URL المستخدم في المتجر",
+      "PromotionalDateRange": "نطاق التاريخ الترويجي",
+      "PromotionalDateRangeDescription": "اختياري — ستظهر المناسبة فقط خلال هذه الفترة كل عام. اتركه فارغًا للعرض على مدار السنة."
     },
     "Fields": {
       "Banner": "بانر",
       "Name": "اسم المناسبة/المجموعة",
       "Type": "النوع",
-      "Slug": "الرابط"
+      "Slug": "الرابط",
+      "Description": "وصف المناسبة/المجموعة",
+      "StartDate": "تاريخ البدء",
+      "EndDate": "تاريخ الانتهاء"
     },
     "Placeholders": {
       "Name": "أدخل اسم المناسبة/المجموعة",
-      "Slug": "أدخل الرابط"
+      "Slug": "أدخل الرابط",
+      "Description": "أدخل وصف المناسبة/المجموعة"
     },
     "Table": {
       "Name": "الاسم",
       "Products": "المنتجات",
       "Visibility": "الرؤية",
       "Status": "الحالة",
-      "Actions": "الإجراءات"
+      "Actions": "الإجراءات",
+      "DateRange": "نطاق التاريخ"
     }
   }
 }
