@@ -199,3 +199,24 @@ export async function addVariantAction(
     return { success: false };
   }
 }
+
+// Delete Variant Action
+type DeleteVariantResult = { success: boolean };
+
+export async function deleteVariantAction(
+  productId: number,
+  variantId: number,
+): Promise<DeleteVariantResult> {
+  try {
+    await http.delete(
+      `/api/v1/admin/products/${productId}/variants/${variantId}`,
+    );
+
+    updateTag("products");
+    updateTag(`product-${productId}`);
+    return { success: true };
+  } catch (err) {
+    console.error("Error deleting variant:", err);
+    return { success: false };
+  }
+}

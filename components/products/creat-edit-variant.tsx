@@ -7,15 +7,22 @@ import Header from "../form/header";
 import Footer from "../form/footer";
 import Select from "../form/select";
 import { Button } from "../ui/button";
+import { Check } from "lucide-react";
 import AddButton from "../form/add-button";
-import { sizes } from "@/constants/products";
 import { useRef, type ReactNode } from "react";
+import { colors, sizes } from "@/constants/products";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocale, useTranslations } from "next-intl";
-import { SubmitHandler, useForm } from "react-hook-form";
 import { addVariantAction } from "@/lib/products-actions";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { Field, FieldContent, FieldError, FieldLabel } from "../ui/field";
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Variant, VariantFormValues, variantSchema } from "@/types/products";
+
+// Get list of colors including the selected color if it's not in the predefined list
+function getListOfColors(color?: string): string[] {
+  return [...colors, ...(color && !colors.includes(color) ? [color] : [])];
+}
 
 export default function CreateEditVariant({
   trigger,
@@ -153,6 +160,70 @@ export default function CreateEditVariant({
               placeholder={t("Placeholders.ComparePrice")}
               errors={errors}
             />
+
+            <Field>
+              <FieldLabel htmlFor="colors" className="text-sm font-semibold">
+                {t("Fields.ColorVariants")}
+              </FieldLabel>
+              <FieldContent>
+                <Controller
+                  name="color_hex"
+                  control={control}
+                  render={({ field }) => {
+                    const selectedColor = field.value ?? "";
+
+                    return (
+                      <div className="space-y-1.5">
+                        <div className="flex flex-wrap gap-2">
+                          {getListOfColors(selectedColor || "").map((color) => {
+                            const isSelected = selectedColor === color;
+
+                            return (
+                              <Button
+                                key={color}
+                                type="button"
+                                variant="outline"
+                                className={cn(
+                                  "h-8 w-8 rounded-full border border-border",
+                                  {
+                                    "border-2 border-primary": isSelected,
+                                  },
+                                )}
+                                style={{
+                                  backgroundColor: color,
+                                }}
+                                onClick={() => {
+                                  const nextColor = isSelected ? "" : color;
+                                  field.onChange(nextColor);
+                                }}
+                              >
+                                {isSelected && <Check />}
+                              </Button>
+                            );
+                          })}
+                          <div className="relative h-8 w-8">
+                            <Button
+                              variant="outline"
+                              className="w-8 h-8 rounded-full border-2 border-dashed bg-white"
+                            ></Button>
+                            <input
+                              type="color"
+                              className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+                              onChange={(event) => {
+                                const nextColor = event.target.value;
+                                field.onChange(nextColor);
+                              }}
+                            />
+                          </div>
+                        </div>
+
+                        <FieldError errors={[errors.color_hex]} />
+                      </div>
+                    );
+                  }}
+                />
+              </FieldContent>
+            </Field>
           </form>
         </div>
 

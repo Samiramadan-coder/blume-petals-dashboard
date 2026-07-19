@@ -374,7 +374,7 @@ export default function CreateEdit({
                           name={`variants.${index}.color_hex`}
                           control={control}
                           render={({ field }) => {
-                            const selectedColor = field.value ?? [];
+                            const selectedColor = field.value ?? "";
 
                             return (
                               <div className="space-y-1.5">
