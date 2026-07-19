@@ -148,19 +148,19 @@ export default function DataPreview({
  */
 function VisibilitySwitch({ occasion }: { occasion: Occasion }) {
   const tCommon = useTranslations("Common");
-  const [loadingVisibility, setLoadingVisibility] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   return (
     <>
-      {loadingVisibility ? (
+      {loading ? (
         <Spinner className="text-primary" />
       ) : (
         <Switch
           checked={occasion.is_visible}
           onClick={async () => {
-            setLoadingVisibility(true);
+            setLoading(true);
             const result = await updateOccasionVisibilityAction(occasion);
-            setLoadingVisibility(false);
+            setLoading(false);
             if (result.success) {
               toast.success(tCommon("VisibilityUpdated"));
               return;

@@ -21,6 +21,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useQueryParam } from "@/hooks/use-search-params";
 import { ReorderableDataTable } from "../reusable/date-sortable-table";
 import Image from "next/image";
+import { Spinner } from "../ui/spinner";
 
 export default function DataPreview({
   pagination,
@@ -102,17 +103,7 @@ export default function DataPreview({
             </TableCell>
 
             <TableCell className="px-4 py-3">
-              <Switch
-                checked={category.is_visible}
-                onClick={async () => {
-                  const result = await updateCategoryVisibilityAction(category);
-                  if (result.success) {
-                    toast.success(tCommon("VisibilityUpdated"));
-                    return;
-                  }
-                  toast.error(tCommon("VisibilityUpdateFailed"));
-                }}
-              />
+              <VisibilitySwitch category={category} />
             </TableCell>
 
             <TableCell className="px-4 py-3">
@@ -145,6 +136,36 @@ export default function DataPreview({
           </>
         )}
       />
+    </>
+  );
+}
+
+/**
+ * A switch component to toggle the visibility of a category.
+ */
+function VisibilitySwitch({ category }: { category: Category }) {
+  const tCommon = useTranslations("Common");
+  const [loading, setLoading] = useState(false);
+
+  return (
+    <>
+      {loading ? (
+        <Spinner className="text-primary" />
+      ) : (
+        <Switch
+          checked={category.is_visible}
+          onClick={async () => {
+            setLoading(true);
+            const result = await updateCategoryVisibilityAction(category);
+            setLoading(false);
+            if (result.success) {
+              toast.success(tCommon("VisibilityUpdated"));
+              return;
+            }
+            toast.error(tCommon("VisibilityUpdateFailed"));
+          }}
+        />
+      )}
     </>
   );
 }
