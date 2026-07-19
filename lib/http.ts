@@ -1,4 +1,5 @@
-import { getTokenHeaders } from "./actions";
+import { redirect } from "next/navigation";
+import { deleteToken, getServerLanguage, getTokenHeaders } from "./actions";
 
 type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
@@ -67,6 +68,20 @@ function createHttp(baseURL: string) {
     Accept: "application/json",
   };
 
+  async function handleUnauthorized() {
+    try {
+      await deleteToken();
+    } catch {
+      // Continue with redirect even if clearing cookie fails.
+    }
+
+    if (typeof window === "undefined") {
+      redirect("/login");
+    }
+
+    window.location.replace("/login");
+  }
+
   function isSerializableBody(body: unknown): body is BodyInit {
     return (
       body instanceof FormData ||
@@ -101,9 +116,15 @@ function createHttp(baseURL: string) {
     }
 
     const tokenHeaders = await getTokenHeaders();
+    const language = await getServerLanguage();
+
     Object.entries(tokenHeaders).forEach(([key, value]) => {
       headers.set(key, value);
     });
+
+    if (language) {
+      headers.set("Accept-Language", language);
+    }
 
     let requestBody: BodyInit | undefined;
 
@@ -139,6 +160,10 @@ function createHttp(baseURL: string) {
     }
 
     if (!response.ok) {
+      if (response.status === 401) {
+        await handleUnauthorized();
+      }
+
       if (response.status === 422) {
         throw new ValidationError(data);
       }

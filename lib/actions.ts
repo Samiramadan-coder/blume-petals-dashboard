@@ -29,3 +29,11 @@ export async function getTokenHeaders() {
 export async function deleteToken() {
   (await cookies()).delete("token");
 }
+
+/**
+ * Get Language
+ */
+export async function getServerLanguage() {
+  const locale = (await cookies()).get("NEXT_LOCALE")?.value || null;
+  return locale;
+}
