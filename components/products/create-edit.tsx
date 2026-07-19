@@ -7,6 +7,8 @@ import { Badge } from "../ui/badge";
 import Header from "../form/header";
 import Footer from "../form/footer";
 import Select from "../form/select";
+import Switch from "../form/switch";
+import { Check } from "lucide-react";
 import { Button } from "../ui/button";
 import RichText from "../form/rich-text";
 import AddButton from "../form/add-button";
@@ -27,8 +29,13 @@ import { Field, FieldContent, FieldError, FieldLabel } from "../ui/field";
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Product, ProductFormValues, productSchema } from "@/types/products";
 import { Controller, SubmitHandler, useForm, useWatch } from "react-hook-form";
-import Switch from "../form/switch";
 
+// Get list of colors including the selected color if it's not in the predefined list
+function getListOfColors(color?: string): string[] {
+  return [...colors, ...(color && !colors.includes(color) ? [color] : [])];
+}
+
+// Get default values for the form based on the product data
 function getDefaultValues(product?: Product): ProductFormValues {
   return {
     name: product?.name || { en: "", ar: "" },
@@ -351,35 +358,35 @@ export default function CreateEdit({
                     register={register}
                     placeholder={tLive("Placeholders.ComparePrice")}
                     errors={errors}
+                    className="md:col-span-2"
                   />
 
-                  {/* <div className="md:col-span-5">
+                  <div className="md:col-span-2">
                     <Field>
                       <FieldLabel
                         htmlFor="colors"
                         className="text-sm font-semibold"
                       >
                         {tLive("Fields.ColorVariants")}
-                        <span className="text-red-500">*</span>
                       </FieldLabel>
                       <FieldContent>
                         <Controller
                           name={`variants.${index}.color_hex`}
                           control={control}
                           render={({ field }) => {
-                            const selectedColors = field.value ?? [];
+                            const selectedColor = field.value ?? [];
 
                             return (
                               <div className="space-y-1.5">
                                 <div className="flex flex-wrap gap-2">
-                                  {colors.map((color) => {
-                                    const isSelected = selectedColors.includes(
-                                      color.value,
-                                    );
+                                  {getListOfColors(
+                                    watchedVariants[index].color_hex || "",
+                                  ).map((color) => {
+                                    const isSelected = selectedColor === color;
 
                                     return (
                                       <Button
-                                        key={color.value}
+                                        key={color}
                                         type="button"
                                         variant="outline"
                                         className={cn(
@@ -389,15 +396,14 @@ export default function CreateEdit({
                                               isSelected,
                                           },
                                         )}
-                                        style={{ backgroundColor: color.value }}
+                                        style={{
+                                          backgroundColor: color,
+                                        }}
                                         onClick={() => {
-                                          const nextColors = isSelected
-                                            ? selectedColors.filter(
-                                                (i) => i !== color.value,
-                                              )
-                                            : [...selectedColors, color.value];
-
-                                          field.onChange(nextColors);
+                                          const nextColor = isSelected
+                                            ? ""
+                                            : color;
+                                          field.onChange(nextColor);
                                         }}
                                       >
                                         {isSelected && <Check />}
@@ -413,70 +419,23 @@ export default function CreateEdit({
                                       type="color"
                                       className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
                                       onChange={(event) => {
-                                        setListOfColors((prevColors) => [
-                                          ...prevColors,
-                                          {
-                                            value: event.target.value,
-                                            label: event.target.value,
-                                          },
-                                        ]);
-
-                                        field.onChange([
-                                          event.target.value,
-                                          ...selectedColors,
-                                        ]);
+                                        const nextColor = event.target.value;
+                                        field.onChange(nextColor);
                                       }}
                                     />
                                   </div>
                                 </div>
 
-                                {selectedColors.length ? (
-                                  <div className="flex flex-wrap gap-2 mt-4">
-                                    {selectedColors.map((colorValue) => {
-                                      const label = listOfColors.find(
-                                        (c) => c.value === colorValue,
-                                      )?.label;
-
-                                      return (
-                                        <Badge
-                                          key={colorValue}
-                                          variant="outline"
-                                          className="h-6 border border-border"
-                                        >
-                                          <div
-                                            className="h-3 w-3 rounded-full"
-                                            style={{
-                                              backgroundColor: colorValue,
-                                            }}
-                                          ></div>
-                                          {label ?? colorValue}
-                                          <span
-                                            className="text-muted-foreground cursor-pointer"
-                                            onClick={() => {
-                                              const nextColors =
-                                                selectedColors.filter(
-                                                  (color) =>
-                                                    color !== colorValue,
-                                                );
-                                              field.onChange(nextColors);
-                                            }}
-                                          >
-                                            x
-                                          </span>
-                                        </Badge>
-                                      );
-                                    })}
-                                  </div>
-                                ) : null}
-
-                                <FieldError errors={[errors.colors]} />
+                                <FieldError
+                                  errors={[errors.variants?.[index]?.color_hex]}
+                                />
                               </div>
                             );
                           }}
                         />
                       </FieldContent>
                     </Field>
-                  </div> */}
+                  </div>
                 </div>
               ))}
             </div>

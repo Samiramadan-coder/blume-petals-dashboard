@@ -51,47 +51,17 @@ export const sizes = (t: T) => [
 ];
 
 // Colors
-export const colors = (t: T) => [
-  {
-    value: "#F4C2C2",
-    label: t("Labels.BlushPink"),
-  },
-  {
-    value: "#FFFFF0",
-    label: t("Labels.Ivory"),
-  },
-  {
-    value: "#7D947B",
-    label: t("Labels.Sage"),
-  },
-  {
-    value: "#9B1C1C",
-    label: t("Labels.DeepRed"),
-  },
-  {
-    value: "#C7B8EA",
-    label: t("Labels.Lavender"),
-  },
-  {
-    value: "#FFCBA4",
-    label: t("Labels.Peach"),
-  },
-  {
-    value: "#FFFFFF",
-    label: t("Labels.White"),
-  },
-  {
-    value: "#CBB682",
-    label: t("Labels.Gold"),
-  },
-  {
-    value: "#ED8074",
-    label: t("Labels.Terracotta"),
-  },
-  {
-    value: "#DCAE96",
-    label: t("Labels.DustyRose"),
-  },
+export const colors = [
+  "#F4C2C2",
+  "#FFFFF0",
+  "#7D947B",
+  "#9B1C1C",
+  "#C7B8EA",
+  "#FFCBA4",
+  "#FFFFFF",
+  "#CBB682",
+  "#ED8074",
+  "#DCAE96",
 ];
 
 // Product Statuses
