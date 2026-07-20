@@ -85,9 +85,15 @@
   },
   "Categories": {
     "Categories": "الفئات",
+    "AddOnsCategories": "فئات الإضافات",
+    "default": "افتراضي",
+    "AddOns": "الإضافات",
     "CategoriesBrief": "نظّم منتجاتك وتحكّم بما يظهر في واجهة المتجر.",
-    "AddCategory": "إضافة فئة",
+    "AddOnsBrief": "نظّم إضافاتك وتحكّم بما يظهر في واجهة المتجر.",
+    "AddCategory": "فئة",
+    "AddAddOnsCategory": "فئة الإضافات",
     "CreateCategoryDescription": "قم بإنشاء فئة منتج جديدة",
+    "CreateAddOnsCategoryDescription": "قم بإنشاء فئة إضافات جديدة",
     "Placeholder": "أدخل اسم الفئة",
     "Details": "تفاصيل الفئة",
     "CategoryName": "اسم الفئة",
@@ -115,7 +121,8 @@
     "Banner": "بانر",
     "BannerIsRequired": "بانر الفئة مطلوب",
     "IconIsRequired": "أيقونة الفئة مطلوبة",
-    "FileLessThan1MB": "يجب أن يكون حجم الملف أقل من 1 ميغابايت"
+    "FileLessThan1MB": "يجب أن يكون حجم الملف أقل من 1 ميغابايت",
+    "Photo": "Photo"
   },
   "Products": {
     "Products": "المنتجات",

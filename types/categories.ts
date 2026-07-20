@@ -1,6 +1,5 @@
 import z from "zod";
 import { Pagination, T } from "./shared";
-import { typesEnum } from "@/constants/shared";
 
 export const categorySchema = (t: T) =>
   z
@@ -10,7 +9,7 @@ export const categorySchema = (t: T) =>
         ar: z.string().min(1, t("NameIsRequired")).min(3, t("NameMinLength")),
       }),
       slug: z.string().min(1, t("SlugIsRequired")).min(3, t("SlugMinLength")),
-      type: z.enum(typesEnum, t("SelectType")),
+      type: z.enum(["default", "add-ons"], t("SelectType")),
       color: z.string().min(1, t("SelectColor")),
       is_visible: z.boolean(),
       sort_order: z.number(),

@@ -85,10 +85,16 @@
   },
   "Categories": {
     "Categories": "Categories",
+    "AddOnsCategories": "Add-Ons Categories",
+    "default": "Default",
+    "AddOns": "Add-Ons",
     "CategoriesBrief": "Organise your products and control what appears on the storefront.",
-    "AddCategory": "Add Category",
+    "AddOnsBrief": "Organise your add-ons and control what appears on the storefront.",
+    "AddCategory": "Category",
+    "AddAddOnsCategory": "Add-Ons Category",
     "Placeholder": "Enter category name",
     "CreateCategoryDescription": "Create a new product category",
+    "CreateAddOnsCategoryDescription": "Create a new add-ons category",
     "Details": "Category Details",
     "CategoryName": "Category Name",
     "EnterCategoryName": "Enter category name",
@@ -115,7 +121,8 @@
     "Banner": "Banner",
     "BannerIsRequired": "Category Banner is required",
     "IconIsRequired": "Category Icon is required",
-    "FileLessThan1MB": "File must be less than 1MB"
+    "FileLessThan1MB": "File must be less than 1MB",
+    "Photo": "Photo"
   },
   "Products": {
     "Products": "Products",

@@ -37,6 +37,7 @@ type NormalFormSelectProps<T extends FieldValues> = {
   className?: string;
   triggerClassName?: string;
   dir?: string;
+  disabled?: boolean;
 };
 
 export default function NormalFormSelect<T extends FieldValues>({
@@ -50,6 +51,7 @@ export default function NormalFormSelect<T extends FieldValues>({
   className,
   triggerClassName,
   dir = "ltr",
+  disabled = false,
 }: NormalFormSelectProps<T>) {
   function getOptionValue(value: string) {
     const selectedOption = options.find(
@@ -79,6 +81,7 @@ export default function NormalFormSelect<T extends FieldValues>({
           <FieldContent>
             <div className="space-y-1.5">
               <Select
+                disabled={disabled}
                 value={
                   field.value === undefined ||
                   field.value === null ||

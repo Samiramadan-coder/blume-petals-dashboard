@@ -10,32 +10,12 @@ export const categoryTypes = (
   value: CategoryType;
 }[] => [
   {
-    label: t("Bouquet"),
-    value: "bouquet",
+    label: t("default"),
+    value: "default",
   },
   {
-    label: t("Preserved"),
-    value: "preserved",
-  },
-  {
-    label: t("Gift"),
-    value: "gift",
-  },
-  {
-    label: t("Seasonal"),
-    value: "seasonal",
-  },
-  {
-    label: t("Wedding"),
-    value: "wedding",
-  },
-  {
-    label: t("Eid"),
-    value: "eid",
-  },
-  {
-    label: t("Corporate"),
-    value: "corporate",
+    label: t("AddOns"),
+    value: "add-ons",
   },
 ];
 
@@ -55,6 +35,10 @@ export const colors: string[] = [
 
 // Categories Columns
 export const columns = (t: T): DataTableColumn[] => [
+  {
+    key: "photo",
+    label: t("Photo"),
+  },
   {
     key: "name",
     label: t("CategoryName"),
