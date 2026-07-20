@@ -260,20 +260,22 @@ export default function CreateEdit({
               disabled
             />
 
-            <SingleFormImageUploader
-              control={control}
-              name="icon"
-              label={tLive("Icon")}
-              accept=".svg"
-              required
-            />
+            <div className="grid grid-cols-2 gap-6">
+              <SingleFormImageUploader
+                control={control}
+                name="icon"
+                label={tLive("Icon")}
+                accept=".svg"
+                required
+              />
 
-            <SingleFormImageUploader
-              control={control}
-              name="banner"
-              label={tLive("Banner")}
-              required
-            />
+              <SingleFormImageUploader
+                control={control}
+                name="banner"
+                label={tLive("Banner")}
+                required
+              />
+            </div>
 
             <Separator className="bg-border" />
             <SectionLabel>{tLive("Color")}</SectionLabel>

@@ -7,7 +7,7 @@ import DataPreview from "@/components/categories/data-preview";
 
 type PageParams = {
   page?: string;
-  tab?: CategoryType;
+  type?: CategoryType;
 };
 
 /**
@@ -29,7 +29,7 @@ export default async function CategoriesPage({
 }) {
   const t = await getTranslations("Categories");
   const params = await searchParams;
-  const activeTab = params.tab || "default";
+  const activeTab = params.type || "default";
 
   const { data, ok } = await http.get<CategoryResponse>(
     "/api/v1/admin/categories",
@@ -51,7 +51,7 @@ export default async function CategoriesPage({
     <main className="space-y-6">
       <div className="flex gap-2 items-center">
         <Link
-          href="?tab=default&page=1"
+          href="?type=default&page=1"
           className={cn("text-sm px-5 py-3 rounded-lg", {
             "bg-primary/70 shadow-sm font-bold": activeTab === "default",
           })}
@@ -59,7 +59,7 @@ export default async function CategoriesPage({
           {t("Categories")}
         </Link>
         <Link
-          href="?tab=add-ons&page=1"
+          href="?type=add-ons&page=1"
           className={cn("text-sm px-5 py-3 rounded-lg", {
             "bg-primary/70 shadow-sm font-bold": activeTab === "add-ons",
           })}

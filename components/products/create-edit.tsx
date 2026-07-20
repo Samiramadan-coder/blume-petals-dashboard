@@ -78,11 +78,13 @@ export default function CreateEdit({
   product,
   categories,
   occasions,
+  type,
 }: {
   trigger?: ReactNode;
   product?: Product;
   categories: Category[];
   occasions: Occasion[];
+  type: "default" | "add-ons";
 }) {
   const locale = useLocale();
   const t = useTranslations("Products");
@@ -143,7 +145,9 @@ export default function CreateEdit({
       {trigger ? (
         <SheetTrigger asChild>{trigger}</SheetTrigger>
       ) : (
-        <AddButton label={t("AddProduct")} />
+        <AddButton
+          label={type === "default" ? t("AddProduct") : t("AddAddOnsProduct")}
+        />
       )}
 
       <SheetContent
@@ -157,8 +161,20 @@ export default function CreateEdit({
         </SheetClose>
 
         <Header
-          title={product ? t("EditProduct") : t("AddProduct")}
-          description={t("AddProductDescription")}
+          title={
+            product
+              ? type === "default"
+                ? t("EditProduct")
+                : t("EditAddOnsProduct")
+              : type === "default"
+                ? t("AddProduct")
+                : t("AddAddOnsProduct")
+          }
+          description={
+            type === "default"
+              ? t("AddProductDescription")
+              : t("AddAddOnsProductDescription")
+          }
         />
 
         <LocaleFormSwitcher

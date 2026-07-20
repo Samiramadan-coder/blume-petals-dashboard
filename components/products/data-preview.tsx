@@ -33,11 +33,13 @@ export default function DataPreview({
   categories,
   occasions,
   pagination,
+  type,
 }: {
   products: Product[];
   categories: Category[];
   occasions: Occasion[];
   pagination: Pagination;
+  type: "default" | "add-ons";
 }) {
   const locale = useLocale();
   const t = useTranslations("Products");
@@ -49,7 +51,7 @@ export default function DataPreview({
     <>
       <header className="flex items-center justify-between">
         <FiltersControl categories={categories} />
-        <CreateEdit categories={categories} occasions={occasions} />
+        <CreateEdit categories={categories} occasions={occasions} type={type} />
       </header>
 
       <Statistics />
@@ -151,6 +153,7 @@ export default function DataPreview({
                 occasions={occasions}
                 product={product}
                 trigger={<EditBtn />}
+                type={type}
               />
 
               <Link href={`/products/${product.id}`} locale={locale}>

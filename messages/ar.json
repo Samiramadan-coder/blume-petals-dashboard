@@ -126,9 +126,12 @@
   },
   "Products": {
     "Products": "المنتجات",
-    "AddProduct": "إضافة منتج",
+    "AddOnsProducts": "منتجات الإضافات",
+    "AddProduct": "منتج",
+    "AddAddOnsProduct": "منتج الإضافات",
     "EditProduct": "تعديل المنتج",
     "AddProductDescription": "املأ تفاصيل المنتج أدناه",
+    "AddAddOnsProductDescription": "املأ تفاصيل منتج الإضافات أدناه",
     "AddPhoto": "أضف صورة",
     "MainLabel": "رئيسي",
     "SetAsMain": "تعيين كصورة رئيسية",
