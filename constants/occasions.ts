@@ -1,46 +1,12 @@
-import { DataTableColumn } from "@/components/reusable/date-sortable-table";
-import { OccasionType } from "@/types/occasions";
 import { T } from "@/types/shared";
-
-// Occasion Types
-export const occasionTypes = (
-  t: T,
-): {
-  label: string;
-  value: OccasionType;
-}[] => [
-  {
-    label: t("Bouquet"),
-    value: "bouquet",
-  },
-  {
-    label: t("Preserved"),
-    value: "preserved",
-  },
-  {
-    label: t("Gift"),
-    value: "gift",
-  },
-  {
-    label: t("Seasonal"),
-    value: "seasonal",
-  },
-  {
-    label: t("Wedding"),
-    value: "wedding",
-  },
-  {
-    label: t("Eid"),
-    value: "eid",
-  },
-  {
-    label: t("Corporate"),
-    value: "corporate",
-  },
-];
+import { DataTableColumn } from "@/components/reusable/date-sortable-table";
 
 // Occasion Columns
 export const columns = (t: T): DataTableColumn[] => [
+  {
+    key: "photo",
+    label: t("Table.Photo"),
+  },
   {
     key: "name",
     label: t("Table.Name"),

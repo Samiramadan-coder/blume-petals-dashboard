@@ -71,23 +71,21 @@ export default function DataPreview({
         renderCells={(occasion) => (
           <>
             <TableCell className="px-4 py-3">
-              <div className="flex gap-4">
-                <Image
-                  src={occasion.banner_url as string}
-                  alt={occasion.name_translations[locale]}
-                  width={40}
-                  height={60}
-                  className="rounded-md shadow-sm"
-                />
-                <div>
-                  <p className="font-semibold">
-                    {occasion.name_translations[locale]}
-                  </p>
-                  <p className="text-muted-foreground text-xs mt-1">
-                    /{occasion.slug}
-                  </p>
-                </div>
-              </div>
+              <Image
+                src={occasion.banner_url as string}
+                alt={occasion.name_translations[locale]}
+                width={40}
+                height={60}
+                className="rounded-md shadow-sm"
+              />
+            </TableCell>
+            <TableCell className="px-4 py-3">
+              <p className="font-semibold">
+                {occasion.name_translations[locale]}
+              </p>
+              <p className="text-muted-foreground text-xs mt-1">
+                /{occasion.slug}
+              </p>
             </TableCell>
 
             <TableCell>

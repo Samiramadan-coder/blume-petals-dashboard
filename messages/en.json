@@ -287,7 +287,8 @@
     "Placeholders": {
       "Name": "Enter Occasion/Collection Name",
       "Slug": "Enter Slug",
-      "Description": "Enter Occasion/Collection Description"
+      "Description": "Enter Occasion/Collection Description",
+      "EnterType": "Enter Type"
     },
     "Table": {
       "Name": "Name",
@@ -295,7 +296,8 @@
       "Visibility": "Visibility",
       "Status": "Status",
       "Actions": "Actions",
-      "DateRange": "Date Range"
+      "DateRange": "Date Range",
+      "Photo": "Photo"
     }
   }
 }

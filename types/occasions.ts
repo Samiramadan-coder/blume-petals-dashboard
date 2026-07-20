@@ -1,6 +1,5 @@
 import z from "zod";
 import { Pagination, T } from "./shared";
-import { typesEnum } from "@/constants/shared";
 
 const imageSchema = z.union([z.string(), z.instanceof(Blob)]);
 
@@ -25,7 +24,7 @@ export const occasionCollectionSchema = (t: T) =>
         .string()
         .min(1, t("Errors.OccasionCollectionSlugRequired"))
         .min(2, t("Errors.OccasionCollectionSlugMinLength")),
-      type: z.enum(typesEnum, t("Errors.OccasionCollectionTypeRequired")),
+      type: z.string().min(1, t("Errors.OccasionCollectionTypeRequired")),
       color: z.string().min(1, t("Errors.OccasionCollectionColorRequired")),
       is_visible: z.boolean(),
       sort_order: z.number(),
@@ -71,8 +70,6 @@ export type OccasionFormValues = z.infer<
   ReturnType<typeof occasionCollectionSchema>
 >;
 
-export type OccasionType = OccasionFormValues["type"];
-
 export type Occasion = {
   id: number;
   name: string;
@@ -80,7 +77,7 @@ export type Occasion = {
   description: string;
   description_translations: { ar: string; en: string };
   slug: string;
-  type: OccasionType;
+  type: string;
   sort_order: number;
   color: string;
   banner_path: string;

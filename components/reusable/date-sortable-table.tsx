@@ -44,6 +44,7 @@ import { cn } from "@/lib/utils";
 import { CSS } from "@dnd-kit/utilities";
 import { GripVertical } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { Button } from "../ui/button";
 
 export type DataTableColumn = {
   key: string;
@@ -128,15 +129,16 @@ function SortableTableRow<T>({
       }}
       className={cn(isDragging && "relative z-10 bg-muted opacity-80")}
     >
-      <TableCell className="w-10 px-4 py-3">
-        <button
-          type="button"
+      <TableCell className="w-6 min-w-6 max-w-6 px-4 py-3">
+        <Button
+          size="icon"
+          variant="ghost"
           className="cursor-grab text-muted-foreground active:cursor-grabbing"
           {...attributes}
           {...listeners}
         >
-          <GripVertical className="size-4" />
-        </button>
+          <GripVertical className="size-5" />
+        </Button>
       </TableCell>
 
       {renderCells(row, index)}
@@ -199,7 +201,7 @@ export function ReorderableDataTable<T>({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-10 px-4 py-3" />
+              <TableHead className="w-6 min-w-6 max-w-6 px-4 py-3" />
 
               {columns.map((column) => (
                 <TableHead
