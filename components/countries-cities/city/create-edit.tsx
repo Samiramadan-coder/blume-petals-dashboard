@@ -26,7 +26,7 @@ import AddButton from "@/components/form/add-button";
 import { Separator } from "@/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { availableLocales } from "@/constants/shared";
-import { postCityAction } from "@/lib/country-cities";
+import { postCityAction } from "@/lib/countries-cities";
 import { useLocale, useTranslations } from "next-intl";
 import { useFormLocale } from "@/hooks/use-form-locale";
 import NormalFormSelect from "@/components/form/select";

@@ -4,7 +4,7 @@ import {
   deleteCountryAction,
   reorderCountriesAction,
   updateCountryVisibilityAction,
-} from "@/lib/country-cities";
+} from "@/lib/countries-cities";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { useState } from "react";

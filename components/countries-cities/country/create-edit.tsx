@@ -28,7 +28,7 @@ import { availableLocales } from "@/constants/shared";
 import { useLocale, useTranslations } from "next-intl";
 import { useFormLocale } from "@/hooks/use-form-locale";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { postCountryAction } from "@/lib/country-cities";
+import { postCountryAction } from "@/lib/countries-cities";
 import SectionLabel from "@/components/form/section-label";
 import LocaleFormSwitcher from "@/components/reusable/locale-form-switcher";
 
