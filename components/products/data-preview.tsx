@@ -39,7 +39,7 @@ export default function DataPreview({
   categories: Category[];
   occasions: Occasion[];
   pagination: Pagination;
-  type: "default" | "add-ons";
+  type: "default" | "addon";
 }) {
   const locale = useLocale();
   const t = useTranslations("Products");
@@ -72,13 +72,19 @@ export default function DataPreview({
             </TableCell>
 
             <TableCell className="px-4 py-3">
-              <Image
-                src={product.images[0].url as string}
-                alt={product.name[locale]}
-                width={40}
-                height={80}
-                className="rounded-md shadow-sm"
-              />
+              {product.images.length > 0 ? (
+                <Image
+                  src={product.images[0].url as string}
+                  alt={product.name[locale]}
+                  width={40}
+                  height={80}
+                  className="rounded-md shadow-sm"
+                />
+              ) : (
+                <div className="w-10 h-10 rounded-md bg-primary/10 grid place-content-center">
+                  {product.name[locale].charAt(0).toUpperCase()}
+                </div>
+              )}
             </TableCell>
 
             <TableCell className="px-4 py-3">

@@ -84,7 +84,7 @@ export default function CreateEdit({
   product?: Product;
   categories: Category[];
   occasions: Occasion[];
-  type: "default" | "add-ons";
+  type: "default" | "addon";
 }) {
   const locale = useLocale();
   const t = useTranslations("Products");

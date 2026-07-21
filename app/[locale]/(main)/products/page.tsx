@@ -11,7 +11,7 @@ type SearchParams = {
   page?: string;
   query?: string;
   category?: string;
-  type?: "default" | "add-ons";
+  type?: "default" | "addon";
 };
 
 /**
@@ -37,6 +37,11 @@ export default async function ProductsPage({
 
   const { data: categories } = await http.get<CategoryResponse>(
     "/api/v1/admin/categories",
+    {
+      params: {
+        type: activeTab === "default" ? "" : "addon",
+      },
+    },
   );
 
   const { data: occasions } = await http.get<OccasionResponse>(
@@ -69,9 +74,9 @@ export default async function ProductsPage({
           {t("Products")}
         </Link>
         <Link
-          href="?type=add-ons&page=1"
+          href="?type=addon&page=1"
           className={cn("text-sm px-5 py-3 rounded-lg", {
-            "bg-primary/70 shadow-sm font-bold": activeTab === "add-ons",
+            "bg-primary/70 shadow-sm font-bold": activeTab === "addon",
           })}
         >
           {t("AddOnsProducts")}
