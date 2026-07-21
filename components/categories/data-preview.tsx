@@ -81,13 +81,19 @@ export default function DataPreview({
         renderCells={(category) => (
           <>
             <TableCell className="px-4 py-3">
-              <Image
-                src={category.banner_url as string}
-                alt={category.name[locale]}
-                width={40}
-                height={60}
-                className="rounded-md shadow-sm"
-              />
+              {category.banner_url ? (
+                <Image
+                  src={category.banner_url as string}
+                  alt={category.name[locale]}
+                  width={40}
+                  height={60}
+                  className="rounded-md shadow-sm"
+                />
+              ) : (
+                <div className="w-10 h-10 rounded-md bg-primary/20 grid place-content-center">
+                  {category.name[locale].charAt(0).toUpperCase()}
+                </div>
+              )}
             </TableCell>
             <TableCell className="px-4 py-3">
               <p className="font-semibold">{category.name[locale]}</p>

@@ -15,7 +15,7 @@ export const categoryTypes = (
   },
   {
     label: t("AddOns"),
-    value: "add-ons",
+    value: "addon",
   },
 ];
 

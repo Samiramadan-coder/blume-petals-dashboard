@@ -2,8 +2,8 @@ import { cn } from "@/lib/utils";
 import { http } from "@/lib/http";
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
-import { CategoryResponse, CategoryType } from "@/types/categories";
 import DataPreview from "@/components/categories/data-preview";
+import { CategoryResponse, CategoryType } from "@/types/categories";
 
 type PageParams = {
   page?: string;
@@ -37,6 +37,7 @@ export default async function CategoriesPage({
       params: {
         page: params.page || 1,
         per_page: 10,
+        type: activeTab === "addon" ? "addon" : "",
       },
       cache: "force-cache",
       next: { tags: ["categories"] },
@@ -59,9 +60,9 @@ export default async function CategoriesPage({
           {t("Categories")}
         </Link>
         <Link
-          href="?type=add-ons&page=1"
+          href="?type=addon&page=1"
           className={cn("text-sm px-5 py-3 rounded-lg", {
-            "bg-primary/70 shadow-sm font-bold": activeTab === "add-ons",
+            "bg-primary/70 shadow-sm font-bold": activeTab === "addon",
           })}
         >
           {t("AddOnsCategories")}
