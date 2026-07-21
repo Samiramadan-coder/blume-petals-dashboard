@@ -305,29 +305,38 @@
     "Countries": "Countries",
     "Cities": "Cities",
     "ListOfCountries": "List of Countries",
+    "ListOfCities": "List of Cities",
     "AddCountry": "Add Country",
+    "AddCity": "Add City",
     "EditCountry": "Edit Country",
+    "AED": "AED",
     "Table": {
       "Name": "Name",
       "Actions": "Actions",
       "Status": "Status",
-      "CountryCode": "Code"
+      "CountryCode": "Code",
+      "CountryName": "Country Name",
+      "DeliveryFee": "Delivery Fee"
     },
     "Errors": {
       "Required": "This field is required",
       "NameMinLength": "Name must be at least 2 characters",
-      "CodeMinLength": "Code must be at least 2 characters"
+      "CodeMinLength": "Code must be at least 2 characters",
+      "DeliveryFeeMinValue": "Delivery Fee must be at least 0"
     },
     "Labels": {
       "Details": "Details",
       "Name": "Name",
       "Visibility": "Visibility",
-      "VisibilityLabel": "Show on storefront",
-      "Code": "Code"
+      "Code": "Code",
+      "Country": "Country",
+      "DeliveryFee": "Delivery Fee"
     },
     "Placeholders": {
       "Name": "Enter Name",
-      "Code": "Enter Code"
+      "Code": "Enter Code",
+      "Country": "Select Country",
+      "DeliveryFee": "Enter Delivery Fee"
     }
   }
 }

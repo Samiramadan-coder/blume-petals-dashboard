@@ -3,7 +3,7 @@ import { Link } from "@/i18n/navigation";
 import DataPreview from "@/components/countries-cities/country/data-preview";
 import DataPreviewCity from "@/components/countries-cities/city/data-preview";
 import { http } from "@/lib/http";
-import { Country } from "@/types/countries-cities";
+import { City, Country } from "@/types/countries-cities";
 import { Pagination } from "@/types/shared";
 import { getTranslations } from "next-intl/server";
 
@@ -31,8 +31,18 @@ export default async function CountriesCitiesPage({
     next: { tags: ["countries"] },
   });
 
-  if (!okCountries) {
-    throw new Error("Failed to fetch countries");
+  const { data: citiesData, ok: okCities } = await http.get<{
+    data: {
+      items: City[];
+      pagination: Pagination;
+    };
+  }>("/api/v1/admin/cities", {
+    cache: "force-cache",
+    next: { tags: ["cities"] },
+  });
+
+  if (!okCountries || !okCities) {
+    throw new Error("Failed to fetch countries or cities");
   }
 
   return (
@@ -63,7 +73,12 @@ export default async function CountriesCitiesPage({
           pagination={countriesData.data.pagination}
         />
       ) : (
-        <DataPreviewCity />
+        <DataPreviewCity
+          key={JSON.stringify(citiesData.data.items)}
+          initialCities={citiesData.data.items}
+          pagination={citiesData.data.pagination}
+          countries={countriesData.data.items}
+        />
       )}
     </main>
   );

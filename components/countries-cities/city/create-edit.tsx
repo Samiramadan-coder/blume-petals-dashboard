@@ -8,9 +8,10 @@ import {
 } from "@/components/ui/sheet";
 
 import {
+  City,
+  CityFormValues,
+  citySchema,
   Country,
-  CountryFormValues,
-  countrySchema,
 } from "@/types/countries-cities";
 
 import { toast } from "sonner";
@@ -25,23 +26,26 @@ import AddButton from "@/components/form/add-button";
 import { Separator } from "@/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { availableLocales } from "@/constants/shared";
+import { postCityAction } from "@/lib/country-cities";
 import { useLocale, useTranslations } from "next-intl";
 import { useFormLocale } from "@/hooks/use-form-locale";
+import NormalFormSelect from "@/components/form/select";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { postCountryAction } from "@/lib/country-cities";
 import SectionLabel from "@/components/form/section-label";
 import LocaleFormSwitcher from "@/components/reusable/locale-form-switcher";
 
 type CreateEditProps = {
-  country?: Country;
+  city?: City;
   trigger?: React.ReactNode;
   totalCreatedItems: number;
+  countries: Country[];
 };
 
 export default function CreateEdit({
-  country,
+  city,
   trigger,
   totalCreatedItems,
+  countries,
 }: CreateEditProps) {
   const locale = useLocale();
   const t = useTranslations("CountriesCities");
@@ -58,25 +62,26 @@ export default function CreateEdit({
     clearErrors,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<CountryFormValues>({
+  } = useForm<CityFormValues>({
     defaultValues: {
-      name: country?.name || { en: "", ar: "" },
-      code: country?.code || "",
-      is_active: country?.is_active ?? true,
-      sort_order: country?.sort_order || totalCreatedItems + 1,
+      name: city?.name || { en: "", ar: "" },
+      country_id: city?.country_id || 0,
+      delivery_fee: city?.delivery_fee
+        ? parseFloat(city.delivery_fee.toString())
+        : 0,
+      is_active: city?.is_active ?? true,
+      sort_order: city?.sort_order || totalCreatedItems + 1,
     },
-    resolver: zodResolver(countrySchema((key) => tLive(key as never))),
+    resolver: zodResolver(citySchema((key) => tLive(key as never))),
   });
 
   // Handle form submission by calling the postCategoryAction function and displaying appropriate success or error messages
-  const onSubmit: SubmitHandler<CountryFormValues> = async (data) => {
-    const result = await postCountryAction(data, country?.id);
+  const onSubmit: SubmitHandler<CityFormValues> = async (data) => {
+    const result = await postCityAction(data, city?.id);
 
     if (result.success) {
       toast.success(
-        country
-          ? tCommon("UpdatedSuccessfully")
-          : tCommon("CreatedSuccessfully"),
+        city ? tCommon("UpdatedSuccessfully") : tCommon("CreatedSuccessfully"),
       );
       form.current?.reset();
       closeBtn.current?.click();
@@ -86,7 +91,7 @@ export default function CreateEdit({
     if (result.errors) {
       Object.entries(result.errors).forEach(([field, message]) => {
         toast.error(message);
-        setError(field as keyof CountryFormValues, {
+        setError(field as keyof CityFormValues, {
           type: "server",
           message,
         });
@@ -94,7 +99,7 @@ export default function CreateEdit({
       return;
     }
 
-    toast.error(country ? tCommon("CreationFailed") : tCommon("UpdateFailed"));
+    toast.error(city ? tCommon("UpdateFailed") : tCommon("CreationFailed"));
   };
 
   return (
@@ -102,7 +107,7 @@ export default function CreateEdit({
       {trigger ? (
         <SheetTrigger asChild>{trigger}</SheetTrigger>
       ) : (
-        <AddButton label={t("AddCountry")} />
+        <AddButton label={t("AddCity")} />
       )}
 
       <SheetContent
@@ -115,7 +120,7 @@ export default function CreateEdit({
           <Button ref={closeBtn} className="hidden"></Button>
         </SheetClose>
 
-        <Header title={t("AddCountry")} />
+        <Header title={t("AddCity")} />
 
         <LocaleFormSwitcher
           locale={activeLocale}
@@ -140,8 +145,21 @@ export default function CreateEdit({
             className="space-y-6 relative"
           >
             <SectionLabel>{tLive("Labels.Details")}</SectionLabel>
+            <NormalFormSelect<CityFormValues>
+              control={control}
+              name="country_id"
+              label={tLive("Labels.Country")}
+              placeholder={tLive("Placeholders.Country")}
+              options={countries.map((country) => ({
+                label: country.name[activeLocale],
+                value: country.id,
+              }))}
+              required
+              dir={dir}
+            />
+
             {availableLocales.map((lang) => (
-              <Input<CountryFormValues>
+              <Input<CityFormValues>
                 key={lang}
                 label={tLive("Labels.Name")}
                 placeholder={tLive("Placeholders.Name")}
@@ -154,19 +172,20 @@ export default function CreateEdit({
               />
             ))}
 
-            <Input<CountryFormValues>
-              label={tLive("Labels.Code")}
-              placeholder={tLive("Placeholders.Code")}
-              name="code"
-              type="text"
+            <Input<CityFormValues>
+              label={tLive("Labels.DeliveryFee")}
+              placeholder={tLive("Placeholders.DeliveryFee")}
+              name="delivery_fee"
+              type="number"
               register={register}
               errors={errors}
               required
+              suffix={tLive("AED")}
             />
 
             <Separator className="bg-border" />
             <SectionLabel>{tLive("Labels.Visibility")}</SectionLabel>
-            <Switch<CountryFormValues>
+            <Switch<CityFormValues>
               name="is_active"
               control={control}
               label={tLive("Labels.Visibility")}

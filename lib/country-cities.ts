@@ -2,7 +2,12 @@
 
 import { updateTag } from "next/cache";
 import { http, ValidationError } from "@/lib/http";
-import { Country, CountryFormValues } from "@/types/countries-cities";
+import {
+  City,
+  CityFormValues,
+  Country,
+  CountryFormValues,
+} from "@/types/countries-cities";
 
 // Post And Put Country Actions
 type PostAndPutCountryResult =
@@ -89,6 +94,93 @@ export async function reorderCountriesAction(
     return { success: true };
   } catch (err) {
     console.error("Error reordering countries:", err);
+    return { success: false };
+  }
+}
+
+// Post And Put Country Actions
+type PostAndPutCityResult =
+  | { success: true }
+  | {
+      success: false;
+      errors?: Partial<Record<keyof CityFormValues, string>>;
+    };
+
+export async function postCityAction(
+  formData: CityFormValues,
+  cityId?: number,
+): Promise<PostAndPutCityResult> {
+  const method = cityId ? "put" : "post";
+  const url = cityId
+    ? `/api/v1/admin/cities/${cityId}`
+    : "/api/v1/admin/cities";
+
+  try {
+    await http[method](url, formData);
+    updateTag("cities");
+    return { success: true };
+  } catch (err) {
+    if (err instanceof ValidationError) {
+      const errors = Object.fromEntries(
+        Object.entries(err.errors).map(([field, messages]) => [
+          field,
+          messages[0] ?? "Invalid value",
+        ]),
+      ) as Partial<Record<keyof CityFormValues, string>>;
+
+      return { success: false, errors };
+    }
+    return { success: false };
+  }
+}
+
+// Reorder Countries Action
+type ReorderCitiesResult = { success: boolean };
+
+export async function reorderCitiesAction(
+  ids: number[],
+): Promise<ReorderCitiesResult> {
+  try {
+    await http.patch("/api/v1/admin/cities/reorder", {
+      ids,
+    });
+    updateTag("cities");
+    return { success: true };
+  } catch (err) {
+    console.error("Error reordering cities:", err);
+    return { success: false };
+  }
+}
+
+// Delete Country Action
+type DeleteCityResult = { success: boolean };
+
+export async function deleteCityAction(city: City): Promise<DeleteCityResult> {
+  try {
+    await http.delete(`/api/v1/admin/cities/${city.id}`);
+    updateTag("cities");
+    return { success: true };
+  } catch (err) {
+    console.error("Error deleting city:", err);
+    return { success: false };
+  }
+}
+
+// Update Visibility Action
+type UpdateCityVisibilityResult = { success: boolean };
+
+export async function updateCityVisibilityAction(
+  city: City,
+): Promise<UpdateCityVisibilityResult> {
+  try {
+    await http.patch(`/api/v1/admin/cities/${city.id}/visibility`, {
+      is_active: !city.is_active,
+    });
+
+    updateTag("cities");
+    return { success: true };
+  } catch (err) {
+    console.error("Error updating city visibility:", err);
     return { success: false };
   }
 }

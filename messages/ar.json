@@ -304,8 +304,11 @@
     "Countries": "الدول",
     "Cities": "المدن",
     "ListOfCountries": "قائمة الدول",
+    "ListOfCities": "قائمة المدن",
     "AddCountry": "إضافة دولة",
+    "AddCity": "إضافة مدينة",
     "EditCountry": "تحرير الدولة",
+    "AED": "درهم",
     "Table": {
       "Name": "الاسم",
       "Actions": "الإجراءات",
@@ -315,18 +318,22 @@
     "Errors": {
       "Required": "هذا الحقل مطلوب",
       "NameMinLength": "يجب أن يكون الاسم مكونًا من حرفين على الأقل",
-      "CodeMinLength": "يجب أن يكون الرمز مكونًا من حرفين على الأقل"
+      "CodeMinLength": "يجب أن يكون الرمز مكونًا من حرفين على الأقل",
+      "DeliveryFeeMinValue": "يجب أن تكون رسوم التوصيل أكبر من أو تساوي 0"
     },
     "Labels": {
       "Details": "تفاصيل",
       "Name": "الاسم",
       "Visibility": "الرؤية",
-      "VisibilityLabel": "عرض في المتجر",
-      "Code": "الرمز"
+      "Code": "الرمز",
+      "Country": "الدولة",
+      "DeliveryFee": "رسوم التوصيل"
     },
     "Placeholders": {
       "Name": "أدخل الاسم",
-      "Code": "أدخل الرمز"
+      "Code": "أدخل الرمز",
+      "Country": "اختر الدولة",
+      "DeliveryFee": "أدخل رسوم التوصيل"
     }
   }
 }

@@ -19,3 +19,26 @@ export const columns = (t: T): DataTableColumn[] => [
     label: t("Table.Actions"),
   },
 ];
+
+export const cityColumns = (t: T): DataTableColumn[] => [
+  {
+    key: "name",
+    label: t("Table.Name"),
+  },
+  {
+    key: "country_name",
+    label: t("Table.CountryName"),
+  },
+  {
+    key: "delivery_fee",
+    label: t("Table.DeliveryFee"),
+  },
+  {
+    key: "is_active",
+    label: t("Table.Status"),
+  },
+  {
+    key: "actions",
+    label: t("Table.Actions"),
+  },
+];
