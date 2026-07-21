@@ -29,6 +29,10 @@ export default async function CountriesCitiesPage({
   }>("/api/v1/admin/countries", {
     cache: "force-cache",
     next: { tags: ["countries"] },
+    params: {
+      per_page: 10,
+      page: params.page || 1,
+    },
   });
 
   const { data: citiesData, ok: okCities } = await http.get<{
@@ -39,6 +43,10 @@ export default async function CountriesCitiesPage({
   }>("/api/v1/admin/cities", {
     cache: "force-cache",
     next: { tags: ["cities"] },
+    params: {
+      per_page: 10,
+      page: params.page || 1,
+    },
   });
 
   if (!okCountries || !okCities) {
