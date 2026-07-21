@@ -79,7 +79,8 @@
         "storeSettings": "Store Settings",
         "deliveryPickup": "Delivery & Pickup",
         "notifications": "Notifications",
-        "adminAccount": "Admin Account"
+        "adminAccount": "Admin Account",
+        "countriesCities": "Countries & Cities"
       }
     }
   },

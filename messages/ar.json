@@ -79,7 +79,8 @@
         "storeSettings": "إعدادات المتجر",
         "deliveryPickup": "التوصيل والاستلام",
         "notifications": "الإشعارات",
-        "adminAccount": "حساب الإدارة"
+        "adminAccount": "حساب الإدارة",
+        "countriesCities": "الدول والمدن"
       }
     }
   },

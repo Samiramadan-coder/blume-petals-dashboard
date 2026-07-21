@@ -13,6 +13,7 @@ import {
   PackageCheck,
   Bell,
   UserStar,
+  Globe,
 } from "lucide-react";
 import { createElement } from "react";
 import type { DashboardNavigationItem } from "@/types/dashboard-layout";
@@ -97,6 +98,12 @@ export const navigation: DashboardNavigationItem[] = [
   {
     label: "sidebar.navigation.settings",
     type: "label",
+  },
+  {
+    label: "sidebar.navigation.countriesCities",
+    href: "/countries-cities",
+    type: "link",
+    icon: createElement(Globe, { className: "h-4 w-4" }),
   },
   {
     label: "sidebar.navigation.storeSettings",
