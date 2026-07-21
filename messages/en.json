@@ -300,5 +300,34 @@
       "DateRange": "Date Range",
       "Photo": "Photo"
     }
+  },
+  "CountriesCities": {
+    "Countries": "Countries",
+    "Cities": "Cities",
+    "ListOfCountries": "List of Countries",
+    "AddCountry": "Add Country",
+    "EditCountry": "Edit Country",
+    "Table": {
+      "Name": "Name",
+      "Actions": "Actions",
+      "Status": "Status",
+      "CountryCode": "Code"
+    },
+    "Errors": {
+      "Required": "This field is required",
+      "NameMinLength": "Name must be at least 2 characters",
+      "CodeMinLength": "Code must be at least 2 characters"
+    },
+    "Labels": {
+      "Details": "Details",
+      "Name": "Name",
+      "Visibility": "Visibility",
+      "VisibilityLabel": "Show on storefront",
+      "Code": "Code"
+    },
+    "Placeholders": {
+      "Name": "Enter Name",
+      "Code": "Enter Code"
+    }
   }
 }

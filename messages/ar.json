@@ -299,5 +299,34 @@
       "DateRange": "نطاق التاريخ",
       "Photo": "الصورة"
     }
+  },
+  "CountriesCities": {
+    "Countries": "الدول",
+    "Cities": "المدن",
+    "ListOfCountries": "قائمة الدول",
+    "AddCountry": "إضافة دولة",
+    "EditCountry": "تحرير الدولة",
+    "Table": {
+      "Name": "الاسم",
+      "Actions": "الإجراءات",
+      "Status": "الحالة",
+      "CountryCode": "الرمز"
+    },
+    "Errors": {
+      "Required": "هذا الحقل مطلوب",
+      "NameMinLength": "يجب أن يكون الاسم مكونًا من حرفين على الأقل",
+      "CodeMinLength": "يجب أن يكون الرمز مكونًا من حرفين على الأقل"
+    },
+    "Labels": {
+      "Details": "تفاصيل",
+      "Name": "الاسم",
+      "Visibility": "الرؤية",
+      "VisibilityLabel": "عرض في المتجر",
+      "Code": "الرمز"
+    },
+    "Placeholders": {
+      "Name": "أدخل الاسم",
+      "Code": "أدخل الرمز"
+    }
   }
 }
