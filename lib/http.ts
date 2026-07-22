@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { deleteToken, getServerLanguage, getTokenHeaders } from "./actions";
+import { getServerLanguage, getTokenHeaders } from "./actions";
 
 type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
@@ -68,18 +68,16 @@ function createHttp(baseURL: string) {
     Accept: "application/json",
   };
 
-  async function handleUnauthorized() {
-    try {
-      await deleteToken();
-    } catch {
-      // Continue with redirect even if clearing cookie fails.
-    }
+  async function handleUnauthorized(): Promise<never> {
+    const logoutUrl = "/api/auth/logout?next=/login";
 
     if (typeof window === "undefined") {
-      redirect("/login");
+      redirect(logoutUrl);
     }
 
-    window.location.replace("/login");
+    window.location.replace(logoutUrl);
+
+    return new Promise<never>(() => {});
   }
 
   function isSerializableBody(body: unknown): body is BodyInit {
