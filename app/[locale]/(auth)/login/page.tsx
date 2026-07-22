@@ -43,7 +43,7 @@ export default function LoginPage() {
   return (
     <main>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Card className="w-75 sm:w-120 py-8 border-none! shadow-sm">
+        <Card className="w-75 sm:w-120 py-8 ring-0! shadow-sm">
           <CardContent className="flex flex-col gap-6 px-6">
             <div>
               <p className="text-xl font-bold text-center">{t("Title")}</p>
