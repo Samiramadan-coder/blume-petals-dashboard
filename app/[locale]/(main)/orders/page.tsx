@@ -11,7 +11,6 @@ export const metadata = {
 type SearchParams = {
   status?: string;
   query?: string;
-  channel?: string;
   dateFrom?: string;
   dateTo?: string;
   page?: string;
@@ -22,7 +21,7 @@ export default async function OrdersPage({
 }: {
   searchParams: SearchParams;
 }) {
-  const { status, query, channel, dateFrom, dateTo } = await searchParams;
+  const { status, query, dateFrom, dateTo } = await searchParams;
 
   const { data, ok } = await http.get<{
     data: {
@@ -34,20 +33,16 @@ export default async function OrdersPage({
     params: {
       page: searchParams.page || 1,
       per_page: 10,
+      q: query || "",
+      status: status || "",
+      date_from: dateFrom || "",
+      date_to: dateTo || "",
     },
   });
 
   if (!ok) {
     throw new Error("Failed to fetch orders");
   }
-
-  console.log("Data", data);
-
-  // console.log("Status", status);
-  // console.log("Query", query);
-  // console.log("Channel", channel);
-  // console.log("Date From", dateFrom);
-  // console.log("Date To", dateTo);
 
   return (
     <main className="space-y-6">

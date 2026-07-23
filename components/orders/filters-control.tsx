@@ -1,13 +1,4 @@
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
-import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
@@ -29,9 +20,6 @@ export default function FiltersControl() {
   const { setQueryParam } = useQueryParam();
   const [status, setStatus] = useState(searchParams.get("status") || "all");
   const [query, setQuery] = useState("");
-  const [channel, setChannel] = useState(
-    searchParams.get("channel") || "all-channels",
-  );
   const [dateFrom, setDateFrom] = useState(searchParams.get("dateFrom") || "");
   const [dateTo, setDateTo] = useState(searchParams.get("dateTo") || "");
 
@@ -87,24 +75,6 @@ export default function FiltersControl() {
               </InputGroupAddon>
             </InputGroup>
           </Field>
-
-          <Select
-            value={channel}
-            onValueChange={(value) => {
-              setChannel(value);
-              setQueryParam("channel", value);
-            }}
-          >
-            <SelectTrigger className="h-10 min-h-10 bg-white px-3 py-2.5 leading-none">
-              <SelectValue placeholder="All Channels" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Channels</SelectLabel>
-                <SelectItem value="all-channels">All Channels</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
 
           <div className="flex items-center gap-2">
             <Field className="w-auto">

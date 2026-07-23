@@ -2,20 +2,36 @@ import { OrderStatus } from "@/types/orders";
 import { DataTableColumn } from "@/components/reusable/data-table";
 
 export const columns: DataTableColumn[] = [
-  { label: "order" },
-  { label: "customer" },
-  { label: "items" },
-  { label: "total (aed)" },
-  { label: "fulfillment" },
-  { label: "status" },
-  { label: "date" },
-  { label: "actions" },
+  {
+    label: "order",
+  },
+  {
+    label: "customer",
+  },
+  {
+    label: "items",
+  },
+  {
+    label: "total (aed)",
+  },
+  {
+    label: "fulfillment",
+  },
+  {
+    label: "status",
+  },
+  {
+    label: "date",
+  },
+  {
+    label: "actions",
+  },
 ];
 
 export const orderStatuses: OrderStatus[] = [
   {
     label: "All",
-    value: "all",
+    value: "",
   },
   {
     label: "Pending",
