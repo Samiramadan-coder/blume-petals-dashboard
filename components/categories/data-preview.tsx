@@ -16,11 +16,11 @@ import { Spinner } from "../ui/spinner";
 import { TableCell } from "../ui/table";
 import EditBtn from "../reusable/edit-btn";
 import { Pagination } from "@/types/shared";
-import { Category, CategoryType } from "@/types/categories";
 import DeleteBtn from "../reusable/delete-btn";
 import { columns } from "@/constants/categories";
 import { useLocale, useTranslations } from "next-intl";
 import { useQueryParam } from "@/hooks/use-search-params";
+import { Category, CategoryType } from "@/types/categories";
 import { ReorderableDataTable } from "../reusable/date-sortable-table";
 
 export default function DataPreview({
@@ -49,10 +49,10 @@ export default function DataPreview({
               "font-heading": locale !== "ar",
             })}
           >
-            {type === "default" ? t("Categories") : t("AddOnsCategories")}
+            {type === "bouquet" ? t("Categories") : t("AddOnsCategories")}
           </h1>
           <p className="text-sm text-muted-foreground mt-2">
-            {type === "default" ? t("CategoriesBrief") : t("AddOnsBrief")}
+            {type === "bouquet" ? t("CategoriesBrief") : t("AddOnsBrief")}
           </p>
         </div>
         <CreateEdit totalCreatedItems={pagination.total} type={type} />

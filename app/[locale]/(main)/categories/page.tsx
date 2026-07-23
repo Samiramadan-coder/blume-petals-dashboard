@@ -29,7 +29,7 @@ export default async function CategoriesPage({
 }) {
   const t = await getTranslations("Categories");
   const params = await searchParams;
-  const activeTab = params.type || "default";
+  const activeTab = params.type || "bouquet";
 
   const { data, ok } = await http.get<CategoryResponse>(
     "/api/v1/admin/categories",
@@ -39,8 +39,10 @@ export default async function CategoriesPage({
         per_page: 10,
         type: activeTab === "addon" ? "addon" : "",
       },
-      cache: "force-cache",
-      next: { tags: ["categories"] },
+      next: {
+        revalidate: 60,
+        tags: ["categories"],
+      },
     },
   );
 
@@ -52,9 +54,9 @@ export default async function CategoriesPage({
     <main className="space-y-6">
       <div className="flex gap-2 items-center">
         <Link
-          href="?type=default&page=1"
+          href="?type=bouquet&page=1"
           className={cn("text-sm px-5 py-3 rounded-lg", {
-            "bg-primary/70 shadow-sm font-bold": activeTab === "default",
+            "bg-primary/70 shadow-sm font-bold": activeTab === "bouquet",
           })}
         >
           {t("Categories")}

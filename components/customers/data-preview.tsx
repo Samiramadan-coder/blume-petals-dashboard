@@ -18,12 +18,6 @@ export default function DataPreview({ customers }: { customers: Customer[] }) {
         columns={columns}
         rowsCount={customers.length}
         countUnit="customers"
-        onNextPage={() => {
-          console.log("Next page clicked");
-        }}
-        onPreviousPage={() => {
-          console.log("Previous page clicked");
-        }}
         onCheckboxChange={(checked) =>
           console.log("Checkbox changed:", checked)
         }

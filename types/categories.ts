@@ -9,7 +9,7 @@ export const categorySchema = (t: T) =>
         ar: z.string().min(1, t("NameIsRequired")).min(3, t("NameMinLength")),
       }),
       slug: z.string().min(1, t("SlugIsRequired")).min(3, t("SlugMinLength")),
-      type: z.enum(["default", "addon"], t("SelectType")),
+      type: z.enum(["bouquet", "addon"], t("SelectType")),
       color: z.string().min(1, t("SelectColor")),
       is_visible: z.boolean(),
       sort_order: z.number(),

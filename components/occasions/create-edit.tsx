@@ -35,10 +35,10 @@ import { Controller, SubmitHandler, useForm, useWatch } from "react-hook-form";
 function getDefaultValues(sortOrder: number, occasion?: Occasion) {
   return {
     name: occasion?.name_translations || { en: "", ar: "" },
-    // description: occasion?.description_translations || { en: "", ar: "" },
+    description: occasion?.description_translations || { en: "", ar: "" },
     slug: occasion?.slug || "",
     is_visible: occasion?.is_visible ?? true,
-    type: occasion?.type || "",
+    type: "bouquet",
     color: occasion?.color || "",
     sort_order: occasion?.sort_order || sortOrder || 0,
     banner: occasion?.banner_url || "",
@@ -262,16 +262,6 @@ export default function CreateEdit({
                 />
               </div>
             ))}
-
-            <Input<OccasionFormValues>
-              label={tLive("Fields.Type")}
-              placeholder={tLive("Placeholders.EnterType")}
-              name="type"
-              type="text"
-              register={register}
-              errors={errors}
-              required
-            />
 
             <Separator className="bg-border" />
             <SectionLabel>{tLive("Labels.PromotionalDateRange")}</SectionLabel>

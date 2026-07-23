@@ -1,23 +1,5 @@
 import { T } from "@/types/shared";
-import { CategoryType } from "@/types/categories";
 import { DataTableColumn } from "@/components/reusable/date-sortable-table";
-
-// Categories Types
-export const categoryTypes = (
-  t: T,
-): {
-  label: string;
-  value: CategoryType;
-}[] => [
-  {
-    label: t("default"),
-    value: "default",
-  },
-  {
-    label: t("AddOns"),
-    value: "addon",
-  },
-];
 
 // Categories Colors
 export const colors: string[] = [

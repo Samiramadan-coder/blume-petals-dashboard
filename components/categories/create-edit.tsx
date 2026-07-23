@@ -18,15 +18,14 @@ import AddButton from "../form/add-button";
 import { Separator } from "../ui/separator";
 import { cn, createSlug } from "@/lib/utils";
 import { Check, Flower2 } from "lucide-react";
-import Select from "@/components/form/select";
 import { Card, CardContent } from "../ui/card";
+import { colors } from "@/constants/categories";
 import SectionLabel from "../form/section-label";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { availableLocales } from "@/constants/shared";
 import { useLocale, useTranslations } from "next-intl";
 import { useFormLocale } from "@/hooks/use-form-locale";
 import { postCategoryAction } from "@/lib/categories-actions";
-import { categoryTypes, colors } from "@/constants/categories";
 import LocaleFormSwitcher from "../reusable/locale-form-switcher";
 import SingleFormImageUploader from "../form/single-image-uploader";
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../ui/sheet";
@@ -41,7 +40,7 @@ function generateDefaultValues(
   return {
     name: category?.name || { en: "", ar: "" },
     slug: category?.slug || "",
-    type: category?.type || type,
+    type: type,
     color: category?.color || "",
     is_visible: category?.is_visible ?? false,
     icon: category?.icon_url || "",
@@ -160,7 +159,7 @@ export default function CreateEdit({
         <SheetTrigger asChild>{trigger}</SheetTrigger>
       ) : (
         <AddButton
-          label={type === "default" ? t("AddCategory") : t("AddAddOnsCategory")}
+          label={type === "bouquet" ? t("AddCategory") : t("AddAddOnsCategory")}
         />
       )}
 
@@ -175,9 +174,9 @@ export default function CreateEdit({
         </SheetClose>
 
         <Header
-          title={type === "default" ? t("AddCategory") : t("AddAddOnsCategory")}
+          title={type === "bouquet" ? t("AddCategory") : t("AddAddOnsCategory")}
           description={
-            type === "default"
+            type === "bouquet"
               ? t("CreateCategoryDescription")
               : t("CreateAddOnsCategoryDescription")
           }
@@ -249,7 +248,7 @@ export default function CreateEdit({
               description={tLive("SlugHint")}
             />
 
-            <Select<CategoryFormValues>
+            {/* <Select<CategoryFormValues>
               control={control}
               name="type"
               label={tLive("Type")}
@@ -258,7 +257,7 @@ export default function CreateEdit({
               placeholder={tLive("SelectType")}
               dir={dir}
               disabled
-            />
+            /> */}
 
             <div className="grid grid-cols-2 gap-6">
               <SingleFormImageUploader

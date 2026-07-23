@@ -21,28 +21,34 @@ export default async function CountriesCitiesPage({
   const activeTab = params.type || "countries";
   const t = await getTranslations("CountriesCities");
 
+  // Fetch countries
   const { data: countriesData, ok: okCountries } = await http.get<{
     data: {
       items: Country[];
       pagination: Pagination;
     };
   }>("/api/v1/admin/countries", {
-    cache: "force-cache",
-    next: { tags: ["countries"] },
+    next: {
+      revalidate: 60,
+      tags: ["countries"],
+    },
     params: {
       per_page: 10,
       page: params.page || 1,
     },
   });
 
+  // Fetch cities
   const { data: citiesData, ok: okCities } = await http.get<{
     data: {
       items: City[];
       pagination: Pagination;
     };
   }>("/api/v1/admin/cities", {
-    cache: "force-cache",
-    next: { tags: ["cities"] },
+    next: {
+      revalidate: 60,
+      tags: ["cities"],
+    },
     params: {
       per_page: 10,
       page: params.page || 1,

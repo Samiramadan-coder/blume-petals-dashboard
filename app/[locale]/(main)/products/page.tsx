@@ -35,24 +35,39 @@ export default async function ProductsPage({
   const params = await searchParams;
   const activeTab = params.type || "default";
 
+  // Fetch categories
   const { data: categories } = await http.get<CategoryResponse>(
     "/api/v1/admin/categories",
     {
       params: {
         type: activeTab === "default" ? "" : "addon",
       },
+      next: {
+        revalidate: 60,
+        tags: ["categories"],
+      },
     },
   );
 
+  // Fetch occasions
   const { data: occasions } = await http.get<OccasionResponse>(
     "/api/v1/admin/occasions",
+    {
+      next: {
+        revalidate: 60,
+        tags: ["occasions"],
+      },
+    },
   );
 
+  // Fetch products
   const { data: products } = await http.get<ProductResponse>(
     "/api/v1/admin/products",
     {
-      cache: "force-cache",
-      next: { tags: ["products"] },
+      next: {
+        revalidate: 60,
+        tags: ["products"],
+      },
       params: {
         per_page: 10,
         q: params.query ?? "",

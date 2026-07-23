@@ -17,12 +17,6 @@ export default function DataPreview() {
         columns={columns}
         rowsCount={ordersPlaceholder.length}
         countUnit="orders"
-        onNextPage={() => {
-          console.log("Next page clicked");
-        }}
-        onPreviousPage={() => {
-          console.log("Previous page clicked");
-        }}
         onCheckboxChange={(checked) =>
           console.log("Checkbox changed:", checked)
         }
