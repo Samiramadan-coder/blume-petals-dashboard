@@ -1,8 +1,8 @@
+import { http } from "@/lib/http";
+import { Pagination } from "@/types/shared";
+import { Order, Summary } from "@/types/orders";
 import Statistics from "@/components/orders/statistics";
 import DataPreview from "@/components/orders/data-preview";
-import { http } from "@/lib/http";
-import { Order, Summary } from "@/types/orders";
-import { Pagination } from "@/types/shared";
 
 export const metadata = {
   title: "Orders",
@@ -19,9 +19,9 @@ type SearchParams = {
 export default async function OrdersPage({
   searchParams,
 }: {
-  searchParams: SearchParams;
+  searchParams: Promise<SearchParams>;
 }) {
-  const { status, query, dateFrom, dateTo } = await searchParams;
+  const { status, query, dateFrom, dateTo, page } = await searchParams;
 
   const { data, ok } = await http.get<{
     data: {
@@ -34,7 +34,7 @@ export default async function OrdersPage({
       tags: ["orders"],
     },
     params: {
-      page: searchParams.page || 1,
+      page: page || 1,
       per_page: 10,
       q: query || "",
       status: status || "",
@@ -46,8 +46,6 @@ export default async function OrdersPage({
   if (!ok) {
     throw new Error("Failed to fetch orders");
   }
-
-  console.log("Orders data:", data);
 
   return (
     <main className="space-y-6">

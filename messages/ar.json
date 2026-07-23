@@ -334,5 +334,44 @@
       "Country": "اختر الدولة",
       "DeliveryFee": "أدخل رسوم التوصيل"
     }
+  },
+  "Orders": {
+    "Label": "الطلبات",
+    "ChangeStatus": "تغيير الحالة",
+    "Status": "الحالة",
+    "Note": "ملاحظة",
+    "EnterNote": "أدخل ملاحظة",
+    "OrderChangedSuccessfully": "تم تغيير حالة الطلب بنجاح",
+    "OrderChangeFailed": "فشل في تغيير حالة الطلب. يرجى المحاولة مرة أخرى.",
+    "All": "الكل",
+    "Pending": "قيد الانتظار",
+    "Processing": "قيد المعالجة",
+    "Shipped": "تم الشحن",
+    "Delivered": "تم التسليم",
+    "Cancelled": "ملغى",
+    "SearchPlaceholder": "رقم الطلب، العميل...",
+    "ExportCSV": "تصدير CSV",
+    "Summary": {
+      "TotalOrders": "إجمالي الطلبات",
+      "TotalOrdersDescription": "جميع الأوقات في العرض",
+      "Pending": "قيد الانتظار",
+      "PendingDescription": "في انتظار الإجراء",
+      "Processing": "قيد المعالجة",
+      "ProcessingDescription": "قيد التحضير",
+      "Shipped": "تم الشحن",
+      "ShippedDescription": "في طريقه للتسليم",
+      "Revenue": "الإيرادات",
+      "RevenueDescription": "باستثناء الملغاة"
+    },
+    "Table": {
+      "OrderID": "معرّف الطلب",
+      "CustomerName": "اسم العميل",
+      "ItemsCount": "عدد العناصر",
+      "TotalAmount": "المبلغ الإجمالي (درهم)",
+      "FulfillmentStatus": "حالة التنفيذ",
+      "Status": "الحالة",
+      "OrderDate": "تاريخ الطلب",
+      "Actions": "الإجراءات"
+    }
   }
 }

@@ -337,5 +337,44 @@
       "Country": "Select Country",
       "DeliveryFee": "Enter Delivery Fee"
     }
+  },
+  "Orders": {
+    "Label": "Orders",
+    "ChangeStatus": "Change Status",
+    "Status": "Status",
+    "Note": "Note",
+    "EnterNote": "Enter note",
+    "OrderChangedSuccessfully": "Order status changed successfully",
+    "OrderChangeFailed": "Failed to change order status. Please try again.",
+    "All": "All",
+    "Pending": "Pending",
+    "Processing": "Processing",
+    "Shipped": "Shipped",
+    "Delivered": "Delivered",
+    "Cancelled": "Cancelled",
+    "SearchPlaceholder": "Order #, Customer...",
+    "ExportCSV": "Export CSV",
+    "Summary": {
+      "TotalOrders": "Total Orders",
+      "TotalOrdersDescription": "All time in view",
+      "Pending": "Pending",
+      "PendingDescription": "Awaiting action",
+      "Processing": "Processing",
+      "ProcessingDescription": "Being prepared",
+      "Shipped": "Shipped",
+      "ShippedDescription": "Out for delivery",
+      "Revenue": "Revenue",
+      "RevenueDescription": "Excl. cancelled"
+    },
+    "Table": {
+      "OrderID": "Order ID",
+      "CustomerName": "Customer Name",
+      "ItemsCount": "Items Count",
+      "TotalAmount": "Total Amount (AED)",
+      "FulfillmentStatus": "Fulfillment Status",
+      "Status": "Status",
+      "OrderDate": "Order Date",
+      "Actions": "Actions"
+    }
   }
 }

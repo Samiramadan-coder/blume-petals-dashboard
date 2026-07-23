@@ -1,56 +1,56 @@
-import { OrderStatus } from "@/types/orders";
+import { T } from "@/types/shared";
 import { DataTableColumn } from "@/components/reusable/data-table";
 
-export const columns: DataTableColumn[] = [
+export const columns = (t: T): DataTableColumn[] => [
   {
-    label: "order",
+    label: t("Table.OrderID"),
   },
   {
-    label: "customer",
+    label: t("Table.CustomerName"),
   },
   {
-    label: "items",
+    label: t("Table.ItemsCount"),
   },
   {
-    label: "total (aed)",
+    label: t("Table.TotalAmount"),
   },
   {
-    label: "fulfillment",
+    label: t("Table.FulfillmentStatus"),
   },
   {
-    label: "status",
+    label: t("Table.Status"),
   },
   {
-    label: "date",
+    label: t("Table.OrderDate"),
   },
   {
-    label: "actions",
+    label: t("Table.Actions"),
   },
 ];
 
-export const orderStatuses: OrderStatus[] = [
+export const orderStatuses = (t: T) => [
   {
-    label: "All",
+    label: t("All"),
     value: "all",
   },
   {
-    label: "Pending",
+    label: t("Pending"),
     value: "pending",
   },
   {
-    label: "Processing",
+    label: t("Processing"),
     value: "processing",
   },
   {
-    label: "Shipped",
+    label: t("Shipped"),
     value: "shipped",
   },
   {
-    label: "Delivered",
+    label: t("Delivered"),
     value: "delivered",
   },
   {
-    label: "Cancelled",
+    label: t("Cancelled"),
     value: "cancelled",
   },
 ];

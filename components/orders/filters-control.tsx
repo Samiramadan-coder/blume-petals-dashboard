@@ -4,24 +4,26 @@ import {
   InputGroupInput,
 } from "../ui/input-group";
 import { cn } from "@/lib/utils";
-import { useEffect, useRef, useState } from "react";
 import { Field } from "../ui/field";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Download, Search } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { orderStatuses } from "@/constants/orders";
+import { useEffect, useRef, useState } from "react";
 import { useQueryParam } from "@/hooks/use-search-params";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useTranslations } from "next-intl";
 
 export default function FiltersControl() {
   const firstTrigger = useRef(true);
+  const t = useTranslations("Orders");
   const searchParams = useSearchParams();
-  const { setQueryParam } = useQueryParam();
-  const [status, setStatus] = useState(searchParams.get("status") || "all");
   const [query, setQuery] = useState("");
-  const [dateFrom, setDateFrom] = useState(searchParams.get("dateFrom") || "");
+  const { setQueryParam } = useQueryParam();
   const [dateTo, setDateTo] = useState(searchParams.get("dateTo") || "");
+  const [status, setStatus] = useState(searchParams.get("status") || "all");
+  const [dateFrom, setDateFrom] = useState(searchParams.get("dateFrom") || "");
 
   useEffect(() => {
     if (firstTrigger.current) {
@@ -47,7 +49,7 @@ export default function FiltersControl() {
         }}
       >
         <TabsList className="h-10! rounded-xl bg-muted-foreground/10 p-2">
-          {orderStatuses.map((stat) => (
+          {orderStatuses(t).map((stat) => (
             <TabsTrigger
               key={stat.value}
               value={stat.value}
@@ -68,7 +70,7 @@ export default function FiltersControl() {
               <InputGroupInput
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Order #, Customer..."
+                placeholder={t("SearchPlaceholder")}
               />
               <InputGroupAddon align="inline-start">
                 <Search />
@@ -108,7 +110,7 @@ export default function FiltersControl() {
           className="h-10 w-30 bg-white text-muted-foreground text-xs"
         >
           <Download />
-          Export CSV
+          {t("ExportCSV")}
         </Button>
       </div>
     </div>

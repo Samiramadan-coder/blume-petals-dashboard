@@ -7,12 +7,15 @@ import {
 } from "lucide-react";
 import { Card, CardContent } from "../ui/card";
 import { StatisticsData, Summary } from "@/types/orders";
+import { useTranslations } from "next-intl";
 
 export default function Statistics({ summary }: { summary: Summary }) {
+  const t = useTranslations("Orders.Summary");
+
   const statisticsData: StatisticsData[] = [
     {
-      title: "Total Orders",
-      subtitle: "All time in view",
+      title: t("TotalOrders"),
+      subtitle: t("TotalOrdersDescription"),
       value: summary.total,
       icon: (
         <div className="p-1 bg-primary/20 rounded-sm">
@@ -21,8 +24,8 @@ export default function Statistics({ summary }: { summary: Summary }) {
       ),
     },
     {
-      title: "Pending",
-      subtitle: "Awaiting action",
+      title: t("Pending"),
+      subtitle: t("PendingDescription"),
       value: summary.pending,
       icon: (
         <div className="p-1 bg-red-300/20 rounded-sm">
@@ -31,8 +34,8 @@ export default function Statistics({ summary }: { summary: Summary }) {
       ),
     },
     {
-      title: "Processing",
-      subtitle: "Being prepared",
+      title: t("Processing"),
+      subtitle: t("ProcessingDescription"),
       value: summary.processing,
       icon: (
         <div className="p-1 bg-primary/20 rounded-sm">
@@ -41,8 +44,8 @@ export default function Statistics({ summary }: { summary: Summary }) {
       ),
     },
     {
-      title: "Shipped",
-      subtitle: "Out for delivery",
+      title: t("Shipped"),
+      subtitle: t("ShippedDescription"),
       value: summary.shipped,
       icon: (
         <div className="p-1 bg-secondary/20 rounded-sm">
@@ -51,8 +54,8 @@ export default function Statistics({ summary }: { summary: Summary }) {
       ),
     },
     {
-      title: "Revenue",
-      subtitle: "Excl. cancelled",
+      title: t("Revenue"),
+      subtitle: t("RevenueDescription"),
       value: parseFloat(summary.revenue),
       currency: "AED",
       icon: (
