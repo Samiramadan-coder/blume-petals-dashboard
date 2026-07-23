@@ -354,6 +354,7 @@
     "Cancelled": "Cancelled",
     "SearchPlaceholder": "Order #, Customer...",
     "ExportCSV": "Export CSV",
+    "StatusIsRequired": "Status is required",
     "Summary": {
       "TotalOrders": "Total Orders",
       "TotalOrdersDescription": "All time in view",

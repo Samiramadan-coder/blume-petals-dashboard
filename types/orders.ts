@@ -1,26 +1,20 @@
+import z from "zod";
+import { T } from "./shared";
+
+export const orderStatusSchema = (t: T) =>
+  z.object({
+    status: z.string().min(1, t("StatusIsRequired")),
+    note: z.string().optional(),
+  });
+
+export type OrderStatus = z.infer<ReturnType<typeof orderStatusSchema>>;
+
 export type StatisticsData = {
   title: string;
   subtitle: string;
   value: number;
   currency?: string;
   icon: React.ReactNode;
-};
-
-export type OrderStatus = {
-  value:
-    | "all"
-    | "pending"
-    | "processing"
-    | "shipped"
-    | "delivered"
-    | "cancelled";
-  label:
-    | "All"
-    | "Pending"
-    | "Processing"
-    | "Shipped"
-    | "Delivered"
-    | "Cancelled";
 };
 
 export type Order = {

@@ -351,6 +351,7 @@
     "Cancelled": "ملغى",
     "SearchPlaceholder": "رقم الطلب، العميل...",
     "ExportCSV": "تصدير CSV",
+    "StatusIsRequired": "حالة الطلب مطلوبة",
     "Summary": {
       "TotalOrders": "إجمالي الطلبات",
       "TotalOrdersDescription": "جميع الأوقات في العرض",

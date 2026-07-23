@@ -9,13 +9,14 @@ import { useRef } from "react";
 import { toast } from "sonner";
 import { Spinner } from "../ui/spinner";
 import { useTranslations } from "next-intl";
-import { OrderStatus } from "@/types/orders";
+import { OrderStatus, orderStatusSchema } from "@/types/orders";
 import NormalFormSelect from "../form/select";
 import { Button } from "@/components/ui/button";
 import NormalFormRichText from "../form/rich-text";
 import { orderStatuses } from "@/constants/orders";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { changeOrderStatus } from "@/lib/orders-actions";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export function ChangeStatus({
   startIndex,
@@ -32,17 +33,17 @@ export function ChangeStatus({
     control,
     handleSubmit,
     formState: { isSubmitting },
-  } = useForm<{ status: string; note: string }>({
-    defaultValues: {
-      // status: status as OrderStatus["value"],
-      // note: "",
-    },
+  } = useForm<OrderStatus>({
+    defaultValues: { status: "", note: "" },
+    resolver: zodResolver(orderStatusSchema(t)),
   });
 
-  const onSubmit: SubmitHandler<{ status: string; note: string }> = async (
-    data,
-  ) => {
-    const result = await changeOrderStatus(orderId, data.status, data.note);
+  const onSubmit: SubmitHandler<OrderStatus> = async (data) => {
+    const result = await changeOrderStatus(
+      orderId,
+      data.status,
+      data.note || "",
+    );
 
     if (result.success) {
       toast.success(t("StatusChangedSuccessfully"));
@@ -56,7 +57,9 @@ export function ChangeStatus({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">{t("ChangeStatus")}</Button>
+        <Button variant="default" className="text-xs text-foreground">
+          {t("ChangeStatus")}
+        </Button>
       </DialogTrigger>
 
       <DialogContent
@@ -94,6 +97,7 @@ export function ChangeStatus({
 
           <Button
             type="button"
+            className="text-foreground"
             onClick={() => formRef?.current?.requestSubmit()}
           >
             {isSubmitting ? <Spinner /> : t("ChangeStatus")}
