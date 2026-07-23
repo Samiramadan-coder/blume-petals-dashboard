@@ -41,8 +41,6 @@ export default function DataPreview({
             (status) => status.value === order.status,
           );
 
-          // console.log("statusIndex", statusIndex);
-
           return (
             <TableRow key={index}>
               <TableCell className="px-4 py-3">

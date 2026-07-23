@@ -7,45 +7,45 @@ import { cn } from "@/lib/utils";
 import { Field } from "../ui/field";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { Download, Search } from "lucide-react";
-import { useSearchParams } from "next/navigation";
-import { orderStatuses } from "@/constants/orders";
-import { useEffect, useRef, useState } from "react";
-import { useQueryParam } from "@/hooks/use-search-params";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTranslations } from "next-intl";
+import { Download, Search } from "lucide-react";
+import { orderStatuses } from "@/constants/orders";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { parseAsString, useQueryState } from "nuqs";
 
 export default function FiltersControl() {
-  const firstTrigger = useRef(true);
   const t = useTranslations("Orders");
-  const searchParams = useSearchParams();
-  const [query, setQuery] = useState("");
-  const { setQueryParam } = useQueryParam();
-  const [dateTo, setDateTo] = useState(searchParams.get("dateTo") || "");
-  const [status, setStatus] = useState(searchParams.get("status") || "all");
-  const [dateFrom, setDateFrom] = useState(searchParams.get("dateFrom") || "");
-
-  useEffect(() => {
-    if (firstTrigger.current) {
-      firstTrigger.current = false;
-      return;
-    }
-
-    const timer = setTimeout(() => {
-      setQueryParam("query", query);
-    }, 500);
-
-    return () => clearTimeout(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query]);
+  const [queryParam, setQueryParam] = useQueryState(
+    "query",
+    parseAsString
+      .withDefault("")
+      .withOptions({ history: "push", shallow: false }),
+  );
+  const [dateTo, setDateTo] = useQueryState(
+    "dateTo",
+    parseAsString
+      .withDefault("")
+      .withOptions({ history: "push", shallow: false }),
+  );
+  const [status, setStatus] = useQueryState(
+    "status",
+    parseAsString
+      .withDefault("all")
+      .withOptions({ history: "push", shallow: false }),
+  );
+  const [dateFrom, setDateFrom] = useQueryState(
+    "dateFrom",
+    parseAsString
+      .withDefault("")
+      .withOptions({ history: "push", shallow: false }),
+  );
 
   return (
     <div>
       <Tabs
         value={status}
         onValueChange={(value) => {
-          setStatus(value);
-          setQueryParam("status", value);
+          void setStatus(value);
         }}
       >
         <TabsList className="h-10! rounded-xl bg-muted-foreground/10 p-2">
@@ -68,8 +68,8 @@ export default function FiltersControl() {
           <Field className="w-auto">
             <InputGroup className="h-10 bg-white">
               <InputGroupInput
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
+                value={queryParam}
+                onChange={(e) => void setQueryParam(e.target.value || null)}
                 placeholder={t("SearchPlaceholder")}
               />
               <InputGroupAddon align="inline-start">
@@ -84,8 +84,7 @@ export default function FiltersControl() {
                 type="date"
                 value={dateFrom}
                 onChange={(event) => {
-                  setDateFrom(event.target.value);
-                  setQueryParam("dateFrom", event.target.value);
+                  void setDateFrom(event.target.value || null);
                 }}
                 className="h-10 min-w-35 bg-white px-3 py-2 text-sm "
               />
@@ -96,8 +95,7 @@ export default function FiltersControl() {
                 type="date"
                 value={dateTo}
                 onChange={(event) => {
-                  setDateTo(event.target.value);
-                  setQueryParam("dateTo", event.target.value);
+                  void setDateTo(event.target.value || null);
                 }}
                 className="h-10 min-w-35 bg-white px-3 py-2 text-sm"
               />

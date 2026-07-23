@@ -1,12 +1,13 @@
-import type { Metadata } from "next";
-import { Inter, Playfair_Display, Tajawal, Cairo } from "next/font/google";
 import "@/assets/css/globals.css";
-import { hasLocale, NextIntlClientProvider } from "next-intl";
+import type { Metadata } from "next";
 import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
-import { DirectionProvider } from "@/components/ui/direction";
 import { Toaster } from "@/components/ui/sonner";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { hasLocale, NextIntlClientProvider } from "next-intl";
+import { DirectionProvider } from "@/components/ui/direction";
+import { Inter, Playfair_Display, Tajawal, Cairo } from "next/font/google";
 
 const InterFont = Inter({
   variable: "--font-inter",
@@ -60,16 +61,18 @@ export default async function RootLayout({
       dir={dir}
       className={`${InterFont.variable} ${TajawalFont.variable} ${CairoFont.variable} ${PlayfairDisplayFont.variable} h-full antialiased`}
     >
-      <NextIntlClientProvider>
-        <TooltipProvider>
-          <DirectionProvider dir={dir}>
-            <body className="min-h-full flex flex-col">
-              {children}
-              <Toaster richColors />
-            </body>
-          </DirectionProvider>
-        </TooltipProvider>
-      </NextIntlClientProvider>
+      <NuqsAdapter>
+        <NextIntlClientProvider>
+          <TooltipProvider>
+            <DirectionProvider dir={dir}>
+              <body className="min-h-full flex flex-col">
+                {children}
+                <Toaster richColors />
+              </body>
+            </DirectionProvider>
+          </TooltipProvider>
+        </NextIntlClientProvider>
+      </NuqsAdapter>
     </html>
   );
 }
