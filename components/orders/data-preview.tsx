@@ -11,6 +11,7 @@ import { TableCell, TableRow } from "../ui/table";
 import { DataTable } from "../reusable/data-table";
 import { orderStatuses } from "@/constants/orders";
 import { useQueryParam } from "@/hooks/use-search-params";
+import { AddAdminNote } from "./admin-note";
 
 export default function DataPreview({
   orders,
@@ -76,10 +77,14 @@ export default function DataPreview({
                 <p>{order.placed_at.split("T")[0]}</p>
               </TableCell>
 
-              <TableCell className="px-4 py-3">
+              <TableCell className="px-4 py-3 space-x-2">
                 {order.status !== "cancelled" && (
                   <ChangeStatus startIndex={statusIndex} orderId={order.id} />
                 )}
+                <AddAdminNote
+                  orderId={order.id}
+                  adminNotes={order.admin_notes}
+                />
               </TableCell>
             </TableRow>
           );

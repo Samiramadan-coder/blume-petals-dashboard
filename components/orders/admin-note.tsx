@@ -8,24 +8,22 @@ import {
 import { useRef } from "react";
 import { toast } from "sonner";
 import { Spinner } from "../ui/spinner";
-import { RefreshCw } from "lucide-react";
 import { useTranslations } from "next-intl";
-import NormalFormSelect from "../form/select";
 import { Button } from "@/components/ui/button";
+import { MessageSquarePlus } from "lucide-react";
 import NormalFormRichText from "../form/rich-text";
-import { orderStatuses } from "@/constants/orders";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { updateAdminNote } from "@/lib/orders-actions";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { changeOrderStatus } from "@/lib/orders-actions";
-import { OrderStatus, orderStatusSchema } from "@/types/orders";
+import { AdminNote, AdminNoteSchema } from "@/types/orders";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
-export function ChangeStatus({
-  startIndex,
+export function AddAdminNote({
   orderId,
+  adminNotes,
 }: {
-  startIndex: number;
   orderId: number;
+  adminNotes: string | null;
 }) {
   const t = useTranslations("Orders");
   const formRef = useRef<HTMLFormElement>(null);
@@ -35,25 +33,21 @@ export function ChangeStatus({
     control,
     handleSubmit,
     formState: { isSubmitting },
-  } = useForm<OrderStatus>({
-    defaultValues: { status: "", note: "" },
-    resolver: zodResolver(orderStatusSchema(t)),
+  } = useForm<AdminNote>({
+    defaultValues: { admin_notes: adminNotes || "" },
+    resolver: zodResolver(AdminNoteSchema(t)),
   });
 
-  const onSubmit: SubmitHandler<OrderStatus> = async (data) => {
-    const result = await changeOrderStatus(
-      orderId,
-      data.status,
-      data.note || "",
-    );
+  const onSubmit: SubmitHandler<AdminNote> = async (data) => {
+    const result = await updateAdminNote(orderId, data.admin_notes);
 
     if (result.success) {
-      toast.success(t("StatusChangedSuccessfully"));
+      toast.success(t("AdminNoteUpdatedSuccessfully"));
       closeButtonRef?.current?.click();
       return;
     }
 
-    toast.error(t("OrderChangeFailed"));
+    toast.error(t("AdminNoteUpdateFailed"));
   };
 
   return (
@@ -62,12 +56,12 @@ export function ChangeStatus({
         <TooltipTrigger asChild>
           <DialogTrigger asChild>
             <Button variant="default" className="text-xs text-foreground">
-              <RefreshCw />
+              <MessageSquarePlus />
             </Button>
           </DialogTrigger>
         </TooltipTrigger>
         <TooltipContent>
-          <p>{t("ChangeStatus")}</p>
+          <p>{t("AdminNote")}</p>
         </TooltipContent>
       </Tooltip>
 
@@ -80,22 +74,10 @@ export function ChangeStatus({
           ref={formRef}
           onSubmit={(e) => void handleSubmit(onSubmit)(e)}
         >
-          <NormalFormSelect
-            control={control}
-            name="status"
-            label={t("Status")}
-            options={orderStatuses(t)
-              .slice(startIndex + 1)
-              .map((status) => ({
-                label: status.label,
-                value: status.value,
-              }))}
-          />
-
           <NormalFormRichText
             control={control}
             label={t("Note")}
-            name="note"
+            name="admin_notes"
             placeholder={t("EnterNote")}
           />
         </form>
@@ -109,7 +91,7 @@ export function ChangeStatus({
             className="text-foreground"
             onClick={() => formRef?.current?.requestSubmit()}
           >
-            {isSubmitting ? <Spinner /> : t("ChangeStatus")}
+            {isSubmitting ? <Spinner /> : t("AdminNote")}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -355,6 +355,10 @@
     "SearchPlaceholder": "Order #, Customer...",
     "ExportCSV": "Export CSV",
     "StatusIsRequired": "Status is required",
+    "AdminNote": "Admin Note",
+    "AdminNoteIsRequired": "Admin Note is required",
+    "AdminNoteUpdatedSuccessfully": "Admin Note updated successfully",
+    "AdminNoteUpdateFailed": "Failed to update Admin Note. Please try again.",
     "Summary": {
       "TotalOrders": "Total Orders",
       "TotalOrdersDescription": "All time in view",

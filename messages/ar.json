@@ -352,6 +352,10 @@
     "SearchPlaceholder": "رقم الطلب، العميل...",
     "ExportCSV": "تصدير CSV",
     "StatusIsRequired": "حالة الطلب مطلوبة",
+    "AdminNote": "ملاحظة الإدارة",
+    "AdminNoteIsRequired": "ملاحظة الإدارة مطلوبة",
+    "AdminNoteUpdatedSuccessfully": "تم تحديث ملاحظة الإدارة بنجاح",
+    "AdminNoteUpdateFailed": "فشل في تحديث ملاحظة الإدارة. يرجى المحاولة مرة أخرى.",
     "Summary": {
       "TotalOrders": "إجمالي الطلبات",
       "TotalOrdersDescription": "جميع الأوقات في العرض",

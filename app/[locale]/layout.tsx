@@ -6,6 +6,7 @@ import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
 import { DirectionProvider } from "@/components/ui/direction";
 import { Toaster } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const InterFont = Inter({
   variable: "--font-inter",
@@ -60,12 +61,14 @@ export default async function RootLayout({
       className={`${InterFont.variable} ${TajawalFont.variable} ${CairoFont.variable} ${PlayfairDisplayFont.variable} h-full antialiased`}
     >
       <NextIntlClientProvider>
-        <DirectionProvider dir={dir}>
-          <body className="min-h-full flex flex-col">
-            {children}
-            <Toaster richColors />
-          </body>
-        </DirectionProvider>
+        <TooltipProvider>
+          <DirectionProvider dir={dir}>
+            <body className="min-h-full flex flex-col">
+              {children}
+              <Toaster richColors />
+            </body>
+          </DirectionProvider>
+        </TooltipProvider>
       </NextIntlClientProvider>
     </html>
   );

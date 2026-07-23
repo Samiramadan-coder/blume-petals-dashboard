@@ -24,3 +24,22 @@ export async function changeOrderStatus(
     return { success: false };
   }
 }
+
+// Update Admin Note
+type UpdateAdminNoteResponse = { success: boolean };
+
+export async function updateAdminNote(
+  orderId: number,
+  adminNote: string,
+): Promise<UpdateAdminNoteResponse> {
+  try {
+    await http.patch(`/api/v1/admin/orders/${orderId}/notes`, {
+      admin_notes: adminNote,
+    });
+    updateTag("orders");
+    return { success: true };
+  } catch (error) {
+    console.error("Error updating admin note:", error);
+    return { success: false };
+  }
+}

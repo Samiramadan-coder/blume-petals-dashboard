@@ -9,6 +9,13 @@ export const orderStatusSchema = (t: T) =>
 
 export type OrderStatus = z.infer<ReturnType<typeof orderStatusSchema>>;
 
+export const AdminNoteSchema = (t: T) =>
+  z.object({
+    admin_notes: z.string().min(1, t("AdminNoteIsRequired")),
+  });
+
+export type AdminNote = z.infer<ReturnType<typeof AdminNoteSchema>>;
+
 export type StatisticsData = {
   title: string;
   subtitle: string;
@@ -48,6 +55,7 @@ export type Order = {
   };
   order_number: number;
   payment_status: string;
+  admin_notes: string | null;
   placed_at: string;
   status:
     | "pending"
