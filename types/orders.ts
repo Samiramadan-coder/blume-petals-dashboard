@@ -7,7 +7,13 @@ export type StatisticsData = {
 };
 
 export type OrderStatus = {
-  value: "" | "pending" | "processing" | "shipped" | "delivered" | "cancelled";
+  value:
+    | "all"
+    | "pending"
+    | "processing"
+    | "shipped"
+    | "delivered"
+    | "cancelled";
   label:
     | "All"
     | "Pending"

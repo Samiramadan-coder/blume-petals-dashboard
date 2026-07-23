@@ -5,6 +5,7 @@ import { Checkbox } from "../ui/checkbox";
 import { Pagination } from "@/types/shared";
 import { columns } from "@/constants/orders";
 import FiltersControl from "./filters-control";
+import { ChangeStatus } from "./change-status";
 import { TableCell, TableRow } from "../ui/table";
 import { DataTable } from "../reusable/data-table";
 import { useQueryParam } from "@/hooks/use-search-params";
@@ -49,10 +50,7 @@ export default function DataPreview({
               {order.placed_at.split("T")[0]}
             </TableCell>
             <TableCell className="px-4 py-3">
-              -
-              {/* <Button variant="ghost">
-                <Eye className="text-muted-foreground" />
-              </Button> */}
+              <ChangeStatus status={order.status} orderId={order.id} />
             </TableCell>
           </TableRow>
         ))}

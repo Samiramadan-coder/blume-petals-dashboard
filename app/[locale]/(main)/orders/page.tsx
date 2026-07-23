@@ -30,6 +30,9 @@ export default async function OrdersPage({
       summary: Summary;
     };
   }>("/api/v1/admin/orders", {
+    next: {
+      tags: ["orders"],
+    },
     params: {
       page: searchParams.page || 1,
       per_page: 10,
@@ -43,6 +46,8 @@ export default async function OrdersPage({
   if (!ok) {
     throw new Error("Failed to fetch orders");
   }
+
+  console.log("Orders data:", data);
 
   return (
     <main className="space-y-6">

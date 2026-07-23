@@ -31,7 +31,7 @@ export const columns: DataTableColumn[] = [
 export const orderStatuses: OrderStatus[] = [
   {
     label: "All",
-    value: "",
+    value: "all",
   },
   {
     label: "Pending",
