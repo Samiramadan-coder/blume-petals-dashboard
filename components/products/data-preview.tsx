@@ -162,7 +162,10 @@ export default function DataPreview({
                 type={type}
               />
 
-              <Link href={`/products/${product.id}`} locale={locale}>
+              <Link
+                href={`/products/${product.id}?type=${type}`}
+                locale={locale}
+              >
                 <Button variant="ghost">
                   <Eye className="size-4 text-muted-foreground" />
                 </Button>

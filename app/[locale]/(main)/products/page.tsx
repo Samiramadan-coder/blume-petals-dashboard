@@ -29,7 +29,7 @@ export async function generateMetadata() {
 export default async function ProductsPage({
   searchParams,
 }: {
-  searchParams: SearchParams;
+  searchParams: Promise<SearchParams>;
 }) {
   const t = await getTranslations("Products");
   const params = await searchParams;
@@ -58,6 +58,7 @@ export default async function ProductsPage({
         q: params.query ?? "",
         page: params.page ?? 1,
         category_id: params.category ?? "",
+        category_type: activeTab === "default" ? "" : "addon",
       },
     },
   );

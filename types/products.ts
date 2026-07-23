@@ -15,29 +15,17 @@ export const productSchema = (t: T) =>
         .min(1, t("Errors.NameIsRequired"))
         .min(2, t("Errors.NameMinLength")),
     }),
-
     description: z.object({
-      en: z
-        .string()
-        .min(1, t("Errors.DescriptionIsRequired"))
-        .min(2, t("Errors.DescriptionMinLength")),
-      ar: z
-        .string()
-        .min(1, t("Errors.DescriptionIsRequired"))
-        .min(2, t("Errors.DescriptionMinLength")),
+      en: z.string(),
+      ar: z.string(),
     }),
-
     category_id: z.number().min(1, t("Errors.CategoryIsRequired")),
-
-    occasion_ids: z.array(z.number()).min(1, t("Errors.OccasionsIsRequired")),
-
+    occasion_ids: z.array(z.number()),
     status: z.string().min(1, t("Errors.StatusIsRequired")),
-
     sku: z
       .string()
       .min(1, t("Errors.SKUIsRequired"))
       .min(2, t("Errors.SKUMinLength")),
-
     variants: z.array(
       z.object({
         id: z.number().optional(),
@@ -51,12 +39,8 @@ export const productSchema = (t: T) =>
         in_stock: z.boolean().optional(),
       }),
     ),
-
     images: z.array(imageSchema).min(1, "Please upload at least one image"),
-
     is_new: z.boolean(),
-
-    show_in_builder: z.boolean(),
   });
 
 export type ProductFormValues = z.infer<ReturnType<typeof productSchema>>;

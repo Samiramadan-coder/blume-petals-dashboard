@@ -24,15 +24,23 @@ type Params = {
   locale: AppLocale;
 };
 
+type SearchParams = {
+  type?: "default" | "addon";
+};
+
 export default async function ProductDetails({
   params,
+  searchParams,
 }: {
   params: Promise<Params>;
+  searchParams: Promise<SearchParams>;
 }) {
   const pageParams = await params;
+  const search = await searchParams;
 
   const productId = pageParams["product-id"];
   const locale = pageParams.locale;
+  const type = search.type || "default";
 
   const t = await getTranslations("Products");
   const tCommon = await getTranslations("Common");
@@ -141,14 +149,15 @@ export default async function ProductDetails({
         </CardContent>
       </Card>
 
-      <Card className="ring-0! shadow-sm">
-        <CardHeader className="border-b">
-          <CardTitle className="text-lg">{t("Fields.Description")}</CardTitle>
-        </CardHeader>
+      {product.description[locale] && (
+        <Card className="ring-0! shadow-sm">
+          <CardHeader className="border-b">
+            <CardTitle className="text-lg">{t("Fields.Description")}</CardTitle>
+          </CardHeader>
 
-        <CardContent className="p-4 md:p-6">
-          <div
-            className="
+          <CardContent className="p-4 md:p-6">
+            <div
+              className="
               prose
               prose-sm
               max-w-none
@@ -157,19 +166,20 @@ export default async function ProductDetails({
               prose-p:text-muted-foreground
               prose-li:text-muted-foreground
             "
-            dangerouslySetInnerHTML={{
-              __html: product.description[locale],
-            }}
-          />
-        </CardContent>
-      </Card>
+              dangerouslySetInnerHTML={{
+                __html: product.description[locale],
+              }}
+            />
+          </CardContent>
+        </Card>
+      )}
 
       <Card className="ring-0! shadow-sm">
         <CardHeader className="flex flex-row items-center justify-between gap-4 border-b">
           <CardTitle className="text-lg">
             {t("Labels.Variants")} ({product.variants.length})
           </CardTitle>
-          <CreateEditVariant productId={product.id} />
+          {type === "default" && <CreateEditVariant productId={product.id} />}
         </CardHeader>
 
         <CardContent className="p-4 md:p-6">
@@ -207,10 +217,12 @@ export default async function ProductDetails({
                       }
                     />
 
-                    <DeleteVariantAction
-                      productId={product.id}
-                      variantId={variant.id!}
-                    />
+                    {type === "default" && (
+                      <DeleteVariantAction
+                        productId={product.id}
+                        variantId={variant.id!}
+                      />
+                    )}
                   </div>
                 </CardHeader>
 

@@ -46,7 +46,6 @@ function getDefaultValues(product?: Product): ProductFormValues {
     status: product?.status || "published",
     images: product?.images.map((image) => image.url) || [],
     is_new: product?.is_new || false,
-    show_in_builder: product?.show_in_builder || false,
     variants: product?.variants.map((variant) => ({
       id: variant.id,
       sku: variant.sku,
@@ -237,6 +236,16 @@ export default function CreateEdit({
               }))}
             />
 
+            <Input<ProductFormValues>
+              label={tLive("Fields.SKU")}
+              name="sku"
+              type="text"
+              placeholder={tLive("Placeholders.SKU")}
+              register={register}
+              errors={errors}
+              required
+            />
+
             {availableLocales.map((locale) => (
               <div
                 key={locale}
@@ -250,72 +259,66 @@ export default function CreateEdit({
                   label={tLive("Fields.Description")}
                   name={`description.${locale}`}
                   placeholder={tLive("Placeholders.Description")}
-                  required
                 />
               </div>
             ))}
 
-            <Input<ProductFormValues>
-              label={tLive("Fields.SKU")}
-              name="sku"
-              type="text"
-              placeholder={tLive("Placeholders.SKU")}
-              register={register}
-              errors={errors}
-              required
-            />
+            {type === "default" && (
+              <>
+                <Separator className="bg-border" />
+                <Field>
+                  <FieldLabel
+                    htmlFor="occasions"
+                    className="text-sm font-semibold"
+                  >
+                    {tLive("Fields.OccasionTags")}
+                  </FieldLabel>
 
-            <Separator className="bg-border" />
-            <Field>
-              <FieldLabel htmlFor="occasions" className="text-sm font-semibold">
-                {tLive("Fields.OccasionTags")}
-                <span className="text-red-500">*</span>
-              </FieldLabel>
+                  <FieldContent>
+                    <Controller
+                      name="occasion_ids"
+                      control={control}
+                      render={({ field }) => {
+                        const selectedOccasions = field.value ?? [];
 
-              <FieldContent>
-                <Controller
-                  name="occasion_ids"
-                  control={control}
-                  render={({ field }) => {
-                    const selectedOccasions = field.value ?? [];
+                        return (
+                          <div className="space-y-1.5">
+                            <div className="flex flex-wrap gap-2">
+                              {occasions.map((occasion) => {
+                                const isSelected = selectedOccasions.includes(
+                                  occasion.id,
+                                );
 
-                    return (
-                      <div className="space-y-1.5">
-                        <div className="flex flex-wrap gap-2">
-                          {occasions.map((occasion) => {
-                            const isSelected = selectedOccasions.includes(
-                              occasion.id,
-                            );
-
-                            return (
-                              <Badge
-                                key={occasion.id}
-                                variant="outline"
-                                className={cn(
-                                  `h-7 text-sm px-4 cursor-pointer`,
-                                  { "bg-primary/20 border": isSelected },
-                                )}
-                                onClick={() => {
-                                  const nextOccasions = isSelected
-                                    ? selectedOccasions.filter(
-                                        (i) => i !== occasion.id,
-                                      )
-                                    : [...selectedOccasions, occasion.id];
-                                  field.onChange(nextOccasions);
-                                }}
-                              >
-                                {occasion.name_translations[activeLocale]}
-                              </Badge>
-                            );
-                          })}
-                        </div>
-                        <FieldError errors={[errors.occasion_ids]} />
-                      </div>
-                    );
-                  }}
-                />
-              </FieldContent>
-            </Field>
+                                return (
+                                  <Badge
+                                    key={occasion.id}
+                                    variant="outline"
+                                    className={cn(
+                                      `h-7 text-sm px-4 cursor-pointer`,
+                                      { "bg-primary/20 border": isSelected },
+                                    )}
+                                    onClick={() => {
+                                      const nextOccasions = isSelected
+                                        ? selectedOccasions.filter(
+                                            (i) => i !== occasion.id,
+                                          )
+                                        : [...selectedOccasions, occasion.id];
+                                      field.onChange(nextOccasions);
+                                    }}
+                                  >
+                                    {occasion.name_translations[activeLocale]}
+                                  </Badge>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        );
+                      }}
+                    />
+                  </FieldContent>
+                </Field>
+              </>
+            )}
 
             <Separator className="bg-border" />
             <div className="space-y-4">
@@ -465,14 +468,6 @@ export default function CreateEdit({
               description={tLive("Fields.ShowNewBadgeDescription")}
             />
 
-            <Switch
-              name="show_in_builder"
-              control={control}
-              label={tLive("Fields.FeaturedOnHomepage")}
-              description={tLive("Fields.FeaturedOnHomepageDescription")}
-            />
-
-            <Separator className="bg-border" />
             <Controller
               name="status"
               control={control}
