@@ -29,6 +29,7 @@ import { Field, FieldContent, FieldError, FieldLabel } from "../ui/field";
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Product, ProductFormValues, productSchema } from "@/types/products";
 import { Controller, SubmitHandler, useForm, useWatch } from "react-hook-form";
+import NormalFormTagsInput from "../form/tags";
 
 // Get list of colors including the selected color if it's not in the predefined list
 function getListOfColors(color?: string): string[] {
@@ -42,6 +43,7 @@ function getDefaultValues(product?: Product): ProductFormValues {
     description: product?.description || { en: "", ar: "" },
     category_id: product?.category_id || 0,
     occasion_ids: product?.occasion_ids || [],
+    tags: product?.tags || [],
     sku: product?.sku || "",
     status: product?.status || "published",
     images: product?.images.map((image) => image.url) || [],
@@ -262,6 +264,15 @@ export default function CreateEdit({
                 />
               </div>
             ))}
+
+            <NormalFormTagsInput
+              name="tags"
+              control={control}
+              label={tLive("Fields.Tags")}
+              placeholder={tLive("Placeholders.Tags")}
+              required
+              maxTags={10}
+            />
 
             {type === "default" && (
               <>

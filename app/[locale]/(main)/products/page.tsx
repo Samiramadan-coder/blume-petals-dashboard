@@ -63,6 +63,8 @@ export default async function ProductsPage({
     },
   );
 
+  console.log("Products data:", products);
+
   return (
     <main className="space-y-6">
       <div className="flex gap-2 items-center">

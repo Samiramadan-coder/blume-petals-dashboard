@@ -179,7 +179,8 @@
       "FeaturedOnHomepageDescription": "Pin this product to the featured section of your storefront",
       "Status": "Status",
       "Size": "Size",
-      "ComparePrice": "Compare Price (AED)"
+      "ComparePrice": "Compare Price (AED)",
+      "Tags": "Tags"
     },
     "Placeholders": {
       "Name": "Enter product name",
@@ -191,7 +192,8 @@
       "SKU": "Enter SKU",
       "Status": "Select product status",
       "Size": "Select size",
-      "ComparePrice": "Enter compare price"
+      "ComparePrice": "Enter compare price",
+      "Tags": "Enter tags"
     },
     "Labels": {
       "BasicInformation": "Basic Information",

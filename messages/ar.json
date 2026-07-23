@@ -178,7 +178,8 @@
       "FeaturedOnHomepageDescription": "ثبت هذا المنتج في قسم المميز في واجهة متجرك",
       "Status": "الحالة",
       "Size": "الحجم",
-      "ComparePrice": "سعر المقارنة (درهم)"
+      "ComparePrice": "سعر المقارنة (درهم)",
+      "Tags": "العلامات"
     },
     "Placeholders": {
       "Name": "أدخل اسم المنتج",
@@ -190,7 +191,8 @@
       "SKU": "أدخل رمز التخزين",
       "Status": "اختر حالة المنتج",
       "Size": "اختر الحجم",
-      "ComparePrice": "أدخل سعر المقارنة"
+      "ComparePrice": "أدخل سعر المقارنة",
+      "Tags": "أدخل العلامات"
     },
     "Labels": {
       "BasicInformation": "معلومات أساسية",

@@ -21,6 +21,7 @@ export const productSchema = (t: T) =>
     }),
     category_id: z.number().min(1, t("Errors.CategoryIsRequired")),
     occasion_ids: z.array(z.number()),
+    tags: z.array(z.string()),
     status: z.string().min(1, t("Errors.StatusIsRequired")),
     sku: z
       .string()
