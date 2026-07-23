@@ -1,4 +1,4 @@
-import { Order, OrderStatus } from "@/types/orders";
+import { OrderStatus } from "@/types/orders";
 import { DataTableColumn } from "@/components/reusable/data-table";
 
 export const columns: DataTableColumn[] = [
@@ -10,18 +10,6 @@ export const columns: DataTableColumn[] = [
   { label: "status" },
   { label: "date" },
   { label: "actions" },
-];
-
-export const ordersPlaceholder: Order[] = [
-  {
-    order: "",
-    customer: "",
-    items: 0,
-    total: 0,
-    fulfillment: "",
-    status: "",
-    date: "",
-  },
 ];
 
 export const orderStatuses: OrderStatus[] = [

@@ -1,19 +1,19 @@
 import {
-  Clipboard,
   Clock,
-  LoaderCircle,
   Truck,
+  Clipboard,
   DollarSign,
+  LoaderCircle,
 } from "lucide-react";
 import { Card, CardContent } from "../ui/card";
-import { StatisticsData } from "@/types/orders";
+import { StatisticsData, Summary } from "@/types/orders";
 
-export default function Statistics() {
+export default function Statistics({ summary }: { summary: Summary }) {
   const statisticsData: StatisticsData[] = [
     {
       title: "Total Orders",
       subtitle: "All time in view",
-      value: 10,
+      value: summary.total,
       icon: (
         <div className="p-1 bg-primary/20 rounded-sm">
           <Clipboard className="text-primary size-5" />
@@ -23,7 +23,7 @@ export default function Statistics() {
     {
       title: "Pending",
       subtitle: "Awaiting action",
-      value: 2,
+      value: summary.pending,
       icon: (
         <div className="p-1 bg-red-300/20 rounded-sm">
           <Clock className="text-red-300 size-5" />
@@ -33,7 +33,7 @@ export default function Statistics() {
     {
       title: "Processing",
       subtitle: "Being prepared",
-      value: 2,
+      value: summary.processing,
       icon: (
         <div className="p-1 bg-primary/20 rounded-sm">
           <LoaderCircle className="text-primary size-5" />
@@ -43,7 +43,7 @@ export default function Statistics() {
     {
       title: "Shipped",
       subtitle: "Out for delivery",
-      value: 2,
+      value: summary.shipped,
       icon: (
         <div className="p-1 bg-secondary/20 rounded-sm">
           <Truck className="text-secondary size-5" />
@@ -53,7 +53,7 @@ export default function Statistics() {
     {
       title: "Revenue",
       subtitle: "Excl. cancelled",
-      value: 4250,
+      value: parseFloat(summary.revenue),
       currency: "AED",
       icon: (
         <div className="p-1 bg-primary/20 rounded-sm">
