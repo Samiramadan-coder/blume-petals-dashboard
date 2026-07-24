@@ -378,5 +378,74 @@
       "OrderDate": "تاريخ الطلب",
       "Actions": "الإجراءات"
     }
+  },
+  "PromoCodes": {
+    "CreatePromoCode": "إنشاء رمز ترويجي",
+    "CreatePromoCodeDescription": "قم بتكوين رمز خصم لمتجرك.",
+    "EditPromoCode": "تحرير الرمز الترويجي",
+    "All": "الكل",
+    "Active": "نشط",
+    "Expired": "منتهي الصلاحية",
+    "Inactive": "غير نشط",
+    "Scheduled": "مجدول",
+    "SearchPlaceholder": "البحث بالرمز",
+    "Title": "الرموز الترويجية",
+    "Fields": {
+      "Code": {
+        "Label": "الرمز الترويجي",
+        "Placeholder": "أدخل الرمز الترويجي",
+        "Required": "الرمز الترويجي مطلوب",
+        "MinLength": "يجب أن يكون الرمز الترويجي مكونًا من 3 أحرف على الأقل"
+      },
+      "Type": {
+        "Label": "النوع",
+        "Required": "النوع مطلوب"
+      },
+      "Value": {
+        "Label": "القيمة",
+        "Placeholder": "أدخل القيمة",
+        "Required": "القيمة مطلوبة"
+      },
+      "Scope": {
+        "Label": "النطاق",
+        "Required": "النطاق مطلوب"
+      },
+      "MinOrderTotal": {
+        "Label": "الحد الأدنى لإجمالي الطلب",
+        "Placeholder": "أدخل الحد الأدنى لإجمالي الطلب",
+        "Required": "الحد الأدنى لإجمالي الطلب مطلوب"
+      },
+      "UsageLimit": {
+        "Label": "حد الاستخدام",
+        "Placeholder": "أدخل حد الاستخدام",
+        "Required": "حد الاستخدام مطلوب"
+      },
+      "PerCustomerLimit": {
+        "Label": "حد لكل عميل",
+        "Placeholder": "أدخل حد لكل عميل",
+        "Required": "حد لكل عميل مطلوب"
+      },
+      "StartDate": {
+        "Label": "تاريخ البدء",
+        "Required": "تاريخ البدء مطلوب"
+      },
+      "ExpiresAt": {
+        "Label": "تاريخ الانتهاء",
+        "Required": "تاريخ الانتهاء مطلوب",
+        "MustBeAfterStartDate": "يجب أن يكون تاريخ الانتهاء بعد تاريخ البدء"
+      },
+      "Category": {
+        "Label": "الفئة",
+        "Required": "الفئة مطلوبة"
+      }
+    },
+    "Table": {
+      "Code": "الرمز",
+      "Discount": "الخصم",
+      "Usage": "الاستخدام",
+      "ValidDates": "التواريخ الصالحة",
+      "Status": "الحالة",
+      "Actions": "الإجراءات"
+    }
   }
 }

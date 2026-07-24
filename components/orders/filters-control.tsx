@@ -86,7 +86,7 @@ export default function FiltersControl() {
                 onChange={(event) => {
                   void setDateFrom(event.target.value || null);
                 }}
-                className="h-10 min-w-35 bg-white px-3 py-2 text-sm "
+                className="h-10 min-w-35 bg-white px-3 py-2 text-sm"
               />
             </Field>
 

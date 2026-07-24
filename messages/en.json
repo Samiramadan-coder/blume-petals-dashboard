@@ -381,5 +381,74 @@
       "OrderDate": "Order Date",
       "Actions": "Actions"
     }
+  },
+  "PromoCodes": {
+    "CreatePromoCode": "Create Promo Code",
+    "CreatePromoCodeDescription": "Configure a discount code for your store.",
+    "EditPromoCode": "Edit Promo Code",
+    "All": "All",
+    "Active": "Active",
+    "Expired": "Expired",
+    "Inactive": "Inactive",
+    "Scheduled": "Scheduled",
+    "SearchPlaceholder": "Search by code",
+    "Title": "Promo Codes",
+    "Fields": {
+      "Code": {
+        "Label": "Promo Code",
+        "Placeholder": "Enter promo code",
+        "Required": "Promo code is required",
+        "MinLength": "Promo code must be at least 3 characters"
+      },
+      "Type": {
+        "Label": "Type",
+        "Required": "Type is required"
+      },
+      "Value": {
+        "Label": "Value",
+        "Placeholder": "Enter value",
+        "Required": "Value is required"
+      },
+      "Scope": {
+        "Label": "Scope",
+        "Required": "Scope is required"
+      },
+      "MinOrderTotal": {
+        "Label": "Minimum Order Total",
+        "Placeholder": "Enter minimum order total",
+        "Required": "Minimum order total is required"
+      },
+      "UsageLimit": {
+        "Label": "Usage Limit",
+        "Placeholder": "Enter usage limit",
+        "Required": "Usage limit is required"
+      },
+      "PerCustomerLimit": {
+        "Label": "Per Customer Limit",
+        "Placeholder": "Enter per customer limit",
+        "Required": "Per customer limit is required"
+      },
+      "StartDate": {
+        "Label": "Start Date",
+        "Required": "Start date is required"
+      },
+      "ExpiresAt": {
+        "Label": "Expires At",
+        "Required": "Expires at is required",
+        "MustBeAfterStartDate": "Expires at must be after start date"
+      },
+      "Category": {
+        "Label": "Category",
+        "Required": "Category is required"
+      }
+    },
+    "Table": {
+      "Code": "Code",
+      "Discount": "Discount",
+      "Usage": "Usage",
+      "ValidDates": "Valid Dates",
+      "Status": "Status",
+      "Actions": "Actions"
+    }
   }
 }
