@@ -27,7 +27,7 @@ export const promoCodeSchema = (t: T) =>
         ctx.addIssue({
           code: "custom",
           path: ["category_ids"],
-          message: t("Fields.CategoryIds.Required"),
+          message: t("Fields.Category.Required"),
         });
       }
 
