@@ -380,72 +380,91 @@
     }
   },
   "PromoCodes": {
-    "CreatePromoCode": "إنشاء رمز ترويجي",
-    "CreatePromoCodeDescription": "قم بتكوين رمز خصم لمتجرك.",
-    "EditPromoCode": "تحرير الرمز الترويجي",
+    "CreatePromoCode": "إنشاء كود خصم",
+    "CreatePromoCodeDescription": "قم بإعداد كود خصم لمتجرك.",
+    "EditPromoCode": "تعديل كود الخصم",
     "All": "الكل",
     "Active": "نشط",
-    "Expired": "منتهي الصلاحية",
+    "Expired": "منتهي",
     "Inactive": "غير نشط",
     "Scheduled": "مجدول",
-    "SearchPlaceholder": "البحث بالرمز",
-    "Title": "الرموز الترويجية",
+    "SearchPlaceholder": "البحث بالكود",
+    "Title": "أكواد الخصم",
+    "TotalRedemptions": "إجمالي مرات الاستخدام",
+    "ExpiredInactive": "منتهي / غير نشط",
+    "Off": "خصم",
+    "Min": "الحد الأدنى",
+    "PerCustomerLimit": "لكل عميل",
+    "UnlimitedDate": "بدون تاريخ انتهاء",
+    "From": "من",
     "Fields": {
       "Code": {
-        "Label": "الرمز الترويجي",
-        "Placeholder": "أدخل الرمز الترويجي",
-        "Required": "الرمز الترويجي مطلوب",
-        "MinLength": "يجب أن يكون الرمز الترويجي مكونًا من 3 أحرف على الأقل"
+        "Label": "كود الخصم",
+        "Placeholder": "أدخل كود الخصم",
+        "Required": "كود الخصم مطلوب",
+        "MinLength": "يجب ألا يقل كود الخصم عن 3 أحرف"
       },
       "Type": {
-        "Label": "النوع",
-        "Required": "النوع مطلوب"
+        "Label": "نوع الخصم",
+        "Required": "نوع الخصم مطلوب",
+        "Placeholder": "اختر النوع",
+        "Percentage": "نسبة مئوية",
+        "Fixed": "مبلغ ثابت"
       },
       "Value": {
-        "Label": "القيمة",
+        "Label": "قيمة الخصم",
         "Placeholder": "أدخل القيمة",
-        "Required": "القيمة مطلوبة"
+        "Required": "قيمة الخصم مطلوبة"
       },
       "Scope": {
-        "Label": "النطاق",
-        "Required": "النطاق مطلوب"
+        "Label": "يُطبق على",
+        "Required": "نطاق التطبيق مطلوب",
+        "Placeholder": "اختر نطاق التطبيق",
+        "All": "جميع المنتجات",
+        "Category": "تصنيف محدد"
       },
       "MinOrderTotal": {
-        "Label": "الحد الأدنى لإجمالي الطلب",
-        "Placeholder": "أدخل الحد الأدنى لإجمالي الطلب",
-        "Required": "الحد الأدنى لإجمالي الطلب مطلوب"
+        "Label": "الحد الأدنى لقيمة الطلب (اختياري)",
+        "Placeholder": "بدون حد أدنى"
       },
       "UsageLimit": {
-        "Label": "حد الاستخدام",
-        "Placeholder": "أدخل حد الاستخدام",
-        "Required": "حد الاستخدام مطلوب"
+        "Label": "الحد الإجمالي للاستخدام",
+        "Placeholder": "غير محدود"
       },
       "PerCustomerLimit": {
-        "Label": "حد لكل عميل",
-        "Placeholder": "أدخل حد لكل عميل",
-        "Required": "حد لكل عميل مطلوب"
+        "Label": "حد الاستخدام لكل عميل",
+        "Placeholder": "غير محدود"
       },
       "StartDate": {
-        "Label": "تاريخ البدء",
-        "Required": "تاريخ البدء مطلوب"
+        "Label": "تاريخ البدء"
       },
       "ExpiresAt": {
         "Label": "تاريخ الانتهاء",
-        "Required": "تاريخ الانتهاء مطلوب",
         "MustBeAfterStartDate": "يجب أن يكون تاريخ الانتهاء بعد تاريخ البدء"
       },
       "Category": {
-        "Label": "الفئة",
-        "Required": "الفئة مطلوبة"
+        "Label": "التصنيف",
+        "Required": "التصنيف مطلوب"
+      },
+      "Active": {
+        "Label": "نشط",
+        "Description": "كود الخصم نشط ويمكن للعملاء استخدامه"
       }
     },
     "Table": {
-      "Code": "الرمز",
+      "Code": "الكود",
       "Discount": "الخصم",
       "Usage": "الاستخدام",
-      "ValidDates": "التواريخ الصالحة",
+      "ValidDates": "فترة الصلاحية",
       "Status": "الحالة",
       "Actions": "الإجراءات"
+    },
+    "Statuses": {
+      "All": "الكل",
+      "Active": "نشط",
+      "Inactive": "غير نشط",
+      "Expired": "منتهي",
+      "Scheduled": "مجدول"
     }
   }
 }

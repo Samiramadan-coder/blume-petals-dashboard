@@ -21,6 +21,7 @@ import EditBtn from "../reusable/edit-btn";
 import LimitProgress from "../ui/limit-progress";
 import DeleteBtn from "../reusable/delete-btn";
 import { Category } from "@/types/categories";
+import FiltersControl from "./filters-control";
 
 export default function DataPreview({
   coupons,
@@ -38,6 +39,8 @@ export default function DataPreview({
 
   return (
     <>
+      <FiltersControl />
+
       <div className="flex justify-end">
         <CreateEdit categories={categories} />
       </div>

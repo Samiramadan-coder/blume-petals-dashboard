@@ -21,3 +21,26 @@ export const columns = (t: T): DataTableColumn[] => [
     label: t("Table.Actions"),
   },
 ];
+
+export const promoCodeStatuses = (t: T) => [
+  {
+    value: "all",
+    label: t("Statuses.All"),
+  },
+  {
+    value: "active",
+    label: t("Statuses.Active"),
+  },
+  {
+    value: "scheduled",
+    label: t("Statuses.Scheduled"),
+  },
+  {
+    value: "expired",
+    label: t("Statuses.Expired"),
+  },
+  {
+    value: "inactive",
+    label: t("Statuses.Inactive"),
+  },
+];

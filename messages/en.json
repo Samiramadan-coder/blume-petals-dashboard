@@ -461,6 +461,13 @@
       "ValidDates": "Valid Dates",
       "Status": "Status",
       "Actions": "Actions"
+    },
+    "Statuses": {
+      "All": "All",
+      "Active": "Active",
+      "Inactive": "Inactive",
+      "Expired": "Expired",
+      "Scheduled": "Scheduled"
     }
   }
 }

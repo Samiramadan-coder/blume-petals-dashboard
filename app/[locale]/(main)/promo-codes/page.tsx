@@ -1,11 +1,23 @@
-import DataPreview from "@/components/promo-codes/data-preview";
-import Summary from "@/components/promo-codes/summary";
 import { http } from "@/lib/http";
-import { CategoryResponse } from "@/types/categories";
-import { Coupon, PromoCodesSummary } from "@/types/promo-codes";
 import { Pagination } from "@/types/shared";
+import { CategoryResponse } from "@/types/categories";
+import Summary from "@/components/promo-codes/summary";
+import DataPreview from "@/components/promo-codes/data-preview";
+import { Coupon, PromoCodesSummary } from "@/types/promo-codes";
 
-export default async function PromoCodesPage() {
+type SearchParams = {
+  query?: string;
+  status?: string;
+  page?: string;
+};
+
+export default async function PromoCodesPage({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  const params = await searchParams;
+
   // Fetch promo codes data
   const { data: promoCodesData, ok: ok1 } = await http.get<{
     data: {
@@ -14,13 +26,16 @@ export default async function PromoCodesPage() {
       summary: PromoCodesSummary;
     };
   }>("/api/v1/admin/coupons", {
+    params: {
+      q: params.query || "",
+      status: params.status || "",
+      page: params.page || 1,
+    },
     next: {
       revalidate: 60,
       tags: ["promo-codes"],
     },
   });
-
-  console.log("PromoCodesPage promoCodesData:", promoCodesData);
 
   // Fetch categories data
   const { data: categories, ok: ok2 } = await http.get<CategoryResponse>(
