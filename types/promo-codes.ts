@@ -10,12 +10,10 @@ export const promoCodeSchema = (t: T) =>
         .min(3, t("Fields.Code.MinLength")),
       type: z.enum(["percentage", "fixed"], t("Fields.Type.Required")),
       value: z.number().min(1, t("Fields.Value.Required")),
+      min_order_total: z.number().optional().catch(undefined),
+      usage_limit: z.number().optional().catch(undefined),
+      per_customer_limit: z.number().optional().catch(undefined),
       scope: z.enum(["all", "category"], t("Fields.Scope.Required")),
-      min_order_total: z.number().min(0, t("Fields.MinOrderTotal.Required")),
-      usage_limit: z.number().min(1, t("Fields.UsageLimit.Required")),
-      per_customer_limit: z
-        .number()
-        .min(1, t("Fields.PerCustomerLimit.Required")),
       is_active: z.boolean().optional(),
       starts_at: z.string().optional(),
       expires_at: z.string().optional(),
@@ -44,22 +42,6 @@ export const promoCodeSchema = (t: T) =>
           });
         }
       }
-
-      if (data.starts_at && !data.expires_at) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["expires_at"],
-          message: t("Fields.ExpiresAt.Required"),
-        });
-      }
-
-      if (!data.starts_at && data.expires_at) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["starts_at"],
-          message: t("Fields.StartDate.Required"),
-        });
-      }
     });
 
 export type PromoCodeFormValues = z.infer<ReturnType<typeof promoCodeSchema>>;
@@ -80,4 +62,12 @@ export type Coupon = {
   starts_at: null | string;
   expires_at: null | string;
   is_active: boolean;
+};
+
+export type PromoCodesSummary = {
+  active: number;
+  expired_inactive: number;
+  scheduled: number;
+  total: number;
+  total_redemptions: number;
 };

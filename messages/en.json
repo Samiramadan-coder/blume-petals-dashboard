@@ -393,6 +393,13 @@
     "Scheduled": "Scheduled",
     "SearchPlaceholder": "Search by code",
     "Title": "Promo Codes",
+    "TotalRedemptions": "Total Redemptions",
+    "ExpiredInactive": "Expired/Inactive",
+    "Off": "Off",
+    "Min": "Min",
+    "PerCustomerLimit": "Per Customer",
+    "UnlimitedDate": "Unlimited Date",
+    "From": "From",
     "Fields": {
       "Code": {
         "Label": "Promo Code",
@@ -401,45 +408,50 @@
         "MinLength": "Promo code must be at least 3 characters"
       },
       "Type": {
-        "Label": "Type",
-        "Required": "Type is required"
+        "Label": "Discount Type",
+        "Required": "Type is required",
+        "Placeholder": "Select type",
+        "Percentage": "Percentage",
+        "Fixed": "Fixed Amount"
       },
       "Value": {
-        "Label": "Value",
+        "Label": "Discount Value",
         "Placeholder": "Enter value",
         "Required": "Value is required"
       },
       "Scope": {
-        "Label": "Scope",
-        "Required": "Scope is required"
+        "Label": "Applies To",
+        "Required": "Scope is required",
+        "Placeholder": "Select scope",
+        "All": "All Products",
+        "Category": "Specific Category"
       },
       "MinOrderTotal": {
-        "Label": "Minimum Order Total",
-        "Placeholder": "Enter minimum order total",
-        "Required": "Minimum order total is required"
+        "Label": "Minimum Order Amount (optional)",
+        "Placeholder": "No Minimum"
       },
       "UsageLimit": {
-        "Label": "Usage Limit",
-        "Placeholder": "Enter usage limit",
-        "Required": "Usage limit is required"
+        "Label": "Total Usage Limit",
+        "Placeholder": "Unlimited"
       },
       "PerCustomerLimit": {
-        "Label": "Per Customer Limit",
-        "Placeholder": "Enter per customer limit",
-        "Required": "Per customer limit is required"
+        "Label": "Per-Customer Limit",
+        "Placeholder": "Unlimited"
       },
       "StartDate": {
-        "Label": "Start Date",
-        "Required": "Start date is required"
+        "Label": "Start Date"
       },
       "ExpiresAt": {
         "Label": "Expires At",
-        "Required": "Expires at is required",
         "MustBeAfterStartDate": "Expires at must be after start date"
       },
       "Category": {
         "Label": "Category",
         "Required": "Category is required"
+      },
+      "Active": {
+        "Label": "Active",
+        "Description": "Promo code is active and can be used by customers"
       }
     },
     "Table": {
