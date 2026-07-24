@@ -20,15 +20,17 @@ import {
 import EditBtn from "../reusable/edit-btn";
 import LimitProgress from "../ui/limit-progress";
 import DeleteBtn from "../reusable/delete-btn";
+import { Category } from "@/types/categories";
 
 export default function DataPreview({
   coupons,
   pagination,
+  categories,
 }: {
   coupons: Coupon[];
   pagination: Pagination;
+  categories: Category[];
 }) {
-  console.log("DataPreview coupons:", coupons);
   const t = useTranslations("PromoCodes");
   const tCommon = useTranslations("Common");
   const { setQueryParam } = useQueryParam();
@@ -37,7 +39,7 @@ export default function DataPreview({
   return (
     <>
       <div className="flex justify-end">
-        <CreateEdit />
+        <CreateEdit categories={categories} />
       </div>
 
       <DataTable
@@ -112,7 +114,11 @@ export default function DataPreview({
             </TableCell>
 
             <TableCell className="px-4 py-3">
-              <CreateEdit coupon={coupon} trigger={<EditBtn />} />
+              <CreateEdit
+                coupon={coupon}
+                trigger={<EditBtn />}
+                categories={categories}
+              />
 
               <DeleteBtn
                 onDelete={async () => {

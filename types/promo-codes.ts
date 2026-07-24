@@ -13,7 +13,7 @@ export const promoCodeSchema = (t: T) =>
       min_order_total: z.number().optional().catch(undefined),
       usage_limit: z.number().optional().catch(undefined),
       per_customer_limit: z.number().optional().catch(undefined),
-      scope: z.enum(["all", "category"], t("Fields.Scope.Required")),
+      scope: z.enum(["all", "categories"], t("Fields.Scope.Required")),
       is_active: z.boolean().optional(),
       starts_at: z.string().optional(),
       expires_at: z.string().optional(),
@@ -21,7 +21,7 @@ export const promoCodeSchema = (t: T) =>
     })
     .superRefine((data, ctx) => {
       if (
-        data.scope === "category" &&
+        data.scope === "categories" &&
         (!data.category_ids || data.category_ids.length === 0)
       ) {
         ctx.addIssue({

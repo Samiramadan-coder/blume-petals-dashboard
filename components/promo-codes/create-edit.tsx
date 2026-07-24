@@ -5,7 +5,7 @@ import {
   promoCodeSchema,
   PromoCodeFormValues,
 } from "@/types/promo-codes";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { toast } from "sonner";
 import Input from "../form/input";
 import Header from "../form/header";
@@ -17,9 +17,13 @@ import AddButton from "../form/add-button";
 import { Separator } from "../ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocale, useTranslations } from "next-intl";
-import { useForm, SubmitHandler, useWatch } from "react-hook-form";
+import { useForm, SubmitHandler, useWatch, Controller } from "react-hook-form";
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../ui/sheet";
 import { postPromoCodeAction } from "@/lib/promo-codes";
+import { Category } from "@/types/categories";
+import { Field, FieldContent, FieldError, FieldLabel } from "../ui/field";
+import { Badge } from "../ui/badge";
+import { cn } from "@/lib/utils";
 
 // Function to get default values for the form,
 // either from an existing coupon or default values
@@ -43,7 +47,9 @@ function getDefaultValues(coupon?: Coupon): PromoCodeFormValues {
 export default function CreateEdit({
   trigger,
   coupon,
+  categories,
 }: {
+  categories: Category[];
   trigger?: React.ReactNode;
   coupon?: Coupon;
 }) {
@@ -59,6 +65,7 @@ export default function CreateEdit({
     register,
     control,
     setError,
+    setValue,
     handleSubmit,
     formState: { isSubmitting, errors },
   } = useForm<PromoCodeFormValues>({
@@ -68,6 +75,14 @@ export default function CreateEdit({
 
   // watch Required fields to conditionally render other fields based on their values
   const type = useWatch({ control, name: "type" });
+  const scope = useWatch({ control, name: "scope" });
+
+  // Reset category_ids if scope is set to "all"
+  useEffect(() => {
+    if (scope === "all") {
+      setValue("category_ids", []);
+    }
+  }, [scope, setValue]);
 
   // Handle form submission
   // This function will be called when the form is submitted
@@ -213,17 +228,79 @@ export default function CreateEdit({
             <Separator className="sm:col-span-2" />
 
             <Select<PromoCodeFormValues>
-              control={control}
+              required
               name="scope"
+              control={control}
+              className="sm:col-span-2"
               label={t("Fields.Scope.Label")}
               placeholder={t("Fields.Scope.Placeholder")}
-              required
               options={[
                 { value: "all", label: t("Fields.Scope.All") },
-                { value: "category", label: t("Fields.Scope.Category") },
+                { value: "categories", label: t("Fields.Scope.Category") },
               ]}
-              className="sm:col-span-2"
             />
+
+            {scope === "categories" && (
+              <div className="sm:col-span-2">
+                <Field>
+                  <FieldLabel
+                    htmlFor="occasions"
+                    className="text-sm font-semibold"
+                  >
+                    {t("Fields.Category.Label")}
+                  </FieldLabel>
+
+                  <FieldContent>
+                    <Controller
+                      name="category_ids"
+                      control={control}
+                      render={({ field }) => {
+                        const selectedCategories = field.value ?? [];
+
+                        return (
+                          <>
+                            <div className="space-y-1.5">
+                              <div className="flex flex-wrap gap-2">
+                                {categories.map((category) => {
+                                  const isSelected =
+                                    selectedCategories.includes(category.id);
+
+                                  return (
+                                    <Badge
+                                      key={category.id}
+                                      variant="outline"
+                                      className={cn(
+                                        `h-6 text-xs px-4 cursor-pointer`,
+                                        { "bg-primary/20 border": isSelected },
+                                      )}
+                                      onClick={() => {
+                                        const nextCategories = isSelected
+                                          ? selectedCategories.filter(
+                                              (i) => i !== category.id,
+                                            )
+                                          : [
+                                              ...selectedCategories,
+                                              category.id,
+                                            ];
+                                        field.onChange(nextCategories);
+                                      }}
+                                    >
+                                      {category.name[locale]}
+                                    </Badge>
+                                  );
+                                })}
+                              </div>
+                            </div>
+
+                            <FieldError errors={[errors.category_ids]} />
+                          </>
+                        );
+                      }}
+                    />
+                  </FieldContent>
+                </Field>
+              </div>
+            )}
 
             <Switch
               name="is_active"
