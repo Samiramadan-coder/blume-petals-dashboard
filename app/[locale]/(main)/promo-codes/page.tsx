@@ -1,9 +1,11 @@
 import { http } from "@/lib/http";
+import { Suspense } from "react";
 import { Pagination } from "@/types/shared";
 import { CategoryResponse } from "@/types/categories";
 import Summary from "@/components/promo-codes/summary";
 import DataPreview from "@/components/promo-codes/data-preview";
 import { Coupon, PromoCodesSummary } from "@/types/promo-codes";
+import PromoCodesSkeleton from "@/components/promo-codes/promo-codes-skeleton";
 
 type SearchParams = {
   query?: string;
@@ -11,13 +13,11 @@ type SearchParams = {
   page?: string;
 };
 
-export default async function PromoCodesPage({
+async function PromoCodesPage({
   searchParams,
 }: {
-  searchParams: Promise<SearchParams>;
+  searchParams: SearchParams;
 }) {
-  const params = await searchParams;
-
   // Fetch promo codes data
   const { data: promoCodesData, ok: ok1 } = await http.get<{
     data: {
@@ -27,9 +27,9 @@ export default async function PromoCodesPage({
     };
   }>("/api/v1/admin/coupons", {
     params: {
-      q: params.query || "",
-      status: params.status || "",
-      page: params.page || 1,
+      q: searchParams.query || "",
+      status: searchParams.status || "",
+      page: searchParams.page || 1,
     },
     next: {
       revalidate: 60,
@@ -62,5 +62,17 @@ export default async function PromoCodesPage({
         categories={categories.data.items}
       />
     </main>
+  );
+}
+
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  return (
+    <Suspense fallback={<PromoCodesSkeleton />}>
+      <PromoCodesPage searchParams={await searchParams} />
+    </Suspense>
   );
 }

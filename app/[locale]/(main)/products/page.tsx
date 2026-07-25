@@ -6,6 +6,8 @@ import { getTranslations } from "next-intl/server";
 import { OccasionResponse } from "@/types/occasions";
 import { CategoryResponse } from "@/types/categories";
 import DataPreview from "@/components/products/data-preview";
+import { Suspense } from "react";
+import ProductsSkeleton from "@/components/products/products-skeleton";
 
 type SearchParams = {
   page?: string;
@@ -26,13 +28,8 @@ export async function generateMetadata() {
   };
 }
 
-export default async function ProductsPage({
-  searchParams,
-}: {
-  searchParams: Promise<SearchParams>;
-}) {
-  const params = await searchParams;
-  const activeTab = params.type || "default";
+async function ProductsPage({ searchParams }: { searchParams: SearchParams }) {
+  const activeTab = searchParams.type || "default";
   const t = await getTranslations("Products");
 
   // Fetch categories
@@ -70,9 +67,9 @@ export default async function ProductsPage({
       },
       params: {
         per_page: 10,
-        q: params.query ?? "",
-        page: params.page ?? 1,
-        category_id: params.category ?? "",
+        q: searchParams.query ?? "",
+        page: searchParams.page ?? 1,
+        category_id: searchParams.category ?? "",
         category_type: activeTab === "default" ? "" : "addon",
       },
     },
@@ -108,5 +105,17 @@ export default async function ProductsPage({
         type={activeTab}
       />
     </main>
+  );
+}
+
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  return (
+    <Suspense fallback={<ProductsSkeleton />}>
+      <ProductsPage searchParams={await searchParams} />
+    </Suspense>
   );
 }

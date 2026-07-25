@@ -6,13 +6,15 @@ import { http } from "@/lib/http";
 import { City, Country } from "@/types/countries-cities";
 import { Pagination } from "@/types/shared";
 import { getTranslations } from "next-intl/server";
+import { Suspense } from "react";
+import CountriesCitiesSkeleton from "@/components/countries-cities/countries-cities-skeleton";
 
 type SearchParams = {
   type?: "countries" | "cities";
   page?: string;
 };
 
-export default async function CountriesCitiesPage({
+async function CountriesCitiesPage({
   searchParams,
 }: {
   searchParams: SearchParams;
@@ -95,5 +97,17 @@ export default async function CountriesCitiesPage({
         />
       )}
     </main>
+  );
+}
+
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  return (
+    <Suspense fallback={<CountriesCitiesSkeleton />}>
+      <CountriesCitiesPage searchParams={await searchParams} />
+    </Suspense>
   );
 }

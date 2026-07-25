@@ -4,6 +4,8 @@ import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
 import DataPreview from "@/components/categories/data-preview";
 import { CategoryResponse, CategoryType } from "@/types/categories";
+import { Suspense } from "react";
+import CategoriesSkeleton from "@/components/categories/categories-skeleton";
 
 type PageParams = {
   page?: string;
@@ -22,20 +24,15 @@ export async function generateMetadata() {
   };
 }
 
-export default async function CategoriesPage({
-  searchParams,
-}: {
-  searchParams: PageParams;
-}) {
+async function CategoriesPage({ searchParams }: { searchParams: PageParams }) {
   const t = await getTranslations("Categories");
-  const params = await searchParams;
-  const activeTab = params.type || "bouquet";
+  const activeTab = searchParams.type || "bouquet";
 
   const { data, ok } = await http.get<CategoryResponse>(
     "/api/v1/admin/categories",
     {
       params: {
-        page: params.page || 1,
+        page: searchParams.page || 1,
         per_page: 10,
         type: activeTab === "addon" ? "addon" : "",
       },
@@ -78,5 +75,16 @@ export default async function CategoriesPage({
         type={activeTab}
       />
     </main>
+  );
+}
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<PageParams>;
+}) {
+  return (
+    <Suspense fallback={<CategoriesSkeleton />}>
+      <CategoriesPage searchParams={await searchParams} />
+    </Suspense>
   );
 }
