@@ -47,6 +47,8 @@ async function CategoriesPage({ searchParams }: { searchParams: PageParams }) {
     throw new Error("Failed to fetch categories");
   }
 
+  console.log("Fetched categories data:", data);
+
   return (
     <main className="space-y-6">
       <div className="flex gap-2 items-center">

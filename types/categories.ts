@@ -62,6 +62,7 @@ export type Category = {
   banner_url: string;
   created_at: string;
   updated_at: string;
+  products_count: number;
 };
 
 export type CategoryResponse = {

@@ -101,7 +101,8 @@ export default function DataPreview({
 
             <TableCell className="px-4 py-3">
               <p className="font-semibold">
-                - <span className="font-normal">{t("Items")}</span>
+                {category.products_count}{" "}
+                <span className="font-normal">{t("Items")}</span>
               </p>
             </TableCell>
 
