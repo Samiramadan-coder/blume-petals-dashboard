@@ -12,6 +12,7 @@ import { Switch } from "../ui/switch";
 import Statistics from "./statistics";
 import { Button } from "../ui/button";
 import CreateEdit from "./create-edit";
+import { Spinner } from "../ui/spinner";
 import { Eye, Star } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { Checkbox } from "../ui/checkbox";
@@ -137,17 +138,7 @@ export default function DataPreview({
             </TableCell>
 
             <TableCell className="px-4 py-3">
-              <Switch
-                checked={product.status === "published"}
-                onClick={async () => {
-                  const result = await updateProductStatusAction(product);
-                  if (result.success) {
-                    toast.success(tCommon("VisibilityUpdated"));
-                    return;
-                  }
-                  toast.error(tCommon("VisibilityUpdateFailed"));
-                }}
-              />
+              <VisibilitySwitch product={product} />
             </TableCell>
 
             <TableCell className="px-4 py-3 text-center">
@@ -185,6 +176,38 @@ export default function DataPreview({
           </TableRow>
         ))}
       </DataTable>
+    </>
+  );
+}
+
+/**
+ * A switch component to toggle the visibility of a category.
+ */
+function VisibilitySwitch({ product }: { product: Product }) {
+  const tCommon = useTranslations("Common");
+  const [loading, setLoading] = useState(false);
+
+  return (
+    <>
+      {loading ? (
+        <Spinner className="text-primary" />
+      ) : (
+        <Switch
+          checked={product.status === "published"}
+          onClick={async () => {
+            setLoading(true);
+            const result = await updateProductStatusAction(product);
+            setLoading(false);
+
+            if (result.success) {
+              toast.success(tCommon("VisibilityUpdated"));
+              return;
+            }
+
+            toast.error(tCommon("VisibilityUpdateFailed"));
+          }}
+        />
+      )}
     </>
   );
 }

@@ -41,7 +41,7 @@ export function DataTable({
 
   return (
     <div className="border border-border rounded-lg overflow-hidden">
-      <Table className="">
+      <Table>
         <TableHeader>
           <TableRow>
             <TableHead className="px-4 py-4">
