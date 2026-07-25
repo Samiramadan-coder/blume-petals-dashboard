@@ -56,7 +56,7 @@ export default function Summary({ summary }: { summary: PromoCodesSummary }) {
           <CardContent className="flex items-center gap-4">
             <div>{stat.icon}</div>
             <div>
-              <p className="text-2xl font-semibold">{stat.value}</p>
+              <p className="text-2xl font-semibold mb-2">{stat.value}</p>
               <p className="text-xs text-muted-foreground">{stat.title}</p>
             </div>
           </CardContent>

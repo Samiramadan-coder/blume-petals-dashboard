@@ -56,6 +56,7 @@ export default async function PromoCodesPage({
     <main className="space-y-6">
       <Summary summary={promoCodesData.data.summary} />
       <DataPreview
+        key={JSON.stringify(promoCodesData.data.items)}
         coupons={promoCodesData.data.items}
         pagination={promoCodesData.data.pagination}
         categories={categories.data.items}
