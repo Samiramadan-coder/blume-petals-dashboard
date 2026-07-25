@@ -41,7 +41,7 @@ async function OccasionsCollectionsPage() {
 export default async function Page() {
   return (
     <Suspense fallback={<OccasionsSkeleton />}>
-      <OccasionsCollectionsPage />;
+      <OccasionsCollectionsPage />
     </Suspense>
   );
 }
