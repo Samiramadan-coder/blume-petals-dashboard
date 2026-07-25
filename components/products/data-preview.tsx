@@ -1,32 +1,31 @@
 "use client";
 
+import {
+  deleteProductAction,
+  updateProductStatusAction,
+} from "@/lib/products-actions";
 import Image from "next/image";
+import { toast } from "sonner";
+import { useState } from "react";
+import { Badge } from "../ui/badge";
+import { Switch } from "../ui/switch";
 import Statistics from "./statistics";
+import { Button } from "../ui/button";
 import CreateEdit from "./create-edit";
+import { Eye, Star } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 import { Checkbox } from "../ui/checkbox";
 import { Product } from "@/types/products";
 import EditBtn from "../reusable/edit-btn";
-import { useLocale, useTranslations } from "next-intl";
+import { Pagination } from "@/types/shared";
+import { Occasion } from "@/types/occasions";
+import { Category } from "@/types/categories";
 import FiltersControl from "./filters-control";
 import { columns } from "@/constants/products";
 import DeleteBtn from "../reusable/delete-btn";
 import { TableCell, TableRow } from "../ui/table";
 import { DataTable } from "../reusable/data-table";
-import { Switch } from "../ui/switch";
-import { Eye, Star } from "lucide-react";
-import { Badge } from "../ui/badge";
-import { Category } from "@/types/categories";
-import { Occasion } from "@/types/occasions";
-import { toast } from "sonner";
-import {
-  deleteProductAction,
-  updateProductStatusAction,
-} from "@/lib/products-actions";
-import { useState } from "react";
-import { Pagination } from "@/types/shared";
-import { useQueryParam } from "@/hooks/use-search-params";
-import { Link } from "@/i18n/navigation";
-import { Button } from "../ui/button";
+import { useLocale, useTranslations } from "next-intl";
 
 export default function DataPreview({
   products,
@@ -43,7 +42,6 @@ export default function DataPreview({
 }) {
   const locale = useLocale();
   const t = useTranslations("Products");
-  const { setQueryParam } = useQueryParam();
   const tCommon = useTranslations("Common");
   const [loadingDelete, setLoadingDelete] = useState(false);
 
@@ -62,7 +60,6 @@ export default function DataPreview({
         countUnit={t("Products")}
         currentPage={pagination.current_page}
         totalPages={pagination.last_page}
-        onPageChange={(page) => setQueryParam("page", page.toString())}
         onCheckboxChange={(checked) => console.log(checked)}
       >
         {products.map((product, index) => (

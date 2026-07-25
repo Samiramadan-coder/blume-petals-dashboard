@@ -31,9 +31,9 @@ export default async function ProductsPage({
 }: {
   searchParams: Promise<SearchParams>;
 }) {
-  const t = await getTranslations("Products");
   const params = await searchParams;
   const activeTab = params.type || "default";
+  const t = await getTranslations("Products");
 
   // Fetch categories
   const { data: categories } = await http.get<CategoryResponse>(
@@ -77,8 +77,6 @@ export default async function ProductsPage({
       },
     },
   );
-
-  console.log("Products data:", products);
 
   return (
     <main className="space-y-6">

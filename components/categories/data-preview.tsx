@@ -19,7 +19,6 @@ import { Pagination } from "@/types/shared";
 import DeleteBtn from "../reusable/delete-btn";
 import { columns } from "@/constants/categories";
 import { useLocale, useTranslations } from "next-intl";
-import { useQueryParam } from "@/hooks/use-search-params";
 import { Category, CategoryType } from "@/types/categories";
 import { ReorderableDataTable } from "../reusable/date-sortable-table";
 
@@ -34,7 +33,6 @@ export default function DataPreview({
 }) {
   const locale = useLocale();
   const t = useTranslations("Categories");
-  const { setQueryParam } = useQueryParam();
   const tCommon = useTranslations("Common");
   const [loadingDelete, setLoadingDelete] = useState(false);
   const [categories, setCategories] = useState(initialCategories);
@@ -63,7 +61,6 @@ export default function DataPreview({
         getRowId={(row) => row.id}
         currentPage={pagination.current_page}
         totalPages={pagination.last_page}
-        onPageChange={(page) => setQueryParam("page", page.toString())}
         rowsCount={categories.length}
         countUnit={t("Categories")}
         columns={columns((key) => t(key as never))}

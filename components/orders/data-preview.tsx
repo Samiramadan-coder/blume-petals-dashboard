@@ -5,13 +5,12 @@ import { Checkbox } from "../ui/checkbox";
 import { Pagination } from "@/types/shared";
 import { useTranslations } from "next-intl";
 import { columns } from "@/constants/orders";
+import { AddAdminNote } from "./admin-note";
 import FiltersControl from "./filters-control";
 import { ChangeStatus } from "./change-status";
 import { TableCell, TableRow } from "../ui/table";
 import { DataTable } from "../reusable/data-table";
 import { orderStatuses } from "@/constants/orders";
-import { useQueryParam } from "@/hooks/use-search-params";
-import { AddAdminNote } from "./admin-note";
 
 export default function DataPreview({
   orders,
@@ -21,7 +20,6 @@ export default function DataPreview({
   pagination: Pagination;
 }) {
   const t = useTranslations("Orders");
-  const { setQueryParam } = useQueryParam();
 
   return (
     <>
@@ -34,7 +32,6 @@ export default function DataPreview({
         currentPage={pagination.current_page}
         totalPages={pagination.last_page}
         onCheckboxChange={(checked) => console.log(checked)}
-        onPageChange={(page) => setQueryParam("page", page.toString())}
       >
         {orders.map((order, index) => {
           const statusIndex = orderStatuses(t).findIndex(

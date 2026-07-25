@@ -5,30 +5,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function createQueryStringUrl({
-  searchParams,
-  pathname,
-  key,
-  value,
-}: {
-  searchParams: URLSearchParams | string;
-  pathname: string;
-  key: string;
-  value?: string;
-}) {
-  const params = new URLSearchParams(searchParams.toString());
-
-  if (!value) {
-    params.delete(key);
-  } else {
-    params.set(key, value);
-  }
-
-  const queryString = params.toString();
-
-  return queryString ? `${pathname}?${queryString}` : pathname;
-}
-
 export const normalizeHexColor = (value: string) => {
   const trimmed = value.trim().toLowerCase();
 

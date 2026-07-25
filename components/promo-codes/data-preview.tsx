@@ -1,27 +1,26 @@
 "use client";
 
-import { Coupon } from "@/types/promo-codes";
-import { Pagination } from "@/types/shared";
-import { DataTable } from "../reusable/data-table";
-import { columns } from "@/constants/promo-codes";
-import { useTranslations } from "next-intl";
-import { useQueryParam } from "@/hooks/use-search-params";
-import { TableCell, TableRow } from "../ui/table";
-import CreateEdit from "./create-edit";
-import { Checkbox } from "../ui/checkbox";
-import { Spinner } from "../ui/spinner";
-import { Switch } from "../ui/switch";
-import { toast } from "sonner";
-import { useState } from "react";
 import {
   deleteCouponAction,
   updateCouponStatusAction,
 } from "@/lib/promo-codes";
+import { toast } from "sonner";
+import { useState } from "react";
+import { Switch } from "../ui/switch";
+import CreateEdit from "./create-edit";
+import { Spinner } from "../ui/spinner";
+import { Checkbox } from "../ui/checkbox";
 import EditBtn from "../reusable/edit-btn";
-import LimitProgress from "../ui/limit-progress";
-import DeleteBtn from "../reusable/delete-btn";
+import { Pagination } from "@/types/shared";
+import { useTranslations } from "next-intl";
+import { Coupon } from "@/types/promo-codes";
 import { Category } from "@/types/categories";
+import DeleteBtn from "../reusable/delete-btn";
 import FiltersControl from "./filters-control";
+import LimitProgress from "../ui/limit-progress";
+import { TableCell, TableRow } from "../ui/table";
+import { columns } from "@/constants/promo-codes";
+import { DataTable } from "../reusable/data-table";
 
 export default function DataPreview({
   coupons,
@@ -34,7 +33,6 @@ export default function DataPreview({
 }) {
   const t = useTranslations("PromoCodes");
   const tCommon = useTranslations("Common");
-  const { setQueryParam } = useQueryParam();
   const [loadingDelete, setLoadingDelete] = useState(false);
 
   return (
@@ -52,7 +50,6 @@ export default function DataPreview({
         currentPage={pagination.current_page}
         totalPages={pagination.last_page}
         onCheckboxChange={(checked) => console.log(checked)}
-        onPageChange={(page) => setQueryParam("page", page.toString())}
       >
         {coupons.map((coupon, index) => (
           <TableRow key={index}>

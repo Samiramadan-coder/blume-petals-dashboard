@@ -17,7 +17,6 @@ import EditBtn from "@/components/reusable/edit-btn";
 import { useLocale, useTranslations } from "next-intl";
 import DeleteBtn from "@/components/reusable/delete-btn";
 import { City, Country } from "@/types/countries-cities";
-import { useQueryParam } from "@/hooks/use-search-params";
 import { cityColumns } from "@/constants/countries-cities";
 import { ReorderableDataTable } from "@/components/reusable/date-sortable-table";
 
@@ -31,7 +30,6 @@ export default function DataPreview({
   countries: Country[];
 }) {
   const locale = useLocale();
-  const { setQueryParam } = useQueryParam();
   const tCommon = useTranslations("Common");
   const t = useTranslations("CountriesCities");
   const [loadingDelete, setLoadingDelete] = useState(false);
@@ -61,7 +59,6 @@ export default function DataPreview({
         getRowId={(row) => row.id}
         currentPage={pagination.current_page}
         totalPages={pagination.last_page}
-        onPageChange={(page) => setQueryParam("page", page.toString())}
         rowsCount={cities.length}
         countUnit={t("Cities")}
         columns={cityColumns((key) => t(key as never))}
