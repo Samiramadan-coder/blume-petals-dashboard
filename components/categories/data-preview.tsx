@@ -84,7 +84,7 @@ export default function DataPreview({
                   alt={category.name[locale]}
                   width={40}
                   height={60}
-                  className="rounded-md shadow-sm"
+                  className="rounded-md shadow-sm w-auto h-auto"
                 />
               ) : (
                 <div className="w-10 h-10 rounded-md bg-primary/20 grid place-content-center">

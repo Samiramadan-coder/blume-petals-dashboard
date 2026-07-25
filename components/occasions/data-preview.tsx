@@ -76,7 +76,7 @@ export default function DataPreview({
                 alt={occasion.name_translations[locale]}
                 width={40}
                 height={60}
-                className="rounded-md shadow-sm"
+                className="rounded-md shadow-sm w-auto h-auto"
               />
             </TableCell>
             <TableCell className="px-4 py-3">
