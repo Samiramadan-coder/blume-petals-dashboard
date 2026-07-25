@@ -9,10 +9,7 @@ export default function CountriesCitiesSkeleton() {
       </div>
 
       <div className="flex justify-between gap-4 mt-6">
-        <div className="space-y-2">
-          <Skeleton className="h-6 w-50" />
-          <Skeleton className="h-6 w-30" />
-        </div>
+        <Skeleton className="h-6 w-50" />
         <Skeleton className="h-12 w-40" />
       </div>
 

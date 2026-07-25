@@ -1,8 +1,10 @@
+import { Suspense } from "react";
 import { http } from "@/lib/http";
 import { Pagination } from "@/types/shared";
 import { Order, Summary } from "@/types/orders";
 import Statistics from "@/components/orders/statistics";
 import DataPreview from "@/components/orders/data-preview";
+import OrdersSkeleton from "@/components/orders/orders-skeleton";
 
 export const metadata = {
   title: "Orders",
@@ -16,11 +18,7 @@ type SearchParams = {
   page?: string;
 };
 
-export default async function OrdersPage({
-  searchParams,
-}: {
-  searchParams: Promise<SearchParams>;
-}) {
+async function OrdersPage({ searchParams }: { searchParams: SearchParams }) {
   const { status, query, dateFrom, dateTo, page } = await searchParams;
 
   const { data, ok } = await http.get<{
@@ -31,6 +29,7 @@ export default async function OrdersPage({
     };
   }>("/api/v1/admin/orders", {
     next: {
+      revalidate: 60,
       tags: ["orders"],
     },
     params: {
@@ -52,5 +51,17 @@ export default async function OrdersPage({
       <Statistics summary={data.data.summary} />
       <DataPreview orders={data.data.items} pagination={data.data.pagination} />
     </main>
+  );
+}
+
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  return (
+    <Suspense fallback={<OrdersSkeleton />}>
+      <OrdersPage searchParams={await searchParams} />;
+    </Suspense>
   );
 }
