@@ -469,5 +469,52 @@
       "Expired": "Expired",
       "Scheduled": "Scheduled"
     }
+  },
+  "DeliveryPickup": {
+    "Fields": {
+      "Name": {
+        "Label": "Name",
+        "Placeholder": "Enter name",
+        "Required": "Name is required",
+        "Min": "Name must be at least 2 characters"
+      },
+      "Address": {
+        "Label": "Address",
+        "Placeholder": "Enter address",
+        "Required": "Address is required",
+        "Min": "Address must be at least 5 characters"
+      },
+      "ReadyInText": {
+        "Label": "Ready In Text",
+        "Placeholder": "Enter ready in text",
+        "Required": "Ready in text is required",
+        "Min": "Ready in text must be at least 2 characters"
+      },
+      "Hours": {
+        "Label": "Hours",
+        "Placeholder": "Enter hours",
+        "Required": "Hours are required",
+        "Min": "Hours must be at least 2 characters"
+      },
+      "City": {
+        "Label": "City",
+        "Placeholder": "Select city",
+        "Required": "City is required"
+      },
+      "Latitude": {
+        "Label": "Latitude",
+        "Placeholder": "Enter latitude",
+        "Required": "Latitude is required"
+      },
+      "Longitude": {
+        "Label": "Longitude",
+        "Placeholder": "Enter longitude",
+        "Required": "Longitude is required"
+      },
+      "IsActive": {
+        "Label": "Active",
+        "Description": "Delivery/Pickup option is active and available to customers"
+      }
+    }
   }
 }
