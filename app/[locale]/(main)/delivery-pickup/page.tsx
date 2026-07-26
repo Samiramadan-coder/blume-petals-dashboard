@@ -3,8 +3,18 @@ import { Pagination } from "@/types/shared";
 import { City } from "@/types/countries-cities";
 import DataPreview from "@/components/delivery-pickup/data-preview";
 import { DeliveryPickupLocation } from "@/types/delivery-pickup-locations";
+import { Suspense } from "react";
+import DeliveryPickupSkeleton from "@/components/delivery-pickup/delivery-pickup-skeleton";
 
-export default async function DeliveryAndPickupPage() {
+type SearchParams = {
+  page?: string;
+};
+
+async function DeliveryAndPickupPage({
+  searchParams,
+}: {
+  searchParams: SearchParams;
+}) {
   // Fetch cities for the CreateEdit component
   const { data: cities, ok: citiesOk } = await http.get<{
     data: {
@@ -13,6 +23,7 @@ export default async function DeliveryAndPickupPage() {
   }>("/api/v1/admin/cities", {
     next: {
       tags: ["cities"],
+      revalidate: 60,
     },
     params: {
       per_page: 1000,
@@ -27,10 +38,12 @@ export default async function DeliveryAndPickupPage() {
     };
   }>("/api/v1/admin/pickup-locations", {
     next: {
+      revalidate: 60,
       tags: ["delivery-pickup-locations"],
     },
     params: {
-      per_page: 1000,
+      per_page: 10,
+      page: searchParams.page || 1,
     },
   });
 
@@ -47,5 +60,17 @@ export default async function DeliveryAndPickupPage() {
         pagination={locations.data.pagination}
       />
     </main>
+  );
+}
+
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  return (
+    <Suspense fallback={<DeliveryPickupSkeleton />}>
+      <DeliveryAndPickupPage searchParams={await searchParams} />
+    </Suspense>
   );
 }
