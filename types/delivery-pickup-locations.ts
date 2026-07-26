@@ -1,5 +1,5 @@
 import z from "zod";
-import { T } from "./shared";
+import { LocaleObj, T } from "./shared";
 
 export const deliveryPickupLocationSchema = (t: T) =>
   z.object({
@@ -46,3 +46,18 @@ export const deliveryPickupLocationSchema = (t: T) =>
 export type DeliveryPickupLocationFormValues = z.infer<
   ReturnType<typeof deliveryPickupLocationSchema>
 >;
+
+export type DeliveryPickupLocation = {
+  id: number;
+  name: LocaleObj;
+  address: LocaleObj;
+  hours: string;
+  ready_in_text: LocaleObj;
+  city_id: number;
+  latitude: string;
+  longitude: string;
+  is_active: boolean;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+};

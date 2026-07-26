@@ -468,54 +468,63 @@
     }
   },
   "DeliveryPickupLocations": {
-    "Title": "Delivery & Pickup Locations",
-    "Description": "Manage your delivery and pickup locations.",
-    "AddLocation": "Add Location",
-    "EditLocation": "Edit Location",
+    "Title": "مواقع التوصيل والاستلام",
+    "Description": "قم بإدارة مواقع التوصيل والاستلام الخاصة بك.",
+    "AddLocation": "إضافة موقع",
+    "EditLocation": "تعديل الموقع",
+    "Locations": "المواقع",
     "Fields": {
       "Name": {
-        "Label": "Name",
-        "Placeholder": "Enter name",
-        "Required": "Name is required",
-        "Min": "Name must be at least 2 characters"
+        "Label": "الاسم",
+        "Placeholder": "أدخل الاسم",
+        "Required": "الاسم مطلوب",
+        "Min": "يجب ألا يقل الاسم عن حرفين"
       },
       "Address": {
-        "Label": "Address",
-        "Placeholder": "Enter address",
-        "Required": "Address is required",
-        "Min": "Address must be at least 5 characters"
+        "Label": "العنوان",
+        "Placeholder": "أدخل العنوان",
+        "Required": "العنوان مطلوب",
+        "Min": "يجب ألا يقل العنوان عن 5 أحرف"
       },
       "ReadyInText": {
-        "Label": "Ready In Text",
-        "Placeholder": "Enter ready in text",
-        "Required": "Ready in text is required",
-        "Min": "Ready in text must be at least 2 characters"
+        "Label": "جاهز خلال",
+        "Placeholder": "أدخل الوقت المتوقع للجاهزية",
+        "Required": "الوقت المتوقع للجاهزية مطلوب",
+        "Min": "يجب ألا يقل الوقت المتوقع للجاهزية عن حرفين"
       },
       "Hours": {
-        "Label": "Hours",
-        "Placeholder": "Enter hours",
-        "Required": "Hours are required",
-        "Min": "Hours must be at least 2 characters"
+        "Label": "ساعات العمل",
+        "Placeholder": "أدخل ساعات العمل",
+        "Required": "ساعات العمل مطلوبة",
+        "Min": "يجب ألا تقل ساعات العمل عن حرفين"
       },
       "City": {
-        "Label": "City",
-        "Placeholder": "Select city",
-        "Required": "City is required"
+        "Label": "المدينة",
+        "Placeholder": "اختر المدينة",
+        "Required": "المدينة مطلوبة"
       },
       "Latitude": {
-        "Label": "Latitude",
-        "Placeholder": "Enter latitude",
-        "Required": "Latitude is required"
+        "Label": "خط العرض",
+        "Placeholder": "أدخل خط العرض",
+        "Required": "خط العرض مطلوب"
       },
       "Longitude": {
-        "Label": "Longitude",
-        "Placeholder": "Enter longitude",
-        "Required": "Longitude is required"
+        "Label": "خط الطول",
+        "Placeholder": "أدخل خط الطول",
+        "Required": "خط الطول مطلوب"
       },
       "IsActive": {
-        "Label": "Active",
-        "Description": "Delivery/Pickup option is active and available to customers"
+        "Label": "نشط",
+        "Description": "خيار التوصيل/الاستلام نشط ومتاح للعملاء"
       }
+    },
+    "Table": {
+      "Name": "الاسم",
+      "Address": "العنوان",
+      "ReadyInText": "جاهز خلال",
+      "Hours": "ساعات العمل",
+      "Status": "الحالة",
+      "Actions": "الإجراءات"
     }
   }
 }

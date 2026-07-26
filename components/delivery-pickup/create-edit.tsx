@@ -1,38 +1,59 @@
 "use client";
 
+import {
+  DeliveryPickupLocation,
+  DeliveryPickupLocationFormValues,
+  deliveryPickupLocationSchema,
+} from "@/types/delivery-pickup-locations";
+
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 import Input from "../form/input";
 import Select from "../form/select";
 import Switch from "../form/switch";
 import Footer from "../form/footer";
 import { Button } from "../ui/button";
+import React, { useRef } from "react";
 import FormHeader from "../form/header";
 import RichText from "../form/rich-text";
 import AddButton from "../form/add-button";
 import { City } from "@/types/countries-cities";
+import LocationPicker from "../form/location-picker";
+import { availableLocales } from "@/constants/shared";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useLocale, useTranslations } from "next-intl";
+import { useFormLocale } from "@/hooks/use-form-locale";
 import LocaleFormSwitcher from "../reusable/locale-form-switcher";
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../ui/sheet";
-import { useLocale, useTranslations } from "next-intl";
-import React, { useRef } from "react";
-import { cn } from "@/lib/utils";
-import { useFormLocale } from "@/hooks/use-form-locale";
-import { availableLocales } from "@/constants/shared";
-import { useForm, SubmitHandler } from "react-hook-form";
-import {
-  DeliveryPickupLocationFormValues,
-  deliveryPickupLocationSchema,
-} from "@/types/delivery-pickup-locations";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm, SubmitHandler, Controller, useWatch } from "react-hook-form";
+import { postDeliveryPickupLocationAction } from "@/lib/delivery-pickup-locations";
+
+function getDefaultValues(location?: DeliveryPickupLocation) {
+  return {
+    name: location?.name || { en: "", ar: "" },
+    address: location?.address || { en: "", ar: "" },
+    ready_in_text: location?.ready_in_text || { en: "", ar: "" },
+    hours: location?.hours || "",
+    city_id: location?.city_id || 0,
+    latitude: location?.latitude ? parseFloat(location.latitude) : 25.2048,
+    longitude: location?.longitude ? parseFloat(location.longitude) : 55.2708,
+    is_active: location?.is_active ?? true,
+  };
+}
 
 export default function CreateEdit({
   cities,
   trigger,
+  location,
 }: {
   cities: City[];
   trigger?: React.ReactNode;
+  location?: DeliveryPickupLocation;
 }) {
   const locale = useLocale();
-  const closeBtn = useRef<HTMLButtonElement>(null);
+  const tCommon = useTranslations("Common");
   const form = useRef<HTMLFormElement>(null);
+  const closeBtn = useRef<HTMLButtonElement>(null);
   const t = useTranslations("DeliveryPickupLocations");
   const { activeLocale, changeLocale, dir, isArabic, tLive } = useFormLocale(
     "DeliveryPickupLocations",
@@ -41,19 +62,52 @@ export default function CreateEdit({
   const {
     register,
     control,
-    formState: { errors, isSubmitting },
+    setValue,
     handleSubmit,
     clearErrors,
+    setError,
+    formState: { errors, isSubmitting },
   } = useForm<DeliveryPickupLocationFormValues>({
+    defaultValues: getDefaultValues(location),
     resolver: zodResolver(
       deliveryPickupLocationSchema((key) => tLive(key as never)),
     ),
   });
 
+  // Watch latitude and longitude fields to update the LocationPicker component
+  const watchLatitude = useWatch({ control, name: "latitude" });
+  const watchLongitude = useWatch({ control, name: "longitude" });
+
+  // Handle form submission
   const onSubmit: SubmitHandler<DeliveryPickupLocationFormValues> = async (
     data,
   ) => {
-    console.log(data);
+    const result = await postDeliveryPickupLocationAction(data, location?.id);
+
+    if (result.success) {
+      toast.success(
+        location
+          ? tCommon("UpdatedSuccessfully")
+          : tCommon("CreatedSuccessfully"),
+      );
+      form.current?.reset();
+      closeBtn.current?.click();
+      return;
+    }
+
+    if (result.errors) {
+      Object.entries(result.errors).forEach(([field, message]) => {
+        toast.error(message);
+        setError(field as keyof DeliveryPickupLocationFormValues, {
+          type: "server",
+          message,
+        });
+      });
+
+      return;
+    }
+
+    toast.error(location ? tCommon("UpdateFailed") : tCommon("CreationFailed"));
   };
 
   return (
@@ -101,6 +155,25 @@ export default function CreateEdit({
             }}
             className="space-y-6 relative"
           >
+            <div className="col-span-1 md:col-span-2">
+              <Controller
+                control={control}
+                name="latitude"
+                render={() => (
+                  <LocationPicker
+                    value={{
+                      latitude: watchLatitude,
+                      longitude: watchLongitude,
+                    }}
+                    onChange={(location) => {
+                      setValue("latitude", location.latitude);
+                      setValue("longitude", location.longitude);
+                    }}
+                  />
+                )}
+              />
+            </div>
+
             {availableLocales.map((locale) => (
               <React.Fragment key={locale}>
                 <Input<DeliveryPickupLocationFormValues>
@@ -171,53 +244,6 @@ export default function CreateEdit({
               label={tLive("Fields.IsActive.Label")}
               description={tLive("Fields.IsActive.Description")}
             />
-
-            {/* <Select<DeliveryPickupLocationFormValues>
-              control={control}
-              label={tLive("Fields.Category")}
-              name="category_id"
-              placeholder={tLive("Placeholders.Category")}
-              required
-              dir={dir}
-              options={categories.map((category) => ({
-                value: category.id,
-                label: category.name[activeLocale],
-              }))}
-            /> */}
-
-            {/* <Input<DeliveryPickupLocationFormValues>
-              label={tLive("Fields.SKU")}
-              name="sku"
-              type="text"
-              placeholder={tLive("Placeholders.SKU")}
-              register={register}
-              errors={errors}
-              required
-            /> */}
-
-            {/* {availableLocales.map((locale) => (
-              <div
-                key={locale}
-                className={cn({
-                  hidden: activeLocale !== locale,
-                })}
-              >
-                <RichText<DeliveryPickupLocationFormValues>
-                  key={activeLocale}
-                  control={control}
-                  label={tLive("Fields.Description")}
-                  name={`description.${locale}`}
-                  placeholder={tLive("Placeholders.Description")}
-                />
-              </div>
-            ))} */}
-
-            {/* <Switch
-              name="is_new"
-              control={control}
-              label={tLive("Fields.ShowNewBadge")}
-              description={tLive("Fields.ShowNewBadgeDescription")}
-            /> */}
           </form>
         </div>
 

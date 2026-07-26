@@ -475,6 +475,7 @@
     "Description": "Manage your delivery and pickup locations.",
     "AddLocation": "Add Location",
     "EditLocation": "Edit Location",
+    "Locations": "Locations",
     "Fields": {
       "Name": {
         "Label": "Name",
@@ -519,6 +520,14 @@
         "Label": "Active",
         "Description": "Delivery/Pickup option is active and available to customers"
       }
+    },
+    "Table": {
+      "Name": "Name",
+      "Address": "Address",
+      "ReadyInText": "Ready In Text",
+      "Hours": "Hours",
+      "Status": "Status",
+      "Actions": "Actions"
     }
   }
 }
