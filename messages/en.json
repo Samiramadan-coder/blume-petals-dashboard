@@ -470,7 +470,11 @@
       "Scheduled": "Scheduled"
     }
   },
-  "DeliveryPickup": {
+  "DeliveryPickupLocations": {
+    "Title": "Delivery & Pickup Locations",
+    "Description": "Manage your delivery and pickup locations.",
+    "AddLocation": "Add Location",
+    "EditLocation": "Edit Location",
     "Fields": {
       "Name": {
         "Label": "Name",
