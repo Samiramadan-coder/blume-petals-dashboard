@@ -8,7 +8,7 @@ import {
 import { toast } from "sonner";
 import Image from "next/image";
 import { useState } from "react";
-import { cn } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 import { Badge } from "../ui/badge";
 import { Switch } from "../ui/switch";
 import CreateEdit from "./create-edit";
@@ -90,9 +90,9 @@ export default function DataPreview({
 
             <TableCell>
               {occasion.starts_at && occasion.ends_at ? (
-                <span>
-                  {new Date(occasion.starts_at).toLocaleDateString(locale)} -{" "}
-                  {new Date(occasion.ends_at).toLocaleDateString(locale)}
+                <span className="text-muted-foreground text-xs">
+                  {formatDate(occasion.starts_at)} -{" "}
+                  {formatDate(occasion.ends_at)}
                 </span>
               ) : (
                 <span>-</span>

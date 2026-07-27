@@ -21,6 +21,7 @@ import LimitProgress from "../ui/limit-progress";
 import { TableCell, TableRow } from "../ui/table";
 import { columns } from "@/constants/promo-codes";
 import { DataTable } from "../reusable/data-table";
+import { formatDate } from "@/lib/utils";
 
 export default function DataPreview({
   coupons,
@@ -102,12 +103,12 @@ export default function DataPreview({
             <TableCell className="px-4 py-3">
               {coupon.starts_at && coupon.expires_at ? (
                 <p className="text-muted-foreground text-xs">
-                  {new Date(coupon.starts_at).toLocaleDateString()} -{" "}
-                  {new Date(coupon.expires_at).toLocaleDateString()}
+                  {formatDate(coupon.starts_at)} -{" "}
+                  {formatDate(coupon.expires_at)}
                 </p>
               ) : coupon.starts_at ? (
                 <p className="text-muted-foreground text-xs">
-                  {t("From")}: {new Date(coupon.starts_at).toLocaleDateString()}
+                  {t("From")}: {formatDate(coupon.starts_at)}
                 </p>
               ) : (
                 <p className="text-muted-foreground text-xs">
