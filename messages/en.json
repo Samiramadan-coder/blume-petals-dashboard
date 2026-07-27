@@ -407,6 +407,8 @@
     "PerCustomerLimit": "Per Customer",
     "UnlimitedDate": "Unlimited Date",
     "From": "From",
+    "AllProducts": "All Products",
+    "SpecificCategory": "Specific Category",
     "Fields": {
       "Code": {
         "Label": "Promo Code",

@@ -10,6 +10,7 @@ import { columns } from "@/constants/customers";
 import { TableCell, TableRow } from "../ui/table";
 import { DataTable } from "../reusable/data-table";
 import CellDataNotFound from "../reusable/cell-data-not-found";
+import Image from "next/image";
 
 export default function DataPreview({
   initialCustomers,
@@ -40,9 +41,20 @@ export default function DataPreview({
 
             <TableCell className="px-4 py-3">
               <div className="flex items-center gap-4">
-                <div className="w-8 h-8 flex items-center justify-center bg-primary/30 rounded-full">
-                  {customer.name.slice(0, 1)}
-                </div>
+                {customer.photo_url ? (
+                  <Image
+                    src={customer.photo_url}
+                    alt={customer.name}
+                    width={32}
+                    height={32}
+                    className="w-8 h-8 rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="w-8 h-8 flex items-center justify-center bg-primary/30 rounded-full">
+                    {customer.name.slice(0, 1)}
+                  </div>
+                )}
+
                 <p className="font-medium">{customer.name}</p>
               </div>
             </TableCell>

@@ -73,8 +73,14 @@ export default function DataPreview({
         }}
         renderCells={(country) => (
           <>
-            <TableCell className="px-4 py-3">{country.name[locale]}</TableCell>
-            <TableCell className="px-4 py-3">{country.code}</TableCell>
+            <TableCell className="px-4 py-3">
+              <p className="text-muted-foreground">{country.name[locale]}</p>
+            </TableCell>
+
+            <TableCell className="px-4 py-3">
+              <p className="font-bold">{country.code}</p>
+            </TableCell>
+
             <TableCell className="px-4 py-3">
               <VisibilitySwitch country={country} />
             </TableCell>
@@ -91,12 +97,10 @@ export default function DataPreview({
                   setLoadingDelete(true);
                   const result = await deleteCountryAction(country);
                   setLoadingDelete(false);
-
                   if (result.success) {
                     toast.success(tCommon("DeletedSuccessfully"));
                     return;
                   }
-
                   toast.error(tCommon("DeleteFailed"));
                 }}
                 loading={loadingDelete}

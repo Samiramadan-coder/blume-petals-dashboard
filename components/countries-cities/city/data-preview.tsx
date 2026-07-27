@@ -78,13 +78,19 @@ export default function DataPreview({
         }}
         renderCells={(city) => (
           <>
-            <TableCell className="px-4 py-3">{city.name[locale]}</TableCell>
-
             <TableCell className="px-4 py-3">
-              {city.country.name[locale]}
+              <p className="text-muted-foreground">{city.name[locale]}</p>
             </TableCell>
 
-            <TableCell className="px-4 py-3">{city.delivery_fee}</TableCell>
+            <TableCell className="px-4 py-3">
+              <p className="text-muted-foreground">
+                {city.country.name[locale]}
+              </p>
+            </TableCell>
+
+            <TableCell className="px-4 py-3">
+              <p className="font-bold">{city.delivery_fee}</p>
+            </TableCell>
 
             <TableCell className="px-4 py-3">
               <VisibilitySwitch city={city} />

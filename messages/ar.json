@@ -404,6 +404,8 @@
     "PerCustomerLimit": "لكل عميل",
     "UnlimitedDate": "بدون تاريخ انتهاء",
     "From": "من",
+    "AllProducts": "جميع المنتجات",
+    "SpecificCategory": "تصنيف محدد",
     "Fields": {
       "Code": {
         "Label": "كود الخصم",

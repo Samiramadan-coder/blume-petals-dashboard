@@ -58,7 +58,14 @@ export default function DataPreview({
             </TableCell>
 
             <TableCell className="px-4 py-3">
-              <p>{coupon.code}</p>
+              <div>
+                <p className="font-bold">{coupon.code}</p>
+                <p className="text-[10px] text-muted-foreground mt-1">
+                  {coupon.scope === "all"
+                    ? t("AllProducts")
+                    : t("SpecificCategory")}
+                </p>
+              </div>
             </TableCell>
 
             <TableCell className="px-4 py-3">
