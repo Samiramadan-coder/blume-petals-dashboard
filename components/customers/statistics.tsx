@@ -1,9 +1,9 @@
 import { UsersRound, Star, TrendingUp, ShoppingBag } from "lucide-react";
 import { Card, CardContent } from "../ui/card";
-import { StatisticsData } from "@/types/customers";
+// import { StatisticsData } from "@/types/customers";
 
 export default function Statistics() {
-  const statisticsData: StatisticsData[] = [
+  const statisticsData = [
     {
       title: "Total Customers",
       value: 10,
