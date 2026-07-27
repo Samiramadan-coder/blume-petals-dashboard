@@ -5,7 +5,7 @@ import { City } from "@/types/countries-cities";
 import { getTranslations } from "next-intl/server";
 import DataPreview from "@/components/delivery-pickup/data-preview";
 import { DeliveryPickupLocation } from "@/types/delivery-pickup-locations";
-import DeliveryPickupSkeleton from "@/components/delivery-pickup/delivery-pickup-skeleton";
+import { Spinner } from "@/components/ui/spinner";
 
 export async function generateMetadata() {
   const t = await getTranslations("DeliveryPickupLocations");
@@ -77,7 +77,7 @@ export default async function Page({
   searchParams: Promise<SearchParams>;
 }) {
   return (
-    <Suspense fallback={<DeliveryPickupSkeleton />}>
+    <Suspense fallback={<Spinner className="h-8 w-8 text-primary" />}>
       <DeliveryAndPickupPage searchParams={await searchParams} />
     </Suspense>
   );

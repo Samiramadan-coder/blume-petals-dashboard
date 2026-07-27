@@ -4,6 +4,8 @@ import { getTranslations } from "next-intl/server";
 import { http } from "@/lib/http";
 import { User } from "@/types/customers";
 import { Pagination } from "@/types/shared";
+import { Suspense } from "react";
+import { Spinner } from "@/components/ui/spinner";
 
 export async function generateMetadata() {
   const t = await getTranslations("Customers");
@@ -20,12 +22,8 @@ type SearchParams = {
   is_blocked?: string;
 };
 
-export default async function CustomersPage({
-  searchParams,
-}: {
-  searchParams: Promise<SearchParams>;
-}) {
-  const { query, status, page, is_admin, is_blocked } = await searchParams;
+async function CustomersPage({ searchParams }: { searchParams: SearchParams }) {
+  const { query, status, page, is_admin, is_blocked } = searchParams;
 
   const { data, ok } = await http.get<{
     data: {
@@ -58,5 +56,17 @@ export default async function CustomersPage({
         pagination={data.data.pagination}
       />
     </main>
+  );
+}
+
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  return (
+    <Suspense fallback={<Spinner className="h-8 w-8 text-primary" />}>
+      <CustomersPage searchParams={await searchParams} />
+    </Suspense>
   );
 }

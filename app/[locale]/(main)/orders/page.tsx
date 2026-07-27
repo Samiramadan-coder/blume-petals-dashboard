@@ -3,8 +3,8 @@ import { http } from "@/lib/http";
 import { Pagination } from "@/types/shared";
 import { Order, Summary } from "@/types/orders";
 import DataPreview from "@/components/orders/data-preview";
-import OrdersSkeleton from "@/components/orders/orders-skeleton";
 import { getTranslations } from "next-intl/server";
+import { Spinner } from "@/components/ui/spinner";
 
 export async function generateMetadata() {
   const t = await getTranslations("Orders");
@@ -69,7 +69,7 @@ export default async function Page({
   searchParams: Promise<SearchParams>;
 }) {
   return (
-    <Suspense fallback={<OrdersSkeleton />}>
+    <Suspense fallback={<Spinner className="h-8 w-8 text-primary" />}>
       <OrdersPage searchParams={await searchParams} />
     </Suspense>
   );

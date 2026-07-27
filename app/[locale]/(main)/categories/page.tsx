@@ -5,7 +5,7 @@ import { getTranslations } from "next-intl/server";
 import DataPreview from "@/components/categories/data-preview";
 import { CategoryResponse, CategoryType } from "@/types/categories";
 import { Suspense } from "react";
-import CategoriesSkeleton from "@/components/categories/categories-skeleton";
+import { Spinner } from "@/components/ui/spinner";
 
 type PageParams = {
   page?: string;
@@ -83,7 +83,7 @@ export default async function Page({
   searchParams: Promise<PageParams>;
 }) {
   return (
-    <Suspense fallback={<CategoriesSkeleton />}>
+    <Suspense fallback={<Spinner className="h-8 w-8 text-primary" />}>
       <CategoriesPage searchParams={await searchParams} />
     </Suspense>
   );

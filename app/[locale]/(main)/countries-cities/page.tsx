@@ -7,7 +7,7 @@ import { City, Country } from "@/types/countries-cities";
 import { Pagination } from "@/types/shared";
 import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
-import CountriesCitiesSkeleton from "@/components/countries-cities/countries-cities-skeleton";
+import { Spinner } from "@/components/ui/spinner";
 
 export async function generateMetadata() {
   const t = await getTranslations("CountriesCities");
@@ -113,7 +113,7 @@ export default async function Page({
   searchParams: Promise<SearchParams>;
 }) {
   return (
-    <Suspense fallback={<CountriesCitiesSkeleton />}>
+    <Suspense fallback={<Spinner className="h-8 w-8 text-primary" />}>
       <CountriesCitiesPage searchParams={await searchParams} />
     </Suspense>
   );

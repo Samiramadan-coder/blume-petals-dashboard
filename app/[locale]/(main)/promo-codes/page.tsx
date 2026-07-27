@@ -5,11 +5,11 @@ import { CategoryResponse } from "@/types/categories";
 import Summary from "@/components/promo-codes/summary";
 import DataPreview from "@/components/promo-codes/data-preview";
 import { Coupon, PromoCodesSummary } from "@/types/promo-codes";
-import PromoCodesSkeleton from "@/components/promo-codes/promo-codes-skeleton";
 import { getTranslations } from "next-intl/server";
+import { Spinner } from "@/components/ui/spinner";
 
 export async function generateMetadata() {
-  const t = await getTranslations("Orders");
+  const t = await getTranslations("PromoCodes");
 
   return {
     title: t("Label"),
@@ -80,7 +80,7 @@ export default async function Page({
   searchParams: Promise<SearchParams>;
 }) {
   return (
-    <Suspense fallback={<PromoCodesSkeleton />}>
+    <Suspense fallback={<Spinner className="h-8 w-8 text-primary" />}>
       <PromoCodesPage searchParams={await searchParams} />
     </Suspense>
   );

@@ -3,7 +3,7 @@ import { http } from "@/lib/http";
 import { getTranslations } from "next-intl/server";
 import { OccasionResponse } from "@/types/occasions";
 import DataPreview from "@/components/occasions/data-preview";
-import OccasionsSkeleton from "@/components/occasions/occasions-skeleton";
+import { Spinner } from "@/components/ui/spinner";
 
 export async function generateMetadata() {
   const t = await getTranslations("Occasions");
@@ -40,7 +40,7 @@ async function OccasionsCollectionsPage() {
 
 export default async function Page() {
   return (
-    <Suspense fallback={<OccasionsSkeleton />}>
+    <Suspense fallback={<Spinner className="h-8 w-8 text-primary" />}>
       <OccasionsCollectionsPage />
     </Suspense>
   );

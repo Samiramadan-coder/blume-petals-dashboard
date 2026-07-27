@@ -7,7 +7,7 @@ import { OccasionResponse } from "@/types/occasions";
 import { CategoryResponse } from "@/types/categories";
 import DataPreview from "@/components/products/data-preview";
 import { Suspense } from "react";
-import ProductsSkeleton from "@/components/products/products-skeleton";
+import { Spinner } from "@/components/ui/spinner";
 
 type SearchParams = {
   page?: string;
@@ -114,7 +114,7 @@ export default async function Page({
   searchParams: Promise<SearchParams>;
 }) {
   return (
-    <Suspense fallback={<ProductsSkeleton />}>
+    <Suspense fallback={<Spinner className="h-8 w-8 text-primary" />}>
       <ProductsPage searchParams={await searchParams} />
     </Suspense>
   );
