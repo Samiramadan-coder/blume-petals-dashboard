@@ -83,13 +83,19 @@ export default function CreateEdit({
     setValue,
     setError,
     getValues,
-    clearErrors,
+    trigger: triggerValidation,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isSubmitted },
   } = useForm<CategoryFormValues>({
     defaultValues: generateDefaultValues(totalCreatedItems, type, category),
     resolver: zodResolver(categorySchema((key) => tLive(key as never))),
   });
+
+  useEffect(() => {
+    if (isSubmitted) {
+      void triggerValidation();
+    }
+  }, [isSubmitted, triggerValidation, activeLocale]);
 
   // Watch the name and slug fields to handle automatic slug generation and manual edits
   const watchName = useWatch({ control, name: "name" });
@@ -186,7 +192,6 @@ export default function CreateEdit({
           locale={activeLocale}
           onChange={(locale) => {
             changeLocale(locale);
-            clearErrors();
           }}
         />
 
