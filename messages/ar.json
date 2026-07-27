@@ -241,7 +241,8 @@
       "StatusIsRequired": "حالة المنتج مطلوبة",
       "SizeIsRequired": "مطلوب حجم واحد على الأقل",
       "PriceIsRequired": "سعر المنتج مطلوب",
-      "StockQuantityIsRequired": "كمية المخزون مطلوبة"
+      "StockQuantityIsRequired": "كمية المخزون مطلوبة",
+      "AtLeastOneImageIsRequired": "يرجى تحميل صورة واحدة على الأقل"
     }
   },
   "Occasions": {

@@ -40,7 +40,7 @@ export const productSchema = (t: T) =>
         in_stock: z.boolean().optional(),
       }),
     ),
-    images: z.array(imageSchema).min(1, "Please upload at least one image"),
+    images: z.array(imageSchema).min(1, t("Errors.AtLeastOneImageIsRequired")),
     is_new: z.boolean(),
   });
 

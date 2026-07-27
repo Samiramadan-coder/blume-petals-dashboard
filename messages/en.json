@@ -242,7 +242,8 @@
       "StatusIsRequired": "Product status is required",
       "SizeIsRequired": "At least one size is required",
       "PriceIsRequired": "Product price is required",
-      "StockQuantityIsRequired": "Stock quantity is required"
+      "StockQuantityIsRequired": "Stock quantity is required",
+      "AtLeastOneImageIsRequired": "Please upload at least one image"
     }
   },
   "Occasions": {

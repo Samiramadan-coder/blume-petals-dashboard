@@ -15,7 +15,7 @@ import AddButton from "../form/add-button";
 import { Separator } from "../ui/separator";
 import { Occasion } from "@/types/occasions";
 import { Category } from "@/types/categories";
-import { useRef, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import SectionLabel from "../form/section-label";
 import ImageUploader from "../form/image-uploader";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -99,13 +99,19 @@ export default function CreateEdit({
     register,
     control,
     handleSubmit,
-    clearErrors,
     setError,
-    formState: { errors, isSubmitting },
+    trigger: triggerValidation,
+    formState: { errors, isSubmitting, isSubmitted },
   } = useForm<ProductFormValues>({
     resolver: zodResolver(productSchema((key) => tLive(key as never))),
     defaultValues: getDefaultValues(product),
   });
+
+  useEffect(() => {
+    if (isSubmitted) {
+      void triggerValidation();
+    }
+  }, [activeLocale, isSubmitted, triggerValidation]);
 
   const watchedVariants = useWatch({
     control,
@@ -182,7 +188,6 @@ export default function CreateEdit({
           locale={activeLocale}
           onChange={(locale) => {
             changeLocale(locale);
-            clearErrors();
           }}
         />
 
@@ -201,6 +206,7 @@ export default function CreateEdit({
             className="space-y-6 relative"
           >
             <ImageUploader
+              key={activeLocale}
               control={control}
               name="images"
               label={tLive("Fields.Photo")}
@@ -270,7 +276,6 @@ export default function CreateEdit({
               control={control}
               label={tLive("Fields.Tags")}
               placeholder={tLive("Placeholders.Tags")}
-              required
               maxTags={10}
             />
 
