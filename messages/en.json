@@ -35,7 +35,8 @@
     "New": "New",
     "AED": "AED",
     "ImageAddedSuccessfully": "Image added successfully",
-    "ImageAddFailed": "Failed to add image. Please try again."
+    "ImageAddFailed": "Failed to add image. Please try again.",
+    "NotFound": "Not Found"
   },
   "Auth": {
     "Login": {
@@ -534,5 +535,37 @@
       "Status": "Status",
       "Actions": "Actions"
     }
+  },
+  "Customers": {
+    "Stats": {
+      "TotalCustomers": "Total Customers",
+      "VipCustomers": "VIP Customers",
+      "VipSpent": "≥ AED 3,000 spent",
+      "NewThisMonth": "New This Month",
+      "AverageLifetimeValue": "Avg. Lifetime Value"
+    },
+    "SearchPlaceholder": "Search by name, email, phone",
+    "ExportCSV": "Export CSV",
+    "Title": "Customers",
+    "Filters": {
+      "All": "All",
+      "Vip": "VIP",
+      "New": "New",
+      "Returning": "Returning",
+      "Inactive": "Inactive",
+      "Wholesale": "Wholesale",
+      "IsAdmin": "Is Admin",
+      "IsBlocked": "Is Blocked"
+    },
+    "Table": {
+      "Customer": "Customer",
+      "Email": "Email",
+      "Phone": "Phone",
+      "Orders": "Orders",
+      "Spent": "Spent (AED)",
+      "LastOrder": "Last Order",
+      "Joined": "Joined"
+    },
+    "ShowingCustomers": "Showing {count} customers"
   }
 }

@@ -35,7 +35,8 @@
     "New": "جديد",
     "AED": "درهم",
     "ImageAddedSuccessfully": "تمت إضافة الصورة بنجاح",
-    "ImageAddFailed": "فشل في إضافة الصورة. يرجى المحاولة مرة أخرى."
+    "ImageAddFailed": "فشل في إضافة الصورة. يرجى المحاولة مرة أخرى.",
+    "NotFound": "غير موجود"
   },
   "Auth": {
     "Login": {
@@ -531,5 +532,37 @@
       "Status": "الحالة",
       "Actions": "الإجراءات"
     }
+  },
+  "Customers": {
+    "Stats": {
+      "TotalCustomers": "إجمالي العملاء",
+      "VipCustomers": "عملاء VIP",
+      "VipSpent": "أنفقوا 3,000 درهم أو أكثر",
+      "NewThisMonth": "الجدد هذا الشهر",
+      "AverageLifetimeValue": "متوسط قيمة العميل"
+    },
+    "SearchPlaceholder": "ابحث بالاسم أو البريد أو الهاتف",
+    "ExportCSV": "تصدير CSV",
+    "Title": "العملاء",
+    "Filters": {
+      "All": "الكل",
+      "Vip": "VIP",
+      "New": "جدد",
+      "Returning": "عائدون",
+      "Inactive": "غير نشطين",
+      "Wholesale": "جملة",
+      "IsAdmin": "مسؤول",
+      "IsBlocked": "محظور"
+    },
+    "Table": {
+      "Customer": "العميل",
+      "Email": "البريد الإلكتروني",
+      "Phone": "الهاتف",
+      "Orders": "الطلبات",
+      "Spent": "الإنفاق (درهم)",
+      "LastOrder": "آخر طلب",
+      "Joined": "تاريخ الانضمام"
+    },
+    "ShowingCustomers": "عرض {count} عميل"
   }
 }

@@ -1,35 +1,53 @@
+import { T } from "@/types/shared";
 import { DataTableColumn } from "@/components/reusable/data-table";
-import { Customer, CustomerStatus } from "@/types/customers";
 
-export const columns: DataTableColumn[] = [
-  { label: "customer" },
-  { label: "email" },
-  { label: "phone" },
-  { label: "orders" },
-  { label: "spent (aed)" },
-  { label: "last order" },
-  { label: "joined" },
-  { label: "tags" },
-];
-
-export const customersPlaceholder: Customer[] = [
+export const columns = (t: T): DataTableColumn[] => [
   {
-    customer: "John Doe",
-    email: "john.doe@example.com",
-    phone: "+1234567890",
-    orders: 5,
-    spent: 500,
-    lastOrder: "2024-06-01",
-    joined: "2023-01-01",
-    tags: ["VIP", "Returning"],
+    label: t("Table.Customer"),
+  },
+  {
+    label: t("Table.Email"),
+  },
+  {
+    label: t("Table.Phone"),
+  },
+  {
+    label: t("Table.Orders"),
+  },
+  {
+    label: t("Table.Spent"),
+  },
+  {
+    label: t("Table.LastOrder"),
+  },
+  {
+    label: t("Table.Joined"),
   },
 ];
 
-export const customersStatuses: CustomerStatus[] = [
-  { label: "All", value: "all" },
-  { label: "VIP", value: "vip" },
-  { label: "New", value: "new" },
-  { label: "Returning", value: "returning" },
-  { label: "Inactive", value: "inactive" },
-  { label: "Wholesale", value: "wholesale" },
+export const customersStatuses = (t: T) => [
+  {
+    label: t("Filters.All"),
+    value: "all",
+  },
+  {
+    label: t("Filters.Vip"),
+    value: "vip",
+  },
+  {
+    label: t("Filters.New"),
+    value: "new",
+  },
+  {
+    label: t("Filters.Returning"),
+    value: "returning",
+  },
+  {
+    label: t("Filters.Inactive"),
+    value: "inactive",
+  },
+  {
+    label: t("Filters.Wholesale"),
+    value: "wholesale",
+  },
 ];

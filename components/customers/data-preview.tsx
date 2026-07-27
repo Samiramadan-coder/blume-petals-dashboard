@@ -1,43 +1,86 @@
 "use client";
 
-import { columns } from "@/constants/customers";
-import { DataTable } from "../reusable/data-table";
-import FiltersControl from "./filters-control";
-import { TableCell, TableRow } from "../ui/table";
+import { User } from "@/types/customers";
+import { formatDate } from "@/lib/utils";
 import { Checkbox } from "../ui/checkbox";
-import { Button } from "../ui/button";
-import { Eye } from "lucide-react";
-import { Customer } from "@/types/customers";
+import { useTranslations } from "next-intl";
+import { Pagination } from "@/types/shared";
+import FiltersControl from "./filters-control";
+import { columns } from "@/constants/customers";
+import { TableCell, TableRow } from "../ui/table";
+import { DataTable } from "../reusable/data-table";
+import CellDataNotFound from "../reusable/cell-data-not-found";
 
-export default function DataPreview({ customers }: { customers: Customer[] }) {
+export default function DataPreview({
+  initialCustomers,
+  pagination,
+}: {
+  initialCustomers: User[];
+  pagination: Pagination;
+}) {
+  const t = useTranslations("Customers");
+
   return (
     <>
       <FiltersControl />
 
       <DataTable
-        columns={columns}
-        rowsCount={customers.length}
-        countUnit="customers"
-        onCheckboxChange={(checked) =>
-          console.log("Checkbox changed:", checked)
-        }
+        columns={columns(t)}
+        rowsCount={initialCustomers.length}
+        countUnit={t("Title")}
+        currentPage={pagination.current_page}
+        totalPages={pagination.last_page}
+        onCheckboxChange={(checked) => console.log(checked)}
       >
-        {customers.map((customer, index) => (
+        {initialCustomers.map((customer, index) => (
           <TableRow key={index}>
             <TableCell className="px-4 py-3">
               <Checkbox />
             </TableCell>
-            <TableCell className="px-4 py-3">-</TableCell>
-            <TableCell className="px-4 py-3">-</TableCell>
-            <TableCell className="px-4 py-3">-</TableCell>
-            <TableCell className="px-4 py-3">-</TableCell>
-            <TableCell className="px-4 py-3">-</TableCell>
-            <TableCell className="px-4 py-3">-</TableCell>
-            <TableCell className="px-4 py-3">-</TableCell>
+
             <TableCell className="px-4 py-3">
-              <Button variant="ghost">
-                <Eye className="text-muted-foreground" />
-              </Button>
+              <div className="flex items-center gap-4">
+                <div className="w-8 h-8 flex items-center justify-center bg-primary/30 rounded-full">
+                  {customer.name.slice(0, 1)}
+                </div>
+                <p className="font-medium">{customer.name}</p>
+              </div>
+            </TableCell>
+
+            <TableCell className="px-4 py-3">
+              <p className="text-muted-foreground">
+                {customer.email || <CellDataNotFound />}
+              </p>
+            </TableCell>
+
+            <TableCell className="px-4 py-3">
+              <p className="text-muted-foreground tracking-[1px]">
+                {customer.phone || <CellDataNotFound />}
+              </p>
+            </TableCell>
+
+            <TableCell className="px-4 py-3">
+              <p className="font-bold">{customer.orders_count}</p>
+            </TableCell>
+
+            <TableCell className="px-4 py-3">
+              <p className="font-bold">{customer.total_spent}</p>
+            </TableCell>
+
+            <TableCell className="px-4 py-3">
+              <p className="text-muted-foreground text-xs">
+                {customer.last_order_at ? (
+                  formatDate(customer.last_order_at)
+                ) : (
+                  <CellDataNotFound />
+                )}
+              </p>
+            </TableCell>
+
+            <TableCell className="px-4 py-3">
+              <p className="text-muted-foreground text-xs">
+                {formatDate(customer.created_at)}
+              </p>
             </TableCell>
           </TableRow>
         ))}

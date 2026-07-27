@@ -64,16 +64,13 @@ export function DataTable({
         <TableBody className="bg-white">{children}</TableBody>
         <TableFooter className="bg-white">
           <TableRow>
-            <TableCell
-              className="px-4 py-3 text-sm text-muted-foreground"
-              colSpan={columns.length}
-            >
+            <TableCell className="px-4 py-3 text-sm text-muted-foreground">
               {t("Showing")}{" "}
               <span className="font-semibold text-black">{rowsCount}</span>{" "}
               {countUnit}
             </TableCell>
 
-            <TableCell className="px-4 py-3" colSpan={columns.length - 1}>
+            <TableCell className="px-4 py-3" colSpan={columns.length}>
               {totalPages && currentPage && (
                 <PaginationTemplate
                   currentPage={currentPage}
