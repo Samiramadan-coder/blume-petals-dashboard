@@ -77,15 +77,21 @@ export default function CreateEdit({
     setValue,
     setError,
     getValues,
-    clearErrors,
+    trigger: triggerValidation,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isSubmitted },
   } = useForm<OccasionFormValues>({
     defaultValues: getDefaultValues(totalOccasionItems, occasion),
     resolver: zodResolver(
       occasionCollectionSchema((key) => tLive(key as never)),
     ),
   });
+
+  useEffect(() => {
+    if (isSubmitted) {
+      void triggerValidation();
+    }
+  }, [triggerValidation, isSubmitted, activeLocale]);
 
   // Watch the color, name, and slug fields for changes
   const watchColor = useWatch({ control, name: "color" });
@@ -179,7 +185,6 @@ export default function CreateEdit({
           locale={activeLocale}
           onChange={(locale) => {
             changeLocale(locale);
-            clearErrors();
           }}
         />
 

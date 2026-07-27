@@ -324,7 +324,7 @@
       "Required": "This field is required",
       "NameMinLength": "Name must be at least 2 characters",
       "CodeMinLength": "Code must be at least 2 characters",
-      "DeliveryFeeMinValue": "Delivery Fee must be at least 0"
+      "DeliveryFeeMinValue": "Delivery Fee must be at least 1"
     },
     "Labels": {
       "Details": "Details",

@@ -13,11 +13,11 @@ import Select from "../form/select";
 import Switch from "../form/switch";
 import Footer from "../form/footer";
 import { Button } from "../ui/button";
-import React, { useRef } from "react";
 import FormHeader from "../form/header";
 import RichText from "../form/rich-text";
 import AddButton from "../form/add-button";
 import { City } from "@/types/countries-cities";
+import React, { useEffect, useRef } from "react";
 import LocationPicker from "../form/location-picker";
 import { availableLocales } from "@/constants/shared";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -64,15 +64,21 @@ export default function CreateEdit({
     control,
     setValue,
     handleSubmit,
-    clearErrors,
+    trigger: triggerValidation,
     setError,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isSubmitted },
   } = useForm<DeliveryPickupLocationFormValues>({
     defaultValues: getDefaultValues(location),
     resolver: zodResolver(
       deliveryPickupLocationSchema((key) => tLive(key as never)),
     ),
   });
+
+  useEffect(() => {
+    if (isSubmitted) {
+      void triggerValidation();
+    }
+  }, [isSubmitted, triggerValidation, activeLocale]);
 
   // Watch latitude and longitude fields to update the LocationPicker component
   const watchLatitude = useWatch({ control, name: "latitude" });
@@ -137,7 +143,6 @@ export default function CreateEdit({
           locale={activeLocale}
           onChange={(locale) => {
             changeLocale(locale);
-            clearErrors();
           }}
         />
 

@@ -51,7 +51,7 @@ export const citySchema = (t: T) =>
         .min(2, t("Errors.NameMinLength")),
     }),
     country_id: z.number().min(1, t("Errors.Required")),
-    delivery_fee: z.number().min(0, t("Errors.DeliveryFeeMinValue")),
+    delivery_fee: z.number().min(1, t("Errors.DeliveryFeeMinValue")),
     is_active: z.boolean(),
     sort_order: z.number(),
   });

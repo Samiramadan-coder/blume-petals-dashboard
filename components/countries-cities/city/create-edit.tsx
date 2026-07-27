@@ -15,7 +15,7 @@ import {
 } from "@/types/countries-cities";
 
 import { toast } from "sonner";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import Input from "@/components/form/input";
 import Switch from "@/components/form/switch";
@@ -59,9 +59,9 @@ export default function CreateEdit({
     control,
     register,
     setError,
-    clearErrors,
+    trigger: triggerValidation,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isSubmitted },
   } = useForm<CityFormValues>({
     defaultValues: {
       name: city?.name || { en: "", ar: "" },
@@ -74,6 +74,12 @@ export default function CreateEdit({
     },
     resolver: zodResolver(citySchema((key) => tLive(key as never))),
   });
+
+  useEffect(() => {
+    if (isSubmitted) {
+      void triggerValidation();
+    }
+  }, [isSubmitted, triggerValidation, activeLocale]);
 
   // Handle form submission by calling the postCategoryAction function and displaying appropriate success or error messages
   const onSubmit: SubmitHandler<CityFormValues> = async (data) => {
@@ -126,7 +132,6 @@ export default function CreateEdit({
           locale={activeLocale}
           onChange={(locale) => {
             changeLocale(locale);
-            clearErrors();
           }}
         />
 
