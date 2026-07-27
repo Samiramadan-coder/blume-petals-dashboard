@@ -41,10 +41,10 @@ export function DataTable({
 
   return (
     <div className="border border-border rounded-lg overflow-hidden">
-      <Table>
+      <Table className="[&_thead_th:first-child]:w-8 [&_thead_th:first-child]:px-3 [&_tbody_td:first-child]:w-8 [&_tbody_td:first-child]:px-3">
         <TableHeader>
           <TableRow>
-            <TableHead className="px-4 py-4">
+            <TableHead className="w-8 px-3 py-4">
               <Checkbox onCheckedChange={onCheckboxChange} />
             </TableHead>
 
