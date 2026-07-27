@@ -1,10 +1,18 @@
+import { Suspense } from "react";
 import { http } from "@/lib/http";
 import { Pagination } from "@/types/shared";
 import { City } from "@/types/countries-cities";
+import { getTranslations } from "next-intl/server";
 import DataPreview from "@/components/delivery-pickup/data-preview";
 import { DeliveryPickupLocation } from "@/types/delivery-pickup-locations";
-import { Suspense } from "react";
 import DeliveryPickupSkeleton from "@/components/delivery-pickup/delivery-pickup-skeleton";
+
+export async function generateMetadata() {
+  const t = await getTranslations("DeliveryPickupLocations");
+  return {
+    title: t("Title"),
+  };
+}
 
 type SearchParams = {
   page?: string;

@@ -6,6 +6,15 @@ import Summary from "@/components/promo-codes/summary";
 import DataPreview from "@/components/promo-codes/data-preview";
 import { Coupon, PromoCodesSummary } from "@/types/promo-codes";
 import PromoCodesSkeleton from "@/components/promo-codes/promo-codes-skeleton";
+import { getTranslations } from "next-intl/server";
+
+export async function generateMetadata() {
+  const t = await getTranslations("Orders");
+
+  return {
+    title: t("Label"),
+  };
+}
 
 type SearchParams = {
   query?: string;

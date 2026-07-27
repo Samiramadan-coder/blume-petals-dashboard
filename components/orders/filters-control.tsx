@@ -3,6 +3,16 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "../ui/input-group";
+
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+
 import { cn } from "@/lib/utils";
 import { Field } from "../ui/field";
 import { Input } from "../ui/input";
@@ -10,29 +20,40 @@ import { Button } from "../ui/button";
 import { useTranslations } from "next-intl";
 import { Download, Search } from "lucide-react";
 import { orderStatuses } from "@/constants/orders";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { parseAsString, useQueryState } from "nuqs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function FiltersControl() {
   const t = useTranslations("Orders");
+
   const [queryParam, setQueryParam] = useQueryState(
     "query",
     parseAsString
       .withDefault("")
       .withOptions({ history: "push", shallow: false }),
   );
-  const [dateTo, setDateTo] = useQueryState(
-    "dateTo",
-    parseAsString
-      .withDefault("")
-      .withOptions({ history: "push", shallow: false }),
-  );
+
   const [status, setStatus] = useQueryState(
     "status",
     parseAsString
       .withDefault("all")
       .withOptions({ history: "push", shallow: false }),
   );
+
+  const [channel, setChannel] = useQueryState(
+    "channel",
+    parseAsString
+      .withDefault("")
+      .withOptions({ history: "push", shallow: false }),
+  );
+
+  const [dateTo, setDateTo] = useQueryState(
+    "dateTo",
+    parseAsString
+      .withDefault("")
+      .withOptions({ history: "push", shallow: false }),
+  );
+
   const [dateFrom, setDateFrom] = useQueryState(
     "dateFrom",
     parseAsString
@@ -79,6 +100,22 @@ export default function FiltersControl() {
           </Field>
 
           <div className="flex items-center gap-2">
+            <Select
+              value={channel}
+              onValueChange={(value) => void setChannel(value)}
+            >
+              <SelectTrigger className="h-10 min-h-10 w-40 bg-white px-3 py-2.5 leading-none">
+                <SelectValue placeholder={t("AllChannels")} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="">{t("AllChannels")}</SelectItem>
+                  <SelectItem value="website">{t("Website")}</SelectItem>
+                  <SelectItem value="mobile">{t("MobileApp")}</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+
             <Field className="w-auto">
               <Input
                 type="date"

@@ -1,6 +1,6 @@
 "use client";
 
-import { Order } from "@/types/orders";
+import { Order, Summary } from "@/types/orders";
 import { Checkbox } from "../ui/checkbox";
 import { Pagination } from "@/types/shared";
 import { useTranslations } from "next-intl";
@@ -11,18 +11,23 @@ import { ChangeStatus } from "./change-status";
 import { TableCell, TableRow } from "../ui/table";
 import { DataTable } from "../reusable/data-table";
 import { orderStatuses } from "@/constants/orders";
+import Statistics from "./statistics";
 
 export default function DataPreview({
   orders,
   pagination,
+  summary,
 }: {
   orders: Order[];
   pagination: Pagination;
+  summary: Summary;
 }) {
   const t = useTranslations("Orders");
 
   return (
     <>
+      <Statistics summary={summary} />
+
       <FiltersControl />
 
       <DataTable

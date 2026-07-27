@@ -301,6 +301,7 @@
     }
   },
   "CountriesCities": {
+    "Title": "Countries & Cities",
     "Countries": "Countries",
     "Cities": "Cities",
     "ListOfCountries": "List of Countries",
@@ -359,6 +360,9 @@
     "AdminNoteIsRequired": "Admin Note is required",
     "AdminNoteUpdatedSuccessfully": "Admin Note updated successfully",
     "AdminNoteUpdateFailed": "Failed to update Admin Note. Please try again.",
+    "AllChannels": "All Channels",
+    "Website": "Website",
+    "MobileApp": "Mobile App",
     "Summary": {
       "TotalOrders": "Total Orders",
       "TotalOrdersDescription": "All time in view",
@@ -383,6 +387,7 @@
     }
   },
   "PromoCodes": {
+    "Label": "Promo Codes",
     "CreatePromoCode": "Create Promo Code",
     "CreatePromoCodeDescription": "Configure a discount code for your store.",
     "EditPromoCode": "Edit Promo Code",

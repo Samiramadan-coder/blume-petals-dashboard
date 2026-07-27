@@ -17,7 +17,6 @@ export default async function CustomersPage({
   searchParams: SearchParams;
 }) {
   const { query, status } = await searchParams;
-  console.log("Search Params:", { query, status });
 
   return (
     <main className="space-y-6">

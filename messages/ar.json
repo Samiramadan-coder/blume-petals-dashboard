@@ -300,6 +300,7 @@
     }
   },
   "CountriesCities": {
+    "Title": "الدول والمدن",
     "Countries": "الدول",
     "Cities": "المدن",
     "ListOfCountries": "قائمة الدول",
@@ -356,6 +357,9 @@
     "AdminNoteIsRequired": "ملاحظة الإدارة مطلوبة",
     "AdminNoteUpdatedSuccessfully": "تم تحديث ملاحظة الإدارة بنجاح",
     "AdminNoteUpdateFailed": "فشل في تحديث ملاحظة الإدارة. يرجى المحاولة مرة أخرى.",
+    "AllChannels": "جميع القنوات",
+    "Website": "الموقع الإلكتروني",
+    "MobileApp": "تطبيق الجوال",
     "Summary": {
       "TotalOrders": "إجمالي الطلبات",
       "TotalOrdersDescription": "جميع الأوقات في العرض",
@@ -380,6 +384,7 @@
     }
   },
   "PromoCodes": {
+    "Label": "أكواد الخصم",
     "CreatePromoCode": "إنشاء كود خصم",
     "CreatePromoCodeDescription": "قم بإعداد كود خصم لمتجرك.",
     "EditPromoCode": "تعديل كود الخصم",

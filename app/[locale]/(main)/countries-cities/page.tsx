@@ -9,6 +9,13 @@ import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 import CountriesCitiesSkeleton from "@/components/countries-cities/countries-cities-skeleton";
 
+export async function generateMetadata() {
+  const t = await getTranslations("CountriesCities");
+  return {
+    title: t("Title"),
+  };
+}
+
 type SearchParams = {
   type?: "countries" | "cities";
   page?: string;

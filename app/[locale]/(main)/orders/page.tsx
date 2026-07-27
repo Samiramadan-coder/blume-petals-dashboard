@@ -2,13 +2,17 @@ import { Suspense } from "react";
 import { http } from "@/lib/http";
 import { Pagination } from "@/types/shared";
 import { Order, Summary } from "@/types/orders";
-import Statistics from "@/components/orders/statistics";
 import DataPreview from "@/components/orders/data-preview";
 import OrdersSkeleton from "@/components/orders/orders-skeleton";
+import { getTranslations } from "next-intl/server";
 
-export const metadata = {
-  title: "Orders",
-};
+export async function generateMetadata() {
+  const t = await getTranslations("Orders");
+
+  return {
+    title: t("Label"),
+  };
+}
 
 type SearchParams = {
   status?: string;
@@ -16,10 +20,11 @@ type SearchParams = {
   dateFrom?: string;
   dateTo?: string;
   page?: string;
+  channel?: string;
 };
 
 async function OrdersPage({ searchParams }: { searchParams: SearchParams }) {
-  const { status, query, dateFrom, dateTo, page } = await searchParams;
+  const { status, query, dateFrom, dateTo, page, channel } = searchParams;
 
   const { data, ok } = await http.get<{
     data: {
@@ -39,6 +44,7 @@ async function OrdersPage({ searchParams }: { searchParams: SearchParams }) {
       status: status || "",
       date_from: dateFrom || "",
       date_to: dateTo || "",
+      channel: channel || "",
     },
   });
 
@@ -48,8 +54,11 @@ async function OrdersPage({ searchParams }: { searchParams: SearchParams }) {
 
   return (
     <main className="space-y-6">
-      <Statistics summary={data.data.summary} />
-      <DataPreview orders={data.data.items} pagination={data.data.pagination} />
+      <DataPreview
+        orders={data.data.items}
+        pagination={data.data.pagination}
+        summary={data.data.summary}
+      />
     </main>
   );
 }
@@ -61,7 +70,7 @@ export default async function Page({
 }) {
   return (
     <Suspense fallback={<OrdersSkeleton />}>
-      <OrdersPage searchParams={await searchParams} />;
+      <OrdersPage searchParams={await searchParams} />
     </Suspense>
   );
 }
