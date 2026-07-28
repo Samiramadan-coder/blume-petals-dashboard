@@ -1,34 +1,35 @@
 import { useTranslations } from "next-intl";
 import { Card, CardContent } from "../ui/card";
+import { Summary } from "@/types/products";
 
-export default function Statistics() {
+export default function Statistics({ summary }: { summary: Summary }) {
   const t = useTranslations("Products");
 
   const statisticsData = [
     {
       title: t("Stats.TotalProducts"),
-      value: 12,
+      value: summary.total,
       color: "bg-primary/10",
       borderColor: "border-primary/20",
       textColor: "text-[#8A6F2A]",
     },
     {
       title: t("Stats.InStock"),
-      value: 7,
+      value: summary.in_stock,
       color: "bg-secondary/10",
       borderColor: "border-secondary/20",
       textColor: "text-secondary",
     },
     {
       title: t("Stats.LowStock"),
-      value: 4,
+      value: summary.low_stock,
       color: "bg-primary/10",
       borderColor: "border-primary/20",
       textColor: "text-[#8A6F2A]",
     },
     {
       title: t("Stats.OutOfStock"),
-      value: 1,
+      value: summary.out_of_stock,
       color: "bg-[#ed80741a]",
       borderColor: "border-red/20",
       textColor: "text-[#B83A30]",

@@ -2,7 +2,7 @@ import Statistics from "@/components/customers/statistics";
 import DataPreview from "@/components/customers/data-preview";
 import { getTranslations } from "next-intl/server";
 import { http } from "@/lib/http";
-import { User } from "@/types/customers";
+import { Summary, User } from "@/types/customers";
 import { Pagination } from "@/types/shared";
 import { Suspense } from "react";
 import { Spinner } from "@/components/ui/spinner";
@@ -29,6 +29,7 @@ async function CustomersPage({ searchParams }: { searchParams: SearchParams }) {
     data: {
       items: User[];
       pagination: Pagination;
+      summary: Summary;
     };
   }>("/api/v1/admin/users", {
     next: {
@@ -50,7 +51,7 @@ async function CustomersPage({ searchParams }: { searchParams: SearchParams }) {
 
   return (
     <main className="space-y-6">
-      <Statistics />
+      <Statistics summary={data.data.summary} />
       <DataPreview
         initialCustomers={data.data.items}
         pagination={data.data.pagination}

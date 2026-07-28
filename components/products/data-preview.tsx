@@ -16,7 +16,7 @@ import { Spinner } from "../ui/spinner";
 import { Eye, Star } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { Checkbox } from "../ui/checkbox";
-import { Product } from "@/types/products";
+import { Product, Summary } from "@/types/products";
 import EditBtn from "../reusable/edit-btn";
 import { Pagination } from "@/types/shared";
 import { Occasion } from "@/types/occasions";
@@ -34,12 +34,14 @@ export default function DataPreview({
   occasions,
   pagination,
   type,
+  summary,
 }: {
   products: Product[];
   categories: Category[];
   occasions: Occasion[];
   pagination: Pagination;
   type: "default" | "addon";
+  summary: Summary;
 }) {
   const locale = useLocale();
   const t = useTranslations("Products");
@@ -53,7 +55,7 @@ export default function DataPreview({
         <CreateEdit categories={categories} occasions={occasions} type={type} />
       </header>
 
-      <Statistics />
+      <Statistics summary={summary} />
 
       <DataTable
         columns={columns(t)}

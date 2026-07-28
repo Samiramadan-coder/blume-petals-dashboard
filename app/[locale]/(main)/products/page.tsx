@@ -1,13 +1,14 @@
 import { cn } from "@/lib/utils";
+import { Suspense } from "react";
 import { http } from "@/lib/http";
 import { Link } from "@/i18n/navigation";
-import { ProductResponse } from "@/types/products";
+import { Pagination } from "@/types/shared";
+import { Spinner } from "@/components/ui/spinner";
+import { Product, Summary } from "@/types/products";
 import { getTranslations } from "next-intl/server";
 import { OccasionResponse } from "@/types/occasions";
 import { CategoryResponse } from "@/types/categories";
 import DataPreview from "@/components/products/data-preview";
-import { Suspense } from "react";
-import { Spinner } from "@/components/ui/spinner";
 
 type SearchParams = {
   page?: string;
@@ -58,22 +59,25 @@ async function ProductsPage({ searchParams }: { searchParams: SearchParams }) {
   );
 
   // Fetch products
-  const { data: products } = await http.get<ProductResponse>(
-    "/api/v1/admin/products",
-    {
-      next: {
-        revalidate: 60,
-        tags: ["products"],
-      },
-      params: {
-        per_page: 10,
-        q: searchParams.query ?? "",
-        page: searchParams.page ?? 1,
-        category_id: searchParams.category ?? "",
-        category_type: activeTab === "default" ? "" : "addon",
-      },
+  const { data: products } = await http.get<{
+    data: {
+      items: Product[];
+      pagination: Pagination;
+      summary: Summary;
+    };
+  }>("/api/v1/admin/products", {
+    next: {
+      revalidate: 60,
+      tags: ["products"],
     },
-  );
+    params: {
+      per_page: 10,
+      q: searchParams.query ?? "",
+      page: searchParams.page ?? 1,
+      category_id: searchParams.category ?? "",
+      category_type: activeTab === "default" ? "" : "addon",
+    },
+  });
 
   return (
     <main className="space-y-6">
@@ -103,6 +107,7 @@ async function ProductsPage({ searchParams }: { searchParams: SearchParams }) {
         occasions={occasions.data.items}
         pagination={products.data.pagination}
         type={activeTab}
+        summary={products.data.summary}
       />
     </main>
   );

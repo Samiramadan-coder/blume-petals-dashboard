@@ -13,3 +13,10 @@ export type User = {
   last_order_at: string;
   created_at: string;
 };
+
+export type Summary = {
+  avg_lifetime_value: string;
+  new_this_month: number;
+  total_customers: number;
+  vip: number;
+};

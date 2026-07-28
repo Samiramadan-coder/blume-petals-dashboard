@@ -1,5 +1,5 @@
 import z from "zod";
-import { LocaleObj, Pagination, T } from "./shared";
+import { LocaleObj, T } from "./shared";
 
 const imageSchema = z.union([z.string(), z.instanceof(Blob)]);
 
@@ -97,11 +97,11 @@ export type Product = {
   updated_at: string;
 };
 
-export type ProductResponse = {
-  data: {
-    items: Product[];
-    pagination: Pagination;
-  };
+export type Summary = {
+  in_stock: number;
+  low_stock: number;
+  out_of_stock: number;
+  total: number;
 };
 
 export const variantSchema = (t: T) =>

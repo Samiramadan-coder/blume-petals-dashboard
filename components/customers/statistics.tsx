@@ -1,12 +1,15 @@
-import { UsersRound, Star, TrendingUp, ShoppingBag } from "lucide-react";
+import { Summary } from "@/types/customers";
 import { Card, CardContent } from "../ui/card";
-// import { StatisticsData } from "@/types/customers";
+import { UsersRound, Star, TrendingUp, ShoppingBag } from "lucide-react";
+import { useTranslations } from "next-intl";
 
-export default function Statistics() {
+export default function Statistics({ summary }: { summary: Summary }) {
+  const t = useTranslations("Customers.Stats");
+
   const statisticsData = [
     {
-      title: "Total Customers",
-      value: 10,
+      title: t("TotalCustomers"),
+      value: summary.total_customers,
       icon: (
         <div className="p-2 bg-secondary/20 rounded-sm">
           <UsersRound className="text-secondary size-5" />
@@ -14,9 +17,9 @@ export default function Statistics() {
       ),
     },
     {
-      title: "VIP Customers",
-      subtitle: "≥ AED 3,000 spent",
-      value: 2,
+      title: t("VipCustomers"),
+      subtitle: t("VipSpent"),
+      value: summary.vip,
       icon: (
         <div className="p-2 bg-primary/20 rounded-sm">
           <Star className="text-primary size-5" />
@@ -24,8 +27,8 @@ export default function Statistics() {
       ),
     },
     {
-      title: "New This Month",
-      value: 2,
+      title: t("NewThisMonth"),
+      value: summary.new_this_month,
       icon: (
         <div className="p-2 bg-red-300/20 rounded-sm">
           <TrendingUp className="text-red-300 size-5" />
@@ -33,8 +36,8 @@ export default function Statistics() {
       ),
     },
     {
-      title: "Avg. Lifetime Value",
-      value: 4168,
+      title: t("AverageLifetimeValue"),
+      value: summary.avg_lifetime_value,
       currency: "AED",
       icon: (
         <div className="p-2 bg-foreground/20 rounded-sm">
