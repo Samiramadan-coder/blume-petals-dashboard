@@ -39,7 +39,7 @@ async function OrdersPage({ searchParams }: { searchParams: SearchParams }) {
     },
     params: {
       page: page || 1,
-      per_page: 20,
+      per_page: 15,
       q: query || "",
       status: status || "",
       date_from: dateFrom || "",

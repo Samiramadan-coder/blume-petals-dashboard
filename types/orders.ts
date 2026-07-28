@@ -57,6 +57,7 @@ export type Order = {
   payment_status: string;
   admin_notes: string | null;
   placed_at: string;
+  channel: string;
   status:
     | "pending"
     | "processing"
@@ -73,7 +74,7 @@ export type Order = {
     | "Cancelled";
   currency: string;
   customer_notes: string | null;
-  fulfillment_method: string;
+  fulfillment_method: "delivery" | "pickup";
   id: number;
   items: {
     id: number;
