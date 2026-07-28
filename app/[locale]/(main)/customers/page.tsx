@@ -36,7 +36,7 @@ async function CustomersPage({ searchParams }: { searchParams: SearchParams }) {
       revalidate: 60,
     },
     params: {
-      per_page: 10,
+      per_page: 20,
       page: page || "1",
       q: query || "",
       status: status || "",
