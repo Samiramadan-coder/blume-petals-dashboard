@@ -6,13 +6,16 @@ import { Spinner } from "@/components/ui/spinner";
 import DataPreview from "@/components/reviews/data-preview";
 import { cn } from "@/lib/utils";
 import { getLocale, getTranslations } from "next-intl/server";
+import FiltersControl from "@/components/reviews/filters-control";
 
-type SearchParams = { page?: string };
+type SearchParams = { page?: string; rating?: string };
 
 async function ReviewsPage({ searchParams }: { searchParams: SearchParams }) {
   const locale = await getLocale();
   const t = await getTranslations("Reviews");
 
+  // Fetch reviews data from the API
+  // The API endpoint is assumed to be `/api/v1/admin/reviews` and it accepts query parameters for pagination and filtering by rating.
   const { data, ok } = await http.get<{
     data: {
       items: Review[];
@@ -22,6 +25,7 @@ async function ReviewsPage({ searchParams }: { searchParams: SearchParams }) {
     params: {
       page: searchParams.page ?? 1,
       per_page: 10,
+      rating: searchParams.rating ?? "",
     },
   });
 
@@ -49,14 +53,15 @@ async function ReviewsPage({ searchParams }: { searchParams: SearchParams }) {
         </header>
       </div>
 
-      <div className="md:col-span-2">
+      <div className="md:col-span-2 space-y-6">
+        <FiltersControl />
         <DataPreview
           reviews={data.data.items}
           pagination={data.data.pagination}
         />
       </div>
 
-      <div>Summary</div>
+      <div>-</div>
     </main>
   );
 }

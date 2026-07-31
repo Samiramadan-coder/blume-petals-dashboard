@@ -567,5 +567,12 @@
       "Joined": "تاريخ الانضمام"
     },
     "ShowingCustomers": "عرض {count} عميل"
+  },
+  "Reviews": {
+    "Label": "التقييمات",
+    "Description": "إدارة تقييمات العملاء والرد على الملاحظات",
+    "Rating": "التقييم",
+    "NoCommentProvided": "لم يتم تقديم تعليق",
+    "AllRatings": "جميع التقييمات"
   }
 }

@@ -8,6 +8,7 @@ import { Pagination } from "@/types/shared";
 import { Card, CardContent } from "../ui/card";
 import DeleteBtn from "../reusable/delete-btn";
 import PaginationTemplate from "../reusable/pagination-temlate";
+import { useTranslations } from "next-intl";
 
 export default function DataPreview({
   reviews,
@@ -16,6 +17,8 @@ export default function DataPreview({
   reviews: Review[];
   pagination: Pagination;
 }) {
+  const t = useTranslations("Reviews");
+
   return (
     <>
       <div className="space-y-4 mb-6">
@@ -47,7 +50,7 @@ export default function DataPreview({
                 <p className="text-foreground leading-relaxed">
                   {review.comment || (
                     <span className="underline text-muted-foreground">
-                      No comment provided.
+                      {t("NoCommentProvided")}
                     </span>
                   )}
                 </p>

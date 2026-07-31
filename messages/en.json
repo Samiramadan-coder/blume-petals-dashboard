@@ -573,6 +573,9 @@
   },
   "Reviews": {
     "Label": "Reviews",
-    "Description": "Manage customer reviews and respond to feedback"
+    "Description": "Manage customer reviews and respond to feedback",
+    "Rating": "Rating",
+    "NoCommentProvided": "No comment provided",
+    "AllRatings": "All Ratings"
   }
 }
