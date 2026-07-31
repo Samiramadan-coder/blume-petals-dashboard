@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { getLocale, getTranslations } from "next-intl/server";
 import FiltersControl from "@/components/reviews/filters-control";
 import Statistics from "@/components/reviews/statistics";
+import RatingDistribution from "@/components/reviews/rating-distribution";
 
 type SearchParams = { page?: string; rating?: string };
 
@@ -16,7 +17,8 @@ async function ReviewsPage({ searchParams }: { searchParams: SearchParams }) {
   const t = await getTranslations("Reviews");
 
   // Fetch reviews data from the API
-  // The API endpoint is assumed to be `/api/v1/admin/reviews` and it accepts query parameters for pagination and filtering by rating.
+  // The API endpoint is assumed to be `/api/v1/admin/reviews`
+  // and it accepts query parameters for pagination and filtering by rating.
   const { data, ok } = await http.get<{
     data: {
       items: Review[];
@@ -35,7 +37,7 @@ async function ReviewsPage({ searchParams }: { searchParams: SearchParams }) {
   }
 
   return (
-    <main className="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <main className="grid items-start grid-cols-1 md:grid-cols-3 gap-6">
       <div className="md:col-span-3">
         <header className="mb-4">
           <div>
@@ -64,7 +66,7 @@ async function ReviewsPage({ searchParams }: { searchParams: SearchParams }) {
         />
       </div>
 
-      <div>-</div>
+      <RatingDistribution />
     </main>
   );
 }

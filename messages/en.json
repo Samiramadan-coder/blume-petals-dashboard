@@ -580,6 +580,7 @@
     "TotalReviews": "Total Reviews",
     "AverageRating": "Average Rating",
     "PendingResponse": "Pending Response",
-    "FlaggedReported": "Flagged/Reported"
+    "FlaggedReported": "Flagged/Reported",
+    "RatingDistribution": "Rating Distribution"
   }
 }

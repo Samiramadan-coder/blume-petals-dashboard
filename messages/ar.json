@@ -577,6 +577,7 @@
     "TotalReviews": "إجمالي التقييمات",
     "AverageRating": "متوسط التقييم",
     "PendingResponse": "في انتظار الرد",
-    "FlaggedReported": "مبلغ عنه / مميز"
+    "FlaggedReported": "مبلغ عنه / مميز",
+    "RatingDistribution": "توزيع التقييمات"
   }
 }
