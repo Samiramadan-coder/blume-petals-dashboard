@@ -7,6 +7,7 @@ import DataPreview from "@/components/reviews/data-preview";
 import { cn } from "@/lib/utils";
 import { getLocale, getTranslations } from "next-intl/server";
 import FiltersControl from "@/components/reviews/filters-control";
+import Statistics from "@/components/reviews/statistics";
 
 type SearchParams = { page?: string; rating?: string };
 
@@ -36,7 +37,7 @@ async function ReviewsPage({ searchParams }: { searchParams: SearchParams }) {
   return (
     <main className="grid grid-cols-1 md:grid-cols-3 gap-8">
       <div className="md:col-span-3">
-        <header>
+        <header className="mb-4">
           <div>
             <h1
               className={cn("text-2xl font-semibold text-foreground", {
@@ -51,6 +52,8 @@ async function ReviewsPage({ searchParams }: { searchParams: SearchParams }) {
             </p>
           </div>
         </header>
+
+        <Statistics />
       </div>
 
       <div className="md:col-span-2 space-y-6">

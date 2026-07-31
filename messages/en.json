@@ -576,6 +576,10 @@
     "Description": "Manage customer reviews and respond to feedback",
     "Rating": "Rating",
     "NoCommentProvided": "No comment provided",
-    "AllRatings": "All Ratings"
+    "AllRatings": "All Ratings",
+    "TotalReviews": "Total Reviews",
+    "AverageRating": "Average Rating",
+    "PendingResponse": "Pending Response",
+    "FlaggedReported": "Flagged/Reported"
   }
 }

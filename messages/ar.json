@@ -573,6 +573,10 @@
     "Description": "إدارة تقييمات العملاء والرد على الملاحظات",
     "Rating": "التقييم",
     "NoCommentProvided": "لم يتم تقديم تعليق",
-    "AllRatings": "جميع التقييمات"
+    "AllRatings": "جميع التقييمات",
+    "TotalReviews": "إجمالي التقييمات",
+    "AverageRating": "متوسط التقييم",
+    "PendingResponse": "في انتظار الرد",
+    "FlaggedReported": "مبلغ عنه / مميز"
   }
 }
