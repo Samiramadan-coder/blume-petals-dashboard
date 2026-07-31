@@ -570,5 +570,9 @@
       "Joined": "Joined"
     },
     "ShowingCustomers": "Showing {count} customers"
+  },
+  "Reviews": {
+    "Label": "Reviews",
+    "Description": "Manage customer reviews and respond to feedback"
   }
 }
