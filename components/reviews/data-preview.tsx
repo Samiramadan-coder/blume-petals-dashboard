@@ -9,6 +9,9 @@ import { Card, CardContent } from "../ui/card";
 import DeleteBtn from "../reusable/delete-btn";
 import PaginationTemplate from "../reusable/pagination-temlate";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
+import { deleteReviewAction } from "@/lib/reviews";
+import { toast } from "sonner";
 
 export default function DataPreview({
   reviews,
@@ -18,6 +21,8 @@ export default function DataPreview({
   pagination: Pagination;
 }) {
   const t = useTranslations("Reviews");
+  const tCommon = useTranslations("Common");
+  const [loadingDelete, setLoadingDelete] = useState(false);
 
   return (
     <>
@@ -56,7 +61,19 @@ export default function DataPreview({
                 </p>
 
                 <div className="flex justify-end w-full">
-                  <DeleteBtn />
+                  <DeleteBtn
+                    onDelete={async () => {
+                      setLoadingDelete(true);
+                      const result = await deleteReviewAction(review);
+                      setLoadingDelete(false);
+                      if (result.success) {
+                        toast.success(tCommon("DeletedSuccessfully"));
+                        return;
+                      }
+                      toast.error(tCommon("DeleteFailed"));
+                    }}
+                    loading={loadingDelete}
+                  />
                 </div>
               </div>
             </CardContent>

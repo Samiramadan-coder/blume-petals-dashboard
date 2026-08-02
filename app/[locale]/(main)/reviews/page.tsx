@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { http } from "@/lib/http";
-import { Review } from "@/types/reviews";
+import { Review, Summary } from "@/types/reviews";
 import { Pagination } from "@/types/shared";
 import { Spinner } from "@/components/ui/spinner";
 import DataPreview from "@/components/reviews/data-preview";
@@ -23,12 +23,17 @@ async function ReviewsPage({ searchParams }: { searchParams: SearchParams }) {
     data: {
       items: Review[];
       pagination: Pagination;
+      summary: Summary;
     };
   }>("/api/v1/admin/reviews", {
     params: {
       page: searchParams.page ?? 1,
       per_page: 10,
       rating: searchParams.rating ?? "",
+    },
+    next: {
+      revalidate: 60,
+      tags: ["reviews"],
     },
   });
 

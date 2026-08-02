@@ -14,3 +14,16 @@ export type Review = {
     name: string;
   };
 };
+
+export type Summary = {
+  total_reviews: number;
+  average_rating: string;
+  this_month: number;
+  distribution: {
+    "5": number;
+    "4": number;
+    "3": number;
+    "2": number;
+    "1": number;
+  };
+};

@@ -1,14 +1,6 @@
-import {
-  Clock,
-  Truck,
-  Clipboard,
-  LoaderCircle,
-  Star,
-  CircleAlert,
-} from "lucide-react";
-import { Card, CardContent } from "../ui/card";
-import { StatisticsData } from "@/types/orders";
+import { Clock, Star } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { Card, CardContent } from "../ui/card";
 
 export default function Statistics() {
   const t = useTranslations("Reviews");
@@ -33,7 +25,7 @@ export default function Statistics() {
       ),
     },
     {
-      title: t("PendingResponse"),
+      title: t("ThisMonth"),
       value: 20,
       icon: (
         <div className="p-1 bg-red-300/20 rounded-sm">
@@ -41,19 +33,10 @@ export default function Statistics() {
         </div>
       ),
     },
-    {
-      title: t("FlaggedReported"),
-      value: 8,
-      icon: (
-        <div className="p-1 bg-red-400/20 rounded-sm">
-          <CircleAlert className="text-red-400 size-5" />
-        </div>
-      ),
-    },
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {statisticsData.map((stat, index) => (
         <Card
           key={index}
