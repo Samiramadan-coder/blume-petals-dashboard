@@ -1,14 +1,15 @@
 import { Clock, Star } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Card, CardContent } from "../ui/card";
+import { Summary } from "@/types/reviews";
 
-export default function Statistics() {
+export default function Statistics({ summary }: { summary: Summary }) {
   const t = useTranslations("Reviews");
 
   const statisticsData = [
     {
       title: t("TotalReviews"),
-      value: 10,
+      value: summary.total_reviews,
       icon: (
         <div className="p-1 bg-primary/20 rounded-sm">
           <Star className="text-primary size-5" />
@@ -17,7 +18,7 @@ export default function Statistics() {
     },
     {
       title: t("AverageRating"),
-      value: 5,
+      value: summary.average_rating,
       icon: (
         <div className="p-1 bg-secondary/20 rounded-sm">
           <Star className="text-secondary size-5" />
@@ -26,7 +27,7 @@ export default function Statistics() {
     },
     {
       title: t("ThisMonth"),
-      value: 20,
+      value: summary.this_month,
       icon: (
         <div className="p-1 bg-red-300/20 rounded-sm">
           <Clock className="text-red-300 size-5" />

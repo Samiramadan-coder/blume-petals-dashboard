@@ -60,7 +60,7 @@ async function ReviewsPage({ searchParams }: { searchParams: SearchParams }) {
           </div>
         </header>
 
-        <Statistics />
+        <Statistics summary={data.data.summary} />
       </div>
 
       <div className="md:col-span-2 space-y-4">
@@ -72,7 +72,10 @@ async function ReviewsPage({ searchParams }: { searchParams: SearchParams }) {
         />
       </div>
 
-      <RatingDistribution totalReviews={data.data.pagination.total} />
+      <RatingDistribution
+        totalReviews={data.data.pagination.total}
+        summary={data.data.summary}
+      />
     </main>
   );
 }
