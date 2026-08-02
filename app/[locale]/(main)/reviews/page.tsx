@@ -42,7 +42,7 @@ async function ReviewsPage({ searchParams }: { searchParams: SearchParams }) {
   }
 
   return (
-    <main className="grid items-start grid-cols-1 md:grid-cols-3 gap-6">
+    <main className="grid items-start grid-cols-1 md:grid-cols-3 gap-4">
       <div className="md:col-span-3">
         <header className="mb-4">
           <div>
@@ -63,15 +63,16 @@ async function ReviewsPage({ searchParams }: { searchParams: SearchParams }) {
         <Statistics />
       </div>
 
-      <div className="md:col-span-2 space-y-6">
+      <div className="md:col-span-2 space-y-4">
         <FiltersControl />
+
         <DataPreview
           reviews={data.data.items}
           pagination={data.data.pagination}
         />
       </div>
 
-      <RatingDistribution />
+      <RatingDistribution totalReviews={data.data.pagination.total} />
     </main>
   );
 }

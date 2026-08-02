@@ -26,9 +26,13 @@ export default function DataPreview({
 
   return (
     <>
-      <div className="space-y-4 mb-6">
+      <div className="space-y-3 mb-6">
         {reviews.map((review) => (
-          <Card key={review.id} className="rounded-lg">
+          <Card
+            key={review.id}
+            className="rounded-lg border border-primary/20"
+            style={{ boxShadow: "none" }}
+          >
             <CardContent className="flex gap-4 items-start">
               <Checkbox />
 

@@ -24,7 +24,7 @@ export default function FiltersControl() {
       .withOptions({ history: "push", shallow: false }),
   );
   return (
-    <Card>
+    <Card className="border border-primary/20" style={{ boxShadow: "none" }}>
       <CardContent className="flex items-center gap-4">
         <Select
           value={ratingParam}
