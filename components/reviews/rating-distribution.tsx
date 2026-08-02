@@ -5,13 +5,15 @@ import { Card, CardContent } from "../ui/card";
 import { getTranslations } from "next-intl/server";
 
 export default async function RatingDistribution({
-  totalReviews,
   summary,
 }: {
-  totalReviews: number;
   summary: Summary;
 }) {
   const t = await getTranslations("Reviews");
+  const totalReviews = Object.values(summary.distribution).reduce(
+    (acc, count) => acc + count,
+    0,
+  );
 
   return (
     <Card

@@ -578,6 +578,12 @@
     "AverageRating": "متوسط التقييم",
     "ThisMonth": "هذا الشهر",
     "FlaggedReported": "مبلغ عنه / مميز",
-    "RatingDistribution": "توزيع التقييمات"
+    "RatingDistribution": "توزيع التقييمات",
+    "SortBy": "ترتيب حسب",
+    "Newest": "الأحدث",
+    "Oldest": "الأقدم",
+    "HighestRating": "أعلى تقييم",
+    "LowestRating": "أقل تقييم",
+    "SearchPlaceholder": "بحث متقدم....."
   }
 }

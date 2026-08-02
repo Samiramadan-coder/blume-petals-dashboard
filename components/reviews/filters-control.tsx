@@ -9,13 +9,26 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { Star } from "lucide-react";
+import { Search, Star } from "lucide-react";
 import { Card, CardContent } from "../ui/card";
 import { parseAsString, useQueryState } from "nuqs";
 import { useTranslations } from "next-intl";
+import { Field } from "../ui/field";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "../ui/input-group";
 
 export default function FiltersControl() {
   const t = useTranslations("Reviews");
+
+  const [queryParam, setQueryParam] = useQueryState(
+    "query",
+    parseAsString
+      .withDefault("")
+      .withOptions({ history: "push", shallow: false }),
+  );
 
   const [ratingParam, setRatingParam] = useQueryState(
     "rating",
@@ -23,9 +36,30 @@ export default function FiltersControl() {
       .withDefault("")
       .withOptions({ history: "push", shallow: false }),
   );
+
+  const [sortParam, setSortParam] = useQueryState(
+    "sort",
+    parseAsString
+      .withDefault("newest")
+      .withOptions({ history: "push", shallow: false }),
+  );
   return (
     <Card className="border border-primary/20" style={{ boxShadow: "none" }}>
       <CardContent className="flex items-center gap-4">
+        <Field>
+          <InputGroup className="bg-white h-10">
+            <InputGroupInput
+              value={queryParam}
+              onChange={(e) => setQueryParam(e.target.value)}
+              placeholder={t("SearchPlaceholder")}
+              className="max-w-20"
+            />
+            <InputGroupAddon align="inline-start">
+              <Search />
+            </InputGroupAddon>
+          </InputGroup>
+        </Field>
+
         <Select
           value={ratingParam}
           onValueChange={(value) => {
@@ -39,20 +73,40 @@ export default function FiltersControl() {
             <SelectGroup>
               <SelectLabel>{t("Rating")}</SelectLabel>
               <SelectItem value="5">
-                5 <Star className="size-3 fill-black" />
+                5 <Star className="size-3 fill-primary text-primary" />
               </SelectItem>
               <SelectItem value="4">
-                4 <Star className="size-3 fill-black" />
+                4 <Star className="size-3 fill-primary text-primary" />
               </SelectItem>
               <SelectItem value="3">
-                3 <Star className="size-3 fill-black" />
+                3 <Star className="size-3 fill-primary text-primary" />
               </SelectItem>
               <SelectItem value="2">
-                2 <Star className="size-3 fill-black" />
+                2 <Star className="size-3 fill-primary text-primary" />
               </SelectItem>
               <SelectItem value="1">
-                1 <Star className="size-3 fill-black" />
+                1 <Star className="size-3 fill-primary text-primary" />
               </SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+
+        <Select
+          value={sortParam}
+          onValueChange={(value) => {
+            setSortParam(value);
+          }}
+        >
+          <SelectTrigger className="h-10 min-h-10 w-full max-w-48 bg-white px-3 py-2.5 leading-none">
+            <SelectValue placeholder={t("Newest")} />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>{t("SortBy")}</SelectLabel>
+              <SelectItem value="newest">{t("Newest")}</SelectItem>
+              <SelectItem value="oldest">{t("Oldest")}</SelectItem>
+              <SelectItem value="highest">{t("HighestRating")}</SelectItem>
+              <SelectItem value="lowest">{t("LowestRating")}</SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>

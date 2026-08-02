@@ -10,7 +10,12 @@ import FiltersControl from "@/components/reviews/filters-control";
 import Statistics from "@/components/reviews/statistics";
 import RatingDistribution from "@/components/reviews/rating-distribution";
 
-type SearchParams = { page?: string; rating?: string };
+type SearchParams = {
+  page?: string;
+  rating?: string;
+  sort?: string;
+  query?: string;
+};
 
 async function ReviewsPage({ searchParams }: { searchParams: SearchParams }) {
   const locale = await getLocale();
@@ -30,6 +35,8 @@ async function ReviewsPage({ searchParams }: { searchParams: SearchParams }) {
       page: searchParams.page ?? 1,
       per_page: 10,
       rating: searchParams.rating ?? "",
+      sort: searchParams.sort ?? "",
+      q: searchParams.query ?? "",
     },
     next: {
       revalidate: 60,
@@ -72,10 +79,7 @@ async function ReviewsPage({ searchParams }: { searchParams: SearchParams }) {
         />
       </div>
 
-      <RatingDistribution
-        totalReviews={data.data.pagination.total}
-        summary={data.data.summary}
-      />
+      <RatingDistribution summary={data.data.summary} />
     </main>
   );
 }

@@ -581,6 +581,12 @@
     "AverageRating": "Average Rating",
     "ThisMonth": "This Month",
     "FlaggedReported": "Flagged/Reported",
-    "RatingDistribution": "Rating Distribution"
+    "RatingDistribution": "Rating Distribution",
+    "SortBy": "Sort By",
+    "Newest": "Newest",
+    "Oldest": "Oldest",
+    "HighestRating": "Highest Rating",
+    "LowestRating": "Lowest Rating",
+    "SearchPlaceholder": "Advanced Search....."
   }
 }
