@@ -41,8 +41,6 @@ async function ReviewsPage({ searchParams }: { searchParams: SearchParams }) {
     throw new Error("Failed to fetch reviews");
   }
 
-  console.log("Fetched reviews data:", data);
-
   return (
     <main className="grid items-start grid-cols-1 md:grid-cols-3 gap-6">
       <div className="md:col-span-3">
