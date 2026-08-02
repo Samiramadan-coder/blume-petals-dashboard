@@ -12,7 +12,7 @@ export default function SidebarNavSection({ label }: { label: string }) {
   return (
     <p
       className={cn(
-        "mb-2 mt-3 px-3 text-[12px] font-semibold uppercase tracking-widest text-muted-foreground",
+        "mb-2 mt-3 px-3 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground",
         { hidden: !isSidebarOpen },
       )}
     >

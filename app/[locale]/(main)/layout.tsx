@@ -36,13 +36,12 @@ export default async function MainLayout({
       <Sidebar
         side={locale === "ar" ? "right" : "left"}
         collapsible="icon"
-        className="border-e border-border bg-white"
+        className="border-e border-border"
       >
-        <SidebarContent>
-          <SidebarGroup>
-            <SidebarMenu>
-              <SidebarLogo />
-
+        <SidebarContent className="bg-white">
+          <SidebarGroup className="p-0">
+            <SidebarLogo />
+            <SidebarMenu className="p-2">
               {navigation.map((item) => (
                 <SidebarMenuItem key={item.label}>
                   {item.type === "link" ? (

@@ -23,7 +23,7 @@ export default function SidebarNavLink({
     <SidebarMenuButton
       asChild
       isActive={isActive}
-      className="relative rounded-lg h-10 px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground data-[active=true]:bg-primary/12 data-[active=true]:text-primary"
+      className="mb-1 relative rounded-lg h-10 px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground data-[active=true]:bg-primary/12 data-[active=true]:text-primary"
     >
       <Link href={item.href} className="flex items-center gap-3">
         {item.icon}
