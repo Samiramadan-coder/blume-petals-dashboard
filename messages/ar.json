@@ -584,6 +584,7 @@
     "Oldest": "الأقدم",
     "HighestRating": "أعلى تقييم",
     "LowestRating": "أقل تقييم",
-    "SearchPlaceholder": "بحث متقدم....."
+    "SearchPlaceholder": "بحث متقدم.....",
+    "ClearFilters": "مسح الفلاتر"
   }
 }

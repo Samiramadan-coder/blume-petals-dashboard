@@ -587,6 +587,7 @@
     "Oldest": "Oldest",
     "HighestRating": "Highest Rating",
     "LowestRating": "Lowest Rating",
-    "SearchPlaceholder": "Advanced Search....."
+    "SearchPlaceholder": "Advanced Search.....",
+    "ClearFilters": "Clear Filters"
   }
 }

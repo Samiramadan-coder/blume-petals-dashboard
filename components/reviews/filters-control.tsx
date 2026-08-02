@@ -19,6 +19,7 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "../ui/input-group";
+import { Button } from "../ui/button";
 
 export default function FiltersControl() {
   const t = useTranslations("Reviews");
@@ -45,14 +46,13 @@ export default function FiltersControl() {
   );
   return (
     <Card className="border border-primary/20" style={{ boxShadow: "none" }}>
-      <CardContent className="flex items-center gap-4">
-        <Field>
-          <InputGroup className="bg-white h-10">
+      <CardContent className="flex items-center gap-3">
+        <Field className="flex-1">
+          <InputGroup className="bg-white h-10 ">
             <InputGroupInput
               value={queryParam}
               onChange={(e) => setQueryParam(e.target.value)}
               placeholder={t("SearchPlaceholder")}
-              className="max-w-20"
             />
             <InputGroupAddon align="inline-start">
               <Search />
@@ -66,7 +66,7 @@ export default function FiltersControl() {
             setRatingParam(value);
           }}
         >
-          <SelectTrigger className="h-10 min-h-10 w-full max-w-48 bg-white px-3 py-2.5 leading-none">
+          <SelectTrigger className="flex-1 h-10 min-h-10 w-full bg-white px-3 py-2.5 leading-none">
             <SelectValue placeholder={t("AllRatings")} />
           </SelectTrigger>
           <SelectContent>
@@ -97,7 +97,7 @@ export default function FiltersControl() {
             setSortParam(value);
           }}
         >
-          <SelectTrigger className="h-10 min-h-10 w-full max-w-48 bg-white px-3 py-2.5 leading-none">
+          <SelectTrigger className="h-10 flex-1 min-h-10 w-full bg-white px-3 py-2.5 leading-none">
             <SelectValue placeholder={t("Newest")} />
           </SelectTrigger>
           <SelectContent>
@@ -110,6 +110,17 @@ export default function FiltersControl() {
             </SelectGroup>
           </SelectContent>
         </Select>
+
+        <Button
+          className="h-10"
+          onClick={() => {
+            setQueryParam("");
+            setRatingParam("");
+            setSortParam("newest");
+          }}
+        >
+          {t("ClearFilters")}
+        </Button>
       </CardContent>
     </Card>
   );
