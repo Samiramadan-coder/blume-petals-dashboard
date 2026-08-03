@@ -37,3 +37,20 @@ export async function deleteRole(roleId: number): Promise<DeleteRoleResponse> {
     return { success: false };
   }
 }
+
+// Assign Role to User
+type AssignRoleToUserResponse = { success: boolean };
+
+export async function assignRoleToUser(
+  userId: number,
+  roleId: number,
+): Promise<AssignRoleToUserResponse> {
+  try {
+    await http.put(`/api/v1/admin/users/${userId}/role`, { role_id: roleId });
+    updateTag("roles-and-permissions");
+    return { success: true };
+  } catch (error) {
+    console.error("Error assigning role to user:", error);
+    return { success: false };
+  }
+}

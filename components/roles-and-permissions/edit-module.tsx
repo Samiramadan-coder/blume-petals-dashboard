@@ -111,7 +111,7 @@ export default function EditModule({
           const selectedPermissions = field.value || [];
 
           return (
-            <div className="space-y-6">
+            <div className="space-y-2">
               {modules.map((module) => {
                 return (
                   <div

@@ -5,7 +5,9 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { Badge } from "../ui/badge";
 import EditModule from "./edit-module";
+import { User } from "@/types/customers";
 import { UsersRound } from "lucide-react";
+import AssignToUser from "./assign-to-user";
 import CreateNewRole from "./create-new-role";
 import { Card, CardContent } from "../ui/card";
 import DeleteBtn from "../reusable/delete-btn";
@@ -16,9 +18,11 @@ import { PermissionModule, Role } from "@/types/role-and-permissions";
 export default function DataPreview({
   roles,
   modules,
+  users,
 }: {
   roles: Role[];
   modules: PermissionModule[];
+  users: User[];
 }) {
   const locale = useLocale();
   const tCommon = useTranslations("Common");
@@ -42,7 +46,10 @@ export default function DataPreview({
             {t("RolesAndPermissionsDescription")}
           </p>
         </div>
-        <CreateNewRole roles={roles} />
+        <div className="flex items-center gap-2">
+          <AssignToUser users={users} roles={roles} />
+          <CreateNewRole roles={roles} />
+        </div>
       </header>
 
       <Card

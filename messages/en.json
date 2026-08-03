@@ -610,6 +610,7 @@
     "CreateRole": "Create Role",
     "AddNewRole": "Add New Role",
     "AddNewRoleDescription": "Create a custom role and configure its permissions.",
+    "AssignToUser": "Assign Role to User",
     "Fields": {
       "Name": {
         "Label": "Role Name",
@@ -624,6 +625,16 @@
       "Permissions": {
         "Label": "Copy permissions from (optional)",
         "Placeholder": "Start with blank permissions"
+      },
+      "User": {
+        "Label": "Assign to User",
+        "Placeholder": "Select a user to assign this role",
+        "Required": "User is required"
+      },
+      "Role": {
+        "Label": "Select Role",
+        "Placeholder": "Select a role to assign to the user",
+        "Required": "Role is required"
       }
     }
   }

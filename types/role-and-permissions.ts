@@ -128,3 +128,13 @@ export const roleFormSchema = (t: T) =>
   });
 
 export type RoleFormValues = z.infer<ReturnType<typeof roleFormSchema>>;
+
+export const assignToUserFormSchema = (t: T) =>
+  z.object({
+    user_id: z.number().min(1, t("Fields.User.Required")),
+    role_id: z.number().min(1, t("Fields.Role.Required")),
+  });
+
+export type AssignToUserFormValues = z.infer<
+  ReturnType<typeof assignToUserFormSchema>
+>;
