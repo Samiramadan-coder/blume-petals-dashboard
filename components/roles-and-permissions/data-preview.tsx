@@ -3,11 +3,11 @@
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { Badge } from "../ui/badge";
-import CreateEditModule from "./modules/create-edit";
 import { UsersRound } from "lucide-react";
+import EditModule from "./edit-module";
 import { Card, CardContent } from "../ui/card";
+import { useLocale, useTranslations } from "next-intl";
 import { PermissionModule, Role } from "@/types/role-and-permissions";
-import { useTranslations } from "next-intl";
 
 export default function DataPreview({
   roles,
@@ -16,13 +16,31 @@ export default function DataPreview({
   roles: Role[];
   modules: PermissionModule[];
 }) {
+  const locale = useLocale();
   const t = useTranslations("RolesAndPermissions");
   const [activeRole, setActiveRole] = useState<Role>(roles[0]);
 
   return (
     <div className="grid items-start grid-cols-1 md:grid-cols-5 gap-6">
+      <header className="md:col-span-5 flex items-center justify-between">
+        <div>
+          <h1
+            className={cn("text-2xl font-semibold text-foreground", {
+              "font-cairo": locale === "ar",
+              "font-heading": locale !== "ar",
+            })}
+          >
+            {t("RolesAndPermissions")}
+          </h1>
+          <p className="text-sm text-muted-foreground mt-2">
+            {t("RolesAndPermissionsDescription")}
+          </p>
+        </div>
+        {/* <CreateEdit totalCreatedItems={pagination.total} type={type} /> */}
+      </header>
+
       <Card
-        className="border border-primary/20 p-0!"
+        className="border border-primary/30 p-0!"
         style={{ boxShadow: "none" }}
       >
         <CardContent className="p-0!">
@@ -68,11 +86,7 @@ export default function DataPreview({
         </CardContent>
       </Card>
 
-      <CreateEditModule
-        key={activeRole.id}
-        modules={modules}
-        role={activeRole}
-      />
+      <EditModule key={activeRole.id} modules={modules} role={activeRole} />
     </div>
   );
 }

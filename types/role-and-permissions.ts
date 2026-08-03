@@ -96,37 +96,32 @@ export type PermissionModule =
 export const roleFormSchema = (t: T) =>
   z.object({
     name: z.string().min(1, t("NameIsRequired")).min(3, t("NameMinLength")),
-    description: z
-      .string()
-      .min(1, t("DescriptionIsRequired"))
-      .min(5, t("DescriptionMinLength")),
-    permissions: z
-      .array(
-        z.enum([
-          "catalog.view",
-          "catalog.create",
-          "catalog.edit",
-          "catalog.delete",
-          "orders.view",
-          "orders.edit",
-          "coupons.view",
-          "coupons.create",
-          "coupons.edit",
-          "coupons.delete",
-          "shipping.view",
-          "shipping.create",
-          "shipping.edit",
-          "shipping.delete",
-          "users.view",
-          "reviews.view",
-          "reviews.delete",
-          "roles.view",
-          "roles.create",
-          "roles.edit",
-          "roles.delete",
-        ]),
-      )
-      .min(1, t("RolesIsRequired")),
+    description: z.string(),
+    permissions: z.array(
+      z.enum([
+        "catalog.view",
+        "catalog.create",
+        "catalog.edit",
+        "catalog.delete",
+        "orders.view",
+        "orders.edit",
+        "coupons.view",
+        "coupons.create",
+        "coupons.edit",
+        "coupons.delete",
+        "shipping.view",
+        "shipping.create",
+        "shipping.edit",
+        "shipping.delete",
+        "users.view",
+        "reviews.view",
+        "reviews.delete",
+        "roles.view",
+        "roles.create",
+        "roles.edit",
+        "roles.delete",
+      ]),
+    ),
   });
 
 export type RoleFormValues = z.infer<ReturnType<typeof roleFormSchema>>;

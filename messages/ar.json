@@ -589,6 +589,8 @@
     "ClearFilters": "مسح الفلاتر"
   },
   "RolesAndPermissions": {
+    "RolesAndPermissions": "الأدوار والصلاحيات",
+    "RolesAndPermissionsDescription": "تحكم فيما يمكن لكل دور إداري رؤيته والقيام به عبر لوحة التحكم.",
     "Roles": "الأدوار",
     "System": "النظام",
     "Custom": "مخصص",
@@ -603,9 +605,6 @@
     "Shipping": "الشحن",
     "Reviews": "التقييمات",
     "NameIsRequired": "اسم الدور مطلوب",
-    "NameMinLength": "يجب أن يكون اسم الدور 3 أحرف على الأقل",
-    "DescriptionIsRequired": "وصف الدور مطلوب",
-    "DescriptionMinLength": "يجب أن يكون وصف الدور 5 أحرف على الأقل",
-    "RolesIsRequired": "يجب تحديد دور واحد على الأقل"
+    "NameMinLength": "يجب أن يكون اسم الدور 3 أحرف على الأقل"
   }
 }
