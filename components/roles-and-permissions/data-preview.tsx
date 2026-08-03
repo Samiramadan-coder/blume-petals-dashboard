@@ -1,20 +1,13 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { useState } from "react";
 import { Badge } from "../ui/badge";
+import CreateEditModule from "./modules/create-edit";
 import { UsersRound } from "lucide-react";
 import { Card, CardContent } from "../ui/card";
 import { PermissionModule, Role } from "@/types/role-and-permissions";
-import { useState } from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "../ui/table";
-import Catalog from "./modules/catalog";
+import { useTranslations } from "next-intl";
 
 export default function DataPreview({
   roles,
@@ -23,10 +16,11 @@ export default function DataPreview({
   roles: Role[];
   modules: PermissionModule[];
 }) {
+  const t = useTranslations("RolesAndPermissions");
   const [activeRole, setActiveRole] = useState<Role>(roles[0]);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+    <div className="grid items-start grid-cols-1 md:grid-cols-5 gap-6">
       <Card
         className="border border-primary/20 p-0!"
         style={{ boxShadow: "none" }}
@@ -34,7 +28,7 @@ export default function DataPreview({
         <CardContent className="p-0!">
           <div className="p-4 border-b border-primary/20">
             <p className="uppercase text-xs text-muted-foreground font-semibold">
-              Roles
+              {t("Roles")}
             </p>
           </div>
           {roles.map((role) => (
@@ -47,7 +41,7 @@ export default function DataPreview({
                   "bg-primary/10 border-s-2 border-s-primary",
               )}
             >
-              <div>
+              <div className="flex-1">
                 <h3 className="font-semibold text-sm">{role.name}</h3>
                 <p className="text-muted-foreground text-xs mt-1">
                   {role.description}
@@ -55,18 +49,18 @@ export default function DataPreview({
                 <div className="flex items-center gap-2 mt-2">
                   <UsersRound className="size-4 text-muted-foreground" />
                   <span className="text-muted-foreground text-xs">
-                    {role.users_count} Users
+                    {role.users_count} {t("Users")}
                   </span>
                 </div>
               </div>
 
               {role.is_system ? (
                 <Badge className="text-[10px] bg-primary/20 text-primary font-semibold">
-                  System
+                  {t("System")}
                 </Badge>
               ) : (
                 <Badge className="text-[10px] bg-secondary/20 text-secondary font-semibold">
-                  Custom
+                  {t("Custom")}
                 </Badge>
               )}
             </div>
@@ -74,13 +68,11 @@ export default function DataPreview({
         </CardContent>
       </Card>
 
-      <div className="md:col-span-4">
-        {modules.map((module) => {
-          if (module.key === "catalog") {
-            return <Catalog key={module.key} catalog={module} />;
-          }
-        })}
-      </div>
+      <CreateEditModule
+        key={activeRole.id}
+        modules={modules}
+        role={activeRole}
+      />
     </div>
   );
 }

@@ -587,5 +587,25 @@
     "LowestRating": "أقل تقييم",
     "SearchPlaceholder": "بحث متقدم.....",
     "ClearFilters": "مسح الفلاتر"
+  },
+  "RolesAndPermissions": {
+    "Roles": "الأدوار",
+    "System": "النظام",
+    "Custom": "مخصص",
+    "Users": "المستخدمون",
+    "View": "عرض",
+    "Create": "إنشاء",
+    "Edit": "تعديل",
+    "Delete": "حذف",
+    "Catalog": "الكتالوج",
+    "Orders": "الطلبات",
+    "Coupons": "القسائم",
+    "Shipping": "الشحن",
+    "Reviews": "التقييمات",
+    "NameIsRequired": "اسم الدور مطلوب",
+    "NameMinLength": "يجب أن يكون اسم الدور 3 أحرف على الأقل",
+    "DescriptionIsRequired": "وصف الدور مطلوب",
+    "DescriptionMinLength": "يجب أن يكون وصف الدور 5 أحرف على الأقل",
+    "RolesIsRequired": "يجب تحديد دور واحد على الأقل"
   }
 }

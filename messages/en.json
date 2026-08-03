@@ -592,9 +592,23 @@
     "ClearFilters": "Clear Filters"
   },
   "RolesAndPermissions": {
+    "Roles": "Roles",
+    "System": "System",
+    "Custom": "Custom",
+    "Users": "Users",
     "View": "View",
     "Create": "Create",
     "Edit": "Edit",
-    "Delete": "Delete"
+    "Delete": "Delete",
+    "Catalog": "Catalog",
+    "Orders": "Orders",
+    "Coupons": "Coupons",
+    "Shipping": "Shipping",
+    "Reviews": "Reviews",
+    "NameIsRequired": "Role name is required",
+    "NameMinLength": "Role name must be at least 3 characters",
+    "DescriptionIsRequired": "Role description is required",
+    "DescriptionMinLength": "Role description must be at least 5 characters",
+    "RolesIsRequired": "At least one role must be selected"
   }
 }

@@ -1,4 +1,7 @@
-type Permission =
+import z from "zod";
+import { T } from "./shared";
+
+export type Permission =
   | "catalog.view"
   | "catalog.create"
   | "catalog.edit"
@@ -30,8 +33,7 @@ export type Role = {
   users_count: number;
 };
 
-// Permission modules and their actions
-export type CatalogModule = {
+type CatalogModule = {
   key: "catalog";
   actions: Array<"view" | "create" | "edit" | "delete">;
   permissions: Array<
@@ -39,13 +41,13 @@ export type CatalogModule = {
   >;
 };
 
-export type OrdersModule = {
+type OrdersModule = {
   key: "orders";
   actions: Array<"view" | "edit">;
   permissions: Array<"orders.view" | "orders.edit">;
 };
 
-export type CouponsModule = {
+type CouponsModule = {
   key: "coupons";
   actions: Array<"view" | "create" | "edit" | "delete">;
   permissions: Array<
@@ -53,7 +55,7 @@ export type CouponsModule = {
   >;
 };
 
-export type ShippingModule = {
+type ShippingModule = {
   key: "shipping";
   actions: Array<"view" | "create" | "edit" | "delete">;
   permissions: Array<
@@ -61,19 +63,19 @@ export type ShippingModule = {
   >;
 };
 
-export type UsersModule = {
+type UsersModule = {
   key: "users";
   actions: Array<"view">;
   permissions: Array<"users.view">;
 };
 
-export type ReviewsModule = {
+type ReviewsModule = {
   key: "reviews";
   actions: Array<"view" | "delete">;
   permissions: Array<"reviews.view" | "reviews.delete">;
 };
 
-export type RolesModule = {
+type RolesModule = {
   key: "roles";
   actions: Array<"view" | "create" | "edit" | "delete">;
   permissions: Array<
@@ -90,6 +92,41 @@ export type PermissionModule =
   | ReviewsModule
   | RolesModule;
 
-// export type PermissionsResponse = {
-//   modules: PermissionModule[];
-// };
+// Create And Edit Role Form
+export const roleFormSchema = (t: T) =>
+  z.object({
+    name: z.string().min(1, t("NameIsRequired")).min(3, t("NameMinLength")),
+    description: z
+      .string()
+      .min(1, t("DescriptionIsRequired"))
+      .min(5, t("DescriptionMinLength")),
+    permissions: z
+      .array(
+        z.enum([
+          "catalog.view",
+          "catalog.create",
+          "catalog.edit",
+          "catalog.delete",
+          "orders.view",
+          "orders.edit",
+          "coupons.view",
+          "coupons.create",
+          "coupons.edit",
+          "coupons.delete",
+          "shipping.view",
+          "shipping.create",
+          "shipping.edit",
+          "shipping.delete",
+          "users.view",
+          "reviews.view",
+          "reviews.delete",
+          "roles.view",
+          "roles.create",
+          "roles.edit",
+          "roles.delete",
+        ]),
+      )
+      .min(1, t("RolesIsRequired")),
+  });
+
+export type RoleFormValues = z.infer<ReturnType<typeof roleFormSchema>>;
