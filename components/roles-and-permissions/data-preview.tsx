@@ -1,17 +1,17 @@
 "use client";
 
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { Badge } from "../ui/badge";
-import { UsersRound } from "lucide-react";
 import EditModule from "./edit-module";
-import { Card, CardContent } from "../ui/card";
-import { useLocale, useTranslations } from "next-intl";
-import { PermissionModule, Role } from "@/types/role-and-permissions";
+import { UsersRound } from "lucide-react";
 import CreateNewRole from "./create-new-role";
+import { Card, CardContent } from "../ui/card";
 import DeleteBtn from "../reusable/delete-btn";
+import { useLocale, useTranslations } from "next-intl";
 import { deleteRole } from "@/lib/role-and-permissions";
-import { toast } from "sonner";
+import { PermissionModule, Role } from "@/types/role-and-permissions";
 
 export default function DataPreview({
   roles,
@@ -21,10 +21,10 @@ export default function DataPreview({
   modules: PermissionModule[];
 }) {
   const locale = useLocale();
-  const t = useTranslations("RolesAndPermissions");
-  const [activeRole, setActiveRole] = useState<Role>(roles[0]);
   const tCommon = useTranslations("Common");
+  const t = useTranslations("RolesAndPermissions");
   const [loadingDelete, setLoadingDelete] = useState(false);
+  const [activeRole, setActiveRole] = useState<Role>(roles[0]);
 
   return (
     <div className="grid items-start grid-cols-1 md:grid-cols-5 gap-6">
