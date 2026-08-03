@@ -23,3 +23,17 @@ export async function createRole(
     return { success: false };
   }
 }
+
+// Delete Role
+type DeleteRoleResponse = { success: boolean };
+
+export async function deleteRole(roleId: number): Promise<DeleteRoleResponse> {
+  try {
+    await http.delete(`/api/v1/admin/roles/${roleId}`);
+    updateTag("roles-and-permissions");
+    return { success: true };
+  } catch (error) {
+    console.error("Error deleting role:", error);
+    return { success: false };
+  }
+}

@@ -9,6 +9,9 @@ import { Card, CardContent } from "../ui/card";
 import { useLocale, useTranslations } from "next-intl";
 import { PermissionModule, Role } from "@/types/role-and-permissions";
 import CreateNewRole from "./create-new-role";
+import DeleteBtn from "../reusable/delete-btn";
+import { deleteRole } from "@/lib/role-and-permissions";
+import { toast } from "sonner";
 
 export default function DataPreview({
   roles,
@@ -20,6 +23,8 @@ export default function DataPreview({
   const locale = useLocale();
   const t = useTranslations("RolesAndPermissions");
   const [activeRole, setActiveRole] = useState<Role>(roles[0]);
+  const tCommon = useTranslations("Common");
+  const [loadingDelete, setLoadingDelete] = useState(false);
 
   return (
     <div className="grid items-start grid-cols-1 md:grid-cols-5 gap-6">
@@ -78,9 +83,27 @@ export default function DataPreview({
                   {t("System")}
                 </Badge>
               ) : (
-                <Badge className="text-[10px] bg-secondary/20 text-secondary font-semibold">
-                  {t("Custom")}
-                </Badge>
+                <div className="flex items-center gap-1">
+                  <Badge className="text-[10px] bg-secondary/20 text-secondary font-semibold">
+                    {t("Custom")}
+                  </Badge>
+                  <div onClick={(e) => e.stopPropagation()}>
+                    <DeleteBtn
+                      onDelete={async () => {
+                        setLoadingDelete(true);
+                        const result = await deleteRole(role.id);
+                        setLoadingDelete(false);
+                        if (result.success) {
+                          toast.success(tCommon("DeletedSuccessfully"));
+                          setActiveRole(roles[0]);
+                          return;
+                        }
+                        toast.error(tCommon("DeleteFailed"));
+                      }}
+                      loading={loadingDelete}
+                    />
+                  </div>
+                </div>
               )}
             </div>
           ))}

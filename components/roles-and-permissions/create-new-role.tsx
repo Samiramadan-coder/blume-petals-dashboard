@@ -8,23 +8,25 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import { Button } from "../ui/button";
-import { Spinner } from "../ui/spinner";
-import AddButton from "../form/add-button";
-import { useTranslations } from "next-intl";
-import NormalFormInput from "../form/input";
-import NormalFormTextarea from "../form/textarea";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, SubmitHandler } from "react-hook-form";
+
 import {
   Role,
   roleFormSchema,
   RoleFormValues,
 } from "@/types/role-and-permissions";
-import NormalFormSelect from "../form/select";
-import { createRole } from "@/lib/role-and-permissions";
+
 import { toast } from "sonner";
 import { useRef } from "react";
+import { Button } from "../ui/button";
+import { Spinner } from "../ui/spinner";
+import AddButton from "../form/add-button";
+import { useTranslations } from "next-intl";
+import NormalFormInput from "../form/input";
+import NormalFormSelect from "../form/select";
+import NormalFormTextarea from "../form/textarea";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { createRole } from "@/lib/role-and-permissions";
+import { useForm, SubmitHandler } from "react-hook-form";
 
 export default function CreateNewRole({ roles }: { roles: Role[] }) {
   const tCommon = useTranslations("Common");
