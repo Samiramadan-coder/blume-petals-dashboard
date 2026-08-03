@@ -8,6 +8,7 @@ import EditModule from "./edit-module";
 import { Card, CardContent } from "../ui/card";
 import { useLocale, useTranslations } from "next-intl";
 import { PermissionModule, Role } from "@/types/role-and-permissions";
+import CreateNewRole from "./create-new-role";
 
 export default function DataPreview({
   roles,
@@ -36,7 +37,7 @@ export default function DataPreview({
             {t("RolesAndPermissionsDescription")}
           </p>
         </div>
-        {/* <CreateEdit totalCreatedItems={pagination.total} type={type} /> */}
+        <CreateNewRole roles={roles} />
       </header>
 
       <Card

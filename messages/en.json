@@ -607,7 +607,24 @@
     "Coupons": "Coupons",
     "Shipping": "Shipping",
     "Reviews": "Reviews",
-    "NameIsRequired": "Role name is required",
-    "NameMinLength": "Role name must be at least 3 characters"
+    "CreateRole": "Create Role",
+    "AddNewRole": "Add New Role",
+    "AddNewRoleDescription": "Create a custom role and configure its permissions.",
+    "Fields": {
+      "Name": {
+        "Label": "Role Name",
+        "Placeholder": "e.g. Marketing Manager",
+        "Required": "Role name is required",
+        "MinLength": "Role name must be at least 3 characters"
+      },
+      "Description": {
+        "Label": "Role Description",
+        "Placeholder": "Enter role description"
+      },
+      "Permissions": {
+        "Label": "Copy permissions from (optional)",
+        "Placeholder": "Start with blank permissions"
+      }
+    }
   }
 }

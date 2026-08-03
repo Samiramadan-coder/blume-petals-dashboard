@@ -23,7 +23,7 @@ import { cn } from "@/lib/utils";
 
 type SelectOption = {
   label: string;
-  value: string | number;
+  value: string | number | string[];
 };
 
 type NormalFormSelectProps<T extends FieldValues> = {

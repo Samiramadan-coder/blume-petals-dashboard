@@ -95,7 +95,10 @@ export type PermissionModule =
 // Create And Edit Role Form
 export const roleFormSchema = (t: T) =>
   z.object({
-    name: z.string().min(1, t("NameIsRequired")).min(3, t("NameMinLength")),
+    name: z
+      .string()
+      .min(1, t("Fields.Name.Required"))
+      .min(3, t("Fields.Name.MinLength")),
     description: z.string(),
     permissions: z.array(
       z.enum([

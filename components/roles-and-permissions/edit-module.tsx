@@ -53,16 +53,14 @@ export default function EditModule({
   });
 
   const onSubmit: SubmitHandler<RoleFormValues> = async (data) => {
-    const result = await createRole(data, role?.id);
+    const result = await createRole(data, role.id);
 
     if (result.success) {
-      toast.success(
-        role ? tCommon("UpdatedSuccessfully") : tCommon("CreatedSuccessfully"),
-      );
+      toast.success(tCommon("UpdatedSuccessfully"));
       return;
     }
 
-    toast.error(role ? tCommon("UpdateFailed") : tCommon("CreationFailed"));
+    toast.error(tCommon("UpdateFailed"));
   };
 
   return (
