@@ -589,8 +589,8 @@
     "ClearFilters": "مسح الفلاتر"
   },
   "RolesAndPermissions": {
-    "RolesAndPermissions": "الأدوار والصلاحيات",
-    "RolesAndPermissionsDescription": "تحكم فيما يمكن لكل دور إداري رؤيته والقيام به عبر لوحة التحكم.",
+    "RolesAndPermissions": "الأدوار والأذونات",
+    "RolesAndPermissionsDescription": "التحكم فيما يمكن أن يراه كل دور إداري وما يمكنه فعله عبر لوحة التحكم.",
     "Roles": "الأدوار",
     "System": "النظام",
     "Custom": "مخصص",
@@ -604,7 +604,35 @@
     "Coupons": "القسائم",
     "Shipping": "الشحن",
     "Reviews": "التقييمات",
-    "NameIsRequired": "اسم الدور مطلوب",
-    "NameMinLength": "يجب أن يكون اسم الدور 3 أحرف على الأقل"
+    "CreateRole": "إنشاء دور",
+    "AddNewRole": "إضافة دور جديد",
+    "AddNewRoleDescription": "إنشاء دور مخصص وتكوين أذوناته.",
+    "AssignToUser": "تعيين الدور للمستخدم",
+    "Fields": {
+      "Name": {
+        "Label": "اسم الدور",
+        "Placeholder": "مثال: مدير التسويق",
+        "Required": "اسم الدور مطلوب",
+        "MinLength": "يجب ألا يقل اسم الدور عن 3 أحرف"
+      },
+      "Description": {
+        "Label": "وصف الدور",
+        "Placeholder": "أدخل وصف الدور"
+      },
+      "Permissions": {
+        "Label": "نسخ الأذونات من (اختياري)",
+        "Placeholder": "ابدأ بأذونات فارغة"
+      },
+      "User": {
+        "Label": "تعيين للمستخدم",
+        "Placeholder": "اختر مستخدمًا لتعيين هذا الدور له",
+        "Required": "المستخدم مطلوب"
+      },
+      "Role": {
+        "Label": "اختيار الدور",
+        "Placeholder": "اختر الدور لتعيينه للمستخدم",
+        "Required": "الدور مطلوب"
+      }
+    }
   }
 }
