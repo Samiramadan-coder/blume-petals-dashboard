@@ -55,6 +55,11 @@ export default function AssignToUser({
       return;
     }
 
+    if (result.message) {
+      toast.error(result.message);
+      return;
+    }
+
     toast.error(tCommon("CreationFailed"));
   };
 

@@ -56,6 +56,11 @@ export default function CreateNewRole({ roles }: { roles: Role[] }) {
       return;
     }
 
+    if (result.message) {
+      toast.error(result.message);
+      return;
+    }
+
     toast.error(tCommon("CreationFailed"));
   };
 

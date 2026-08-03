@@ -42,7 +42,7 @@ export default async function MainLayout({
           <SidebarGroup className="p-0">
             <SidebarLogo />
             <SidebarMenu className="p-2">
-              {navigation.map((item) => (
+              {navigation().map((item) => (
                 <SidebarMenuItem key={item.label}>
                   {item.type === "link" ? (
                     <SidebarNavLink item={item} />

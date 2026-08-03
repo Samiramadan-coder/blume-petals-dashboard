@@ -1,25 +1,25 @@
 import {
-  LayoutGrid,
-  FolderKanban,
+  Bell,
+  Boxes,
+  Globe,
   Layers2,
-  Columns3Cog,
-  ShoppingCart,
+  UserKey,
+  Settings,
+  UserStar,
+  Container,
+  LayoutGrid,
   CircleUser,
+  Columns3Cog,
+  FolderKanban,
+  ShoppingCart,
+  PackageCheck,
   MessageSquare,
   ChartNoAxesColumn,
-  Container,
-  Boxes,
-  Settings,
-  PackageCheck,
-  Bell,
-  UserStar,
-  Globe,
-  UserKey,
 } from "lucide-react";
 import { createElement } from "react";
 import type { DashboardNavigationItem } from "@/types/dashboard-layout";
 
-export const navigation: DashboardNavigationItem[] = [
+export const navigation = (): DashboardNavigationItem[] => [
   {
     label: "sidebar.navigation.overview",
     type: "label",

@@ -25,6 +25,7 @@ class HttpError extends Error {
   }
 }
 
+// 422 Validation Error
 class ValidationError extends Error {
   status: 422;
   errors: Record<string, string[]>;
@@ -46,6 +47,48 @@ class ValidationError extends Error {
       return (data as { errors: Record<string, string[]> }).errors;
     }
     return {};
+  }
+}
+
+// 403 Forbidden Error
+class ForbiddenError extends Error {
+  status: 403;
+  data: unknown;
+
+  constructor(data: unknown) {
+    const message =
+      data !== null &&
+      typeof data === "object" &&
+      "message" in data &&
+      typeof (data as Record<string, unknown>).message === "string"
+        ? (data as { message: string }).message
+        : "You don't have permission to access this resource";
+
+    super(message);
+    this.name = "ForbiddenError";
+    this.status = 403;
+    this.data = data;
+  }
+}
+
+// 5xx Server Errors
+class ServerError extends Error {
+  status: number;
+  data: unknown;
+
+  constructor(status: number, data: unknown) {
+    const message =
+      data !== null &&
+      typeof data === "object" &&
+      "message" in data &&
+      typeof (data as Record<string, unknown>).message === "string"
+        ? (data as { message: string }).message
+        : "Internal server error occurred";
+
+    super(message);
+    this.name = "ServerError";
+    this.status = status;
+    this.data = data;
   }
 }
 
@@ -137,7 +180,6 @@ function createHttp(baseURL: string) {
       }
 
       if (body instanceof FormData) {
-        // Let fetch set multipart boundaries automatically.
         headers.delete("Content-Type");
       }
     }
@@ -162,8 +204,16 @@ function createHttp(baseURL: string) {
         await handleUnauthorized();
       }
 
+      if (response.status === 403) {
+        throw new ForbiddenError(data);
+      }
+
       if (response.status === 422) {
         throw new ValidationError(data);
+      }
+
+      if (response.status >= 500 && response.status < 600) {
+        throw new ServerError(response.status, data);
       }
 
       throw new HttpError(
@@ -205,5 +255,12 @@ function createHttp(baseURL: string) {
 
 const http = createHttp(process.env.NEXT_PUBLIC_API_URL ?? "");
 
-export { http, createHttp, HttpError, ValidationError };
+export {
+  http,
+  createHttp,
+  HttpError,
+  ValidationError,
+  ForbiddenError,
+  ServerError,
+};
 export type { HttpResponse, RequestConfig };

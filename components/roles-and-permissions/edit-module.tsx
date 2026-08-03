@@ -60,6 +60,11 @@ export default function EditModule({
       return;
     }
 
+    if (result.message) {
+      toast.error(result.message);
+      return;
+    }
+
     toast.error(tCommon("UpdateFailed"));
   };
 

@@ -100,11 +100,18 @@ export default function DataPreview({
                         setLoadingDelete(true);
                         const result = await deleteRole(role.id);
                         setLoadingDelete(false);
+
                         if (result.success) {
                           toast.success(tCommon("DeletedSuccessfully"));
                           setActiveRole(roles[0]);
                           return;
                         }
+
+                        if (result.message) {
+                          toast.error(result.message);
+                          return;
+                        }
+
                         toast.error(tCommon("DeleteFailed"));
                       }}
                       loading={loadingDelete}

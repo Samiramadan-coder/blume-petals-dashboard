@@ -1,11 +1,11 @@
 "use server";
 
 import { updateTag } from "next/cache";
-import { http } from "./http";
+import { ForbiddenError, http, ServerError } from "./http";
 import { RoleFormValues } from "@/types/role-and-permissions";
 
 // Create Or Edit Role Form
-type RoleResponse = { success: boolean };
+type RoleResponse = { success: true } | { success: false; message?: string };
 
 export async function createRole(
   role: RoleFormValues,
@@ -20,12 +20,23 @@ export async function createRole(
     return { success: true };
   } catch (error) {
     console.error("Error creating role:", error);
+
+    if (error instanceof ForbiddenError) {
+      return { success: false, message: error.message };
+    }
+
+    if (error instanceof ServerError) {
+      return { success: false, message: error.message };
+    }
+
     return { success: false };
   }
 }
 
 // Delete Role
-type DeleteRoleResponse = { success: boolean };
+type DeleteRoleResponse =
+  | { success: true }
+  | { success: false; message?: string };
 
 export async function deleteRole(roleId: number): Promise<DeleteRoleResponse> {
   try {
@@ -34,23 +45,44 @@ export async function deleteRole(roleId: number): Promise<DeleteRoleResponse> {
     return { success: true };
   } catch (error) {
     console.error("Error deleting role:", error);
+
+    if (error instanceof ForbiddenError) {
+      return { success: false, message: error.message };
+    }
+
+    if (error instanceof ServerError) {
+      return { success: false, message: error.message };
+    }
+
     return { success: false };
   }
 }
 
 // Assign Role to User
-type AssignRoleToUserResponse = { success: boolean };
+type AssignRoleToUserResponse =
+  | { success: true }
+  | { success: false; message?: string };
 
 export async function assignRoleToUser(
   userId: number,
   roleId: number,
 ): Promise<AssignRoleToUserResponse> {
   try {
-    await http.put(`/api/v1/admin/users/${userId}/role`, { role_id: roleId });
+    await http.put(`/api/v1/admin/users/${userId}/role`, {
+      role_id: roleId,
+    });
     updateTag("roles-and-permissions");
     return { success: true };
   } catch (error) {
     console.error("Error assigning role to user:", error);
+
+    if (error instanceof ForbiddenError) {
+      return { success: false, message: error.message };
+    }
+
+    if (error instanceof ServerError) {
+      return { success: false, message: error.message };
+    }
     return { success: false };
   }
 }
