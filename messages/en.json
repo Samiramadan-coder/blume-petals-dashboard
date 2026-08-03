@@ -81,7 +81,8 @@
         "deliveryPickup": "Delivery & Pickup",
         "notifications": "Notifications",
         "adminAccount": "Admin Account",
-        "countriesCities": "Countries & Cities"
+        "countriesCities": "Countries & Cities",
+        "rolesAndPermissions": "Roles & Permissions"
       }
     }
   },
@@ -589,5 +590,11 @@
     "LowestRating": "Lowest Rating",
     "SearchPlaceholder": "Advanced Search.....",
     "ClearFilters": "Clear Filters"
+  },
+  "RolesAndPermissions": {
+    "View": "View",
+    "Create": "Create",
+    "Edit": "Edit",
+    "Delete": "Delete"
   }
 }

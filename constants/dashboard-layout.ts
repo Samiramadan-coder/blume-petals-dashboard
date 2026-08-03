@@ -14,6 +14,7 @@ import {
   Bell,
   UserStar,
   Globe,
+  UserKey,
 } from "lucide-react";
 import { createElement } from "react";
 import type { DashboardNavigationItem } from "@/types/dashboard-layout";
@@ -122,6 +123,12 @@ export const navigation: DashboardNavigationItem[] = [
     href: "/notifications",
     type: "link",
     icon: createElement(Bell, { className: "h-4 w-4" }),
+  },
+  {
+    label: "sidebar.navigation.rolesAndPermissions",
+    href: "/roles-and-permissions",
+    type: "link",
+    icon: createElement(UserKey, { className: "h-4 w-4" }),
   },
   {
     label: "sidebar.navigation.adminAccount",
