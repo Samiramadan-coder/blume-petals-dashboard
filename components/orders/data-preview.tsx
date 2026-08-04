@@ -24,6 +24,7 @@ import { DataTable } from "../reusable/data-table";
 import { orderStatuses } from "@/constants/orders";
 import { changeOrderStatus } from "@/lib/orders-actions";
 import { Badge } from "../ui/badge";
+import { usePermissions } from "@/providers/permission-providers";
 
 const statusColorClasses: Record<Order["status"], string> = {
   pending: "bg-amber-100 text-amber-800",
@@ -51,6 +52,7 @@ export default function DataPreview({
   pagination: Pagination;
   summary: Summary;
 }) {
+  const { can } = usePermissions();
   const t = useTranslations("Orders");
 
   return (
@@ -120,6 +122,7 @@ export default function DataPreview({
 
               <TableCell className="px-4 py-3">
                 <Select
+                  disabled={!can("orders.edit")}
                   value={order.status}
                   onValueChange={async (value) => {
                     const result = await changeOrderStatus(order.id, value, "");
@@ -159,10 +162,12 @@ export default function DataPreview({
               </TableCell>
 
               <TableCell className="px-4 py-3 space-x-2">
-                <AddAdminNote
-                  orderId={order.id}
-                  adminNotes={order.admin_notes}
-                />
+                {can("orders.edit") && (
+                  <AddAdminNote
+                    orderId={order.id}
+                    adminNotes={order.admin_notes}
+                  />
+                )}
               </TableCell>
             </TableRow>
           );

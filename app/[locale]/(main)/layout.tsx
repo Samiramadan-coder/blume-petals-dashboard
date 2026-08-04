@@ -43,8 +43,14 @@ export default async function MainLayout({
     redirect("/login");
   }
 
+  const user = data.data;
+
+  const availabelNavigation = navigation(user.permissions).filter(
+    (item) => item.enabled,
+  );
+
   return (
-    <PermissionsProvider user={data.data}>
+    <PermissionsProvider user={user}>
       <SidebarProvider defaultOpen>
         <Sidebar
           side={locale === "ar" ? "right" : "left"}
@@ -55,17 +61,15 @@ export default async function MainLayout({
             <SidebarGroup className="p-0">
               <SidebarLogo />
               <SidebarMenu className="p-2">
-                {navigation(data.data.permissions)
-                  .filter((item) => item.enabled)
-                  .map((item) => (
-                    <SidebarMenuItem key={item.label}>
-                      {item.type === "link" ? (
-                        <SidebarNavLink item={item} />
-                      ) : (
-                        <SidebarNavSection label={item.label} />
-                      )}
-                    </SidebarMenuItem>
-                  ))}
+                {availabelNavigation.map((item) => (
+                  <SidebarMenuItem key={item.label}>
+                    {item.type === "link" ? (
+                      <SidebarNavLink item={item} />
+                    ) : (
+                      <SidebarNavSection label={item.label} />
+                    )}
+                  </SidebarMenuItem>
+                ))}
               </SidebarMenu>
             </SidebarGroup>
           </SidebarContent>

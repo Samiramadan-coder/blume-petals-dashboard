@@ -27,6 +27,7 @@ import DeleteBtn from "../reusable/delete-btn";
 import { TableCell, TableRow } from "../ui/table";
 import { DataTable } from "../reusable/data-table";
 import { useLocale, useTranslations } from "next-intl";
+import { usePermissions } from "@/providers/permission-providers";
 
 export default function DataPreview({
   products,
@@ -44,6 +45,7 @@ export default function DataPreview({
   summary: Summary;
 }) {
   const locale = useLocale();
+  const { can } = usePermissions();
   const t = useTranslations("Products");
   const tCommon = useTranslations("Common");
   const [loadingDelete, setLoadingDelete] = useState(false);
@@ -52,7 +54,13 @@ export default function DataPreview({
     <>
       <header className="flex items-center justify-between">
         <FiltersControl categories={categories} />
-        <CreateEdit categories={categories} occasions={occasions} type={type} />
+        {can("catalog.create") && (
+          <CreateEdit
+            categories={categories}
+            occasions={occasions}
+            type={type}
+          />
+        )}
       </header>
 
       <Statistics summary={summary} />
@@ -140,17 +148,22 @@ export default function DataPreview({
             </TableCell>
 
             <TableCell className="px-4 py-3">
-              <VisibilitySwitch product={product} />
+              <VisibilitySwitch
+                product={product}
+                disabled={!can("catalog.edit")}
+              />
             </TableCell>
 
             <TableCell className="px-4 py-3 text-center">
-              <CreateEdit
-                categories={categories}
-                occasions={occasions}
-                product={product}
-                trigger={<EditBtn />}
-                type={type}
-              />
+              {can("catalog.edit") && (
+                <CreateEdit
+                  categories={categories}
+                  occasions={occasions}
+                  product={product}
+                  trigger={<EditBtn />}
+                  type={type}
+                />
+              )}
 
               <Link
                 href={`/products/${product.id}?type=${type}`}
@@ -161,19 +174,21 @@ export default function DataPreview({
                 </Button>
               </Link>
 
-              <DeleteBtn
-                onDelete={async () => {
-                  setLoadingDelete(true);
-                  const result = await deleteProductAction(product);
-                  setLoadingDelete(false);
-                  if (result.success) {
-                    toast.success(tCommon("DeletedSuccessfully"));
-                    return;
-                  }
-                  toast.error(tCommon("DeleteFailed"));
-                }}
-                loading={loadingDelete}
-              />
+              {can("catalog.delete") && (
+                <DeleteBtn
+                  onDelete={async () => {
+                    setLoadingDelete(true);
+                    const result = await deleteProductAction(product);
+                    setLoadingDelete(false);
+                    if (result.success) {
+                      toast.success(tCommon("DeletedSuccessfully"));
+                      return;
+                    }
+                    toast.error(tCommon("DeleteFailed"));
+                  }}
+                  loading={loadingDelete}
+                />
+              )}
             </TableCell>
           </TableRow>
         ))}
@@ -185,7 +200,13 @@ export default function DataPreview({
 /**
  * A switch component to toggle the visibility of a category.
  */
-function VisibilitySwitch({ product }: { product: Product }) {
+function VisibilitySwitch({
+  product,
+  disabled,
+}: {
+  product: Product;
+  disabled?: boolean;
+}) {
   const tCommon = useTranslations("Common");
   const [loading, setLoading] = useState(false);
 
@@ -195,6 +216,7 @@ function VisibilitySwitch({ product }: { product: Product }) {
         <Spinner className="text-primary" />
       ) : (
         <Switch
+          disabled={disabled}
           checked={product.status === "published"}
           onClick={async () => {
             setLoading(true);

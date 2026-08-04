@@ -1,16 +1,15 @@
 "use client";
 
 import {
-  createContext,
-  useCallback,
-  useContext,
   useMemo,
+  useContext,
+  useCallback,
   useTransition,
+  createContext,
   type ReactNode,
 } from "react";
-import { useRouter } from "next/navigation";
-
 import type { User } from "@/types/shared";
+import { useRouter } from "next/navigation";
 import type { Permission } from "@/types/role-and-permissions";
 
 type PermissionsContextValue = {
@@ -35,9 +34,7 @@ export function PermissionsProvider({
   children,
 }: PermissionsProviderProps) {
   const router = useRouter();
-
   const [isRefreshing, startTransition] = useTransition();
-
   const permissions = user.permissions;
 
   const permissionSet = useMemo(

@@ -12,6 +12,7 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { deleteReviewAction } from "@/lib/reviews";
 import { toast } from "sonner";
+import { usePermissions } from "@/providers/permission-providers";
 
 export default function DataPreview({
   reviews,
@@ -20,6 +21,7 @@ export default function DataPreview({
   reviews: Review[];
   pagination: Pagination;
 }) {
+  const { can } = usePermissions();
   const t = useTranslations("Reviews");
   const tCommon = useTranslations("Common");
   const [loadingDelete, setLoadingDelete] = useState(false);
@@ -64,21 +66,23 @@ export default function DataPreview({
                   )}
                 </p>
 
-                <div className="flex justify-end w-full">
-                  <DeleteBtn
-                    onDelete={async () => {
-                      setLoadingDelete(true);
-                      const result = await deleteReviewAction(review);
-                      setLoadingDelete(false);
-                      if (result.success) {
-                        toast.success(tCommon("DeletedSuccessfully"));
-                        return;
-                      }
-                      toast.error(tCommon("DeleteFailed"));
-                    }}
-                    loading={loadingDelete}
-                  />
-                </div>
+                {can("reviews.delete") && (
+                  <div className="flex justify-end w-full">
+                    <DeleteBtn
+                      onDelete={async () => {
+                        setLoadingDelete(true);
+                        const result = await deleteReviewAction(review);
+                        setLoadingDelete(false);
+                        if (result.success) {
+                          toast.success(tCommon("DeletedSuccessfully"));
+                          return;
+                        }
+                        toast.error(tCommon("DeleteFailed"));
+                      }}
+                      loading={loadingDelete}
+                    />
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>

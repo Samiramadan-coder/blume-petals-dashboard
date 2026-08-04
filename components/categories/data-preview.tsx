@@ -21,6 +21,7 @@ import { columns } from "@/constants/categories";
 import { useLocale, useTranslations } from "next-intl";
 import { Category, CategoryType } from "@/types/categories";
 import { ReorderableDataTable } from "../reusable/date-sortable-table";
+import { usePermissions } from "@/providers/permission-providers";
 
 export default function DataPreview({
   pagination,
@@ -32,6 +33,7 @@ export default function DataPreview({
   type: CategoryType;
 }) {
   const locale = useLocale();
+  const { can } = usePermissions();
   const t = useTranslations("Categories");
   const tCommon = useTranslations("Common");
   const [loadingDelete, setLoadingDelete] = useState(false);
@@ -53,7 +55,10 @@ export default function DataPreview({
             {type === "bouquet" ? t("CategoriesBrief") : t("AddOnsBrief")}
           </p>
         </div>
-        <CreateEdit totalCreatedItems={pagination.total} type={type} />
+
+        {can("catalog.create") && (
+          <CreateEdit totalCreatedItems={pagination.total} type={type} />
+        )}
       </header>
 
       <ReorderableDataTable
@@ -107,7 +112,10 @@ export default function DataPreview({
             </TableCell>
 
             <TableCell className="px-4 py-3">
-              <VisibilitySwitch category={category} />
+              <VisibilitySwitch
+                category={category}
+                disabled={!can("catalog.edit")}
+              />
             </TableCell>
 
             <TableCell className="px-4 py-3">
@@ -117,26 +125,30 @@ export default function DataPreview({
             </TableCell>
 
             <TableCell className="px-4 py-3">
-              <CreateEdit
-                category={category}
-                trigger={<EditBtn />}
-                totalCreatedItems={pagination.total}
-                type={type}
-              />
+              {can("catalog.edit") && (
+                <CreateEdit
+                  category={category}
+                  trigger={<EditBtn />}
+                  totalCreatedItems={pagination.total}
+                  type={type}
+                />
+              )}
 
-              <DeleteBtn
-                onDelete={async () => {
-                  setLoadingDelete(true);
-                  const result = await deleteCategoryAction(category);
-                  setLoadingDelete(false);
-                  if (result.success) {
-                    toast.success(tCommon("DeletedSuccessfully"));
-                    return;
-                  }
-                  toast.error(tCommon("DeleteFailed"));
-                }}
-                loading={loadingDelete}
-              />
+              {can("catalog.delete") && (
+                <DeleteBtn
+                  onDelete={async () => {
+                    setLoadingDelete(true);
+                    const result = await deleteCategoryAction(category);
+                    setLoadingDelete(false);
+                    if (result.success) {
+                      toast.success(tCommon("DeletedSuccessfully"));
+                      return;
+                    }
+                    toast.error(tCommon("DeleteFailed"));
+                  }}
+                  loading={loadingDelete}
+                />
+              )}
             </TableCell>
           </>
         )}
@@ -148,7 +160,13 @@ export default function DataPreview({
 /**
  * A switch component to toggle the visibility of a category.
  */
-function VisibilitySwitch({ category }: { category: Category }) {
+function VisibilitySwitch({
+  category,
+  disabled,
+}: {
+  category: Category;
+  disabled: boolean;
+}) {
   const tCommon = useTranslations("Common");
   const [loading, setLoading] = useState(false);
 
@@ -158,6 +176,7 @@ function VisibilitySwitch({ category }: { category: Category }) {
         <Spinner className="text-primary" />
       ) : (
         <Switch
+          disabled={disabled}
           checked={category.is_visible}
           onClick={async () => {
             setLoading(true);

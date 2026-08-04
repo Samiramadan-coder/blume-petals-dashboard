@@ -20,6 +20,7 @@ import DeleteBtn from "../reusable/delete-btn";
 import { columns } from "@/constants/occasions";
 import { useLocale, useTranslations } from "next-intl";
 import { ReorderableDataTable } from "../reusable/date-sortable-table";
+import { usePermissions } from "@/providers/permission-providers";
 
 export default function DataPreview({
   initialOccasions,
@@ -27,6 +28,7 @@ export default function DataPreview({
   initialOccasions: Occasion[];
 }) {
   const locale = useLocale();
+  const { can } = usePermissions();
   const t = useTranslations("Occasions");
   const tCommon = useTranslations("Common");
   const [loadingDelete, setLoadingDelete] = useState(false);
@@ -48,7 +50,9 @@ export default function DataPreview({
             {t("Description")}
           </p>
         </div>
-        <CreateEdit totalOccasionItems={occasions.length} />
+        {can("catalog.create") && (
+          <CreateEdit totalOccasionItems={occasions.length} />
+        )}
       </header>
 
       <ReorderableDataTable
@@ -105,7 +109,10 @@ export default function DataPreview({
             </TableCell>
 
             <TableCell className="px-4 py-3">
-              <VisibilitySwitch occasion={occasion} />
+              <VisibilitySwitch
+                occasion={occasion}
+                disabled={!can("catalog.edit")}
+              />
             </TableCell>
 
             <TableCell className="px-4 py-3">
@@ -115,24 +122,29 @@ export default function DataPreview({
             </TableCell>
 
             <TableCell className="px-4 py-3">
-              <CreateEdit
-                occasion={occasion}
-                trigger={<EditBtn />}
-                totalOccasionItems={occasions.length}
-              />
-              <DeleteBtn
-                onDelete={async () => {
-                  setLoadingDelete(true);
-                  const result = await deleteOccasionAction(occasion);
-                  setLoadingDelete(false);
-                  if (result.success) {
-                    toast.success(tCommon("DeletedSuccessfully"));
-                    return;
-                  }
-                  toast.error(tCommon("DeleteFailed"));
-                }}
-                loading={loadingDelete}
-              />
+              {can("catalog.edit") && (
+                <CreateEdit
+                  occasion={occasion}
+                  trigger={<EditBtn />}
+                  totalOccasionItems={occasions.length}
+                />
+              )}
+
+              {can("catalog.delete") && (
+                <DeleteBtn
+                  onDelete={async () => {
+                    setLoadingDelete(true);
+                    const result = await deleteOccasionAction(occasion);
+                    setLoadingDelete(false);
+                    if (result.success) {
+                      toast.success(tCommon("DeletedSuccessfully"));
+                      return;
+                    }
+                    toast.error(tCommon("DeleteFailed"));
+                  }}
+                  loading={loadingDelete}
+                />
+              )}
             </TableCell>
           </>
         )}
@@ -144,7 +156,13 @@ export default function DataPreview({
 /**
  * Visibility switch component for an occasion.
  */
-function VisibilitySwitch({ occasion }: { occasion: Occasion }) {
+function VisibilitySwitch({
+  occasion,
+  disabled,
+}: {
+  occasion: Occasion;
+  disabled: boolean;
+}) {
   const tCommon = useTranslations("Common");
   const [loading, setLoading] = useState(false);
 
@@ -155,6 +173,7 @@ function VisibilitySwitch({ occasion }: { occasion: Occasion }) {
       ) : (
         <Switch
           checked={occasion.is_visible}
+          disabled={disabled}
           onClick={async () => {
             setLoading(true);
             const result = await updateOccasionVisibilityAction(occasion);

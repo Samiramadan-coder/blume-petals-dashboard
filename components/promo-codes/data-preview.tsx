@@ -22,6 +22,7 @@ import { TableCell, TableRow } from "../ui/table";
 import { columns } from "@/constants/promo-codes";
 import { DataTable } from "../reusable/data-table";
 import { formatDate } from "@/lib/utils";
+import { usePermissions } from "@/providers/permission-providers";
 
 export default function DataPreview({
   coupons,
@@ -32,6 +33,7 @@ export default function DataPreview({
   pagination: Pagination;
   categories: Category[];
 }) {
+  const { can } = usePermissions();
   const t = useTranslations("PromoCodes");
   const tCommon = useTranslations("Common");
   const [loadingDelete, setLoadingDelete] = useState(false);
@@ -40,9 +42,11 @@ export default function DataPreview({
     <>
       <FiltersControl />
 
-      <div className="flex justify-end">
-        <CreateEdit categories={categories} />
-      </div>
+      {can("coupons.create") && (
+        <div className="flex justify-end">
+          <CreateEdit categories={categories} />
+        </div>
+      )}
 
       <DataTable
         columns={columns(t)}
@@ -118,31 +122,35 @@ export default function DataPreview({
             </TableCell>
 
             <TableCell className="px-4 py-3">
-              <ActiveSwitch coupon={coupon} />
+              <ActiveSwitch coupon={coupon} disabled={!can("coupons.edit")} />
             </TableCell>
 
             <TableCell className="px-4 py-3">
-              <CreateEdit
-                coupon={coupon}
-                trigger={<EditBtn />}
-                categories={categories}
-              />
+              {can("coupons.edit") && (
+                <CreateEdit
+                  coupon={coupon}
+                  trigger={<EditBtn />}
+                  categories={categories}
+                />
+              )}
 
-              <DeleteBtn
-                onDelete={async () => {
-                  setLoadingDelete(true);
-                  const result = await deleteCouponAction(coupon);
-                  setLoadingDelete(false);
+              {can("coupons.delete") && (
+                <DeleteBtn
+                  onDelete={async () => {
+                    setLoadingDelete(true);
+                    const result = await deleteCouponAction(coupon);
+                    setLoadingDelete(false);
 
-                  if (result.success) {
-                    toast.success(tCommon("DeletedSuccessfully"));
-                    return;
-                  }
+                    if (result.success) {
+                      toast.success(tCommon("DeletedSuccessfully"));
+                      return;
+                    }
 
-                  toast.error(tCommon("DeleteFailed"));
-                }}
-                loading={loadingDelete}
-              />
+                    toast.error(tCommon("DeleteFailed"));
+                  }}
+                  loading={loadingDelete}
+                />
+              )}
             </TableCell>
           </TableRow>
         ))}
@@ -154,7 +162,13 @@ export default function DataPreview({
 /**
  * A switch component to toggle the visibility of a category.
  */
-function ActiveSwitch({ coupon }: { coupon: Coupon }) {
+function ActiveSwitch({
+  coupon,
+  disabled,
+}: {
+  coupon: Coupon;
+  disabled: boolean;
+}) {
   const tCommon = useTranslations("Common");
   const [loading, setLoading] = useState(false);
 
@@ -165,6 +179,7 @@ function ActiveSwitch({ coupon }: { coupon: Coupon }) {
       ) : (
         <Switch
           checked={coupon.is_active}
+          disabled={disabled}
           onClick={async () => {
             setLoading(true);
             const result = await updateCouponStatusAction(coupon);
