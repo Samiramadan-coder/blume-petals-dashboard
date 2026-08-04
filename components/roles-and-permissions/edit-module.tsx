@@ -27,6 +27,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { createRole } from "@/lib/role-and-permissions";
 import { Card, CardContent } from "@/components/ui/card";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { usePermissions } from "@/providers/permission-providers";
 
 export default function EditModule({
   modules,
@@ -36,6 +37,7 @@ export default function EditModule({
   role: Role;
 }) {
   const locale = useLocale();
+  const { can } = usePermissions();
   const tCommon = useTranslations("Common");
   const t = useTranslations("RolesAndPermissions");
 
@@ -196,11 +198,13 @@ export default function EditModule({
         }}
       />
 
-      <div className="flex justify-end">
-        <Button type="submit" className="h-11 w-32 text-foreground">
-          {isSubmitting ? <Spinner /> : tCommon("Save")}
-        </Button>
-      </div>
+      {can("roles.edit") && (
+        <div className="flex justify-end">
+          <Button type="submit" className="h-11 w-32 text-foreground">
+            {isSubmitting ? <Spinner /> : tCommon("Save")}
+          </Button>
+        </div>
+      )}
     </form>
   );
 }

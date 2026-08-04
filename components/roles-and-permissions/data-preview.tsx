@@ -14,6 +14,7 @@ import DeleteBtn from "../reusable/delete-btn";
 import { useLocale, useTranslations } from "next-intl";
 import { deleteRole } from "@/lib/role-and-permissions";
 import { PermissionModule, Role } from "@/types/role-and-permissions";
+import { usePermissions } from "@/providers/permission-providers";
 
 export default function DataPreview({
   roles,
@@ -25,6 +26,7 @@ export default function DataPreview({
   users: User[];
 }) {
   const locale = useLocale();
+  const { can } = usePermissions();
   const tCommon = useTranslations("Common");
   const t = useTranslations("RolesAndPermissions");
   const [loadingDelete, setLoadingDelete] = useState(false);
@@ -46,10 +48,12 @@ export default function DataPreview({
             {t("RolesAndPermissionsDescription")}
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <AssignToUser users={users} roles={roles} />
-          <CreateNewRole roles={roles} />
-        </div>
+        {can("roles.create") && (
+          <div className="flex items-center gap-2">
+            <AssignToUser users={users} roles={roles} />
+            <CreateNewRole roles={roles} />
+          </div>
+        )}
       </header>
 
       <Card
@@ -94,29 +98,31 @@ export default function DataPreview({
                   <Badge className="text-[10px] bg-secondary/20 text-secondary font-semibold">
                     {t("Custom")}
                   </Badge>
-                  <div onClick={(e) => e.stopPropagation()}>
-                    <DeleteBtn
-                      onDelete={async () => {
-                        setLoadingDelete(true);
-                        const result = await deleteRole(role.id);
-                        setLoadingDelete(false);
+                  {can("roles.delete") && (
+                    <div onClick={(e) => e.stopPropagation()}>
+                      <DeleteBtn
+                        onDelete={async () => {
+                          setLoadingDelete(true);
+                          const result = await deleteRole(role.id);
+                          setLoadingDelete(false);
 
-                        if (result.success) {
-                          toast.success(tCommon("DeletedSuccessfully"));
-                          setActiveRole(roles[0]);
-                          return;
-                        }
+                          if (result.success) {
+                            toast.success(tCommon("DeletedSuccessfully"));
+                            setActiveRole(roles[0]);
+                            return;
+                          }
 
-                        if (result.message) {
-                          toast.error(result.message);
-                          return;
-                        }
+                          if (result.message) {
+                            toast.error(result.message);
+                            return;
+                          }
 
-                        toast.error(tCommon("DeleteFailed"));
-                      }}
-                      loading={loadingDelete}
-                    />
-                  </div>
+                          toast.error(tCommon("DeleteFailed"));
+                        }}
+                        loading={loadingDelete}
+                      />
+                    </div>
+                  )}
                 </div>
               )}
             </div>
