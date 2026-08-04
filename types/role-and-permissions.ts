@@ -22,7 +22,9 @@ export type Permission =
   | "roles.view"
   | "roles.create"
   | "roles.edit"
-  | "roles.delete";
+  | "roles.delete"
+  | "notifications.view"
+  | "notifications.create";
 
 export type Role = {
   description: string;
@@ -83,6 +85,12 @@ type RolesModule = {
   >;
 };
 
+type NotificationsModule = {
+  key: "notifications";
+  actions: Array<"view" | "create">;
+  permissions: Array<"notifications.view" | "notifications.create">;
+};
+
 export type PermissionModule =
   | CatalogModule
   | OrdersModule
@@ -90,7 +98,8 @@ export type PermissionModule =
   | ShippingModule
   | UsersModule
   | ReviewsModule
-  | RolesModule;
+  | RolesModule
+  | NotificationsModule;
 
 // Create And Edit Role Form
 export const roleFormSchema = (t: T) =>
@@ -123,6 +132,8 @@ export const roleFormSchema = (t: T) =>
         "roles.create",
         "roles.edit",
         "roles.delete",
+        "notifications.view",
+        "notifications.create",
       ]),
     ),
   });

@@ -6,10 +6,12 @@ export type DashboardNavigationItem =
       href: string;
       type: "link";
       icon: ReactNode;
+      enabled: boolean;
     }
   | {
       label: string;
       type: "label";
+      enabled: boolean;
     };
 
 export type DashboardNavigationLinkItem = Extract<

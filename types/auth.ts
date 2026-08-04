@@ -15,6 +15,9 @@ export const loginSchema = (t: T) =>
 export type LoginFormData = z.infer<ReturnType<typeof loginSchema>>;
 
 export type LoginResponse = {
-  data: { token: string; user: User };
+  data: {
+    token: string;
+    user: User;
+  };
   success: boolean;
 };

@@ -1,3 +1,5 @@
+import { Permission } from "./role-and-permissions";
+
 export type Locale = "en" | "ar";
 
 export type T = (key: string) => string;
@@ -18,6 +20,7 @@ export type User = {
   phone: string;
   phone_verified_at: string | null;
   photo_path: string | null;
+  permissions: Permission[];
 };
 
 export type Pagination = {

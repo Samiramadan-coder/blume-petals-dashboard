@@ -2,6 +2,8 @@
 
 import { toast } from "sonner";
 import { http } from "@/lib/http";
+import { saveToken } from "@/lib/actions";
+import Input from "@/components/form/input";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
@@ -10,8 +12,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Card, CardContent } from "@/components/ui/card";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { LoginFormData, LoginResponse, loginSchema } from "@/types/auth";
-import Input from "@/components/form/input";
-import { saveToken } from "@/lib/actions";
 
 export default function LoginPage() {
   const router = useRouter();

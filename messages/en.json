@@ -607,6 +607,7 @@
     "Coupons": "Coupons",
     "Shipping": "Shipping",
     "Reviews": "Reviews",
+    "Notifications": "Notifications",
     "CreateRole": "Create Role",
     "AddNewRole": "Add New Role",
     "AddNewRoleDescription": "Create a custom role and configure its permissions.",
