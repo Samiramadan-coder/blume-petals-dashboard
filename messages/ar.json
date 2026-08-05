@@ -637,6 +637,10 @@
     }
   },
   "Notifications": {
+    "Title": "الإشعارات",
+    "Description": "إدارة الإشعارات المرسلة إلى العملاء والتحكم فيما يظهر على واجهة المتجر.",
+    "CreateNotification": "إنشاء إشعار",
+    "CreateNotificationDescription": "املأ تفاصيل الإشعار أدناه",
     "Fields": {
       "Title": {
         "Label": "العنوان",

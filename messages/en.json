@@ -640,6 +640,10 @@
     }
   },
   "Notifications": {
+    "Title": "Notifications",
+    "Description": "Manage notifications sent to customers and control what appears on the storefront.",
+    "CreateNotification": "Create Notification",
+    "CreateNotificationDescription": "Fill in notification details below",
     "Fields": {
       "Title": {
         "Label": "Title",
