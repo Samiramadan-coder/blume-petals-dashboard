@@ -638,5 +638,32 @@
         "Required": "Role is required"
       }
     }
+  },
+  "Notifications": {
+    "Fields": {
+      "Title": {
+        "Label": "Title",
+        "Placeholder": "Enter notification title",
+        "Required": "Title is required",
+        "Min": "Title must be at least 2 characters"
+      },
+      "Body": {
+        "Label": "Body",
+        "Placeholder": "Enter notification body",
+        "Required": "Body is required",
+        "Min": "Body must be at least 2 characters"
+      },
+      "Link": {
+        "Label": "Link (optional)",
+        "Placeholder": "Enter link URL",
+        "Required": "Link is required",
+        "Min": "Link must be at least 2 characters"
+      },
+      "Type": {
+        "Label": "Type",
+        "Placeholder": "Select notification type",
+        "Required": "Type is required"
+      }
+    }
   }
 }
