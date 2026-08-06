@@ -679,5 +679,16 @@
     "Title": "Messages",
     "Description": "Manage Messages Received from Customers.",
     "MarkAsRead": "Mark as Read"
+  },
+  "Settings": {
+    "Title": "Settings",
+    "Description": "Manage your store settings and configure your store's appearance and functionality.",
+    "about_us": "About Us",
+    "terms_and_conditions": "Terms & Conditions",
+    "policy": "Privacy Policy",
+    "logo_url": "Store Logo",
+    "AboutUsPlaceholder": "Enter About Us content",
+    "TermsAndConditionsPlaceholder": "Enter Terms & Conditions content",
+    "PolicyPlaceholder": "Enter Privacy Policy content"
   }
 }

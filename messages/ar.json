@@ -676,5 +676,16 @@
     "Title": "الرسائل",
     "Description": "إدارة الرسائل الواردة من العملاء.",
     "MarkAsRead": "وضع علامة كمقروء"
+  },
+  "Settings": {
+    "Title": "إعدادات المتجر",
+    "Description": "إدارة إعدادات متجرك وتكوين مظهر ووظائف متجرك.",
+    "about_us": "من نحن",
+    "terms_and_conditions": "الشروط والأحكام",
+    "policy": "سياسة الخصوصية",
+    "logo_url": "شعار المتجر",
+    "AboutUsPlaceholder": "أدخل نص 'من نحن' هنا",
+    "TermsAndConditionsPlaceholder": "أدخل نص 'الشروط والأحكام' هنا",
+    "PolicyPlaceholder": "أدخل نص 'سياسة الخصوصية' هنا"
   }
 }

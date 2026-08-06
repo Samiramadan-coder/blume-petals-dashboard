@@ -14,7 +14,7 @@ import { RichTextEditor } from "../ui/rich-text-editor";
 
 type NormalFormRichTextProps<T extends FieldValues> = {
   name: Path<T>;
-  label: string;
+  label?: string;
   placeholder?: string;
   required?: boolean;
   control: Control<T>;
@@ -35,16 +35,18 @@ export default function NormalFormRichText<T extends FieldValues>({
       control={control}
       render={({ field, fieldState }) => (
         <Field className={className} data-invalid={fieldState.invalid}>
-          <FieldLabel
-            htmlFor={name}
-            className={cn(
-              "text-sm font-semibold",
-              required &&
-                "after:ms-1 after:text-destructive after:content-['*']",
-            )}
-          >
-            {label}
-          </FieldLabel>
+          {label && (
+            <FieldLabel
+              htmlFor={name}
+              className={cn(
+                "text-sm font-semibold",
+                required &&
+                  "after:ms-1 after:text-destructive after:content-['*']",
+              )}
+            >
+              {label}
+            </FieldLabel>
+          )}
 
           <FieldContent>
             <div className="space-y-1.5">
