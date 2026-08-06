@@ -677,7 +677,7 @@
   },
   "Messages": {
     "Title": "Messages",
-    "Description": "Manage messages sent to customers and control what appears on the storefront.",
+    "Description": "Manage Messages Received from Customers.",
     "MarkAsRead": "Mark as Read"
   }
 }
