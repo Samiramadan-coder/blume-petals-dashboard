@@ -152,6 +152,10 @@ export const roleFormSchema = (t: T) =>
         "roles.delete",
         "notifications.view",
         "notifications.create",
+        "contact.view",
+        "contact.delete",
+        "settings.view",
+        "settings.edit",
       ]),
     ),
   });
