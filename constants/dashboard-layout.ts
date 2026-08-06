@@ -15,6 +15,7 @@ import {
   PackageCheck,
   MessageSquare,
   ChartNoAxesColumn,
+  Mail,
 } from "lucide-react";
 import { createElement } from "react";
 import { Permission } from "@/types/role-and-permissions";
@@ -130,7 +131,14 @@ export const navigation = (
     href: "/store-settings",
     type: "link",
     icon: createElement(Settings, { className: "h-4 w-4" }),
-    enabled: true,
+    enabled: permissions.includes("settings.view"),
+  },
+  {
+    label: "sidebar.navigation.Messages",
+    href: "/messages",
+    type: "link",
+    icon: createElement(Mail, { className: "h-4 w-4" }),
+    enabled: permissions.includes("contact.view"),
   },
   {
     label: "sidebar.navigation.deliveryPickup",
