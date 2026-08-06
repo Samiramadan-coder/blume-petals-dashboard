@@ -8,7 +8,6 @@ import Header from "../form/header";
 import { Button } from "../ui/button";
 import { useEffect, useRef } from "react";
 import AddButton from "../form/add-button";
-import NormalFormRichText from "../form/rich-text";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { availableLocales } from "@/constants/shared";
 import { useLocale, useTranslations } from "next-intl";
@@ -21,6 +20,8 @@ import {
   notificationSchema,
 } from "@/types/notifications";
 import { postNotificationAction } from "@/lib/notifications";
+import NormalFormTextarea from "../form/textarea";
+import NormalFormSelect from "../form/select";
 
 export default function Create() {
   const locale = useLocale();
@@ -42,8 +43,8 @@ export default function Create() {
     defaultValues: {
       title: { en: "", ar: "" },
       body: { en: "", ar: "" },
-      link: "/products",
-      type: "promo",
+      link: "",
+      type: undefined,
     },
     resolver: zodResolver(notificationSchema((key) => tLive(key as never))),
   });
@@ -139,15 +140,44 @@ export default function Create() {
                   hidden: activeLocale !== locale,
                 })}
               >
-                <NormalFormRichText<NotificationFormData>
-                  key={activeLocale}
-                  control={control}
+                <NormalFormTextarea<NotificationFormData>
+                  register={register}
+                  errors={errors}
+                  required
+                  rows={6}
+                  maxLength={500}
                   label={tLive("Fields.Body.Label")}
                   name={`body.${locale}`}
                   placeholder={tLive("Fields.Body.Placeholder")}
                 />
               </div>
             ))}
+
+            <Input<NotificationFormData>
+              label={tLive("Fields.Link.Label")}
+              placeholder={tLive("Fields.Link.Placeholder")}
+              name="link"
+              type="text"
+              register={register}
+              errors={errors}
+            />
+
+            <NormalFormSelect<NotificationFormData>
+              label={tLive("Fields.Type.Label")}
+              name="type"
+              control={control}
+              required
+              options={[
+                {
+                  value: "promo",
+                  label: tLive("Fields.Type.Promo"),
+                },
+                {
+                  value: "system",
+                  label: tLive("Fields.Type.System"),
+                },
+              ]}
+            />
           </form>
         </div>
         <Footer form={form} loading={isSubmitting} />

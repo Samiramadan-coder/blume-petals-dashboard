@@ -30,7 +30,7 @@ export const notificationSchema = (t: T) =>
       .min(1, t("Fields.Link.Required"))
       .min(2, t("Fields.Link.Min")),
 
-    type: z.enum(["promo"], t("Fields.Type.Required")),
+    type: z.enum(["promo", "system"], t("Fields.Type.Required")),
   });
 
 export type NotificationFormData = z.infer<

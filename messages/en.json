@@ -666,7 +666,9 @@
       "Type": {
         "Label": "Type",
         "Placeholder": "Select notification type",
-        "Required": "Type is required"
+        "Required": "Type is required",
+        "Promo": "Promo",
+        "System": "System"
       }
     }
   }
