@@ -24,7 +24,11 @@ export type Permission =
   | "roles.edit"
   | "roles.delete"
   | "notifications.view"
-  | "notifications.create";
+  | "notifications.create"
+  | "contact.view"
+  | "contact.delete"
+  | "settings.view"
+  | "settings.edit";
 
 export type Role = {
   description: string;
@@ -85,6 +89,18 @@ type RolesModule = {
   >;
 };
 
+type ContactModule = {
+  key: "contact";
+  actions: Array<"view" | "delete">;
+  permissions: Array<"contact.view" | "contact.delete">;
+};
+
+type SettingsModule = {
+  key: "settings";
+  actions: Array<"view" | "edit">;
+  permissions: Array<"settings.view" | "settings.edit">;
+};
+
 type NotificationsModule = {
   key: "notifications";
   actions: Array<"view" | "create">;
@@ -99,7 +115,9 @@ export type PermissionModule =
   | UsersModule
   | ReviewsModule
   | RolesModule
-  | NotificationsModule;
+  | NotificationsModule
+  | ContactModule
+  | SettingsModule;
 
 // Create And Edit Role Form
 export const roleFormSchema = (t: T) =>

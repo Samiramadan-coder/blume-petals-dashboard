@@ -608,6 +608,8 @@
     "Shipping": "Shipping",
     "Reviews": "Reviews",
     "Notifications": "Notifications",
+    "Settings": "Settings",
+    "Contact": "Contact",
     "CreateRole": "Create Role",
     "AddNewRole": "Add New Role",
     "AddNewRoleDescription": "Create a custom role and configure its permissions.",

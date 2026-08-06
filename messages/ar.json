@@ -607,6 +607,8 @@
     "CreateRole": "إنشاء دور",
     "AddNewRole": "إضافة دور جديد",
     "Notifications": "الإشعارات",
+    "Settings": "الإعدادات",
+    "Contact": "اتصل بنا",
     "AddNewRoleDescription": "إنشاء دور مخصص وتكوين أذوناته.",
     "AssignToUser": "تعيين الدور للمستخدم",
     "Fields": {
