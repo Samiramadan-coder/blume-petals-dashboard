@@ -689,6 +689,8 @@
     "logo_url": "Store Logo",
     "AboutUsPlaceholder": "Enter About Us content",
     "TermsAndConditionsPlaceholder": "Enter Terms & Conditions content",
-    "PolicyPlaceholder": "Enter Privacy Policy content"
+    "PolicyPlaceholder": "Enter Privacy Policy content",
+    "SavedSuccessfully": "Settings saved successfully",
+    "SaveFailed": "Failed to save settings. Please try again."
   }
 }

@@ -18,6 +18,7 @@ export default function LocaleFormSwitcher({
     <div className="px-4 grid grid-cols-2 gap-2">
       <Button
         variant="outline"
+        type="button"
         onClick={() => onChange("en")}
         className={cn(
           "h-10 hover:bg-primary hover:text-primary-foreground order-2",
@@ -30,6 +31,7 @@ export default function LocaleFormSwitcher({
       </Button>
       <Button
         variant="outline"
+        type="button"
         onClick={() => onChange("ar")}
         className={cn(
           "h-10 hover:bg-primary hover:text-primary-foreground order-1",

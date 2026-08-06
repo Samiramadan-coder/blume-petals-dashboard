@@ -1,15 +1,18 @@
 "use client";
 
-import { Settings, SettingsSchema } from "@/types/settings";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
-import { useLocale, useTranslations } from "next-intl";
-import { useForm, SubmitHandler } from "react-hook-form";
-import NormalFormRichText from "../form/rich-text";
-import { useFormLocale } from "@/hooks/use-form-locale";
-import { availableLocales } from "@/constants/shared";
 import { cn } from "@/lib/utils";
-import LocaleFormSwitcher from "../reusable/locale-form-switcher";
 import { Button } from "../ui/button";
+import { useTranslations } from "next-intl";
+import NormalFormRichText from "../form/rich-text";
+import { availableLocales } from "@/constants/shared";
+import { useFormLocale } from "@/hooks/use-form-locale";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { Settings, SettingsSchema } from "@/types/settings";
+import LocaleFormSwitcher from "../reusable/locale-form-switcher";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import { saveSettings } from "@/lib/settings";
+import { Spinner } from "../ui/spinner";
+import { toast } from "sonner";
 
 export default function DataPreview({ settings }: { settings: Settings }) {
   const t = useTranslations("Settings");
@@ -18,16 +21,22 @@ export default function DataPreview({ settings }: { settings: Settings }) {
     useFormLocale("Settings");
 
   const {
-    register,
-    handleSubmit,
     control,
+    handleSubmit,
     formState: { isSubmitting },
   } = useForm<SettingsSchema>({
     defaultValues: settings,
   });
 
-  const onSubmit: SubmitHandler<SettingsSchema> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<SettingsSchema> = async (data) => {
+    const result = await saveSettings(data);
+
+    if (result.success) {
+      toast.success(t("SavedSuccessfully"));
+      return;
+    }
+
+    toast.error(t("SaveFailed"));
   };
 
   return (
@@ -156,7 +165,7 @@ export default function DataPreview({ settings }: { settings: Settings }) {
 
       <div className="flex justify-end">
         <Button type="submit" className="h-10 w-20">
-          {tCommon("Save")}
+          {isSubmitting ? <Spinner /> : tCommon("Save")}
         </Button>
       </div>
     </form>

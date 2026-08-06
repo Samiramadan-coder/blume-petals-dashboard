@@ -686,6 +686,8 @@
     "logo_url": "شعار المتجر",
     "AboutUsPlaceholder": "أدخل نص 'من نحن' هنا",
     "TermsAndConditionsPlaceholder": "أدخل نص 'الشروط والأحكام' هنا",
-    "PolicyPlaceholder": "أدخل نص 'سياسة الخصوصية' هنا"
+    "PolicyPlaceholder": "أدخل نص 'سياسة الخصوصية' هنا",
+    "SavedSuccessfully": "تم حفظ الإعدادات بنجاح",
+    "SaveFailed": "فشل في حفظ الإعدادات. يرجى المحاولة مرة أخرى."
   }
 }
