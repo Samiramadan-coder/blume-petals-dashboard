@@ -53,7 +53,7 @@ export default function SidebarLogo() {
         </div>
       </div>
 
-      <Separator className="mb-4" />
+      <Separator />
     </>
   );
 }
