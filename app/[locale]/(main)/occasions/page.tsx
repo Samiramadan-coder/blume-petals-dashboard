@@ -18,7 +18,6 @@ async function OccasionsCollectionsPage() {
     "/api/v1/admin/occasions",
     {
       next: {
-        revalidate: 60,
         tags: ["occasions"],
       },
     },

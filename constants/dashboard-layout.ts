@@ -134,7 +134,7 @@ export const navigation = (
     enabled: permissions.includes("settings.view"),
   },
   {
-    label: "sidebar.navigation.Messages",
+    label: "sidebar.navigation.messages",
     href: "/messages",
     type: "link",
     icon: createElement(Mail, { className: "h-4 w-4" }),

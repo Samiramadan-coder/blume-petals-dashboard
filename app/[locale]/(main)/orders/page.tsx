@@ -34,7 +34,6 @@ async function OrdersPage({ searchParams }: { searchParams: SearchParams }) {
     };
   }>("/api/v1/admin/orders", {
     next: {
-      revalidate: 60,
       tags: ["orders"],
     },
     params: {

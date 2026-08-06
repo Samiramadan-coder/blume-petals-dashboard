@@ -39,7 +39,6 @@ async function ReviewsPage({ searchParams }: { searchParams: SearchParams }) {
       q: searchParams.query ?? "",
     },
     next: {
-      revalidate: 60,
       tags: ["reviews"],
     },
   });

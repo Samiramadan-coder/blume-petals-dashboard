@@ -31,7 +31,6 @@ async function DeliveryAndPickupPage({
   }>("/api/v1/admin/cities", {
     next: {
       tags: ["cities"],
-      revalidate: 60,
     },
     params: {
       per_page: 1000,
@@ -46,7 +45,6 @@ async function DeliveryAndPickupPage({
     };
   }>("/api/v1/admin/pickup-locations", {
     next: {
-      revalidate: 60,
       tags: ["delivery-pickup-locations"],
     },
     params: {

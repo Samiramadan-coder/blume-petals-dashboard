@@ -32,9 +32,6 @@ async function CustomersPage({ searchParams }: { searchParams: SearchParams }) {
       summary: Summary;
     };
   }>("/api/v1/admin/users", {
-    next: {
-      revalidate: 60,
-    },
     params: {
       per_page: 10,
       page: page || "1",

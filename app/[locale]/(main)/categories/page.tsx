@@ -37,7 +37,6 @@ async function CategoriesPage({ searchParams }: { searchParams: PageParams }) {
         type: activeTab === "addon" ? "addon" : "",
       },
       next: {
-        revalidate: 60,
         tags: ["categories"],
       },
     },

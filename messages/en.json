@@ -82,7 +82,8 @@
         "notifications": "Notifications",
         "adminAccount": "Admin Account",
         "countriesCities": "Countries & Cities",
-        "rolesAndPermissions": "Roles & Permissions"
+        "rolesAndPermissions": "Roles & Permissions",
+        "messages": "Messages"
       }
     }
   },
@@ -673,5 +674,10 @@
         "System": "System"
       }
     }
+  },
+  "Messages": {
+    "Title": "Messages",
+    "Description": "Manage messages sent to customers and control what appears on the storefront.",
+    "MarkAsRead": "Mark as Read"
   }
 }

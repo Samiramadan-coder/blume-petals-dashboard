@@ -82,7 +82,8 @@
         "notifications": "الإشعارات",
         "adminAccount": "حساب الإدارة",
         "countriesCities": "الدول والمدن",
-        "rolesAndPermissions": "الأدوار والأذونات"
+        "rolesAndPermissions": "الأدوار والأذونات",
+        "messages": "الرسائل"
       }
     }
   },

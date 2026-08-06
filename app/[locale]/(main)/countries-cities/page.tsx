@@ -38,7 +38,6 @@ async function CountriesCitiesPage({
     };
   }>("/api/v1/admin/countries", {
     next: {
-      revalidate: 60,
       tags: ["countries"],
     },
     params: {
@@ -55,7 +54,6 @@ async function CountriesCitiesPage({
     };
   }>("/api/v1/admin/cities", {
     next: {
-      revalidate: 60,
       tags: ["cities"],
     },
     params: {

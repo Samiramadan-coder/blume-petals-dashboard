@@ -41,7 +41,6 @@ async function PromoCodesPage({
       page: searchParams.page || 1,
     },
     next: {
-      revalidate: 60,
       tags: ["promo-codes"],
     },
   });
@@ -51,7 +50,6 @@ async function PromoCodesPage({
     "/api/v1/admin/categories",
     {
       next: {
-        revalidate: 60,
         tags: ["categories"],
       },
     },

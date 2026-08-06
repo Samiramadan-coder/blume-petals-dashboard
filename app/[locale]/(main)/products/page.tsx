@@ -41,7 +41,6 @@ async function ProductsPage({ searchParams }: { searchParams: SearchParams }) {
         type: activeTab === "default" ? "" : "addon",
       },
       next: {
-        revalidate: 60,
         tags: ["categories"],
       },
     },
@@ -52,7 +51,6 @@ async function ProductsPage({ searchParams }: { searchParams: SearchParams }) {
     "/api/v1/admin/occasions",
     {
       next: {
-        revalidate: 60,
         tags: ["occasions"],
       },
     },
@@ -67,7 +65,6 @@ async function ProductsPage({ searchParams }: { searchParams: SearchParams }) {
     };
   }>("/api/v1/admin/products", {
     next: {
-      revalidate: 60,
       tags: ["products"],
     },
     params: {

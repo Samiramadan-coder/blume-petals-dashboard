@@ -8,7 +8,6 @@ export default async function RolesAndPermissionsPage() {
     data: { items: Role[] };
   }>("/api/v1/admin/roles", {
     next: {
-      revalidate: 60,
       tags: ["roles-and-permissions"],
     },
   });
@@ -17,7 +16,6 @@ export default async function RolesAndPermissionsPage() {
     data: { modules: PermissionModule[] };
   }>("/api/v1/admin/permissions", {
     next: {
-      revalidate: 60,
       tags: ["roles-and-permissions"],
     },
   });
@@ -30,7 +28,6 @@ export default async function RolesAndPermissionsPage() {
       per_page: 1000,
     },
     next: {
-      revalidate: 60,
       tags: ["roles-and-permissions"],
     },
   });
