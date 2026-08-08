@@ -136,7 +136,7 @@ export default function DataPreview({
                   <div key={variant.id}>
                     <Badge
                       className={cn({
-                        "bg-primary/30 text-primary": variant.in_stock,
+                        "bg-primary/20 text-primary": variant.in_stock,
                         "bg-destructive/30 text-destructive": !variant.in_stock,
                       })}
                     >

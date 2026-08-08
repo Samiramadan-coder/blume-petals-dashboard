@@ -16,7 +16,7 @@ async function StoreSettings() {
   }
 
   return (
-    <main>
+    <main className="space-y-6">
       <DataPreview settings={data.data.settings} />
     </main>
   );

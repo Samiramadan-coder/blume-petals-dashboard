@@ -46,7 +46,7 @@ export async function postCategoryAction(
       );
     }
 
-    // Post Or Update Icon
+    // Post Or Update Banner
     if (formData.banner instanceof Blob) {
       const bannerFormData = new FormData();
       bannerFormData.append("kind", "banner");

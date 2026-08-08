@@ -13,6 +13,7 @@ import { useLocale, useTranslations } from "next-intl";
 import PaginationTemplate from "../reusable/pagination-temlate";
 import { deleteMessage, markMessageAsRead } from "@/lib/messages";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { usePermissions } from "@/providers/permission-providers";
 
 export default function DataPreview({
   messages,
@@ -22,8 +23,9 @@ export default function DataPreview({
   pagination: Pagination;
 }) {
   const locale = useLocale();
-  const tCommon = useTranslations("Common");
+  const { can } = usePermissions();
   const t = useTranslations("Messages");
+  const tCommon = useTranslations("Common");
   const [loadingDelete, setLoadingDelete] = useState(false);
 
   return (
@@ -75,21 +77,23 @@ export default function DataPreview({
                   </TooltipContent>
                 </Tooltip>
 
-                <DeleteBtn
-                  loading={loadingDelete}
-                  onDelete={async () => {
-                    setLoadingDelete(true);
-                    const result = await deleteMessage(message.id);
-                    setLoadingDelete(false);
+                {can("contact.delete") && (
+                  <DeleteBtn
+                    loading={loadingDelete}
+                    onDelete={async () => {
+                      setLoadingDelete(true);
+                      const result = await deleteMessage(message.id);
+                      setLoadingDelete(false);
 
-                    if (result.success) {
-                      toast.success(tCommon("DeletedSuccessfully"));
-                      return;
-                    }
+                      if (result.success) {
+                        toast.success(tCommon("DeletedSuccessfully"));
+                        return;
+                      }
 
-                    toast.error(tCommon("DeleteFailed"));
-                  }}
-                />
+                      toast.error(tCommon("DeleteFailed"));
+                    }}
+                  />
+                )}
               </div>
             </CardContent>
           </Card>

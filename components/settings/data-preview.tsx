@@ -1,20 +1,24 @@
 "use client";
 
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
-import { useTranslations } from "next-intl";
+import { Spinner } from "../ui/spinner";
+import { useLocale, useTranslations } from "next-intl";
+import { saveSettings } from "@/lib/settings";
+import { Card, CardContent } from "../ui/card";
 import NormalFormRichText from "../form/rich-text";
 import { availableLocales } from "@/constants/shared";
 import { useFormLocale } from "@/hooks/use-form-locale";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Settings, SettingsSchema } from "@/types/settings";
 import LocaleFormSwitcher from "../reusable/locale-form-switcher";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
-import { saveSettings } from "@/lib/settings";
-import { Spinner } from "../ui/spinner";
-import { toast } from "sonner";
+import { usePermissions } from "@/providers/permission-providers";
+import SingleFormImageUploader from "../form/single-image-uploader";
 
 export default function DataPreview({ settings }: { settings: Settings }) {
+  const locale = useLocale();
+  const { can } = usePermissions();
   const t = useTranslations("Settings");
   const tCommon = useTranslations("Common");
   const { activeLocale, changeLocale, dir, isArabic, tLive } =
@@ -40,134 +44,87 @@ export default function DataPreview({ settings }: { settings: Settings }) {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Tabs defaultValue="about_us" className="space-y-6">
-        <TabsList variant="line" className="h-12! space-x-4">
-          {Object.keys(settings).map((key) => (
-            <TabsTrigger
-              key={key}
-              value={key}
-              className="text-sm px-0 cursor-pointer data-[state=active]:after:bg-primary! data-[state=active]:text-primary!"
-            >
-              {t(key)}
-            </TabsTrigger>
-          ))}
-        </TabsList>
-
-        {/* About Us */}
-        <TabsContent value="about_us" className="space-y-4">
-          <div className="max-w-xl">
-            <LocaleFormSwitcher
-              locale={activeLocale}
-              onChange={(locale) => {
-                changeLocale(locale);
-              }}
-            />
-          </div>
-
-          <div
-            dir={dir}
-            className={cn({
-              "font-cairo": isArabic,
+    <>
+      <header className="flex items-center justify-between">
+        <div>
+          <h1
+            className={cn(`text-2xl font-semibold text-foreground`, {
+              "font-cairo": locale === "ar",
+              "font-heading": locale === "en",
             })}
           >
-            {availableLocales.map((locale) => (
-              <div
-                key={locale}
-                className={cn({
-                  hidden: activeLocale !== locale,
+            {t("Title")}
+          </h1>
+          <p className="text-sm text-muted-foreground mt-2">
+            {t("Description")}
+          </p>
+        </div>
+      </header>
+
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="max-w-xl mb-6">
+          <LocaleFormSwitcher
+            locale={activeLocale}
+            onChange={(locale) => {
+              changeLocale(locale);
+            }}
+          />
+        </div>
+
+        {(Object.keys(settings) as Array<keyof Settings>).map((key) => (
+          <Card key={key} className="mb-4">
+            <CardContent className="space-y-4" dir={dir}>
+              <h3
+                className={cn("text-lg", {
+                  "font-cairo": isArabic,
                 })}
               >
-                <NormalFormRichText<SettingsSchema>
-                  key={activeLocale}
-                  control={control}
-                  name={`about_us.${locale}`}
-                  placeholder={tLive("AboutUsPlaceholder")}
-                />
-              </div>
-            ))}
+                {tLive(key)}
+              </h3>
+
+              {key === "logo_url" ? (
+                <div className="max-w-50">
+                  <SingleFormImageUploader control={control} name="logo_url" />
+                </div>
+              ) : (
+                <div
+                  className={cn({
+                    "font-cairo": isArabic,
+                  })}
+                >
+                  {availableLocales.map((locale) => (
+                    <div
+                      key={locale}
+                      className={cn({
+                        hidden: activeLocale !== locale,
+                      })}
+                    >
+                      <NormalFormRichText<SettingsSchema>
+                        key={activeLocale}
+                        control={control}
+                        name={
+                          `${key}.${locale}` as `${Exclude<
+                            keyof Settings,
+                            "logo_url"
+                          >}.${typeof locale}`
+                        }
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        ))}
+
+        {can("settings.edit") && (
+          <div className="flex justify-end">
+            <Button type="submit" className="h-10 w-20">
+              {isSubmitting ? <Spinner /> : tCommon("Save")}
+            </Button>
           </div>
-        </TabsContent>
-
-        {/* Terms and Conditions */}
-        <TabsContent value="terms_and_conditions" className="space-y-4">
-          <div className="max-w-xl">
-            <LocaleFormSwitcher
-              locale={activeLocale}
-              onChange={(locale) => {
-                changeLocale(locale);
-              }}
-            />
-          </div>
-
-          <div
-            dir={dir}
-            className={cn({
-              "font-cairo": isArabic,
-            })}
-          >
-            {availableLocales.map((locale) => (
-              <div
-                key={locale}
-                className={cn({
-                  hidden: activeLocale !== locale,
-                })}
-              >
-                <NormalFormRichText<SettingsSchema>
-                  key={activeLocale}
-                  control={control}
-                  name={`terms_and_conditions.${locale}`}
-                  placeholder={tLive("TermsAndConditionsPlaceholder")}
-                />
-              </div>
-            ))}
-          </div>
-        </TabsContent>
-
-        {/* Privacy Policy */}
-        <TabsContent value="policy" className="space-y-4">
-          <div className="max-w-xl">
-            <LocaleFormSwitcher
-              locale={activeLocale}
-              onChange={(locale) => {
-                changeLocale(locale);
-              }}
-            />
-          </div>
-
-          <div
-            dir={dir}
-            className={cn({
-              "font-cairo": isArabic,
-            })}
-          >
-            {availableLocales.map((locale) => (
-              <div
-                key={locale}
-                className={cn({
-                  hidden: activeLocale !== locale,
-                })}
-              >
-                <NormalFormRichText<SettingsSchema>
-                  key={activeLocale}
-                  control={control}
-                  name={`policy.${locale}`}
-                  placeholder={tLive("PolicyPlaceholder")}
-                />
-              </div>
-            ))}
-          </div>
-        </TabsContent>
-
-        {/* Logo */}
-        <TabsContent value="logo_url" className="space-y-4"></TabsContent>
-      </Tabs>
-
-      <div className="flex justify-end">
-        <Button type="submit" className="h-10 w-20">
-          {isSubmitting ? <Spinner /> : tCommon("Save")}
-        </Button>
-      </div>
-    </form>
+        )}
+      </form>
+    </>
   );
 }
