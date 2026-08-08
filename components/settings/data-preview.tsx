@@ -15,6 +15,7 @@ import { Settings, SettingsSchema } from "@/types/settings";
 import LocaleFormSwitcher from "../reusable/locale-form-switcher";
 import { usePermissions } from "@/providers/permission-providers";
 import SingleFormImageUploader from "../form/single-image-uploader";
+import Image from "next/image";
 
 export default function DataPreview({ settings }: { settings: Settings }) {
   const locale = useLocale();
@@ -83,8 +84,22 @@ export default function DataPreview({ settings }: { settings: Settings }) {
               </h3>
 
               {key === "logo_url" ? (
-                <div className="max-w-50">
-                  <SingleFormImageUploader control={control} name="logo_url" />
+                <div className="flex gap-8">
+                  <div className="max-w-50 min-w-50">
+                    <SingleFormImageUploader
+                      control={control}
+                      name="logo_url"
+                    />
+                  </div>
+
+                  <div className="flex items-center">
+                    <Image
+                      src={settings.logo_url}
+                      alt="Logo"
+                      width={100}
+                      height={100}
+                    />
+                  </div>
                 </div>
               ) : (
                 <div
