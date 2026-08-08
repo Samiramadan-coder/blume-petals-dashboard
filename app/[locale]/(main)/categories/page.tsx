@@ -1,11 +1,11 @@
 import { cn } from "@/lib/utils";
-import { Suspense } from "react";
 import { http } from "@/lib/http";
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
 import DataPreview from "@/components/categories/data-preview";
 import { CategoryResponse, CategoryType } from "@/types/categories";
-import CategoriesSkeleton from "@/components/categories/categories-skeleton";
+import { Suspense } from "react";
+import { Spinner } from "@/components/ui/spinner";
 
 type PageParams = {
   page?: string;
@@ -33,7 +33,7 @@ async function CategoriesPage({ searchParams }: { searchParams: PageParams }) {
     {
       params: {
         page: searchParams.page || 1,
-        per_page: 2,
+        per_page: 10,
         type: activeTab === "addon" ? "addon" : "",
       },
       next: {
@@ -82,10 +82,7 @@ export default async function Page({
   searchParams: Promise<PageParams>;
 }) {
   return (
-    <Suspense
-      key={JSON.stringify(await searchParams)}
-      fallback={<CategoriesSkeleton />}
-    >
+    <Suspense fallback={<Spinner className="h-8 w-8 text-primary" />}>
       <CategoriesPage searchParams={await searchParams} />
     </Suspense>
   );

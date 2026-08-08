@@ -19,7 +19,7 @@ import SetPrimaryImage from "@/components/products/set-primary-image";
 import CreateEditVariant from "@/components/products/creat-edit-variant";
 import DeleteVariantAction from "@/components/products/delete-variant-btn";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import ProductDetailsSkeleton from "@/components/products/product-details-skeleton";
+import { Spinner } from "@/components/ui/spinner";
 
 type Params = {
   "product-id": string;
@@ -272,7 +272,7 @@ export default async function ProductDetailsPage({
   searchParams: Promise<SearchParams>;
 }) {
   return (
-    <Suspense fallback={<ProductDetailsSkeleton />}>
+    <Suspense fallback={<Spinner className="h-8 w-8 text-primary" />}>
       <ProductDetails params={await params} searchParams={await searchParams} />
     </Suspense>
   );
