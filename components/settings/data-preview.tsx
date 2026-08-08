@@ -1,21 +1,21 @@
 "use client";
 
 import { toast } from "sonner";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { Spinner } from "../ui/spinner";
-import { useLocale, useTranslations } from "next-intl";
 import { saveSettings } from "@/lib/settings";
 import { Card, CardContent } from "../ui/card";
 import NormalFormRichText from "../form/rich-text";
 import { availableLocales } from "@/constants/shared";
+import { useLocale, useTranslations } from "next-intl";
 import { useFormLocale } from "@/hooks/use-form-locale";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Settings, SettingsSchema } from "@/types/settings";
 import LocaleFormSwitcher from "../reusable/locale-form-switcher";
 import { usePermissions } from "@/providers/permission-providers";
 import SingleFormImageUploader from "../form/single-image-uploader";
-import Image from "next/image";
 
 export default function DataPreview({ settings }: { settings: Settings }) {
   const locale = useLocale();
