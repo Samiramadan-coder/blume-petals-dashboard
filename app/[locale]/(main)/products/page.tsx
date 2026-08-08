@@ -3,12 +3,12 @@ import { Suspense } from "react";
 import { http } from "@/lib/http";
 import { Link } from "@/i18n/navigation";
 import { Pagination } from "@/types/shared";
-import { Spinner } from "@/components/ui/spinner";
 import { Product, Summary } from "@/types/products";
 import { getTranslations } from "next-intl/server";
 import { OccasionResponse } from "@/types/occasions";
 import { CategoryResponse } from "@/types/categories";
 import DataPreview from "@/components/products/data-preview";
+import ProductsSkeleton from "@/components/products/products-skeleton";
 
 type SearchParams = {
   page?: string;
@@ -116,7 +116,10 @@ export default async function Page({
   searchParams: Promise<SearchParams>;
 }) {
   return (
-    <Suspense fallback={<Spinner className="h-8 w-8 text-primary" />}>
+    <Suspense
+      key={JSON.stringify(await searchParams)}
+      fallback={<ProductsSkeleton />}
+    >
       <ProductsPage searchParams={await searchParams} />
     </Suspense>
   );

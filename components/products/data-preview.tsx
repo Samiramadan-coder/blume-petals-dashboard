@@ -16,7 +16,6 @@ import { Spinner } from "../ui/spinner";
 import { Eye, Star } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { Checkbox } from "../ui/checkbox";
-import { Product, Summary } from "@/types/products";
 import EditBtn from "../reusable/edit-btn";
 import { Pagination } from "@/types/shared";
 import { Occasion } from "@/types/occasions";
@@ -26,8 +25,10 @@ import { columns } from "@/constants/products";
 import DeleteBtn from "../reusable/delete-btn";
 import { TableCell, TableRow } from "../ui/table";
 import { DataTable } from "../reusable/data-table";
+import { Product, Summary } from "@/types/products";
 import { useLocale, useTranslations } from "next-intl";
 import { usePermissions } from "@/providers/permission-providers";
+import { cn } from "@/lib/utils";
 
 export default function DataPreview({
   products,
@@ -120,19 +121,40 @@ export default function DataPreview({
             </TableCell>
 
             <TableCell className="px-4 py-3">
-              <span className="font-semibold">{product.variants[0].price}</span>
+              <div className="flex items-center gap-2">
+                {product.variants.map((variant) => (
+                  <Badge key={variant.id} className="font-semibold">
+                    {variant.size} - {variant.price}
+                  </Badge>
+                ))}
+              </div>
             </TableCell>
 
             <TableCell className="px-4 py-3">
-              <Badge className="bg-primary/30 text-primary">
-                <span className="w-1.5 h-1.5 rounded-full shrink-0 bg-primary"></span>{" "}
-                {product.variants[0].in_stock
-                  ? t("Labels.InStock")
-                  : t("Labels.OutOfStock")}
-              </Badge>
-              <p className="text-muted-foreground text-xs mt-2">
-                {product.variants[0].stock} {t("Labels.Units")}
-              </p>
+              <div className="flex items-center gap-2">
+                {product.variants.map((variant) => (
+                  <div key={variant.id}>
+                    <Badge
+                      className={cn({
+                        "bg-primary/30 text-primary": variant.in_stock,
+                        "bg-destructive/30 text-destructive": !variant.in_stock,
+                      })}
+                    >
+                      <span
+                        className={cn("w-1.5 h-1.5 rounded-full shrink-0", {
+                          "bg-primary": variant.in_stock,
+                          "bg-destructive": !variant.in_stock,
+                        })}
+                      ></span>{" "}
+                      {variant.in_stock ? t("In") : t("Out")} - {variant.size}
+                    </Badge>
+
+                    <p className="text-muted-foreground text-xs mt-2">
+                      {variant.stock} {t("Labels.Units")}
+                    </p>
+                  </div>
+                ))}
+              </div>
             </TableCell>
 
             <TableCell className="px-4 py-3">

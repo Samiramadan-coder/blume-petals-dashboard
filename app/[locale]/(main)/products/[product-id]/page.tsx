@@ -4,6 +4,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Image from "next/image";
+import { Suspense } from "react";
 import { http } from "@/lib/http";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -18,6 +19,7 @@ import SetPrimaryImage from "@/components/products/set-primary-image";
 import CreateEditVariant from "@/components/products/creat-edit-variant";
 import DeleteVariantAction from "@/components/products/delete-variant-btn";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import ProductDetailsSkeleton from "@/components/products/product-details-skeleton";
 
 type Params = {
   "product-id": string;
@@ -28,19 +30,34 @@ type SearchParams = {
   type?: "default" | "addon";
 };
 
-export default async function ProductDetails({
+/**
+ * VariantRow component displays a label and its corresponding value in a row format.
+ */
+function VariantRow({
+  label,
+  value,
+}: {
+  label: string;
+  value: string | number;
+}) {
+  return (
+    <div className="flex items-center justify-between gap-4">
+      <span className="text-sm text-muted-foreground">{label}</span>
+      <span className="text-sm font-semibold text-foreground">{value}</span>
+    </div>
+  );
+}
+
+async function ProductDetails({
   params,
   searchParams,
 }: {
-  params: Promise<Params>;
-  searchParams: Promise<SearchParams>;
+  params: Params;
+  searchParams: SearchParams;
 }) {
-  const pageParams = await params;
-  const search = await searchParams;
-
-  const productId = pageParams["product-id"];
-  const locale = pageParams.locale;
-  const type = search.type || "default";
+  const productId = params["product-id"];
+  const locale = params.locale;
+  const type = searchParams.type || "default";
 
   const t = await getTranslations("Products");
   const tCommon = await getTranslations("Common");
@@ -247,20 +264,16 @@ export default async function ProductDetails({
   );
 }
 
-/**
- * VariantRow component displays a label and its corresponding value in a row format.
- */
-function VariantRow({
-  label,
-  value,
+export default async function ProductDetailsPage({
+  params,
+  searchParams,
 }: {
-  label: string;
-  value: string | number;
+  params: Promise<Params>;
+  searchParams: Promise<SearchParams>;
 }) {
   return (
-    <div className="flex items-center justify-between gap-4">
-      <span className="text-sm text-muted-foreground">{label}</span>
-      <span className="text-sm font-semibold text-foreground">{value}</span>
-    </div>
+    <Suspense fallback={<ProductDetailsSkeleton />}>
+      <ProductDetails params={await params} searchParams={await searchParams} />
+    </Suspense>
   );
 }
