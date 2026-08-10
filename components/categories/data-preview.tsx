@@ -8,7 +8,6 @@ import {
 import { toast } from "sonner";
 import Image from "next/image";
 import { useState } from "react";
-import { cn } from "@/lib/utils";
 import { Badge } from "../ui/badge";
 import { Switch } from "../ui/switch";
 import CreateEdit from "./create-edit";
@@ -18,10 +17,11 @@ import EditBtn from "../reusable/edit-btn";
 import { Pagination } from "@/types/shared";
 import DeleteBtn from "../reusable/delete-btn";
 import { columns } from "@/constants/categories";
+import ModuleHeader from "../reusable/module-header";
 import { useLocale, useTranslations } from "next-intl";
 import { Category, CategoryType } from "@/types/categories";
-import { ReorderableDataTable } from "../reusable/date-sortable-table";
 import { usePermissions } from "@/providers/permission-providers";
+import { ReorderableDataTable } from "../reusable/date-sortable-table";
 
 export default function DataPreview({
   pagination,
@@ -41,25 +41,16 @@ export default function DataPreview({
 
   return (
     <div className="space-y-6">
-      <header className="flex items-center justify-between">
-        <div>
-          <h1
-            className={cn("text-2xl font-semibold text-foreground", {
-              "font-cairo": locale === "ar",
-              "font-heading": locale !== "ar",
-            })}
-          >
-            {type === "bouquet" ? t("Categories") : t("AddOnsCategories")}
-          </h1>
-          <p className="text-sm text-muted-foreground mt-2">
-            {type === "bouquet" ? t("CategoriesBrief") : t("AddOnsBrief")}
-          </p>
-        </div>
-
+      <ModuleHeader
+        title={type === "bouquet" ? t("Categories") : t("AddOnsCategories")}
+        description={
+          type === "bouquet" ? t("CategoriesBrief") : t("AddOnsBrief")
+        }
+      >
         {can("catalog.create") && (
           <CreateEdit totalCreatedItems={pagination.total} type={type} />
         )}
-      </header>
+      </ModuleHeader>
 
       <ReorderableDataTable
         data={categories}

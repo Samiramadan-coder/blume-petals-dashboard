@@ -7,13 +7,14 @@ import { Button } from "../ui/button";
 import { CircleCheck } from "lucide-react";
 import { Message } from "@/types/messages";
 import { Pagination } from "@/types/shared";
+import { useTranslations } from "next-intl";
 import { Card, CardContent } from "../ui/card";
 import DeleteBtn from "../reusable/delete-btn";
-import { useLocale, useTranslations } from "next-intl";
+import ModuleHeader from "../reusable/module-header";
 import PaginationTemplate from "../reusable/pagination-temlate";
 import { deleteMessage, markMessageAsRead } from "@/lib/messages";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { usePermissions } from "@/providers/permission-providers";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 export default function DataPreview({
   messages,
@@ -22,7 +23,6 @@ export default function DataPreview({
   messages: Message[];
   pagination: Pagination;
 }) {
-  const locale = useLocale();
   const { can } = usePermissions();
   const t = useTranslations("Messages");
   const tCommon = useTranslations("Common");
@@ -30,21 +30,7 @@ export default function DataPreview({
 
   return (
     <>
-      <header className="flex items-center justify-between">
-        <div>
-          <h1
-            className={cn("text-2xl font-semibold text-foreground", {
-              "font-cairo": locale === "ar",
-              "font-heading": locale !== "ar",
-            })}
-          >
-            {t("Title")}
-          </h1>
-          <p className="text-sm text-muted-foreground mt-2">
-            {t("Description")}
-          </p>
-        </div>
-      </header>
+      <ModuleHeader title={t("Title")} description={t("Description")} />
 
       <div className="space-y-4">
         {messages.map((message) => (

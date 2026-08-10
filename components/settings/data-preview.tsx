@@ -16,6 +16,7 @@ import { Settings, SettingsSchema } from "@/types/settings";
 import LocaleFormSwitcher from "../reusable/locale-form-switcher";
 import { usePermissions } from "@/providers/permission-providers";
 import SingleFormImageUploader from "../form/single-image-uploader";
+import ModuleHeader from "../reusable/module-header";
 
 export default function DataPreview({ settings }: { settings: Settings }) {
   const locale = useLocale();
@@ -46,21 +47,7 @@ export default function DataPreview({ settings }: { settings: Settings }) {
 
   return (
     <>
-      <header className="flex items-center justify-between">
-        <div>
-          <h1
-            className={cn(`text-2xl font-semibold text-foreground`, {
-              "font-cairo": locale === "ar",
-              "font-heading": locale === "en",
-            })}
-          >
-            {t("Title")}
-          </h1>
-          <p className="text-sm text-muted-foreground mt-2">
-            {t("Description")}
-          </p>
-        </div>
-      </header>
+      <ModuleHeader title={t("Title")} description={t("Description")} />
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="max-w-xl mb-6">

@@ -7,7 +7,6 @@ import {
 } from "@/lib/delivery-pickup-locations";
 
 import { toast } from "sonner";
-import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { Switch } from "../ui/switch";
 import CreateEdit from "./create-edit";
@@ -21,6 +20,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { columns } from "@/constants/delivery-pickup-location";
 import { ReorderableDataTable } from "../reusable/date-sortable-table";
 import { DeliveryPickupLocation } from "@/types/delivery-pickup-locations";
+import ModuleHeader from "../reusable/module-header";
 
 export default function DataPreview({
   cities,
@@ -40,22 +40,9 @@ export default function DataPreview({
 
   return (
     <>
-      <header className="flex items-center justify-between">
-        <div>
-          <h1
-            className={cn("text-2xl font-semibold text-foreground", {
-              "font-cairo": locale === "ar",
-              "font-heading": locale !== "ar",
-            })}
-          >
-            {t("Title")}
-          </h1>
-          <p className="text-sm text-muted-foreground mt-2">
-            {t("Description")}
-          </p>
-        </div>
+      <ModuleHeader title={t("Title")} description={t("Description")}>
         <CreateEdit cities={cities} />
-      </header>
+      </ModuleHeader>
 
       <ReorderableDataTable
         data={initialLocations}

@@ -6,7 +6,6 @@ import {
   updateCityVisibilityAction,
 } from "@/lib/countries-cities";
 import { toast } from "sonner";
-import { cn } from "@/lib/utils";
 import { useState } from "react";
 import CreateEdit from "./create-edit";
 import { Pagination } from "@/types/shared";
@@ -19,6 +18,7 @@ import DeleteBtn from "@/components/reusable/delete-btn";
 import { City, Country } from "@/types/countries-cities";
 import { cityColumns } from "@/constants/countries-cities";
 import { ReorderableDataTable } from "@/components/reusable/date-sortable-table";
+import ModuleHeader from "@/components/reusable/module-header";
 
 export default function DataPreview({
   initialCities,
@@ -37,22 +37,12 @@ export default function DataPreview({
 
   return (
     <div className="space-y-6">
-      <header className="flex items-center justify-between">
-        <div>
-          <h1
-            className={cn("text-2xl font-semibold text-foreground", {
-              "font-cairo": locale === "ar",
-              "font-heading": locale !== "ar",
-            })}
-          >
-            {t("ListOfCities")}
-          </h1>
-        </div>
+      <ModuleHeader title={t("ListOfCities")} description="">
         <CreateEdit
           totalCreatedItems={pagination.total}
           countries={countries}
         />
-      </header>
+      </ModuleHeader>
 
       <ReorderableDataTable
         data={cities}

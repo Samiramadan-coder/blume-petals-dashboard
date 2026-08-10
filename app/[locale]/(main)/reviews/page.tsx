@@ -9,6 +9,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import FiltersControl from "@/components/reviews/filters-control";
 import Statistics from "@/components/reviews/statistics";
 import RatingDistribution from "@/components/reviews/rating-distribution";
+import ModuleHeader from "@/components/reusable/module-header";
 
 type SearchParams = {
   page?: string;
@@ -49,23 +50,8 @@ async function ReviewsPage({ searchParams }: { searchParams: SearchParams }) {
 
   return (
     <main className="grid items-start grid-cols-1 md:grid-cols-3 gap-4">
-      <div className="md:col-span-3">
-        <header className="mb-4">
-          <div>
-            <h1
-              className={cn("text-2xl font-semibold text-foreground", {
-                "font-cairo": locale === "ar",
-                "font-heading": locale !== "ar",
-              })}
-            >
-              {t("Label")}
-            </h1>
-            <p className="text-sm text-muted-foreground mt-2">
-              {t("Description")}
-            </p>
-          </div>
-        </header>
-
+      <div className="md:col-span-3 space-y-4">
+        <ModuleHeader title={t("Label")} description={t("Description")} />
         <Statistics summary={data.data.summary} />
       </div>
 

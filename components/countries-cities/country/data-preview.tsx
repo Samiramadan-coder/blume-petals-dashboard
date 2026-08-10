@@ -19,6 +19,7 @@ import { columns } from "@/constants/countries-cities";
 import { useLocale, useTranslations } from "next-intl";
 import DeleteBtn from "@/components/reusable/delete-btn";
 import { ReorderableDataTable } from "@/components/reusable/date-sortable-table";
+import ModuleHeader from "@/components/reusable/module-header";
 
 export default function DataPreview({
   initialCountries,
@@ -35,19 +36,9 @@ export default function DataPreview({
 
   return (
     <div className="space-y-6">
-      <header className="flex items-center justify-between">
-        <div>
-          <h1
-            className={cn("text-2xl font-semibold text-foreground", {
-              "font-cairo": locale === "ar",
-              "font-heading": locale !== "ar",
-            })}
-          >
-            {t("ListOfCountries")}
-          </h1>
-        </div>
+      <ModuleHeader title={t("ListOfCountries")} description="">
         <CreateEdit totalCreatedItems={pagination.total} />
-      </header>
+      </ModuleHeader>
 
       <ReorderableDataTable
         data={countries}

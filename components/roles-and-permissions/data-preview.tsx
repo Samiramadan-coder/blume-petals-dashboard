@@ -8,13 +8,14 @@ import EditModule from "./edit-module";
 import { User } from "@/types/customers";
 import { UsersRound } from "lucide-react";
 import AssignToUser from "./assign-to-user";
+import { useTranslations } from "next-intl";
 import CreateNewRole from "./create-new-role";
 import { Card, CardContent } from "../ui/card";
 import DeleteBtn from "../reusable/delete-btn";
-import { useLocale, useTranslations } from "next-intl";
+import ModuleHeader from "../reusable/module-header";
 import { deleteRole } from "@/lib/role-and-permissions";
-import { PermissionModule, Role } from "@/types/role-and-permissions";
 import { usePermissions } from "@/providers/permission-providers";
+import { PermissionModule, Role } from "@/types/role-and-permissions";
 
 export default function DataPreview({
   roles,
@@ -25,7 +26,6 @@ export default function DataPreview({
   modules: PermissionModule[];
   users: User[];
 }) {
-  const locale = useLocale();
   const { can } = usePermissions();
   const tCommon = useTranslations("Common");
   const t = useTranslations("RolesAndPermissions");
@@ -34,27 +34,19 @@ export default function DataPreview({
 
   return (
     <div className="grid items-start grid-cols-1 md:grid-cols-5 gap-6">
-      <header className="md:col-span-5 flex items-center justify-between">
-        <div>
-          <h1
-            className={cn("text-2xl font-semibold text-foreground", {
-              "font-cairo": locale === "ar",
-              "font-heading": locale !== "ar",
-            })}
-          >
-            {t("RolesAndPermissions")}
-          </h1>
-          <p className="text-sm text-muted-foreground mt-2">
-            {t("RolesAndPermissionsDescription")}
-          </p>
-        </div>
-        {can("roles.create") && (
-          <div className="flex items-center gap-2">
-            <AssignToUser users={users} roles={roles} />
-            <CreateNewRole roles={roles} />
-          </div>
-        )}
-      </header>
+      <div className="md:col-span-5">
+        <ModuleHeader
+          title={t("RolesAndPermissions")}
+          description={t("RolesAndPermissionsDescription")}
+        >
+          {can("roles.create") && (
+            <div className="flex items-center gap-2">
+              <AssignToUser users={users} roles={roles} />
+              <CreateNewRole roles={roles} />
+            </div>
+          )}
+        </ModuleHeader>
+      </div>
 
       <Card
         className="border border-primary/30 p-0!"

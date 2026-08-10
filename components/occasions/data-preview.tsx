@@ -8,7 +8,7 @@ import {
 import { toast } from "sonner";
 import Image from "next/image";
 import { useState } from "react";
-import { cn, formatDate } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 import { Badge } from "../ui/badge";
 import { Switch } from "../ui/switch";
 import CreateEdit from "./create-edit";
@@ -18,6 +18,7 @@ import EditBtn from "../reusable/edit-btn";
 import { Occasion } from "@/types/occasions";
 import DeleteBtn from "../reusable/delete-btn";
 import { columns } from "@/constants/occasions";
+import ModuleHeader from "../reusable/module-header";
 import { useLocale, useTranslations } from "next-intl";
 import { ReorderableDataTable } from "../reusable/date-sortable-table";
 import { usePermissions } from "@/providers/permission-providers";
@@ -36,24 +37,11 @@ export default function DataPreview({
 
   return (
     <>
-      <header className="flex items-center justify-between">
-        <div>
-          <h1
-            className={cn(`text-2xl font-semibold text-foreground`, {
-              "font-cairo": locale === "ar",
-              "font-heading": locale === "en",
-            })}
-          >
-            {t("Title")}
-          </h1>
-          <p className="text-sm text-muted-foreground mt-2">
-            {t("Description")}
-          </p>
-        </div>
+      <ModuleHeader title={t("Title")} description={t("Description")}>
         {can("catalog.create") && (
           <CreateEdit totalOccasionItems={occasions.length} />
         )}
-      </header>
+      </ModuleHeader>
 
       <ReorderableDataTable
         data={occasions}
