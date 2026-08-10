@@ -69,7 +69,7 @@ export default function FiltersControl() {
           void setStatus(value);
         }}
       >
-        <TabsList className="h-10! rounded-xl bg-muted-foreground/10 p-2">
+        <TabsList className="h-auto! rounded-xl bg-muted-foreground/10 p-2 flex-wrap">
           {orderStatuses(t).map((stat) => (
             <TabsTrigger
               key={stat.value}
@@ -99,7 +99,7 @@ export default function FiltersControl() {
             </InputGroup>
           </Field>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center flex-wrap gap-2">
             <Select
               value={channel}
               onValueChange={(value) => void setChannel(value)}
