@@ -46,7 +46,7 @@ export default function FiltersControl() {
   );
   return (
     <Card className="border border-primary/20" style={{ boxShadow: "none" }}>
-      <CardContent className="flex items-center gap-3">
+      <CardContent className="flex items-center flex-wrap gap-3">
         <Field className="flex-1">
           <InputGroup className="bg-white h-10 ">
             <InputGroupInput
