@@ -14,7 +14,7 @@ export default function ModuleHeader({
 }) {
   const locale = useLocale();
   return (
-    <header className="flex items-center justify-between">
+    <header className="flex items-center justify-between flex-wrap gap-4">
       <div>
         <h1
           className={cn("text-2xl font-semibold text-foreground", {
