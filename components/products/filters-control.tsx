@@ -47,7 +47,7 @@ export default function FiltersControl({
   );
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center flex-wrap gap-2">
       <Field>
         <InputGroup className="bg-white h-10">
           <InputGroupInput
