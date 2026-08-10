@@ -1,6 +1,6 @@
 "use client";
 
-import { SidebarMenuButton } from "../ui/sidebar";
+import { SidebarMenuButton, useSidebar } from "../ui/sidebar";
 import { Link, usePathname } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import type { DashboardNavigationLinkItem } from "@/types/dashboard-layout";
@@ -12,6 +12,7 @@ export default function SidebarNavLink({
 }) {
   const pathname = usePathname();
   const t = useTranslations("layout");
+  const { isMobile, setOpenMobile } = useSidebar();
   const normalizedPathname = pathname.replace(/^\/(en|ar)(?=\/|$)/, "") || "/";
   const isActive =
     item.href === "/"
@@ -19,13 +20,23 @@ export default function SidebarNavLink({
       : normalizedPathname === item.href ||
         normalizedPathname.startsWith(`${item.href}/`);
 
+  const handleClick = () => {
+    if (isMobile) {
+      setOpenMobile(false);
+    }
+  };
+
   return (
     <SidebarMenuButton
       asChild
       isActive={isActive}
       className="relative rounded-lg h-10 px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground data-[active=true]:bg-primary/12 data-[active=true]:text-primary"
     >
-      <Link href={item.href} className="flex items-center gap-3">
+      <Link
+        href={item.href}
+        className="flex items-center gap-3"
+        onClick={handleClick}
+      >
         {item.icon}
         <span>{t(item.label)}</span>
       </Link>
