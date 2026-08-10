@@ -53,7 +53,7 @@ export default function DataPreview({
 
   return (
     <>
-      <header className="flex items-center justify-between">
+      <header className="flex items-center justify-between flex-wrap gap-4">
         <FiltersControl categories={categories} />
         {can("catalog.create") && (
           <CreateEdit
