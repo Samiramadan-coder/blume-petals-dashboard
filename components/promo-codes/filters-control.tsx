@@ -53,7 +53,7 @@ export default function FiltersControl() {
           void setStatus(value);
         }}
       >
-        <TabsList className="h-10! rounded-xl bg-muted-foreground/10 p-2">
+        <TabsList className="h-auto! rounded-xl bg-muted-foreground/10 flex-wrap p-2">
           {promoCodeStatuses(t).map((stat) => (
             <TabsTrigger
               key={stat.value}
