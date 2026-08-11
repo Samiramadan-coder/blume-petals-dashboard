@@ -156,7 +156,31 @@ export default function CreateEdit({
           <form
             ref={form}
             onSubmit={(e) => {
-              void handleSubmit(onSubmit)(e);
+              void handleSubmit(onSubmit, (errors) => {
+                // Check if current locale is English and there are Arabic field errors
+                if (activeLocale === "en") {
+                  const hasArErrors =
+                    errors.name?.ar ||
+                    errors.address?.ar ||
+                    errors.ready_in_text?.ar;
+                  if (hasArErrors) {
+                    changeLocale("ar");
+                    return;
+                  }
+                }
+
+                // Check if current locale is Arabic and there are English field errors
+                if (activeLocale === "ar") {
+                  const hasEnErrors =
+                    errors.name?.en ||
+                    errors.address?.en ||
+                    errors.ready_in_text?.en;
+                  if (hasEnErrors) {
+                    changeLocale("en");
+                    return;
+                  }
+                }
+              })(e);
             }}
             className="space-y-6 relative"
           >

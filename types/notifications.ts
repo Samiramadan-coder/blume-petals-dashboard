@@ -25,10 +25,7 @@ export const notificationSchema = (t: T) =>
         .min(2, t("Fields.Body.Min")),
     }),
 
-    link: z
-      .string()
-      .min(1, t("Fields.Link.Required"))
-      .min(2, t("Fields.Link.Min")),
+    link: z.string(),
 
     type: z.enum(["promo", "system"], t("Fields.Type.Required")),
   });

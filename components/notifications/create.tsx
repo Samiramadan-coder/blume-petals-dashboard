@@ -115,7 +115,25 @@ export default function Create() {
           <form
             ref={form}
             onSubmit={(e) => {
-              void handleSubmit(onSubmit)(e);
+              void handleSubmit(onSubmit, (errors) => {
+                // Check if current locale is English and there are Arabic field errors
+                if (activeLocale === "en") {
+                  const hasArErrors = errors.title?.ar || errors.body?.ar;
+                  if (hasArErrors) {
+                    changeLocale("ar");
+                    return;
+                  }
+                }
+
+                // Check if current locale is Arabic and there are English field errors
+                if (activeLocale === "ar") {
+                  const hasEnErrors = errors.title?.en || errors.body?.en;
+                  if (hasEnErrors) {
+                    changeLocale("en");
+                    return;
+                  }
+                }
+              })(e);
             }}
             className="space-y-4 relative"
           >
@@ -167,6 +185,7 @@ export default function Create() {
               name="type"
               control={control}
               required
+              dir={dir}
               options={[
                 {
                   value: "promo",

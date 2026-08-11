@@ -664,9 +664,7 @@
       },
       "Link": {
         "Label": "Link (optional)",
-        "Placeholder": "Enter link URL",
-        "Required": "Link is required",
-        "Min": "Link must be at least 2 characters"
+        "Placeholder": "Enter link URL"
       },
       "Type": {
         "Label": "Type",
