@@ -230,6 +230,7 @@ export default function CreateEdit({
               label={tLive("Fields.Photo")}
               required
               buttonLabel={tLive("AddPhoto")}
+              errors={errors}
             />
 
             <SectionLabel>{tLive("Labels.BasicInformation")}</SectionLabel>

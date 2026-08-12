@@ -1,7 +1,16 @@
 import z from "zod";
 import { LocaleObj, T } from "./shared";
 
-const imageSchema = z.union([z.string(), z.instanceof(Blob)]);
+const imageSchema = (t: T) =>
+  z.union([z.string(), z.instanceof(Blob)]).refine(
+    (image) => {
+      if (typeof image === "string") return true;
+      return image.size <= 1024 * 1024;
+    },
+    {
+      message: t("Errors.ImageMaxSize"),
+    },
+  );
 
 export const productSchema = (t: T) =>
   z.object({
@@ -40,7 +49,9 @@ export const productSchema = (t: T) =>
         in_stock: z.boolean().optional(),
       }),
     ),
-    images: z.array(imageSchema).min(1, t("Errors.AtLeastOneImageIsRequired")),
+    images: z
+      .array(imageSchema(t))
+      .min(1, t("Errors.AtLeastOneImageIsRequired")),
     is_new: z.boolean(),
   });
 

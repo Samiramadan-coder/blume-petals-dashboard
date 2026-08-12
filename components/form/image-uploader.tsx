@@ -5,6 +5,7 @@ import Image from "next/image";
 import {
   Controller,
   type Control,
+  type FieldErrors,
   type FieldValues,
   type Path,
 } from "react-hook-form";
@@ -23,6 +24,7 @@ type NormalFormImageUploaderProps<T extends FieldValues> = {
   required?: boolean;
   className?: string;
   buttonLabel: string;
+  errors?: FieldErrors<T>;
 };
 
 type ImagePreviewProps = {
@@ -106,6 +108,7 @@ export default function NormalFormImageUploader<T extends FieldValues>({
   required,
   className,
   buttonLabel,
+  errors,
 }: NormalFormImageUploaderProps<T>) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -218,6 +221,30 @@ export default function NormalFormImageUploader<T extends FieldValues>({
           event.target.value = "";
         };
 
+        // Collect all relevant errors
+        const allErrors: Array<{ message?: string } | undefined> = [];
+
+        // Add the main field error
+        if (fieldState.error) {
+          allErrors.push(fieldState.error);
+        }
+
+        // Add nested array item errors if they exist
+        if (errors && name in errors) {
+          const fieldError = errors[name];
+          if (Array.isArray(fieldError)) {
+            fieldError.forEach((itemError) => {
+              if (
+                itemError &&
+                typeof itemError === "object" &&
+                "message" in itemError
+              ) {
+                allErrors.push(itemError as { message?: string });
+              }
+            });
+          }
+        }
+
         return (
           <Field className={className} data-invalid={fieldState.invalid}>
             <FieldLabel
@@ -276,7 +303,7 @@ export default function NormalFormImageUploader<T extends FieldValues>({
                   </div>
                 </div>
 
-                <FieldError errors={[fieldState.error]} />
+                <FieldError errors={allErrors} />
               </div>
             </FieldContent>
           </Field>

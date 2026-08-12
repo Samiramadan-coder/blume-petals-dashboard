@@ -247,7 +247,8 @@
       "SizeIsRequired": "At least one size is required",
       "PriceIsRequired": "Product price is required",
       "StockQuantityIsRequired": "Stock quantity is required",
-      "AtLeastOneImageIsRequired": "Please upload at least one image"
+      "AtLeastOneImageIsRequired": "Please upload at least one image",
+      "ImageMaxSize": "Image size must be less than 1MB"
     }
   },
   "Occasions": {
@@ -264,7 +265,8 @@
       "BannerIsRequired": "Occasion/Collection banner is required",
       "StartDateIsRequired": "Start date is required",
       "EndDateIsRequired": "End date is required",
-      "EndDateMustBeAfterStartDate": "End date must be after start date"
+      "EndDateMustBeAfterStartDate": "End date must be after start date",
+      "BannerSizeExceeded": "Banner size must be less than 1MB"
     },
     "Labels": {
       "AddOccasionCollection": "Add Occasion/Collection",

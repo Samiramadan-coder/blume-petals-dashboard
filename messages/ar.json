@@ -246,7 +246,8 @@
       "SizeIsRequired": "مطلوب حجم واحد على الأقل",
       "PriceIsRequired": "سعر المنتج مطلوب",
       "StockQuantityIsRequired": "كمية المخزون مطلوبة",
-      "AtLeastOneImageIsRequired": "يرجى تحميل صورة واحدة على الأقل"
+      "AtLeastOneImageIsRequired": "يرجى تحميل صورة واحدة على الأقل",
+      "ImageMaxSize": "يجب أن يكون حجم الصورة أقل من 1 ميغابايت"
     }
   },
   "Occasions": {
@@ -263,7 +264,8 @@
       "BannerIsRequired": "بانر المناسبة/المجموعة مطلوب",
       "StartDateIsRequired": "تاريخ البدء مطلوب",
       "EndDateIsRequired": "تاريخ الانتهاء مطلوب",
-      "EndDateMustBeAfterStartDate": "يجب أن يكون تاريخ الانتهاء بعد تاريخ البدء"
+      "EndDateMustBeAfterStartDate": "يجب أن يكون تاريخ الانتهاء بعد تاريخ البدء",
+      "BannerSizeExceeded": "يجب أن يكون حجم بانر المناسبة/المجموعة أقل من 1 ميغابايت"
     },
     "Labels": {
       "AddOccasionCollection": "إضافة مناسبة/مجموعة",

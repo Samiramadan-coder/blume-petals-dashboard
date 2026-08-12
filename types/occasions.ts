@@ -2,6 +2,7 @@ import z from "zod";
 import { Pagination, T } from "./shared";
 
 const imageSchema = z.union([z.string(), z.instanceof(Blob)]);
+const MAX_BANNER_SIZE = 1024 * 1024; // 1MB
 
 export const occasionCollectionSchema = (t: T) =>
   z
@@ -38,6 +39,14 @@ export const occasionCollectionSchema = (t: T) =>
           code: "custom",
           path: ["banner"],
           message: t("Errors.BannerIsRequired"),
+        });
+      }
+
+      if (data.banner instanceof Blob && data.banner.size > MAX_BANNER_SIZE) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["banner"],
+          message: t("Errors.BannerSizeExceeded"),
         });
       }
 
