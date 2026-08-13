@@ -55,7 +55,7 @@ export default async function MainLayout({
         <Sidebar
           side={locale === "ar" ? "right" : "left"}
           collapsible="icon"
-          className="border-e border-border"
+          className="border-e border-border z-50"
         >
           <SidebarContent className="bg-white">
             <SidebarGroup className="p-0">
@@ -78,10 +78,12 @@ export default async function MainLayout({
         </Sidebar>
 
         <SidebarInset className="min-h-screen bg-background">
-          <DashboardHeader />
-          <main className="p-4 sm:p-6">
-            <div>{children}</div>
-          </main>
+          <div className="max-w-full overflow-auto">
+            <DashboardHeader />
+            <main className="p-4 sm:p-6">
+              <div>{children}</div>
+            </main>
+          </div>
         </SidebarInset>
       </SidebarProvider>
     </PermissionsProvider>
