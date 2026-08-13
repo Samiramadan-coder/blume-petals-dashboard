@@ -9,7 +9,7 @@ import { saveSettings } from "@/lib/settings";
 import { Card, CardContent } from "../ui/card";
 import NormalFormRichText from "../form/rich-text";
 import { availableLocales } from "@/constants/shared";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { useFormLocale } from "@/hooks/use-form-locale";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Settings, SettingsSchema } from "@/types/settings";
@@ -19,7 +19,6 @@ import SingleFormImageUploader from "../form/single-image-uploader";
 import ModuleHeader from "../reusable/module-header";
 
 export default function DataPreview({ settings }: { settings: Settings }) {
-  const locale = useLocale();
   const { can } = usePermissions();
   const t = useTranslations("Settings");
   const tCommon = useTranslations("Common");

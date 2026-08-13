@@ -651,6 +651,12 @@
     "Description": "Manage notifications sent to customers and control what appears on the storefront.",
     "CreateNotification": "Create Notification",
     "CreateNotificationDescription": "Fill in notification details below",
+    "Filters": {
+      "All": "All",
+      "Order": "Orders",
+      "Promo": "Promotion",
+      "System": "System"
+    },
     "Fields": {
       "Title": {
         "Label": "Title",

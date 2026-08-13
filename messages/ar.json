@@ -648,6 +648,12 @@
     "Description": "إدارة الإشعارات المرسلة إلى العملاء والتحكم فيما يظهر على واجهة المتجر.",
     "CreateNotification": "إنشاء إشعار",
     "CreateNotificationDescription": "املأ تفاصيل الإشعار أدناه",
+    "Filters": {
+      "All": "الكل",
+      "Order": "الطلبات",
+      "Promo": "العروض",
+      "System": "النظام"
+    },
     "Fields": {
       "Title": {
         "Label": "العنوان",

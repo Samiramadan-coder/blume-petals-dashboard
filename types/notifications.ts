@@ -1,5 +1,5 @@
 import z from "zod";
-import { T } from "./shared";
+import { LocaleObj, T } from "./shared";
 
 export const notificationSchema = (t: T) =>
   z.object({
@@ -33,3 +33,21 @@ export const notificationSchema = (t: T) =>
 export type NotificationFormData = z.infer<
   ReturnType<typeof notificationSchema>
 >;
+
+export type Notification = {
+  created_at: string;
+  id: string;
+  link: string;
+  order_id: number;
+  order_number: number;
+  read: boolean;
+  read_at: string | null;
+  type: string;
+  body: LocaleObj;
+  title: LocaleObj;
+  user: {
+    id: "f3e1c5a0-7d4b-4f8e-9c6b-2e1f3a5b6c7d";
+    name: string;
+    email: string;
+  };
+};
