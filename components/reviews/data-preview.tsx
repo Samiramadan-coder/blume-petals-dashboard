@@ -46,7 +46,7 @@ export default function DataPreview({
                   <div className="space-y-1">
                     <p className="text-sm font-medium">{review.user.name}</p>
                     <p className="text-xs text-muted-foreground">
-                      {review.product.name}
+                      {review.product?.name}
                     </p>
                   </div>
                 </div>
