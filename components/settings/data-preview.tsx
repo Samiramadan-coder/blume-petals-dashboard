@@ -11,12 +11,13 @@ import NormalFormRichText from "../form/rich-text";
 import { availableLocales } from "@/constants/shared";
 import { useTranslations } from "next-intl";
 import { useFormLocale } from "@/hooks/use-form-locale";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { Settings, SettingsSchema } from "@/types/settings";
 import LocaleFormSwitcher from "../reusable/locale-form-switcher";
 import { usePermissions } from "@/providers/permission-providers";
 import SingleFormImageUploader from "../form/single-image-uploader";
 import ModuleHeader from "../reusable/module-header";
+import { Checkbox } from "../ui/checkbox";
 
 export default function DataPreview({ settings }: { settings: Settings }) {
   const { can } = usePermissions();
@@ -87,6 +88,19 @@ export default function DataPreview({ settings }: { settings: Settings }) {
                     />
                   </div>
                 </div>
+              ) : key === "show_addition" ? (
+                <Controller
+                  control={control}
+                  name="show_addition"
+                  render={({ field }) => (
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    >
+                      {t("show_addition")}
+                    </Checkbox>
+                  )}
+                />
               ) : (
                 <div
                   className={cn({
@@ -106,7 +120,7 @@ export default function DataPreview({ settings }: { settings: Settings }) {
                         name={
                           `${key}.${locale}` as `${Exclude<
                             keyof Settings,
-                            "logo_url"
+                            "logo_url" | "show_addition"
                           >}.${typeof locale}`
                         }
                       />

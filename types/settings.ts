@@ -15,6 +15,7 @@ export const settingsSchema = z.object({
     ar: z.string(),
   }),
   logo_url: z.union([z.string(), z.instanceof(Blob)]),
+  show_addition: z.boolean(),
 });
 
 export type SettingsSchema = z.infer<typeof settingsSchema>;
@@ -24,4 +25,5 @@ export type Settings = {
   terms_and_conditions: LocaleObj;
   policy: LocaleObj;
   logo_url: string;
+  show_addition: boolean;
 };
