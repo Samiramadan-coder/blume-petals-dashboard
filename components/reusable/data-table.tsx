@@ -40,7 +40,7 @@ export function DataTable({
   const t = useTranslations("Common");
 
   return (
-    <div className="border border-border rounded-lg overflow-hidden">
+    <div className="w-full min-w-0 border border-border rounded-lg overflow-hidden">
       <Table className="[&_thead_th:first-child]:w-8 [&_thead_th:first-child]:px-3 [&_tbody_td:first-child]:w-8 [&_tbody_td:first-child]:px-3">
         <TableHeader>
           <TableRow>
