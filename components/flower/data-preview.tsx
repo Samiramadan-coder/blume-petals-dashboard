@@ -8,13 +8,15 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
+import { useState } from "react";
 import Statistics from "./statistics";
 import { Button } from "../ui/button";
 import CreateEdit from "./create-edit";
-import { Download } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { columns } from "@/constants/flowers";
 import { DataTable } from "../reusable/data-table";
 import ModuleHeader from "../reusable/module-header";
+import { Download, ChevronDown, ChevronRight } from "lucide-react";
 
 export default function DataPreview() {
   const t = useTranslations("Flower");
@@ -27,24 +29,59 @@ export default function DataPreview() {
 
       <Statistics />
 
-      <DataTable
-        columns={[{ label: "Test1" }, { label: "Test2" }]}
-        countUnit={"Flowers"}
-        rowsCount={10}
-      >
-        <TableRow>
-          <TableCell className="px-4 py-3">Test1</TableCell>
-          <TableCell className="px-4 py-3">Test2</TableCell>
-        </TableRow>
+      <DataTable columns={columns(t)} countUnit={"Flowers"} rowsCount={10}>
+        <SingleRow />
+        <SingleRow />
+        <SingleRow />
+        <SingleRow />
+      </DataTable>
+    </>
+  );
+}
 
-        <TableRow className="bg-white">
-          <TableCell colSpan={2}>
+const SingleRow = () => {
+  const t = useTranslations("Flower");
+  const [open, setOpen] = useState(false);
+
+  const columns = [
+    t("DetailsTable.Date"),
+    t("DetailsTable.Action"),
+    t("DetailsTable.Change"),
+    t("DetailsTable.Balance"),
+    t("DetailsTable.Note"),
+  ];
+
+  return (
+    <>
+      <TableRow>
+        <TableCell className="px-4 py-3">
+          <Button variant="ghost" size="icon" onClick={() => setOpen(!open)}>
+            {open ? (
+              <ChevronDown className="size-3.5" />
+            ) : (
+              <ChevronRight className="size-3.5" />
+            )}
+          </Button>
+        </TableCell>
+        <TableCell className="px-4 py-3">.....</TableCell>
+        <TableCell className="px-4 py-3">.....</TableCell>
+        <TableCell className="px-4 py-3">.....</TableCell>
+        <TableCell className="px-4 py-3">.....</TableCell>
+        <TableCell className="px-4 py-3">.....</TableCell>
+        <TableCell className="px-4 py-3">.....</TableCell>
+      </TableRow>
+
+      {open && (
+        <TableRow className="bg-background">
+          <TableCell colSpan={7}>
             <div className="p-6 space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-sm font-semibold">Stock Log —</h3>
+                <h3 className="text-sm font-semibold">
+                  {t("DetailsTable.StockLog")} —
+                </h3>
                 <Button variant="outline" size="sm">
                   <Download className="size-3.5" />
-                  Download Stock Log
+                  {t("DetailsTable.Download")}
                 </Button>
               </div>
 
@@ -52,21 +89,14 @@ export default function DataPreview() {
                 <Table>
                   <TableHeader className="bg-background">
                     <TableRow>
-                      <TableHead className="px-4 py-3 uppercase text-xs font-semibold text-muted-foreground">
-                        Date
-                      </TableHead>
-                      <TableHead className="px-4 py-3 uppercase text-xs font-semibold text-muted-foreground">
-                        Action
-                      </TableHead>
-                      <TableHead className="px-4 py-3 uppercase text-xs font-semibold text-muted-foreground">
-                        Change
-                      </TableHead>
-                      <TableHead className="px-4 py-3 uppercase text-xs font-semibold text-muted-foreground">
-                        Balance
-                      </TableHead>
-                      <TableHead className="px-4 py-3 uppercase text-xs font-semibold text-muted-foreground">
-                        Note
-                      </TableHead>
+                      {columns.map((column, index) => (
+                        <TableHead
+                          key={index}
+                          className="px-4 py-3 uppercase text-xs font-semibold text-muted-foreground"
+                        >
+                          {column}
+                        </TableHead>
+                      ))}
                     </TableRow>
                   </TableHeader>
 
@@ -74,11 +104,11 @@ export default function DataPreview() {
                     {true ? (
                       [1, 2, 3].map((log, index) => (
                         <TableRow key={index}>
-                          <TableCell className="px-4 py-3">-</TableCell>
-                          <TableCell className="px-4 py-3">-</TableCell>
-                          <TableCell className="px-4 py-3">-</TableCell>
-                          <TableCell className="px-4 py-3">-</TableCell>
-                          <TableCell className="px-4 py-3">—</TableCell>
+                          <TableCell className="px-4 py-3">.....</TableCell>
+                          <TableCell className="px-4 py-3">.....</TableCell>
+                          <TableCell className="px-4 py-3">.....</TableCell>
+                          <TableCell className="px-4 py-3">.....</TableCell>
+                          <TableCell className="px-4 py-3">.....</TableCell>
                         </TableRow>
                       ))
                     ) : (
@@ -87,7 +117,7 @@ export default function DataPreview() {
                           colSpan={5}
                           className="h-20 text-center text-muted-foreground"
                         >
-                          No stock logs
+                          {t("DetailsTable.NoStockLog")}
                         </TableCell>
                       </TableRow>
                     )}
@@ -97,7 +127,7 @@ export default function DataPreview() {
             </div>
           </TableCell>
         </TableRow>
-      </DataTable>
+      )}
     </>
   );
-}
+};

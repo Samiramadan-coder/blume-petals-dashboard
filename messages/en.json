@@ -747,6 +747,25 @@
       "TotalFlowers": "Total Flowers Types",
       "LowStock": "Low Stock Alert",
       "OutOfStock": "Out of Stock"
+    },
+    "Table": {
+      "Flower": "Flower",
+      "StockQty": "Stock Qty",
+      "Threshold": "Threshold",
+      "UnitCost": "Unit Cost",
+      "Status": "Status",
+      "Level": "Level",
+      "Actions": "Actions"
+    },
+    "DetailsTable": {
+      "NoStockLog": "No stock log available for this flower.",
+      "StockLog": "Stock Log",
+      "Download": "Download Stock Log",
+      "Date": "Date",
+      "Action": "Action",
+      "Change": "Change",
+      "Balance": "Balance",
+      "Note": "Note"
     }
   }
 }
