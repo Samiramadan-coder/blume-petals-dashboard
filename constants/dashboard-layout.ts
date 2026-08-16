@@ -16,6 +16,7 @@ import {
   MessageSquare,
   ChartNoAxesColumn,
   Mail,
+  Flower2,
 } from "lucide-react";
 import { createElement } from "react";
 import { Permission } from "@/types/role-and-permissions";
@@ -53,6 +54,13 @@ export const navigation = (
     href: "/categories",
     type: "link",
     icon: createElement(Layers2, { className: "h-4 w-4" }),
+    enabled: permissions.includes("catalog.view"),
+  },
+  {
+    label: "sidebar.navigation.flower",
+    href: "/flower",
+    type: "link",
+    icon: createElement(Flower2, { className: "h-4 w-4" }),
     enabled: permissions.includes("catalog.view"),
   },
   {
