@@ -23,7 +23,6 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -138,8 +137,6 @@ export function ReorderableDataTable<T>({
     onReorder?.(arrayMove(data, oldIndex, newIndex));
   }
 
-  const footerColSpan = columns.length + 1;
-
   return (
     <div
       className={cn(
@@ -156,7 +153,7 @@ export function ReorderableDataTable<T>({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-6 min-w-6 max-w-6 px-4 py-3" />
+              <TableHead className="w-10 px-4 py-3" />
 
               {columns.map((column) => (
                 <TableHead
@@ -192,35 +189,27 @@ export function ReorderableDataTable<T>({
               })}
             </SortableContext>
           </TableBody>
-
-          {rowsCount !== undefined && (
-            <TableFooter className="bg-white">
-              <TableRow>
-                <TableCell className="px-4 py-3 text-sm text-muted-foreground">
-                  {rowsCount !== undefined && (
-                    <>
-                      {t("Showing")}{" "}
-                      <span className="font-semibold text-black">
-                        {rowsCount ?? data.length}
-                      </span>{" "}
-                      {countUnit}
-                    </>
-                  )}
-                </TableCell>
-
-                <TableCell className="px-4 py-3" colSpan={footerColSpan - 1}>
-                  {totalPages && currentPage && (
-                    <PaginationTemplate
-                      currentPage={currentPage}
-                      totalPages={totalPages}
-                    />
-                  )}
-                </TableCell>
-              </TableRow>
-            </TableFooter>
-          )}
         </Table>
       </DndContext>
+
+      {rowsCount !== undefined && (
+        <div className="p-4 bg-white flex items-center justify-between border-t border-border">
+          <div className="text-sm text-muted-foreground white-space-nowrap">
+            {t("Showing")}{" "}
+            <span className="font-semibold text-black">{rowsCount}</span>{" "}
+            {countUnit}
+          </div>
+
+          <div>
+            {totalPages && currentPage && (
+              <PaginationTemplate
+                currentPage={currentPage}
+                totalPages={totalPages}
+              />
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

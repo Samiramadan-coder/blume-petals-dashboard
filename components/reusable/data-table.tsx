@@ -1,8 +1,6 @@
 import {
   Table,
   TableBody,
-  TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -23,7 +21,7 @@ interface DataTableProps {
   rowsCount: number;
   countUnit: string;
   children: React.ReactNode;
-  onCheckboxChange: (checked: boolean) => void;
+  onCheckboxChange?: (checked: boolean) => void;
   currentPage?: number;
   totalPages?: number;
 }
@@ -44,9 +42,11 @@ export function DataTable({
       <Table className="[&_thead_th:first-child]:w-8 [&_thead_th:first-child]:px-3 [&_tbody_td:first-child]:w-8 [&_tbody_td:first-child]:px-3">
         <TableHeader>
           <TableRow>
-            <TableHead className="w-8 px-3 py-4">
-              <Checkbox onCheckedChange={onCheckboxChange} />
-            </TableHead>
+            {onCheckboxChange && (
+              <TableHead className="w-8 px-3 py-4">
+                <Checkbox onCheckedChange={onCheckboxChange} />
+              </TableHead>
+            )}
 
             {columns.map((column) => (
               <TableHead
@@ -62,25 +62,24 @@ export function DataTable({
           </TableRow>
         </TableHeader>
         <TableBody className="bg-white">{children}</TableBody>
-        <TableFooter className="bg-white">
-          <TableRow>
-            <TableCell className="px-4 py-3 text-sm text-muted-foreground">
-              {t("Showing")}{" "}
-              <span className="font-semibold text-black">{rowsCount}</span>{" "}
-              {countUnit}
-            </TableCell>
-
-            <TableCell className="px-4 py-3" colSpan={columns.length}>
-              {totalPages && currentPage && (
-                <PaginationTemplate
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                />
-              )}
-            </TableCell>
-          </TableRow>
-        </TableFooter>
       </Table>
+
+      <div className="p-4 bg-white flex items-center justify-between border-t border-border">
+        <div className="text-sm text-muted-foreground white-space-nowrap">
+          {t("Showing")}{" "}
+          <span className="font-semibold text-black">{rowsCount}</span>{" "}
+          {countUnit}
+        </div>
+
+        <div>
+          {totalPages && currentPage && (
+            <PaginationTemplate
+              currentPage={currentPage}
+              totalPages={totalPages}
+            />
+          )}
+        </div>
+      </div>
     </div>
   );
 }

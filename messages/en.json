@@ -742,6 +742,11 @@
         "Label": "Notes",
         "Placeholder": "e.g Seasonal availability, supplier info, etc."
       }
+    },
+    "Statistics": {
+      "TotalFlowers": "Total Flowers Types",
+      "LowStock": "Low Stock Alert",
+      "OutOfStock": "Out of Stock"
     }
   }
 }
