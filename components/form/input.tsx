@@ -124,7 +124,11 @@ export default function NormalFormInput<T extends FieldValues>({
               className={cn("h-10 border-border bg-background", inputClassName)}
             />
           )}
-          {description && <FieldDescription>{description}</FieldDescription>}
+          {description && (
+            <FieldDescription className="text-xs">
+              {description}
+            </FieldDescription>
+          )}
           <FieldError errors={[error]} />
         </div>
       </FieldContent>

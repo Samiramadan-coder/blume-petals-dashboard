@@ -702,5 +702,46 @@
     "PolicyPlaceholder": "Enter Privacy Policy content",
     "SavedSuccessfully": "Settings saved successfully",
     "SaveFailed": "Failed to save settings. Please try again."
+  },
+  "Flower": {
+    "Title": "Flower Inventory",
+    "Description": "Manage raw flower stock that bouquets draw from when sold.",
+    "AddFlower": "Add Flower",
+    "EditFlower": "Edit Flower",
+    "AddFlowerDescription": "Add a new flower type to inventory.",
+    "EditFlowerDescription": "Edit flower type details.",
+    "Fields": {
+      "Photo": {
+        "Label": "Flower Photo",
+        "FileLessThan1MB": "Photo must be less than 1MB"
+      },
+      "Name": {
+        "Label": "Flower Name",
+        "Placeholder": "Enter flower name",
+        "Required": "Flower name is required",
+        "MinLength": "Flower name must be at least 2 characters"
+      },
+      "InitialQuantity": {
+        "Label": "Initial Stock Qty",
+        "Placeholder": "Enter initial quantity",
+        "MinValue": "Initial quantity must be at least 1"
+      },
+      "LowStockThreshold": {
+        "Label": "Low Stock Threshold",
+        "Placeholder": "Enter low stock threshold",
+        "MinValue": "Low stock threshold must be at least 1",
+        "Description": "We'll alert you when stock reaches this number so you can reorder in time."
+      },
+      "UnitCost": {
+        "Label": "Unit Cost (AED / stem)",
+        "Placeholder": "Enter unit cost",
+        "MinValue": "Unit cost must be at least 1",
+        "Description": "For internal margin calculation only — never shown to customers."
+      },
+      "Note": {
+        "Label": "Notes",
+        "Placeholder": "e.g Seasonal availability, supplier info, etc."
+      }
+    }
   }
 }
