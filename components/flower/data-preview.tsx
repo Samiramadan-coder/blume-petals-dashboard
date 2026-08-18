@@ -1,133 +1,232 @@
 "use client";
 
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "../ui/table";
+  deleteProductAction,
+  updateProductStatusAction,
+} from "@/lib/products-actions";
+import Image from "next/image";
+import { toast } from "sonner";
 import { useState } from "react";
-import Statistics from "./statistics";
-import { Button } from "../ui/button";
-import CreateEdit from "./create-edit";
-import { useTranslations } from "next-intl";
-import { columns } from "@/constants/flowers";
+import { Badge } from "../ui/badge";
+import { Switch } from "../ui/switch";
+// import Statistics from "./statistics";
+// import { Button } from "../ui/button";
+// import CreateEdit from "./create-edit";
+import { Spinner } from "../ui/spinner";
+import { Eye, Star } from "lucide-react";
+// import { Link } from "@/i18n/navigation";
+import { Checkbox } from "../ui/checkbox";
+// import EditBtn from "../reusable/edit-btn";
+import { Pagination } from "@/types/shared";
+// import { Occasion } from "@/types/occasions";
+// import { Category } from "@/types/categories";
+// import FiltersControl from "./filters-control";
+import { columns } from "@/constants/products";
+import DeleteBtn from "../reusable/delete-btn";
+import { TableCell, TableRow } from "../ui/table";
 import { DataTable } from "../reusable/data-table";
-import ModuleHeader from "../reusable/module-header";
-import { Download, ChevronDown, ChevronRight } from "lucide-react";
+import { Product, Summary } from "@/types/products";
+import { useLocale, useTranslations } from "next-intl";
+import { usePermissions } from "@/providers/permission-providers";
+import { cn } from "@/lib/utils";
 
-export default function DataPreview() {
+export default function DataPreview({
+  products,
+  pagination,
+}: {
+  products: Product[];
+  pagination: Pagination;
+}) {
+  const locale = useLocale();
+  const { can } = usePermissions();
   const t = useTranslations("Flower");
+  const tCommon = useTranslations("Common");
+  const [loadingDelete, setLoadingDelete] = useState(false);
 
   return (
     <>
-      <ModuleHeader title={t("Title")} description={t("Description")}>
-        <CreateEdit />
-      </ModuleHeader>
+      <header className="flex items-center justify-between flex-wrap gap-4"></header>
 
-      <Statistics />
+      <DataTable
+        columns={columns(t)}
+        rowsCount={products.length}
+        countUnit={t("Products")}
+        currentPage={pagination.current_page}
+        totalPages={pagination.last_page}
+        onCheckboxChange={(checked) => console.log(checked)}
+      >
+        {products.map((product, index) => (
+          <TableRow key={index}>
+            <TableCell className="px-4 py-3">
+              <Checkbox />
+            </TableCell>
 
-      <DataTable columns={columns(t)} countUnit={"Flowers"} rowsCount={10}>
-        <SingleRow />
-        <SingleRow />
-        <SingleRow />
-        <SingleRow />
+            <TableCell className="px-4 py-3">
+              {product.images.length > 0 ? (
+                <Image
+                  src={product.images[0].url as string}
+                  alt={product.name[locale]}
+                  width={40}
+                  height={80}
+                  className="rounded-md shadow-sm w-auto h-auto"
+                />
+              ) : (
+                <div className="w-10 h-10 rounded-md bg-primary/10 grid place-content-center">
+                  {product.name[locale].charAt(0).toUpperCase()}
+                </div>
+              )}
+            </TableCell>
+
+            <TableCell className="px-4 py-3">
+              <p className="font-semibold">
+                {product.name[locale]}
+                {product.is_new && (
+                  <Badge className="mx-2 text-[10px] font-semibold text-foreground">
+                    {tCommon("New")}
+                  </Badge>
+                )}
+              </p>
+              <p className="text-muted-foreground text-xs mt-1">
+                {product.sku}
+              </p>
+            </TableCell>
+
+            <TableCell className="px-4 py-3">-</TableCell>
+
+            <TableCell className="px-4 py-3">
+              <div className="flex items-center gap-2">
+                {product.variants.map((variant) => (
+                  <Badge key={variant.id} className="font-semibold">
+                    {variant.size} - {variant.price}
+                  </Badge>
+                ))}
+              </div>
+            </TableCell>
+
+            <TableCell className="px-4 py-3">
+              <div className="flex items-center gap-2">
+                {product.variants.map((variant) => (
+                  <div key={variant.id}>
+                    <Badge
+                      className={cn({
+                        "bg-primary/20 text-primary": variant.in_stock,
+                        "bg-destructive/30 text-destructive": !variant.in_stock,
+                      })}
+                    >
+                      <span
+                        className={cn("w-1.5 h-1.5 rounded-full shrink-0", {
+                          "bg-primary": variant.in_stock,
+                          "bg-destructive": !variant.in_stock,
+                        })}
+                      ></span>{" "}
+                      {variant.in_stock ? t("In") : t("Out")} - {variant.size}
+                    </Badge>
+
+                    <p className="text-muted-foreground text-xs mt-2">
+                      {variant.stock} {t("Labels.Units")}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </TableCell>
+
+            <TableCell className="px-4 py-3">
+              <div className="flex items-center gap-1">
+                <Star className="size-2.5 text-primary fill-primary" />
+                <span className="font-semibold text-xs">
+                  {product.rating_avg}
+                </span>
+                <span className="text-xs text-muted-foreground">
+                  ({product.rating_count})
+                </span>
+              </div>
+            </TableCell>
+
+            <TableCell className="px-4 py-3">
+              <VisibilitySwitch
+                product={product}
+                disabled={!can("catalog.edit")}
+              />
+            </TableCell>
+
+            <TableCell className="px-4 py-3 text-center">
+              {/* {can("catalog.edit") && (
+                <CreateEdit
+                  categories={categories}
+                  occasions={occasions}
+                  product={product}
+                  trigger={<EditBtn />}
+                  type={type}
+                />
+              )} */}
+
+              {/* <Link
+                href={`/products/${product.id}?type=${type}`}
+                locale={locale}
+              >
+                <Button variant="ghost">
+                  <Eye className="size-4 text-muted-foreground" />
+                </Button>
+              </Link> */}
+
+              {can("catalog.delete") && (
+                <DeleteBtn
+                  onDelete={async () => {
+                    setLoadingDelete(true);
+                    const result = await deleteProductAction(product);
+                    setLoadingDelete(false);
+                    if (result.success) {
+                      toast.success(tCommon("DeletedSuccessfully"));
+                      return;
+                    }
+                    toast.error(tCommon("DeleteFailed"));
+                  }}
+                  loading={loadingDelete}
+                />
+              )}
+            </TableCell>
+          </TableRow>
+        ))}
       </DataTable>
     </>
   );
 }
 
-const SingleRow = () => {
-  const t = useTranslations("Flower");
-  const [open, setOpen] = useState(false);
-
-  const columns = [
-    t("DetailsTable.Date"),
-    t("DetailsTable.Action"),
-    t("DetailsTable.Change"),
-    t("DetailsTable.Balance"),
-    t("DetailsTable.Note"),
-  ];
+/**
+ * A switch component to toggle the visibility of a category.
+ */
+function VisibilitySwitch({
+  product,
+  disabled,
+}: {
+  product: Product;
+  disabled?: boolean;
+}) {
+  const tCommon = useTranslations("Common");
+  const [loading, setLoading] = useState(false);
 
   return (
     <>
-      <TableRow>
-        <TableCell className="px-4 py-3">
-          <Button variant="ghost" size="icon" onClick={() => setOpen(!open)}>
-            {open ? (
-              <ChevronDown className="size-3.5" />
-            ) : (
-              <ChevronRight className="size-3.5" />
-            )}
-          </Button>
-        </TableCell>
-        <TableCell className="px-4 py-3">.....</TableCell>
-        <TableCell className="px-4 py-3">.....</TableCell>
-        <TableCell className="px-4 py-3">.....</TableCell>
-        <TableCell className="px-4 py-3">.....</TableCell>
-        <TableCell className="px-4 py-3">.....</TableCell>
-        <TableCell className="px-4 py-3">.....</TableCell>
-      </TableRow>
+      {loading ? (
+        <Spinner className="text-primary" />
+      ) : (
+        <Switch
+          disabled={disabled}
+          checked={product.status === "published"}
+          onClick={async () => {
+            setLoading(true);
+            const result = await updateProductStatusAction(product);
+            setLoading(false);
 
-      {open && (
-        <TableRow className="bg-background">
-          <TableCell colSpan={7}>
-            <div className="p-6 space-y-4">
-              <div className="flex items-center justify-between">
-                <h3 className="text-sm font-semibold">
-                  {t("DetailsTable.StockLog")} —
-                </h3>
-                <Button variant="outline" size="sm">
-                  <Download className="size-3.5" />
-                  {t("DetailsTable.Download")}
-                </Button>
-              </div>
+            if (result.success) {
+              toast.success(tCommon("VisibilityUpdated"));
+              return;
+            }
 
-              <div className="overflow-hidden rounded-lg border bg-background">
-                <Table>
-                  <TableHeader className="bg-background">
-                    <TableRow>
-                      {columns.map((column, index) => (
-                        <TableHead
-                          key={index}
-                          className="px-4 py-3 uppercase text-xs font-semibold text-muted-foreground"
-                        >
-                          {column}
-                        </TableHead>
-                      ))}
-                    </TableRow>
-                  </TableHeader>
-
-                  <TableBody className="bg-white">
-                    {true ? (
-                      [1, 2, 3].map((log, index) => (
-                        <TableRow key={index}>
-                          <TableCell className="px-4 py-3">.....</TableCell>
-                          <TableCell className="px-4 py-3">.....</TableCell>
-                          <TableCell className="px-4 py-3">.....</TableCell>
-                          <TableCell className="px-4 py-3">.....</TableCell>
-                          <TableCell className="px-4 py-3">.....</TableCell>
-                        </TableRow>
-                      ))
-                    ) : (
-                      <TableRow>
-                        <TableCell
-                          colSpan={5}
-                          className="h-20 text-center text-muted-foreground"
-                        >
-                          {t("DetailsTable.NoStockLog")}
-                        </TableCell>
-                      </TableRow>
-                    )}
-                  </TableBody>
-                </Table>
-              </div>
-            </div>
-          </TableCell>
-        </TableRow>
+            toast.error(tCommon("VisibilityUpdateFailed"));
+          }}
+        />
       )}
     </>
   );
-};
+}
