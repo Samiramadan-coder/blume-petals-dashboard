@@ -7,6 +7,7 @@ import {
   ProductFormValues,
   VariantFormValues,
 } from "@/types/products";
+import { FlowerFormValues } from "@/types/flower";
 
 // Post And Put Category Actions
 type ProductActionErrors = Record<string, string>;
@@ -19,7 +20,7 @@ type PostAndPutCategoryResult =
     };
 
 export async function postProductAction(
-  formData: ProductFormValues,
+  formData: ProductFormValues | FlowerFormValues,
   productId?: number,
 ): Promise<PostAndPutCategoryResult> {
   const method = productId ? "put" : "post";
@@ -27,7 +28,9 @@ export async function postProductAction(
     ? `/api/v1/admin/products/${productId}`
     : "/api/v1/admin/products";
 
-  const dataWithoutFiles: Partial<ProductFormValues> = { ...formData };
+  const dataWithoutFiles: Partial<ProductFormValues | FlowerFormValues> = {
+    ...formData,
+  };
   delete dataWithoutFiles.images;
 
   try {

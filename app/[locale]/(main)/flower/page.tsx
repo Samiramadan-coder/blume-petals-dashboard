@@ -2,9 +2,10 @@ import { Suspense } from "react";
 import { http } from "@/lib/http";
 import { Pagination } from "@/types/shared";
 import { Spinner } from "@/components/ui/spinner";
-import { Product, Summary } from "@/types/products";
 import { getTranslations } from "next-intl/server";
+import { Product, Summary } from "@/types/products";
 import DataPreview from "@/components/flower/data-preview";
+import { Category } from "@/types/categories";
 
 type SearchParams = {
   page?: string;
@@ -23,8 +24,14 @@ export async function generateMetadata() {
 }
 
 async function FlowersPage({ searchParams }: { searchParams: SearchParams }) {
+  const { data: categories, ok: ok1 } = await http.get<{
+    data: {
+      items: Category[];
+    };
+  }>("/api/v1/admin/categories");
+
   // Fetch products
-  const { data: products } = await http.get<{
+  const { data: products, ok: ok2 } = await http.get<{
     data: {
       items: Product[];
       pagination: Pagination;
@@ -41,7 +48,13 @@ async function FlowersPage({ searchParams }: { searchParams: SearchParams }) {
     },
   });
 
-  console.log("Products data:", products); // Log the fetched products data for debugging
+  if (!ok1 || !ok2) {
+    throw new Error("Failed to fetch data");
+  }
+
+  console.log("Categories data:", categories);
+
+  console.log("Products data:", products);
 
   return (
     <main className="space-y-6">
@@ -49,6 +62,7 @@ async function FlowersPage({ searchParams }: { searchParams: SearchParams }) {
         key={JSON.stringify(products.data.items)}
         flowers={products.data.items}
         pagination={products.data.pagination}
+        firstCategoryId={categories.data.items[0]?.id || 0}
       />
     </main>
   );

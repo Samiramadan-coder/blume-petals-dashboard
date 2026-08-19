@@ -69,10 +69,21 @@ export const flowerSchema = (t: T) =>
       en: z.string(),
       ar: z.string(),
     }),
+    category_id: z.number(),
+    show_in_builder: z.boolean(),
+    status: z.string(),
+    sku: z
+      .string()
+      .min(1, t("Fields.ProductSku.Required"))
+      .min(2, t("Fields.ProductSku.MinLength")),
     variants: z.array(
       z.object({
         price: z.number().min(1, t("Fields.UnitCost.MinValue")),
         stock: z.number().min(1, t("Fields.InitialQuantity.MinValue")),
+        sku: z
+          .string()
+          .min(1, t("Fields.VariantSku.Required"))
+          .min(2, t("Fields.VariantSku.MinLength")),
       }),
     ),
     images: z

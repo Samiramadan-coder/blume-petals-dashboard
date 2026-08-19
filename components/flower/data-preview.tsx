@@ -21,9 +21,11 @@ import { usePermissions } from "@/providers/permission-providers";
 export default function DataPreview({
   flowers,
   pagination,
+  firstCategoryId,
 }: {
   flowers: Product[];
   pagination: Pagination;
+  firstCategoryId: number;
 }) {
   const locale = useLocale();
   const { can } = usePermissions();
@@ -34,7 +36,7 @@ export default function DataPreview({
   return (
     <>
       <ModuleHeader title={t("Title")} description={t("Description")}>
-        <CreateEdit />
+        <CreateEdit firstCategoryId={firstCategoryId} />
       </ModuleHeader>
 
       <DataTable
@@ -52,19 +54,22 @@ export default function DataPreview({
             </TableCell>
 
             <TableCell className="px-4 py-3">
-              {flower.images.length > 0 ? (
-                <Image
-                  src={flower.images[0].url as string}
-                  alt={flower.name[locale]}
-                  width={40}
-                  height={80}
-                  className="rounded-md shadow-sm w-auto h-auto"
-                />
-              ) : (
-                <div className="w-10 h-10 rounded-md bg-primary/10 grid place-content-center">
-                  {flower.name[locale].charAt(0).toUpperCase()}
-                </div>
-              )}
+              <div className="flex items-center gap-2">
+                {flower.images.length > 0 ? (
+                  <Image
+                    src={flower.images[0].url as string}
+                    alt={flower.name[locale]}
+                    width={40}
+                    height={40}
+                    className="rounded-md shadow-sm w-auto h-auto"
+                  />
+                ) : (
+                  <div className="w-12 h-12 rounded-md bg-primary/10 grid place-content-center">
+                    {flower.name[locale].charAt(0).toUpperCase()}
+                  </div>
+                )}
+                <p className="font-medium">{flower.name[locale]}</p>
+              </div>
             </TableCell>
 
             <TableCell className="px-4 py-3">
@@ -87,7 +92,11 @@ export default function DataPreview({
 
             <TableCell className="px-4 py-3">
               {can("catalog.edit") && (
-                <CreateEdit product={flower} trigger={<EditBtn />} />
+                <CreateEdit
+                  flower={flower}
+                  trigger={<EditBtn />}
+                  firstCategoryId={firstCategoryId}
+                />
               )}
 
               {can("catalog.delete") && (

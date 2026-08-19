@@ -7,8 +7,8 @@ import Header from "../form/header";
 import Footer from "../form/footer";
 import { Button } from "../ui/button";
 import AddButton from "../form/add-button";
+import { Product } from "@/types/products";
 import NormalFormTextarea from "../form/textarea";
-import ImageUploader from "../form/image-uploader";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { availableLocales } from "@/constants/shared";
 import { useLocale, useTranslations } from "next-intl";
@@ -18,30 +18,17 @@ import { useEffect, useRef, type ReactNode } from "react";
 import { postProductAction } from "@/lib/products-actions";
 import { FlowerFormValues, flowerSchema } from "@/types/flower";
 import LocaleFormSwitcher from "../reusable/locale-form-switcher";
+import SingleFormImageUploader from "../form/single-image-uploader";
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../ui/sheet";
-import { Product, ProductFormValues } from "@/types/products";
-
-// Get default values for the form based on the product data
-function getDefaultValues(product?: Product): FlowerFormValues {
-  return {
-    name: product?.name || { en: "", ar: "" },
-    description: product?.description || { en: "", ar: "" },
-    images: product?.images.map((image) => image.url) || [],
-    variants: [
-      {
-        price: product ? product.variants[0].price : 0,
-        stock: product ? product.variants[0].stock : 0,
-      },
-    ],
-  };
-}
 
 export default function CreateEdit({
   trigger,
-  product,
+  flower,
+  firstCategoryId,
 }: {
   trigger?: ReactNode;
-  product?: Product;
+  flower?: Product;
+  firstCategoryId: number;
 }) {
   const locale = useLocale();
   const t = useTranslations("Flower");
@@ -60,40 +47,63 @@ export default function CreateEdit({
     formState: { errors, isSubmitting, isSubmitted },
   } = useForm<FlowerFormValues>({
     resolver: zodResolver(flowerSchema((key) => tLive(key as never))),
-    defaultValues: getDefaultValues(product),
+    defaultValues: {
+      name: flower?.name || { en: "", ar: "" },
+      description: flower?.description || { en: "", ar: "" },
+      images: flower?.images.map((image) => image.url) || [],
+      category_id: flower?.category_id || firstCategoryId,
+      status: "published",
+      show_in_builder: true,
+      variants: [
+        {
+          price: flower ? flower.variants[0].price : undefined,
+          stock: flower ? flower.variants[0].stock : undefined,
+          sku: flower ? flower.variants[0].sku : "",
+        },
+      ],
+    },
   });
 
+  // Use Effect to Trigger Validation on Locale Change
+  // This effect runs whenever the active locale changes or the form has been submitted.
   useEffect(() => {
     if (isSubmitted) {
       void triggerValidation();
     }
   }, [activeLocale, isSubmitted, triggerValidation]);
 
+  // Form Submission Handler
+  // This function handles the form submission for creating or editing a flower product.
+  // It uses the `postProductAction` function to send the form data to the server.
+  // If the submission is successful, it shows a success toast message and resets the form.
+  // If there are validation errors, it displays error messages for each field.
+  // If the submission fails for other reasons, it shows a generic error message.
   const onSubmit: SubmitHandler<FlowerFormValues> = async (values) => {
-    // console.log(values);
-    // const result = await postProductAction(values, product?.id);
-    // if (result.success) {
-    //   toast.success(
-    //     product
-    //       ? tCommon("UpdatedSuccessfully")
-    //       : tCommon("CreatedSuccessfully"),
-    //   );
-    //   form.current?.reset();
-    //   closeBtn.current?.click();
-    //   return;
-    // }
-    // if (result.errors) {
-    //   console.log("Server validation errors:", result.errors); // Log the server validation errors for debugging
-    //   Object.entries(result.errors).forEach(([field, message]) => {
-    //     toast.error(message);
-    //     setError(field as keyof FlowerFormValues, {
-    //       type: "server",
-    //       message,
-    //     });
-    //   });
-    //   return;
-    // }
-    // toast.error(product ? tCommon("UpdateFailed") : tCommon("CreationFailed"));
+    const result = await postProductAction(values, flower?.id);
+
+    if (result.success) {
+      toast.success(
+        flower
+          ? tCommon("UpdatedSuccessfully")
+          : tCommon("CreatedSuccessfully"),
+      );
+      form.current?.reset();
+      closeBtn.current?.click();
+      return;
+    }
+
+    if (result.errors) {
+      Object.entries(result.errors).forEach(([field, message]) => {
+        toast.error(message);
+        setError(field as keyof FlowerFormValues, {
+          type: "server",
+          message,
+        });
+      });
+      return;
+    }
+
+    toast.error(flower ? tCommon("UpdateFailed") : tCommon("CreationFailed"));
   };
 
   return (
@@ -115,9 +125,9 @@ export default function CreateEdit({
         </SheetClose>
 
         <Header
-          title={product ? t("EditFlower") : t("AddFlower")}
+          title={flower ? t("EditFlower") : t("AddFlower")}
           description={
-            product ? t("EditFlowerDescription") : t("AddFlowerDescription")
+            flower ? t("EditFlowerDescription") : t("AddFlowerDescription")
           }
         />
 
@@ -139,7 +149,6 @@ export default function CreateEdit({
             ref={form}
             onSubmit={(e) => {
               void handleSubmit(onSubmit, (errors) => {
-                // Check if current locale is English and there are Arabic field errors
                 if (activeLocale === "en") {
                   const hasArErrors = errors.name?.ar || errors.description?.ar;
                   if (hasArErrors) {
@@ -148,7 +157,6 @@ export default function CreateEdit({
                   }
                 }
 
-                // Check if current locale is Arabic and there are English field errors
                 if (activeLocale === "ar") {
                   const hasEnErrors = errors.name?.en || errors.description?.en;
                   if (hasEnErrors) {
@@ -160,14 +168,11 @@ export default function CreateEdit({
             }}
             className="space-y-6 relative"
           >
-            <ImageUploader
-              key={activeLocale}
+            <SingleFormImageUploader
               control={control}
-              name="images"
+              name="images.0"
               label={tLive("Fields.Photo.Label")}
               required
-              buttonLabel={tLive("Fields.Photo.AddPhoto")}
-              errors={errors}
             />
 
             {availableLocales.map((locale) => (
@@ -187,6 +192,16 @@ export default function CreateEdit({
             ))}
 
             <Input<FlowerFormValues>
+              label={tLive("Fields.ProductSku.Label")}
+              name="sku"
+              type="text"
+              register={register}
+              errors={errors}
+              required
+              placeholder={tLive("Fields.ProductSku.Placeholder")}
+            />
+
+            <Input<FlowerFormValues>
               label={tLive("Fields.InitialQuantity.Label")}
               name={`variants.0.stock`}
               type="number"
@@ -204,6 +219,16 @@ export default function CreateEdit({
               errors={errors}
               required
               placeholder={tLive("Fields.UnitCost.Placeholder")}
+            />
+
+            <Input<FlowerFormValues>
+              label={tLive("Fields.VariantSku.Label")}
+              name="variants.0.sku"
+              type="text"
+              register={register}
+              errors={errors}
+              required
+              placeholder={tLive("Fields.VariantSku.Placeholder")}
             />
 
             {availableLocales.map((locale) => (

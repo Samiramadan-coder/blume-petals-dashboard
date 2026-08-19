@@ -746,6 +746,18 @@
       "Note": {
         "Label": "Notes",
         "Placeholder": "e.g Seasonal availability, supplier info, etc."
+      },
+      "ProductSku": {
+        "Label": "Product SKU",
+        "Placeholder": "Enter Product SKU",
+        "Required": "Product SKU is required",
+        "MinLength": "Product SKU must be at least 2 characters"
+      },
+      "VariantSku": {
+        "Label": "Variant SKU",
+        "Placeholder": "Enter Variant SKU",
+        "Required": "Variant SKU is required",
+        "MinLength": "Variant SKU must be at least 2 characters"
       }
     },
     "Statistics": {
