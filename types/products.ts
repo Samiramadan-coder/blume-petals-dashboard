@@ -67,6 +67,7 @@ export type Variant = {
   color_hex?: string | null;
   is_on_sale?: boolean;
   in_stock?: boolean;
+  available_stock?: number;
 };
 
 export type Product = {

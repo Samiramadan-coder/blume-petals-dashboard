@@ -1,17 +1,60 @@
+// import z from "zod";
+// import { T } from "./shared";
+
+// export const flowerSchema = (t: T) =>
+//   z.object({
+//     photo: z.union([
+//       z.string(),
+//       z
+//         .instanceof(Blob)
+//         .refine(
+//           (file) => file.size <= 1024 * 1024,
+//           t("Fields.Photo.FileLessThan1MB"),
+//         ),
+//     ]),
+//     name: z.object({
+//       en: z
+//         .string()
+//         .min(1, t("Fields.Name.Required"))
+//         .min(2, t("Fields.Name.MinLength")),
+//       ar: z
+//         .string()
+//         .min(1, t("Fields.Name.Required"))
+//         .min(2, t("Fields.Name.MinLength")),
+//     }),
+//     initial_quantity: z.number().min(1, t("Fields.InitialQuantity.MinValue")),
+//     low_stock_threshold: z
+//       .number()
+//       .min(1, t("Fields.LowStockThreshold.MinValue")),
+//     unit_cost: z.number().min(1, t("Fields.UnitCost.MinValue")),
+//     note: z.object({
+//       en: z.string().optional(),
+//       ar: z.string().optional(),
+//     }),
+//   });
+
+// export type FlowerFormValues = z.infer<ReturnType<typeof flowerSchema>>;
+
+// export type Flower = FlowerFormValues & {
+//   id: number;
+// };
+
 import z from "zod";
 import { T } from "./shared";
 
+const imageSchema = (t: T) =>
+  z.union([z.string(), z.instanceof(Blob)]).refine(
+    (image) => {
+      if (typeof image === "string") return true;
+      return image.size <= 1024 * 1024;
+    },
+    {
+      message: t("Fields.Photo.FileLessThan1MB"),
+    },
+  );
+
 export const flowerSchema = (t: T) =>
   z.object({
-    photo: z.union([
-      z.string(),
-      z
-        .instanceof(Blob)
-        .refine(
-          (file) => file.size <= 1024 * 1024,
-          t("Fields.Photo.FileLessThan1MB"),
-        ),
-    ]),
     name: z.object({
       en: z
         .string()
@@ -22,19 +65,19 @@ export const flowerSchema = (t: T) =>
         .min(1, t("Fields.Name.Required"))
         .min(2, t("Fields.Name.MinLength")),
     }),
-    initial_quantity: z.number().min(1, t("Fields.InitialQuantity.MinValue")),
-    low_stock_threshold: z
-      .number()
-      .min(1, t("Fields.LowStockThreshold.MinValue")),
-    unit_cost: z.number().min(1, t("Fields.UnitCost.MinValue")),
-    note: z.object({
-      en: z.string().optional(),
-      ar: z.string().optional(),
+    description: z.object({
+      en: z.string(),
+      ar: z.string(),
     }),
+    variants: z.array(
+      z.object({
+        price: z.number().min(1, t("Fields.UnitCost.MinValue")),
+        stock: z.number().min(1, t("Fields.InitialQuantity.MinValue")),
+      }),
+    ),
+    images: z
+      .array(imageSchema(t))
+      .min(1, t("Fields.Photo.AtLeastOneImageIsRequired")),
   });
 
 export type FlowerFormValues = z.infer<ReturnType<typeof flowerSchema>>;
-
-export type Flower = FlowerFormValues & {
-  id: number;
-};

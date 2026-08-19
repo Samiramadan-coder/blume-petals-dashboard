@@ -710,11 +710,13 @@
     "Fields": {
       "Photo": {
         "Label": "صورة الزهرة",
-        "FileLessThan1MB": "يجب أن تكون الصورة أقل من 1 ميغابايت"
+        "FileLessThan1MB": "يجب أن تكون الصورة أقل من 1 ميغابايت",
+        "AddPhoto": "أضف صورة",
+        "AtLeastOneImageIsRequired": "يرجى تحميل صورة واحدة على الأقل"
       },
       "Name": {
         "Label": "اسم الزهرة",
-        "Placeholder": "أدخل اسم الزهرة",
+        "Placeholder": "مثل: وردة حمراء",
         "Required": "اسم الزهرة مطلوب",
         "MinLength": "يجب أن يكون اسم الزهرة مكونًا من حرفين على الأقل"
       },

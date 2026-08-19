@@ -3,72 +3,34 @@
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import Input from "../form/input";
-import { Badge } from "../ui/badge";
 import Header from "../form/header";
 import Footer from "../form/footer";
-import Select from "../form/select";
-import Switch from "../form/switch";
-import { Check } from "lucide-react";
 import { Button } from "../ui/button";
-import RichText from "../form/rich-text";
 import AddButton from "../form/add-button";
-import { Separator } from "../ui/separator";
-import { Occasion } from "@/types/occasions";
-import { Category } from "@/types/categories";
-import { useEffect, useRef, type ReactNode } from "react";
-import SectionLabel from "../form/section-label";
+import NormalFormTextarea from "../form/textarea";
 import ImageUploader from "../form/image-uploader";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { availableLocales } from "@/constants/shared";
 import { useLocale, useTranslations } from "next-intl";
 import { useFormLocale } from "@/hooks/use-form-locale";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useEffect, useRef, type ReactNode } from "react";
 import { postProductAction } from "@/lib/products-actions";
+import { FlowerFormValues, flowerSchema } from "@/types/flower";
 import LocaleFormSwitcher from "../reusable/locale-form-switcher";
-import { colors, productStatuses, sizes } from "@/constants/products";
-import { Field, FieldContent, FieldError, FieldLabel } from "../ui/field";
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../ui/sheet";
-import { Product, ProductFormValues, productSchema } from "@/types/products";
-import { Controller, SubmitHandler, useForm, useWatch } from "react-hook-form";
-import NormalFormTagsInput from "../form/tags";
-
-// Get list of colors including the selected color if it's not in the predefined list
-function getListOfColors(color?: string): string[] {
-  return [...colors, ...(color && !colors.includes(color) ? [color] : [])];
-}
+import { Product, ProductFormValues } from "@/types/products";
 
 // Get default values for the form based on the product data
-function getDefaultValues(product?: Product): ProductFormValues {
+function getDefaultValues(product?: Product): FlowerFormValues {
   return {
     name: product?.name || { en: "", ar: "" },
     description: product?.description || { en: "", ar: "" },
-    category_id: product?.category_id || 0,
-    occasion_ids: product?.occasion_ids || [],
-    tags: product?.tags || [],
-    sku: product?.sku || "",
-    status: product?.status || "published",
     images: product?.images.map((image) => image.url) || [],
-    is_new: product?.is_new || false,
-    variants: product?.variants.map((variant) => ({
-      id: variant.id,
-      sku: variant.sku,
-      size: variant.size,
-      price: variant.price,
-      stock: variant.stock,
-      compare_at_price: variant.compare_at_price,
-      color_hex: variant.color_hex,
-      in_stock: variant.in_stock,
-      is_on_sale: variant.is_on_sale,
-    })) || [
+    variants: [
       {
-        id: undefined,
-        sku: "",
-        size: "",
-        price: 0,
-        stock: 0,
-        compare_at_price: null,
-        color_hex: "",
-        in_stock: true,
-        is_on_sale: false,
+        price: product ? product.variants[0].price : 0,
+        stock: product ? product.variants[0].stock : 0,
       },
     ],
   };
@@ -77,23 +39,17 @@ function getDefaultValues(product?: Product): ProductFormValues {
 export default function CreateEdit({
   trigger,
   product,
-  categories,
-  occasions,
-  type,
 }: {
   trigger?: ReactNode;
   product?: Product;
-  categories: Category[];
-  occasions: Occasion[];
-  type: "default" | "addon";
 }) {
   const locale = useLocale();
-  const t = useTranslations("Products");
+  const t = useTranslations("Flower");
   const tCommon = useTranslations("Common");
   const form = useRef<HTMLFormElement>(null);
   const closeBtn = useRef<HTMLButtonElement>(null);
   const { activeLocale, changeLocale, dir, isArabic, tLive } =
-    useFormLocale("Products");
+    useFormLocale("Flower");
 
   const {
     register,
@@ -102,8 +58,8 @@ export default function CreateEdit({
     setError,
     trigger: triggerValidation,
     formState: { errors, isSubmitting, isSubmitted },
-  } = useForm<ProductFormValues>({
-    resolver: zodResolver(productSchema((key) => tLive(key as never))),
+  } = useForm<FlowerFormValues>({
+    resolver: zodResolver(flowerSchema((key) => tLive(key as never))),
     defaultValues: getDefaultValues(product),
   });
 
@@ -113,38 +69,31 @@ export default function CreateEdit({
     }
   }, [activeLocale, isSubmitted, triggerValidation]);
 
-  const watchedVariants = useWatch({
-    control,
-    name: "variants",
-  });
-
-  const onSubmit: SubmitHandler<ProductFormValues> = async (values) => {
-    const result = await postProductAction(values, product?.id);
-
-    if (result.success) {
-      toast.success(
-        product
-          ? tCommon("UpdatedSuccessfully")
-          : tCommon("CreatedSuccessfully"),
-      );
-      form.current?.reset();
-      closeBtn.current?.click();
-      return;
-    }
-
-    if (result.errors) {
-      Object.entries(result.errors).forEach(([field, message]) => {
-        toast.error(message);
-        setError(field as keyof ProductFormValues, {
-          type: "server",
-          message,
-        });
-      });
-
-      return;
-    }
-
-    toast.error(product ? tCommon("UpdateFailed") : tCommon("CreationFailed"));
+  const onSubmit: SubmitHandler<FlowerFormValues> = async (values) => {
+    // console.log(values);
+    // const result = await postProductAction(values, product?.id);
+    // if (result.success) {
+    //   toast.success(
+    //     product
+    //       ? tCommon("UpdatedSuccessfully")
+    //       : tCommon("CreatedSuccessfully"),
+    //   );
+    //   form.current?.reset();
+    //   closeBtn.current?.click();
+    //   return;
+    // }
+    // if (result.errors) {
+    //   console.log("Server validation errors:", result.errors); // Log the server validation errors for debugging
+    //   Object.entries(result.errors).forEach(([field, message]) => {
+    //     toast.error(message);
+    //     setError(field as keyof FlowerFormValues, {
+    //       type: "server",
+    //       message,
+    //     });
+    //   });
+    //   return;
+    // }
+    // toast.error(product ? tCommon("UpdateFailed") : tCommon("CreationFailed"));
   };
 
   return (
@@ -152,9 +101,7 @@ export default function CreateEdit({
       {trigger ? (
         <SheetTrigger asChild>{trigger}</SheetTrigger>
       ) : (
-        <AddButton
-          label={type === "default" ? t("AddProduct") : t("AddAddOnsProduct")}
-        />
+        <AddButton label={t("AddFlower")} />
       )}
 
       <SheetContent
@@ -168,19 +115,9 @@ export default function CreateEdit({
         </SheetClose>
 
         <Header
-          title={
-            product
-              ? type === "default"
-                ? t("EditProduct")
-                : t("EditAddOnsProduct")
-              : type === "default"
-                ? t("AddProduct")
-                : t("AddAddOnsProduct")
-          }
+          title={product ? t("EditFlower") : t("AddFlower")}
           description={
-            type === "default"
-              ? t("AddProductDescription")
-              : t("AddAddOnsProductDescription")
+            product ? t("EditFlowerDescription") : t("AddFlowerDescription")
           }
         />
 
@@ -227,20 +164,19 @@ export default function CreateEdit({
               key={activeLocale}
               control={control}
               name="images"
-              label={tLive("Fields.Photo")}
+              label={tLive("Fields.Photo.Label")}
               required
-              buttonLabel={tLive("AddPhoto")}
+              buttonLabel={tLive("Fields.Photo.AddPhoto")}
               errors={errors}
             />
 
-            <SectionLabel>{tLive("Labels.BasicInformation")}</SectionLabel>
             {availableLocales.map((locale) => (
-              <Input<ProductFormValues>
+              <Input<FlowerFormValues>
                 key={locale}
-                label={tLive("Fields.Name")}
+                label={tLive("Fields.Name.Label")}
                 name={`name.${locale}`}
                 type="text"
-                placeholder={tLive("Placeholders.Name")}
+                placeholder={tLive("Fields.Name.Placeholder")}
                 className={cn({
                   hidden: activeLocale !== locale,
                 })}
@@ -250,289 +186,38 @@ export default function CreateEdit({
               />
             ))}
 
-            <Select<ProductFormValues>
-              control={control}
-              label={tLive("Fields.Category")}
-              name="category_id"
-              placeholder={tLive("Placeholders.Category")}
-              required
-              dir={dir}
-              options={categories.map((category) => ({
-                value: category.id,
-                label: category.name[activeLocale],
-              }))}
-            />
-
-            <Input<ProductFormValues>
-              label={tLive("Fields.SKU")}
-              name="sku"
-              type="text"
-              placeholder={tLive("Placeholders.SKU")}
+            <Input<FlowerFormValues>
+              label={tLive("Fields.InitialQuantity.Label")}
+              name={`variants.0.stock`}
+              type="number"
               register={register}
               errors={errors}
               required
+              placeholder={tLive("Fields.InitialQuantity.Placeholder")}
+            />
+
+            <Input<FlowerFormValues>
+              label={tLive("Fields.UnitCost.Label")}
+              name={`variants.0.price`}
+              type="number"
+              register={register}
+              errors={errors}
+              required
+              placeholder={tLive("Fields.UnitCost.Placeholder")}
             />
 
             {availableLocales.map((locale) => (
-              <div
+              <NormalFormTextarea<FlowerFormValues>
                 key={locale}
-                className={cn({
+                name={`description.${locale}`}
+                register={register}
+                label={tLive("Fields.Note.Label")}
+                placeholder={tLive("Fields.Note.Placeholder")}
+                className={cn("sm:col-span-2", {
                   hidden: activeLocale !== locale,
                 })}
-              >
-                <RichText<ProductFormValues>
-                  key={activeLocale}
-                  control={control}
-                  label={tLive("Fields.Description")}
-                  name={`description.${locale}`}
-                  placeholder={tLive("Placeholders.Description")}
-                />
-              </div>
+              />
             ))}
-
-            <NormalFormTagsInput
-              name="tags"
-              control={control}
-              label={tLive("Fields.Tags")}
-              placeholder={tLive("Placeholders.Tags")}
-              maxTags={10}
-            />
-
-            {type === "default" && (
-              <>
-                <Separator className="bg-border" />
-                <Field>
-                  <FieldLabel
-                    htmlFor="occasions"
-                    className="text-sm font-semibold"
-                  >
-                    {tLive("Fields.OccasionTags")}
-                  </FieldLabel>
-
-                  <FieldContent>
-                    <Controller
-                      name="occasion_ids"
-                      control={control}
-                      render={({ field }) => {
-                        const selectedOccasions = field.value ?? [];
-
-                        return (
-                          <div className="space-y-1.5">
-                            <div className="flex flex-wrap gap-2">
-                              {occasions.map((occasion) => {
-                                const isSelected = selectedOccasions.includes(
-                                  occasion.id,
-                                );
-
-                                return (
-                                  <Badge
-                                    key={occasion.id}
-                                    variant="outline"
-                                    className={cn(
-                                      `h-7 text-sm px-4 cursor-pointer`,
-                                      { "bg-primary/20 border": isSelected },
-                                    )}
-                                    onClick={() => {
-                                      const nextOccasions = isSelected
-                                        ? selectedOccasions.filter(
-                                            (i) => i !== occasion.id,
-                                          )
-                                        : [...selectedOccasions, occasion.id];
-                                      field.onChange(nextOccasions);
-                                    }}
-                                  >
-                                    {occasion.name_translations[activeLocale]}
-                                  </Badge>
-                                );
-                              })}
-                            </div>
-                          </div>
-                        );
-                      }}
-                    />
-                  </FieldContent>
-                </Field>
-              </>
-            )}
-
-            <Separator className="bg-border" />
-            <div className="space-y-4">
-              <div className="flex items-center gap-2 justify-between">
-                <SectionLabel>{tLive("Labels.Variants")}</SectionLabel>
-              </div>
-              {watchedVariants.map((_, index) => (
-                <div
-                  key={index}
-                  className="grid grid-cols-1 md:grid-cols-2 gap-2 border border-border p-4 rounded-md bg-primary/10"
-                >
-                  <Input<ProductFormValues>
-                    label={tLive("Fields.SKU")}
-                    name={`variants.${index}.sku`}
-                    type="text"
-                    register={register}
-                    placeholder={tLive("Placeholders.SKU")}
-                    required
-                    errors={errors}
-                  />
-
-                  <Input<ProductFormValues>
-                    label={tLive("Fields.Price")}
-                    name={`variants.${index}.price`}
-                    type="number"
-                    register={register}
-                    errors={errors}
-                    required
-                    placeholder={tLive("Placeholders.Price")}
-                  />
-
-                  <Input<ProductFormValues>
-                    label={tLive("Fields.StockQuantity")}
-                    name={`variants.${index}.stock`}
-                    type="number"
-                    register={register}
-                    errors={errors}
-                    required
-                    placeholder={tLive("Placeholders.StockQuantity")}
-                  />
-
-                  <Select<ProductFormValues>
-                    control={control}
-                    label={tLive("Fields.Size")}
-                    name={`variants.${index}.size`}
-                    placeholder={tLive("Placeholders.Size")}
-                    required
-                    dir={dir}
-                    options={sizes((key) => tLive(key as never))}
-                  />
-
-                  <Input<ProductFormValues>
-                    label={tLive("Fields.ComparePrice")}
-                    name={`variants.${index}.compare_at_price`}
-                    type="number"
-                    register={register}
-                    placeholder={tLive("Placeholders.ComparePrice")}
-                    errors={errors}
-                    className="md:col-span-2"
-                  />
-
-                  <div className="md:col-span-2">
-                    <Field>
-                      <FieldLabel
-                        htmlFor="colors"
-                        className="text-sm font-semibold"
-                      >
-                        {tLive("Fields.ColorVariants")}
-                      </FieldLabel>
-                      <FieldContent>
-                        <Controller
-                          name={`variants.${index}.color_hex`}
-                          control={control}
-                          render={({ field }) => {
-                            const selectedColor = field.value ?? "";
-
-                            return (
-                              <div className="space-y-1.5">
-                                <div className="flex flex-wrap gap-2">
-                                  {getListOfColors(
-                                    watchedVariants[index].color_hex || "",
-                                  ).map((color) => {
-                                    const isSelected = selectedColor === color;
-
-                                    return (
-                                      <Button
-                                        key={color}
-                                        type="button"
-                                        variant="outline"
-                                        className={cn(
-                                          "h-8 w-8 rounded-full border border-border",
-                                          {
-                                            "border-2 border-primary":
-                                              isSelected,
-                                          },
-                                        )}
-                                        style={{
-                                          backgroundColor: color,
-                                        }}
-                                        onClick={() => {
-                                          const nextColor = isSelected
-                                            ? ""
-                                            : color;
-                                          field.onChange(nextColor);
-                                        }}
-                                      >
-                                        {isSelected && <Check />}
-                                      </Button>
-                                    );
-                                  })}
-                                  <div className="relative h-8 w-8">
-                                    <Button
-                                      variant="outline"
-                                      className="w-8 h-8 rounded-full border-2 border-dashed bg-white"
-                                    ></Button>
-                                    <input
-                                      type="color"
-                                      className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
-                                      onChange={(event) => {
-                                        const nextColor = event.target.value;
-                                        field.onChange(nextColor);
-                                      }}
-                                    />
-                                  </div>
-                                </div>
-
-                                <FieldError
-                                  errors={[errors.variants?.[index]?.color_hex]}
-                                />
-                              </div>
-                            );
-                          }}
-                        />
-                      </FieldContent>
-                    </Field>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <Separator className="bg-border" />
-            <SectionLabel>{tLive("Labels.DisplayOptions")}</SectionLabel>
-            <Switch
-              name="is_new"
-              control={control}
-              label={tLive("Fields.ShowNewBadge")}
-              description={tLive("Fields.ShowNewBadgeDescription")}
-            />
-
-            <Controller
-              name="status"
-              control={control}
-              render={({ field }) => {
-                const selectedStatus = field.value ?? "active";
-
-                return (
-                  <div className="flex gap-2">
-                    {productStatuses((key) => tLive(key as never)).map(
-                      (status) => {
-                        return (
-                          <Button
-                            className={cn(`flex-1 h-10 bg-white`, {
-                              "bg-primary/20 border-2":
-                                selectedStatus === status.value,
-                            })}
-                            onClick={() => field.onChange(status.value)}
-                            type="button"
-                            variant="outline"
-                            key={status.value}
-                          >
-                            {status.label}
-                          </Button>
-                        );
-                      },
-                    )}
-                  </div>
-                );
-              }}
-            />
           </form>
         </div>
 

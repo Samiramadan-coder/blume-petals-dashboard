@@ -704,20 +704,25 @@
     "SaveFailed": "Failed to save settings. Please try again."
   },
   "Flower": {
+    "Flowers": "Flowers",
     "Title": "Flower Inventory",
     "Description": "Manage raw flower stock that bouquets draw from when sold.",
     "AddFlower": "Add Flower",
     "EditFlower": "Edit Flower",
     "AddFlowerDescription": "Add a new flower type to inventory.",
     "EditFlowerDescription": "Edit flower type details.",
+    "InStock": "In Stock",
+    "OutOfStock": "Out of Stock",
     "Fields": {
       "Photo": {
         "Label": "Flower Photo",
-        "FileLessThan1MB": "Photo must be less than 1MB"
+        "FileLessThan1MB": "Photo must be less than 1MB",
+        "AddPhoto": "Add Photo",
+        "AtLeastOneImageIsRequired": "Please upload at least one photo"
       },
       "Name": {
         "Label": "Flower Name",
-        "Placeholder": "Enter flower name",
+        "Placeholder": "e.g Red Rose",
         "Required": "Flower name is required",
         "MinLength": "Flower name must be at least 2 characters"
       },

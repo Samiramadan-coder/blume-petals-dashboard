@@ -73,6 +73,7 @@ async function ProductsPage({ searchParams }: { searchParams: SearchParams }) {
       page: searchParams.page ?? 1,
       category_id: searchParams.category ?? "",
       category_type: activeTab === "default" ? "" : "addon",
+      show_in_builder: 0,
     },
   });
 

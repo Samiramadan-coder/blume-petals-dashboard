@@ -1,30 +1,13 @@
-// import DataPreview from "@/components/flower/data-preview";
-
-// export default function Page() {
-//   return (
-//     <main className="space-y-6">
-//       <DataPreview />
-//     </main>
-//   );
-// }
-
-// import { cn } from "@/lib/utils";
 import { Suspense } from "react";
 import { http } from "@/lib/http";
-// import { Link } from "@/i18n/navigation";
 import { Pagination } from "@/types/shared";
 import { Spinner } from "@/components/ui/spinner";
 import { Product, Summary } from "@/types/products";
 import { getTranslations } from "next-intl/server";
-import { OccasionResponse } from "@/types/occasions";
-import { CategoryResponse } from "@/types/categories";
 import DataPreview from "@/components/flower/data-preview";
 
 type SearchParams = {
   page?: string;
-  // query?: string;
-  // category?: string;
-  // type?: "default" | "addon";
 };
 
 /**
@@ -39,7 +22,7 @@ export async function generateMetadata() {
   };
 }
 
-async function ProductsPage({ searchParams }: { searchParams: SearchParams }) {
+async function FlowersPage({ searchParams }: { searchParams: SearchParams }) {
   // Fetch products
   const { data: products } = await http.get<{
     data: {
@@ -54,14 +37,17 @@ async function ProductsPage({ searchParams }: { searchParams: SearchParams }) {
     params: {
       per_page: 10,
       page: searchParams.page ?? 1,
+      show_in_builder: 1,
     },
   });
+
+  console.log("Products data:", products); // Log the fetched products data for debugging
 
   return (
     <main className="space-y-6">
       <DataPreview
         key={JSON.stringify(products.data.items)}
-        products={products.data.items}
+        flowers={products.data.items}
         pagination={products.data.pagination}
       />
     </main>
@@ -75,7 +61,7 @@ export default async function Page({
 }) {
   return (
     <Suspense fallback={<Spinner className="h-8 w-8 text-primary" />}>
-      <ProductsPage searchParams={await searchParams} />
+      <FlowersPage searchParams={await searchParams} />
     </Suspense>
   );
 }
