@@ -149,6 +149,9 @@
     "Out": "Out",
     "InStock": "In Stock",
     "AddFlower": "Add Flower",
+    "EstimatedCost": "Estimated cost for this size",
+    "SellingPrice": "Selling price",
+    "Margin": "Margin",
     "Table": {
       "Photo": "Photo",
       "Name": "Name",

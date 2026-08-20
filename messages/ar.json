@@ -148,6 +148,9 @@
     "Out": "نفد",
     "InStock": "متوفر في المخزون",
     "AddFlower": "إضافة مقاس",
+    "EstimatedCost": "التكلفة المقدرة لهذا الحجم",
+    "SellingPrice": "سعر البيع",
+    "Margin": "الهامش",
     "Table": {
       "Photo": "الصورة",
       "Name": "الاسم",

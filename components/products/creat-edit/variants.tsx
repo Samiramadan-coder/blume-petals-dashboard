@@ -20,21 +20,23 @@ import {
   SelectItem,
   SelectTrigger,
 } from "@/components/ui/select";
-import Image from "next/image";
-import { cn } from "@/lib/utils";
-import { Check, Plus, X } from "lucide-react";
-import Input from "@/components/form/input";
-import { Button } from "@/components/ui/button";
-import NormalSelect from "@/components/form/select";
-import { useFormLocale } from "@/hooks/use-form-locale";
-import SectionLabel from "@/components/form/section-label";
-import { Product, ProductFormValues } from "@/types/products";
+
 import {
   colors,
   initialFlower,
   initialVariant,
   sizes,
 } from "@/constants/products";
+
+import Image from "next/image";
+import { cn } from "@/lib/utils";
+import Input from "@/components/form/input";
+import { Check, Plus, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import NormalSelect from "@/components/form/select";
+import { useFormLocale } from "@/hooks/use-form-locale";
+import SectionLabel from "@/components/form/section-label";
+import { Product, ProductFormValues } from "@/types/products";
 
 // Get list of colors including the selected color if it's not in the predefined list
 function getListOfColors(color?: string): string[] {
@@ -158,149 +160,219 @@ export default function Variants({
             </p>
 
             {variant.recipe.map((recipeItem, recipeIndex) => {
+              // Get the selected flower for this recipe item
               const selectedFlower = flowers.find(
                 (flower) =>
                   flower.id ===
                   variants[index].recipe[recipeIndex].component_variant_id,
               );
 
+              // Get the IDs of the chosen flowers for this variant, excluding the current recipe item
+              const chossenFlowersIds = variants[index].recipe.map(
+                (item) => item.component_variant_id,
+              );
+
+              // Filter the available flowers to exclude those already chosen, except for the current recipe item
+              const availableFlowers = flowers.filter(
+                (flower) =>
+                  !chossenFlowersIds.includes(flower.id) ||
+                  flower.id === recipeItem.component_variant_id,
+              );
+
+              // Calculate the estimated cost for this variant based on the recipe items and their quantities
+              const estimatedCost = variant.recipe.reduce((total, item) => {
+                const flower = flowers.find(
+                  (flower) => flower.id === item.component_variant_id,
+                );
+                // console.log(flower, total, item.qty, "flower, total, item.qty");
+                return total + item.qty * (flower?.variants[0]?.price ?? 0);
+              }, 0);
+
+              const margin =
+                ((variant.price - estimatedCost) / estimatedCost) * 100;
+
               return (
-                <div
-                  key={recipeIndex}
-                  className="mb-3 grid items-center grid-cols-[1.3fr_0.3fr_0.4fr] gap-3"
-                >
-                  <div>
-                    <Controller
-                      control={control}
-                      name={`variants.${index}.recipe.${recipeIndex}.component_variant_id`}
-                      render={({ field }) => {
-                        return (
-                          <Select
-                            value={
-                              field.value ? String(field.value) : undefined
-                            }
-                            onValueChange={(value) =>
-                              field.onChange(Number(value))
-                            }
-                          >
-                            <SelectTrigger
-                              dir={dir}
-                              className="h-10! w-full border-border bg-background"
+                <div key={recipeIndex}>
+                  <div className="mb-3 grid items-center grid-cols-[1.3fr_0.3fr_0.4fr] gap-2">
+                    <div>
+                      <Controller
+                        control={control}
+                        name={`variants.${index}.recipe.${recipeIndex}.component_variant_id`}
+                        render={({ field }) => {
+                          return (
+                            <Select
+                              value={
+                                field.value ? String(field.value) : undefined
+                              }
+                              onValueChange={(value) =>
+                                field.onChange(Number(value))
+                              }
                             >
-                              {selectedFlower ? (
-                                <div className="flex min-w-0 items-center gap-2">
-                                  {selectedFlower.images.length > 0 && (
-                                    <Image
-                                      src={selectedFlower.images[0]?.url ?? ""}
-                                      alt={selectedFlower.name[activeLocale]}
-                                      width={28}
-                                      height={28}
-                                      className="size-7 rounded-full object-cover"
-                                    />
-                                  )}
-                                  <span className="truncate">
-                                    {selectedFlower.name[activeLocale]}
-                                  </span>
-                                </div>
-                              ) : (
-                                <span className="text-muted-foreground">
-                                  {tLive("Placeholders.SelectFlower")}
-                                </span>
-                              )}
-                            </SelectTrigger>
-                            <SelectContent
-                              position="popper"
-                              align="start"
-                              className="max-h-56 w-(--radix-select-trigger-width)"
-                              dir={dir}
-                            >
-                              {flowers.map((flower) => (
-                                <SelectItem
-                                  key={flower.id}
-                                  value={String(flower.id)}
-                                  className="py-1.5"
-                                >
+                              <SelectTrigger
+                                dir={dir}
+                                className="h-10! w-full border-border bg-background"
+                              >
+                                {selectedFlower ? (
                                   <div className="flex min-w-0 items-center gap-2">
-                                    {flower.images.length > 0 && (
+                                    {selectedFlower.images.length > 0 ? (
                                       <Image
-                                        src={flower.images[0]?.url ?? ""}
-                                        alt={flower.name[activeLocale]}
+                                        src={
+                                          selectedFlower.images[0]?.url ?? ""
+                                        }
+                                        alt={selectedFlower.name[activeLocale]}
                                         width={28}
                                         height={28}
-                                        className="size-7 shrink-0 rounded-full object-cover"
+                                        className="size-7 rounded-full object-cover"
                                       />
+                                    ) : (
+                                      <div className="size-7 shrink-0 rounded-full bg-primary/30" />
                                     )}
-                                    <span className="min-w-0 flex-1 truncate">
-                                      {flower.name[activeLocale]}
-                                    </span>
-                                    <span className="shrink-0 text-xs text-muted-foreground">
-                                      {flower.variants[0]?.available_stock ?? 0}{" "}
-                                      {tLive("InStock")}
+                                    <span className="truncate">
+                                      {selectedFlower.name[activeLocale]}
                                     </span>
                                   </div>
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        );
-                      }}
-                    />
-
-                    <FieldError
-                      errors={[
-                        errors.variants?.[index]?.recipe?.[recipeIndex]
-                          ?.component_variant_id,
-                      ]}
-                    />
-                  </div>
-
-                  <Input<ProductFormValues>
-                    name={`variants.${index}.recipe.${recipeIndex}.qty`}
-                    type="number"
-                    register={register}
-                    errors={errors}
-                    required
-                  />
-
-                  <div className="flex items-center justify-between gap-1">
-                    <p className="text-xs text-muted-foreground">
-                      {recipeItem.qty *
-                        (selectedFlower?.variants[0]?.price ?? 0)}{" "}
-                      {tLiveCommon("AED")}
-                    </p>
-
-                    {recipeIndex > 0 && (
-                      <DeleteButton
-                        onClick={() => {
-                          const recieps = getValues(`variants.${index}.recipe`);
-                          const updatedRecipe = recieps.filter(
-                            (_, i) => i !== recipeIndex,
+                                ) : (
+                                  <span className="text-muted-foreground">
+                                    {tLive("Placeholders.SelectFlower")}
+                                  </span>
+                                )}
+                              </SelectTrigger>
+                              <SelectContent
+                                position="popper"
+                                align="start"
+                                className="max-h-56 w-(--radix-select-trigger-width)"
+                                dir={dir}
+                              >
+                                {availableFlowers.map((flower) => (
+                                  <SelectItem
+                                    key={flower.id}
+                                    value={String(flower.id)}
+                                    className="py-1.5"
+                                  >
+                                    <div className="flex min-w-0 items-center gap-2">
+                                      {flower.images.length > 0 ? (
+                                        <Image
+                                          src={flower.images[0]?.url ?? ""}
+                                          alt={flower.name[activeLocale]}
+                                          width={28}
+                                          height={28}
+                                          className="size-7 shrink-0 rounded-full object-cover"
+                                        />
+                                      ) : (
+                                        <div className="size-7 shrink-0 rounded-full bg-primary/30" />
+                                      )}
+                                      <span className="min-w-0 flex-1 truncate">
+                                        {flower.name[activeLocale]}
+                                      </span>
+                                      <span className="shrink-0 text-xs text-muted-foreground">
+                                        {flower.variants[0]?.available_stock ??
+                                          0}{" "}
+                                        {tLive("InStock")}
+                                      </span>
+                                    </div>
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
                           );
-                          setValue(`variants.${index}.recipe`, updatedRecipe);
                         }}
                       />
-                    )}
+
+                      <FieldError
+                        errors={[
+                          errors.variants?.[index]?.recipe?.[recipeIndex]
+                            ?.component_variant_id,
+                        ]}
+                      />
+                    </div>
+
+                    <Input<ProductFormValues>
+                      name={`variants.${index}.recipe.${recipeIndex}.qty`}
+                      type="number"
+                      register={register}
+                      errors={errors}
+                      required
+                    />
+
+                    <div className="flex items-center justify-between gap-1">
+                      <p className="text-xs text-muted-foreground">
+                        {recipeItem.qty *
+                          (selectedFlower?.variants[0]?.price ?? 0)}{" "}
+                        {tLiveCommon("AED")}
+                      </p>
+
+                      {recipeIndex > 0 && (
+                        <DeleteButton
+                          onClick={() => {
+                            const recieps = getValues(
+                              `variants.${index}.recipe`,
+                            );
+                            const updatedRecipe = recieps.filter(
+                              (_, i) => i !== recipeIndex,
+                            );
+                            setValue(`variants.${index}.recipe`, updatedRecipe);
+                          }}
+                        />
+                      )}
+                    </div>
                   </div>
+
+                  {recipeIndex === variant.recipe.length - 1 && (
+                    <div className="space-y-2">
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        className="text-xs text-primary hover:bg-transparent hover:text-primary"
+                        onClick={() => {
+                          const updatedRecipe = [
+                            ...getValues(`variants.${index}.recipe`),
+                            initialFlower,
+                          ];
+
+                          setValue(`variants.${index}.recipe`, updatedRecipe);
+                        }}
+                      >
+                        <Plus />
+                        {tLive("AddFlower")}
+                      </Button>
+
+                      <div className="p-4 bg-background rounded-md border border-border space-y-1">
+                        <p className="flex items-center justify-between">
+                          <span className="text-xs text-muted-foreground">
+                            {tLive("EstimatedCost")}
+                          </span>
+                          <span className="text-xs font-semibold">
+                            {estimatedCost} {tLiveCommon("AED")}
+                          </span>
+                        </p>
+
+                        <p className="flex items-center justify-between">
+                          <span className="text-xs text-muted-foreground">
+                            {tLive("SellingPrice")}
+                          </span>
+                          <span className="text-xs font-semibold">
+                            {variant.price} {tLiveCommon("AED")}
+                          </span>
+                        </p>
+
+                        <p
+                          className={cn("flex items-center justify-between", {
+                            "text-destructive": margin < 0,
+                          })}
+                        >
+                          <span className="text-xs text-muted-foreground">
+                            {tLive("Margin")}
+                          </span>
+                          <span className="text-xs font-semibold">
+                            {margin.toFixed(2)}%
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                  )}
                 </div>
               );
             })}
-
-            <Button
-              type="button"
-              variant="ghost"
-              className="text-xs text-primary hover:bg-transparent hover:text-primary"
-              onClick={() => {
-                const updatedRecipe = [
-                  ...getValues(`variants.${index}.recipe`),
-                  initialFlower,
-                ];
-
-                setValue(`variants.${index}.recipe`, updatedRecipe);
-              }}
-            >
-              <Plus />
-              {tLive("AddFlower")}
-            </Button>
           </div>
 
           <div className="md:col-span-2">
