@@ -1,7 +1,6 @@
 "use client";
 
 import { toast } from "sonner";
-import { cn } from "@/lib/utils";
 import Variants from "./variants";
 import Occasions from "./occasions";
 import Input from "../../form/input";
@@ -17,6 +16,7 @@ import { Category } from "@/types/categories";
 import { Separator } from "../../ui/separator";
 import StatusSelector from "./status-selector";
 import NormalFormTagsInput from "../../form/tags";
+import { postProductAction } from "@/lib/products";
 import SectionLabel from "../../form/section-label";
 import ImageUploader from "../../form/image-uploader";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,7 +24,7 @@ import { availableLocales } from "@/constants/shared";
 import { useLocale, useTranslations } from "next-intl";
 import { useFormLocale } from "@/hooks/use-form-locale";
 import { useEffect, useRef, type ReactNode } from "react";
-import { getDefaultValues, postProductAction } from "@/lib/products";
+import { cn, getProductDefaultValues } from "@/lib/utils";
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import LocaleFormSwitcher from "../../reusable/locale-form-switcher";
 import { Product, ProductFormValues, productSchema } from "@/types/products";
@@ -61,7 +61,7 @@ export default function CreateEdit({
     formState: { errors, isSubmitting, isSubmitted },
   } = useForm<ProductFormValues>({
     resolver: zodResolver(productSchema((key) => tLive(key as never))),
-    defaultValues: getDefaultValues(product),
+    defaultValues: getProductDefaultValues(product),
   });
 
   // Trigger validation when the active locale changes, if the form has been submitted

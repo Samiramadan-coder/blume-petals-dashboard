@@ -1,5 +1,6 @@
-import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { clsx, type ClassValue } from "clsx";
+import { Product, ProductFormValues } from "@/types/products";
 
 /**
  * Utility function to merge class names using clsx and tailwind-merge.
@@ -47,3 +48,45 @@ export const formatDate = (date: string | Date) =>
     month: "short",
     year: "numeric",
   });
+
+/**
+ * Get Default Values for Product Form
+ * This function returns the default values for a product form,
+ * either from an existing product or as empty values for a new product.
+ */
+export function getProductDefaultValues(product?: Product): ProductFormValues {
+  return {
+    name: product?.name || { en: "", ar: "" },
+    description: product?.description || { en: "", ar: "" },
+    category_id: product?.category_id || 0,
+    occasion_ids: product?.occasion_ids || [],
+    tags: product?.tags || [],
+    sku: product?.sku || "",
+    status: product?.status || "published",
+    images: product?.images.map((image) => image.url) || [],
+    is_new: product?.is_new || false,
+    variants: product?.variants.map((variant) => ({
+      id: variant.id,
+      sku: variant.sku,
+      size: variant.size,
+      price: variant.price,
+      stock: variant.stock,
+      compare_at_price: variant.compare_at_price,
+      color_hex: variant.color_hex,
+      in_stock: variant.in_stock,
+      is_on_sale: variant.is_on_sale,
+    })) || [
+      {
+        id: undefined,
+        sku: "",
+        size: "",
+        price: 0,
+        stock: 0,
+        compare_at_price: null,
+        color_hex: "",
+        in_stock: true,
+        is_on_sale: false,
+      },
+    ],
+  };
+}
