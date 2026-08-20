@@ -15,7 +15,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useFormLocale } from "@/hooks/use-form-locale";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useEffect, useRef, type ReactNode } from "react";
-import { postProductAction } from "@/lib/products-actions";
+import { postProductAction } from "@/lib/products";
 import { FlowerFormValues, flowerSchema } from "@/types/flower";
 import LocaleFormSwitcher from "../reusable/locale-form-switcher";
 import SingleFormImageUploader from "../form/single-image-uploader";

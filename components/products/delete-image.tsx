@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import { DropdownMenuItem } from "../ui/dropdown-menu";
 import { toast } from "sonner";
-import { deleteImageAction } from "@/lib/products-actions";
+import { deleteImageAction } from "@/lib/products";
 
 export default function DeleteImage({
   imageId,

@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  deleteProductAction,
-  updateProductStatusAction,
-} from "@/lib/products-actions";
+import { deleteProductAction, updateProductStatusAction } from "@/lib/products";
 import Image from "next/image";
 import { toast } from "sonner";
 import { useState } from "react";
@@ -11,7 +8,7 @@ import { Badge } from "../ui/badge";
 import { Switch } from "../ui/switch";
 import Statistics from "./statistics";
 import { Button } from "../ui/button";
-import CreateEdit from "./create-edit";
+import CreateEdit from "./creat-edit/create-edit";
 import { Spinner } from "../ui/spinner";
 import { Eye, Star } from "lucide-react";
 import { Link } from "@/i18n/navigation";

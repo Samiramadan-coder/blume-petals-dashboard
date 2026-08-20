@@ -3,7 +3,7 @@
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import DeleteBtn from "../reusable/delete-btn";
-import { deleteVariantAction } from "@/lib/products-actions";
+import { deleteVariantAction } from "@/lib/products";
 import { useState } from "react";
 
 export default function DeleteVariantAction({

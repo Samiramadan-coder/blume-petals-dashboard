@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { Product } from "@/types/products";
 import type { AppLocale } from "@/i18n/routing";
+import { Spinner } from "@/components/ui/spinner";
 import { getTranslations } from "next-intl/server";
 import { MoreVertical, Pencil } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
@@ -19,7 +20,6 @@ import SetPrimaryImage from "@/components/products/set-primary-image";
 import CreateEditVariant from "@/components/products/creat-edit-variant";
 import DeleteVariantAction from "@/components/products/delete-variant-btn";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Spinner } from "@/components/ui/spinner";
 
 type Params = {
   "product-id": string;

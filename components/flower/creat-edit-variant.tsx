@@ -13,7 +13,7 @@ import { useRef, type ReactNode } from "react";
 import { colors, sizes } from "@/constants/products";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocale, useTranslations } from "next-intl";
-import { addVariantAction } from "@/lib/products-actions";
+import { addVariantAction } from "@/lib/products";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Field, FieldContent, FieldError, FieldLabel } from "../ui/field";
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../ui/sheet";

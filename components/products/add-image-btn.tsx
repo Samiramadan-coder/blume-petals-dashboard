@@ -3,7 +3,7 @@
 import { Plus } from "lucide-react";
 import { Button } from "../ui/button";
 import { useRef } from "react";
-import { addImageAction } from "@/lib/products-actions";
+import { addImageAction } from "@/lib/products";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 

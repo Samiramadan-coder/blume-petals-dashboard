@@ -15,7 +15,7 @@ import { TableCell, TableRow } from "../ui/table";
 import { DataTable } from "../reusable/data-table";
 import ModuleHeader from "../reusable/module-header";
 import { useLocale, useTranslations } from "next-intl";
-import { deleteProductAction } from "@/lib/products-actions";
+import { deleteProductAction } from "@/lib/products";
 import { usePermissions } from "@/providers/permission-providers";
 
 export default function DataPreview({
