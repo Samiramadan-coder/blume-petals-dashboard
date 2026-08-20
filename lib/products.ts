@@ -31,13 +31,15 @@ export async function postProductAction(
   const dataWithoutFiles: Partial<ProductFormValues | FlowerFormValues> = {
     ...formData,
   };
+
   delete dataWithoutFiles.images;
 
   try {
-    const { data } = await http[method]<{ data: { product: Product } }>(
-      url,
-      dataWithoutFiles,
-    );
+    const { data } = await http[method]<{
+      data: {
+        product: Product;
+      };
+    }>(url, dataWithoutFiles);
 
     // Post Or Update Images
     for (const [index, image] of formData.images.entries()) {
@@ -51,6 +53,14 @@ export async function postProductAction(
         imageFormData,
       );
     }
+
+    // formData.variants.forEach(async (variant) => {
+    //   if (variant.id) {
+    //     await addVariantAction(data.data.product.id, variant, variant.id);
+    //   } else {
+    //     await addVariantAction(data.data.product.id, variant);
+    //   }
+    // });
 
     updateTag("products");
     return { success: true };

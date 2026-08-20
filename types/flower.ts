@@ -78,6 +78,7 @@ export const flowerSchema = (t: T) =>
       .min(2, t("Fields.FlowerSku.MinLength")),
     variants: z.array(
       z.object({
+        id: z.number().optional(),
         price: z.number().min(1, t("Fields.UnitCost.MinValue")),
         stock: z.number().min(1, t("Fields.InitialQuantity.MinValue")),
         sku: z
