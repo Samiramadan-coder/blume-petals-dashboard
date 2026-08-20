@@ -116,28 +116,6 @@ export default function Variants({
                   setValue(`variants`, updatedVariants);
                 }}
               />
-              {/* {variant.id && productId ? (
-                <DeleteBtn
-                  loading={loadingDelete}
-                  onDelete={async () => {
-                    setLoadingDelete(true);
-                    const result = await deleteVariantAction(
-                      productId,
-                      variant.id,
-                    );
-                    setLoadingDelete(false);
-                  }}
-                />
-              ) : (
-                <DeleteButton
-                  onClick={() => {
-                    const updatedVariants = variants.filter(
-                      (_, i) => i !== index,
-                    );
-                    setValue(`variants`, updatedVariants);
-                  }}
-                />
-              )} */}
             </div>
           )}
 

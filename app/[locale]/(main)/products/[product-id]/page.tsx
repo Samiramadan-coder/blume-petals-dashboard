@@ -26,10 +26,6 @@ type Params = {
   locale: AppLocale;
 };
 
-type SearchParams = {
-  type?: "default" | "addon";
-};
-
 /**
  * VariantRow component displays a label and its corresponding value in a row format.
  */
@@ -48,21 +44,27 @@ function VariantRow({
   );
 }
 
-async function ProductDetails({
-  params,
-  searchParams,
-}: {
-  params: Params;
-  searchParams: SearchParams;
-}) {
+async function ProductDetails({ params }: { params: Params }) {
   const productId = params["product-id"];
   const locale = params.locale;
-  const type = searchParams.type || "default";
-
   const t = await getTranslations("Products");
   const tCommon = await getTranslations("Common");
 
-  const { data, ok } = await http.get<{
+  // Fetch Flowers Data
+  const { data: flowers, ok: ok1 } = await http.get<{
+    data: {
+      items: Product[];
+    };
+  }>("/api/v1/admin/products", {
+    params: {
+      per_page: 1000,
+      page: 1,
+      show_in_builder: 1,
+    },
+  });
+
+  // Fetch product details from the API
+  const { data: productData, ok: ok2 } = await http.get<{
     data: {
       product: Product;
     };
@@ -72,11 +74,11 @@ async function ProductDetails({
     },
   });
 
-  if (!ok) {
+  if (!ok1 || !ok2) {
     throw new Error("Failed to fetch product details");
   }
 
-  const product = data.data.product;
+  const product = productData.data.product;
 
   return (
     <main className="mx-auto w-full max-w-7xl space-y-6 p-4 md:p-6">
@@ -196,7 +198,10 @@ async function ProductDetails({
           <CardTitle className="text-lg">
             {t("Labels.Variants")} ({product.variants.length})
           </CardTitle>
-          {type === "default" && <CreateEditVariant productId={product.id} />}
+          <CreateEditVariant
+            productId={product.id}
+            flowers={flowers.data.items}
+          />
         </CardHeader>
 
         <CardContent className="p-4 md:p-6">
@@ -221,6 +226,7 @@ async function ProductDetails({
                     <CreateEditVariant
                       productId={product.id}
                       variant={variant}
+                      flowers={flowers.data.items}
                       trigger={
                         <Button
                           type="button"
@@ -234,12 +240,10 @@ async function ProductDetails({
                       }
                     />
 
-                    {type === "default" && (
-                      <DeleteVariantAction
-                        productId={product.id}
-                        variantId={variant.id!}
-                      />
-                    )}
+                    <DeleteVariantAction
+                      productId={product.id}
+                      variantId={variant.id!}
+                    />
                   </div>
                 </CardHeader>
 
@@ -254,6 +258,53 @@ async function ProductDetails({
                     label={t("Fields.StockQuantity")}
                     value={variant.stock}
                   />
+
+                  {variant.recipe.length > 0 && (
+                    <>
+                      <Separator />
+                      <div className="space-y-2">
+                        <p className="text-sm text-muted-foreground">
+                          {t("Labels.FlowerLabel")}
+                        </p>
+                        <div className="space-y-2">
+                          {variant.recipe.map((recipeItem, recipeIndex) => {
+                            const flower = flowers.data.items.find(
+                              (item) =>
+                                item.id === recipeItem.component_variant_id,
+                            );
+
+                            return (
+                              <div
+                                key={`${recipeItem.component_variant_id}-${recipeIndex}`}
+                                className="flex items-center justify-between gap-3 rounded-md border bg-background/60 p-2"
+                              >
+                                <div className="flex min-w-0 items-center gap-2">
+                                  {flower?.images[0]?.url ? (
+                                    <Image
+                                      src={flower.images[0].url}
+                                      alt={flower.name[locale]}
+                                      width={28}
+                                      height={28}
+                                      className="size-7 shrink-0 rounded-full object-cover"
+                                    />
+                                  ) : (
+                                    <div className="size-7 shrink-0 rounded-full bg-primary/30" />
+                                  )}
+                                  <span className="truncate text-sm">
+                                    {flower?.name[locale] ??
+                                      recipeItem.component_variant_id}
+                                  </span>
+                                </div>
+                                <Badge variant="outline" className="shrink-0">
+                                  x{recipeItem.qty}
+                                </Badge>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </CardContent>
               </Card>
             ))}
@@ -266,14 +317,12 @@ async function ProductDetails({
 
 export default async function ProductDetailsPage({
   params,
-  searchParams,
 }: {
   params: Promise<Params>;
-  searchParams: Promise<SearchParams>;
 }) {
   return (
     <Suspense fallback={<Spinner className="h-8 w-8 text-primary" />}>
-      <ProductDetails params={await params} searchParams={await searchParams} />
+      <ProductDetails params={await params} />
     </Suspense>
   );
 }

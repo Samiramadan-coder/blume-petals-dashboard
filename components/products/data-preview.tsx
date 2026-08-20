@@ -188,14 +188,16 @@ export default function DataPreview({
                 />
               )}
 
-              <Link
-                href={`/products/${product.id}?type=${type}`}
-                locale={locale}
-              >
-                <Button variant="ghost">
-                  <Eye className="size-4 text-muted-foreground" />
-                </Button>
-              </Link>
+              {type === "default" && (
+                <Link
+                  href={`/products/${product.id}?type=${type}`}
+                  locale={locale}
+                >
+                  <Button variant="ghost">
+                    <Eye className="size-4 text-muted-foreground" />
+                  </Button>
+                </Link>
+              )}
 
               {can("catalog.delete") && (
                 <DeleteBtn
