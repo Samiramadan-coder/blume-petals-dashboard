@@ -1,6 +1,7 @@
 import { twMerge } from "tailwind-merge";
 import { clsx, type ClassValue } from "clsx";
 import { Product, ProductFormValues } from "@/types/products";
+import { initialFlower, initialVariant } from "@/constants/products";
 
 /**
  * Utility function to merge class names using clsx and tailwind-merge.
@@ -75,18 +76,7 @@ export function getProductDefaultValues(product?: Product): ProductFormValues {
       color_hex: variant.color_hex,
       in_stock: variant.in_stock,
       is_on_sale: variant.is_on_sale,
-    })) || [
-      {
-        id: undefined,
-        sku: "",
-        size: "",
-        price: 0,
-        stock: 0,
-        compare_at_price: null,
-        color_hex: "",
-        in_stock: true,
-        is_on_sale: false,
-      },
-    ],
+      recipe: variant.recipe.length ? variant.recipe : [initialFlower],
+    })) || [initialVariant],
   };
 }

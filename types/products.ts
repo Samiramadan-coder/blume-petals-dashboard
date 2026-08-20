@@ -47,6 +47,14 @@ export const productSchema = (t: T) =>
         color_hex: z.string().nullable().optional(),
         is_on_sale: z.boolean().optional(),
         in_stock: z.boolean().optional(),
+        recipe: z.array(
+          z.object({
+            component_variant_id: z
+              .number()
+              .min(1, t("Errors.ComponentVariantIsRequired")),
+            qty: z.number().min(1, t("Errors.QuantityIsRequired")),
+          }),
+        ),
       }),
     ),
     images: z
@@ -68,6 +76,10 @@ export type Variant = {
   is_on_sale?: boolean;
   in_stock?: boolean;
   available_stock?: number;
+  recipe: {
+    component_variant_id: number;
+    qty: number;
+  }[];
 };
 
 export type Product = {

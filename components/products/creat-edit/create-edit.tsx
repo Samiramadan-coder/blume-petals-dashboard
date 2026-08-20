@@ -37,18 +37,22 @@ export default function CreateEdit({
   categories,
   occasions,
   type,
+  flowers,
 }: {
   trigger?: ReactNode;
   product?: Product;
   categories: Category[];
   occasions: Occasion[];
   type: "default" | "addon";
+  flowers: Product[];
 }) {
   const locale = useLocale();
   const t = useTranslations("Products");
   const tCommon = useTranslations("Common");
   const form = useRef<HTMLFormElement>(null);
   const closeBtn = useRef<HTMLButtonElement>(null);
+  const { changeLocale: changeLocaleCommon, tLive: tLiveCommon } =
+    useFormLocale("Common");
   const { activeLocale, changeLocale, dir, isArabic, tLive } =
     useFormLocale("Products");
 
@@ -57,6 +61,8 @@ export default function CreateEdit({
     control,
     handleSubmit,
     setError,
+    setValue,
+    getValues,
     trigger: triggerValidation,
     formState: { errors, isSubmitting, isSubmitted },
   } = useForm<ProductFormValues>({
@@ -145,6 +151,7 @@ export default function CreateEdit({
         <LocaleFormSwitcher
           locale={activeLocale}
           onChange={(locale) => {
+            changeLocaleCommon(locale);
             changeLocale(locale);
           }}
         />
@@ -164,6 +171,7 @@ export default function CreateEdit({
                   const hasArErrors = errors.name?.ar || errors.description?.ar;
                   if (hasArErrors) {
                     changeLocale("ar");
+                    changeLocaleCommon("ar");
                     return;
                   }
                 }
@@ -172,6 +180,7 @@ export default function CreateEdit({
                   const hasEnErrors = errors.name?.en || errors.description?.en;
                   if (hasEnErrors) {
                     changeLocale("en");
+                    changeLocaleCommon("en");
                     return;
                   }
                 }
@@ -266,7 +275,12 @@ export default function CreateEdit({
               control={control}
               variants={watchedVariants}
               tLive={tLive}
+              tLiveCommon={tLiveCommon}
               dir={dir}
+              flowers={flowers}
+              activeLocale={activeLocale}
+              setValue={setValue}
+              getValues={getValues}
             />
 
             <Separator className="bg-border" />

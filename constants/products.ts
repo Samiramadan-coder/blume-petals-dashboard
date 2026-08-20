@@ -75,3 +75,23 @@ export const productStatuses = (t: T) => [
     value: "draft",
   },
 ];
+
+// Initial Flower
+export const initialFlower = {
+  component_variant_id: 0,
+  qty: 0,
+};
+
+// Initial Variant
+export const initialVariant = {
+  id: undefined,
+  sku: "",
+  size: "",
+  price: 0,
+  stock: 0,
+  compare_at_price: null,
+  color_hex: "",
+  in_stock: true,
+  is_on_sale: false,
+  recipe: [initialFlower],
+};

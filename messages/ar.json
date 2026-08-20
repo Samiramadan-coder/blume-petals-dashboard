@@ -142,10 +142,12 @@
     "SetAsMain": "تعيين كصورة رئيسية",
     "SetAsMainSuccess": "تم تعيين الصورة كصورة رئيسية بنجاح",
     "SetAsMainFailed": "فشل في تعيين الصورة كصورة رئيسية. يرجى المحاولة مرة أخرى.",
-    "AddVariant": "إضافة نمط",
+    "AddVariant": "إضافة زهرة",
     "EditVariant": "تعديل النمط",
     "In": "متوفر",
     "Out": "نفد",
+    "InStock": "متوفر في المخزون",
+    "AddFlower": "إضافة مقاس",
     "Table": {
       "Photo": "الصورة",
       "Name": "الاسم",
@@ -198,7 +200,8 @@
       "Status": "اختر حالة المنتج",
       "Size": "اختر الحجم",
       "ComparePrice": "أدخل سعر المقارنة",
-      "Tags": "أدخل العلامات"
+      "Tags": "أدخل العلامات",
+      "SelectFlower": "اختر الزهرة"
     },
     "Labels": {
       "BasicInformation": "معلومات أساسية",
@@ -235,7 +238,8 @@
       "InStock": "متوفر",
       "OutOfStock": "نفد من المخزون",
       "ProductDetails": "تفاصيل المنتج",
-      "Gallery": "معرض الصور"
+      "Gallery": "معرض الصور",
+      "FlowerLabel": "وصفة الزهور لهذا الحجم - ما هي الزهور التي تدخل في باقة واحدة بهذا الحجم؟"
     },
     "Errors": {
       "NameIsRequired": "اسم المنتج مطلوب",
@@ -248,7 +252,9 @@
       "PriceIsRequired": "سعر المنتج مطلوب",
       "StockQuantityIsRequired": "كمية المخزون مطلوبة",
       "AtLeastOneImageIsRequired": "يرجى تحميل صورة واحدة على الأقل",
-      "ImageMaxSize": "يجب أن يكون حجم الصورة أقل من 1 ميغابايت"
+      "ImageMaxSize": "يجب أن يكون حجم الصورة أقل من 1 ميغابايت",
+      "ComponentVariantIsRequired": "مطلوب مكون واحد على الأقل لكل نمط",
+      "QuantityIsRequired": "الكمية مطلوبة"
     }
   },
   "Occasions": {

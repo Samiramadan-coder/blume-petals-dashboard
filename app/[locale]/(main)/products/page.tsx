@@ -6,8 +6,8 @@ import { Pagination } from "@/types/shared";
 import { Spinner } from "@/components/ui/spinner";
 import { Product, Summary } from "@/types/products";
 import { getTranslations } from "next-intl/server";
-import { OccasionResponse } from "@/types/occasions";
-import { CategoryResponse } from "@/types/categories";
+import { Occasion } from "@/types/occasions";
+import { Category } from "@/types/categories";
 import DataPreview from "@/components/products/data-preview";
 
 type SearchParams = {
@@ -34,30 +34,34 @@ async function ProductsPage({ searchParams }: { searchParams: SearchParams }) {
   const t = await getTranslations("Products");
 
   // Fetch categories
-  const { data: categories } = await http.get<CategoryResponse>(
-    "/api/v1/admin/categories",
-    {
-      params: {
-        type: activeTab === "default" ? "" : "addon",
-      },
-      next: {
-        tags: ["categories"],
-      },
+  const { data: categories, ok: ok1 } = await http.get<{
+    data: {
+      items: Category[];
+      pagination: Pagination;
+    };
+  }>("/api/v1/admin/categories", {
+    params: {
+      type: activeTab === "default" ? "" : "addon",
     },
-  );
+    next: {
+      tags: ["categories"],
+    },
+  });
 
   // Fetch occasions
-  const { data: occasions } = await http.get<OccasionResponse>(
-    "/api/v1/admin/occasions",
-    {
-      next: {
-        tags: ["occasions"],
-      },
+  const { data: occasions, ok: ok2 } = await http.get<{
+    data: {
+      items: Occasion[];
+      pagination: Pagination;
+    };
+  }>("/api/v1/admin/occasions", {
+    next: {
+      tags: ["occasions"],
     },
-  );
+  });
 
   // Fetch products
-  const { data: products } = await http.get<{
+  const { data: products, ok: ok3 } = await http.get<{
     data: {
       items: Product[];
       pagination: Pagination;
@@ -76,6 +80,28 @@ async function ProductsPage({ searchParams }: { searchParams: SearchParams }) {
       show_in_builder: 0,
     },
   });
+
+  // Fetch flowers
+  const { data: flowers, ok: ok4 } = await http.get<{
+    data: {
+      items: Product[];
+    };
+  }>("/api/v1/admin/products", {
+    next: {
+      tags: ["products"],
+    },
+    params: {
+      per_page: 1000,
+      page: 1,
+      show_in_builder: 1,
+    },
+  });
+
+  if (!ok1 || !ok2 || !ok3 || !ok4) {
+    throw new Error(t("Errors.FetchingData"));
+  }
+
+  console.log(products.data.items, "products.data.items");
 
   return (
     <main className="space-y-6">
@@ -106,6 +132,7 @@ async function ProductsPage({ searchParams }: { searchParams: SearchParams }) {
         pagination={products.data.pagination}
         type={activeTab}
         summary={products.data.summary}
+        flowers={flowers.data.items}
       />
     </main>
   );

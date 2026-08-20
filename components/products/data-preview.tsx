@@ -1,14 +1,13 @@
 "use client";
 
-import { deleteProductAction, updateProductStatusAction } from "@/lib/products";
 import Image from "next/image";
 import { toast } from "sonner";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 import { Badge } from "../ui/badge";
 import { Switch } from "../ui/switch";
 import Statistics from "./statistics";
 import { Button } from "../ui/button";
-import CreateEdit from "./creat-edit/create-edit";
 import { Spinner } from "../ui/spinner";
 import { Eye, Star } from "lucide-react";
 import { Link } from "@/i18n/navigation";
@@ -21,11 +20,12 @@ import FiltersControl from "./filters-control";
 import { columns } from "@/constants/products";
 import DeleteBtn from "../reusable/delete-btn";
 import { TableCell, TableRow } from "../ui/table";
+import CreateEdit from "./creat-edit/create-edit";
 import { DataTable } from "../reusable/data-table";
 import { Product, Summary } from "@/types/products";
 import { useLocale, useTranslations } from "next-intl";
 import { usePermissions } from "@/providers/permission-providers";
-import { cn } from "@/lib/utils";
+import { deleteProductAction, updateProductStatusAction } from "@/lib/products";
 
 export default function DataPreview({
   products,
@@ -34,6 +34,7 @@ export default function DataPreview({
   pagination,
   type,
   summary,
+  flowers,
 }: {
   products: Product[];
   categories: Category[];
@@ -41,6 +42,7 @@ export default function DataPreview({
   pagination: Pagination;
   type: "default" | "addon";
   summary: Summary;
+  flowers: Product[];
 }) {
   const locale = useLocale();
   const { can } = usePermissions();
@@ -57,6 +59,7 @@ export default function DataPreview({
             categories={categories}
             occasions={occasions}
             type={type}
+            flowers={flowers}
           />
         )}
       </header>
@@ -181,6 +184,7 @@ export default function DataPreview({
                   product={product}
                   trigger={<EditBtn />}
                   type={type}
+                  flowers={flowers}
                 />
               )}
 

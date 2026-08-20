@@ -143,10 +143,12 @@
     "SetAsMain": "Set as Main",
     "SetAsMainSuccess": "Image set as main successfully",
     "SetAsMainFailed": "Failed to set image as main. Please try again.",
-    "AddVariant": "Add Variant",
+    "AddVariant": "Add Size",
     "EditVariant": "Edit Variant",
     "In": "In",
     "Out": "Out",
+    "InStock": "In Stock",
+    "AddFlower": "Add Flower",
     "Table": {
       "Photo": "Photo",
       "Name": "Name",
@@ -199,7 +201,8 @@
       "Status": "Select product status",
       "Size": "Select size",
       "ComparePrice": "Enter compare price",
-      "Tags": "Enter tags"
+      "Tags": "Enter tags",
+      "SelectFlower": "Select flower"
     },
     "Labels": {
       "BasicInformation": "Basic Information",
@@ -236,7 +239,8 @@
       "InStock": "In Stock",
       "OutOfStock": "Out of Stock",
       "ProductDetails": "Product Details",
-      "Gallery": "Gallery"
+      "Gallery": "Gallery",
+      "FlowerLabel": "Flower Recipe for this size — what flowers go into one bouquet of this size?"
     },
     "Errors": {
       "NameIsRequired": "Product name is required",
@@ -249,7 +253,9 @@
       "PriceIsRequired": "Product price is required",
       "StockQuantityIsRequired": "Stock quantity is required",
       "AtLeastOneImageIsRequired": "Please upload at least one image",
-      "ImageMaxSize": "Image size must be less than 1MB"
+      "ImageMaxSize": "Image size must be less than 1MB",
+      "ComponentVariantIsRequired": "Component variant is required",
+      "QuantityIsRequired": "Quantity is required"
     }
   },
   "Occasions": {
