@@ -22,7 +22,7 @@ export default function Occasions({
     <>
       <Separator className="bg-border" />
       <Field>
-        <FieldLabel htmlFor="occasions" className="text-sm font-semibold">
+        <FieldLabel htmlFor="occasions" className="text-xs font-semibold">
           {tLive("Fields.OccasionTags")}
         </FieldLabel>
 
@@ -34,34 +34,31 @@ export default function Occasions({
               const selectedOccasions = field.value ?? [];
 
               return (
-                <div className="space-y-1.5">
-                  <div className="flex flex-wrap gap-2">
-                    {occasions.map((occasion) => {
-                      const isSelected = selectedOccasions.includes(
-                        occasion.id,
-                      );
+                <div className="flex flex-wrap gap-1.5">
+                  {occasions.map((occasion) => {
+                    const isSelected = selectedOccasions.includes(occasion.id);
 
-                      return (
-                        <Badge
-                          key={occasion.id}
-                          variant="outline"
-                          className={cn(`h-7 text-sm px-4 cursor-pointer`, {
+                    return (
+                      <Badge
+                        key={occasion.id}
+                        variant="outline"
+                        className={cn(
+                          `h-7 text-xs text-muted-foreground px-2.5 cursor-pointer`,
+                          {
                             "bg-primary/20 border": isSelected,
-                          })}
-                          onClick={() => {
-                            const nextOccasions = isSelected
-                              ? selectedOccasions.filter(
-                                  (i) => i !== occasion.id,
-                                )
-                              : [...selectedOccasions, occasion.id];
-                            field.onChange(nextOccasions);
-                          }}
-                        >
-                          {occasion.name_translations[activeLocale]}
-                        </Badge>
-                      );
-                    })}
-                  </div>
+                          },
+                        )}
+                        onClick={() => {
+                          const nextOccasions = isSelected
+                            ? selectedOccasions.filter((i) => i !== occasion.id)
+                            : [...selectedOccasions, occasion.id];
+                          field.onChange(nextOccasions);
+                        }}
+                      >
+                        {occasion.name_translations[activeLocale]}
+                      </Badge>
+                    );
+                  })}
                 </div>
               );
             }}

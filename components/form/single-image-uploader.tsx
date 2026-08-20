@@ -12,7 +12,6 @@ import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { Image as ImageIcon, Plus, X } from "lucide-react";
 import { Field, FieldContent, FieldError, FieldLabel } from "../ui/field";
-import { useTranslations } from "next-intl";
 
 type ImageValue = string | Blob | null;
 
@@ -33,7 +32,6 @@ export default function SingleFormImageUploader<T extends FieldValues>({
   className,
   accept = "image/*",
 }: SingleFormImageUploaderProps<T>) {
-  const t = useTranslations("Common");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   return (
@@ -55,7 +53,7 @@ export default function SingleFormImageUploader<T extends FieldValues>({
             {label && (
               <FieldLabel
                 className={cn(
-                  "text-sm font-semibold",
+                  "text-xs font-semibold",
                   required &&
                     "after:ms-1 after:text-destructive after:content-['*']",
                 )}

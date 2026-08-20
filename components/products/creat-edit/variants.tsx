@@ -47,10 +47,11 @@ export default function Variants({
       <div className="flex items-center gap-2 justify-between">
         <SectionLabel>{tLive("Labels.Variants")}</SectionLabel>
       </div>
+
       {variants.map((_, index) => (
         <div
           key={index}
-          className="grid grid-cols-1 md:grid-cols-2 gap-2 border border-border p-4 rounded-md bg-primary/10"
+          className="grid grid-cols-1 md:grid-cols-2 gap-2 border border-border p-4 rounded-md"
         >
           <Input<ProductFormValues>
             label={tLive("Fields.SKU")}
