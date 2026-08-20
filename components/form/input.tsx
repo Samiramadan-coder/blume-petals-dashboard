@@ -68,7 +68,7 @@ export default function NormalFormInput<T extends FieldValues>({
         <FieldLabel
           htmlFor={name}
           className={cn(
-            "text-sm font-semibold",
+            "text-xs font-semibold",
             required && "after:ms-1 after:text-destructive after:content-['*']",
           )}
         >

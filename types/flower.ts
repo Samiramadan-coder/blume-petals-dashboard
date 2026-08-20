@@ -74,8 +74,8 @@ export const flowerSchema = (t: T) =>
     status: z.string(),
     sku: z
       .string()
-      .min(1, t("Fields.ProductSku.Required"))
-      .min(2, t("Fields.ProductSku.MinLength")),
+      .min(1, t("Fields.FlowerSku.Required"))
+      .min(2, t("Fields.FlowerSku.MinLength")),
     variants: z.array(
       z.object({
         price: z.number().min(1, t("Fields.UnitCost.MinValue")),

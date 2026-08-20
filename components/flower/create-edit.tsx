@@ -54,6 +54,7 @@ export default function CreateEdit({
       category_id: flower?.category_id || firstCategoryId,
       status: "published",
       show_in_builder: true,
+      sku: flower?.sku || "",
       variants: [
         {
           price: flower ? flower.variants[0].price : undefined,
@@ -192,13 +193,13 @@ export default function CreateEdit({
             ))}
 
             <Input<FlowerFormValues>
-              label={tLive("Fields.ProductSku.Label")}
+              label={tLive("Fields.FlowerSku.Label")}
               name="sku"
               type="text"
               register={register}
               errors={errors}
               required
-              placeholder={tLive("Fields.ProductSku.Placeholder")}
+              placeholder={tLive("Fields.FlowerSku.Placeholder")}
             />
 
             <Input<FlowerFormValues>

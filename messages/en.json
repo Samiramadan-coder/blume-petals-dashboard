@@ -747,11 +747,11 @@
         "Label": "Notes",
         "Placeholder": "e.g Seasonal availability, supplier info, etc."
       },
-      "ProductSku": {
-        "Label": "Product SKU",
-        "Placeholder": "Enter Product SKU",
-        "Required": "Product SKU is required",
-        "MinLength": "Product SKU must be at least 2 characters"
+      "FlowerSku": {
+        "Label": "Flower SKU",
+        "Placeholder": "Enter Flower SKU",
+        "Required": "Flower SKU is required",
+        "MinLength": "Flower SKU must be at least 2 characters"
       },
       "VariantSku": {
         "Label": "Variant SKU",

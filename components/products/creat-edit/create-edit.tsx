@@ -9,7 +9,6 @@ import Footer from "../../form/footer";
 import Select from "../../form/select";
 import Switch from "../../form/switch";
 import { Button } from "../../ui/button";
-import RichText from "../../form/rich-text";
 import { Occasion } from "@/types/occasions";
 import AddButton from "../../form/add-button";
 import { Category } from "@/types/categories";
@@ -25,6 +24,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useFormLocale } from "@/hooks/use-form-locale";
 import { useEffect, useRef, type ReactNode } from "react";
 import { cn, getProductDefaultValues } from "@/lib/utils";
+import NormalFormTextarea from "@/components/form/textarea";
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import LocaleFormSwitcher from "../../reusable/locale-form-switcher";
 import { Product, ProductFormValues, productSchema } from "@/types/products";
@@ -230,20 +230,16 @@ export default function CreateEdit({
             />
 
             {availableLocales.map((locale) => (
-              <div
+              <NormalFormTextarea<ProductFormValues>
                 key={locale}
-                className={cn({
+                name={`description.${locale}`}
+                register={register}
+                label={tLive("Fields.Description")}
+                placeholder={tLive("Placeholders.Description")}
+                className={cn("sm:col-span-2", {
                   hidden: activeLocale !== locale,
                 })}
-              >
-                <RichText<ProductFormValues>
-                  key={activeLocale}
-                  control={control}
-                  label={tLive("Fields.Description")}
-                  name={`description.${locale}`}
-                  placeholder={tLive("Placeholders.Description")}
-                />
-              </div>
+              />
             ))}
 
             <NormalFormTagsInput
