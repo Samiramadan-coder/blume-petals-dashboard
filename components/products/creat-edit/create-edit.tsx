@@ -281,6 +281,7 @@ export default function CreateEdit({
               activeLocale={activeLocale}
               setValue={setValue}
               getValues={getValues}
+              productId={product?.id}
             />
 
             <Separator className="bg-border" />

@@ -1,34 +1,33 @@
 "use server";
 
-import { updateTag } from "next/cache";
-import { http, ValidationError } from "@/lib/http";
 import {
   Product,
   ProductFormValues,
   VariantFormValues,
 } from "@/types/products";
-import { FlowerFormValues } from "@/types/flower";
+import { updateTag } from "next/cache";
+import { http, ValidationError } from "@/lib/http";
 
 // Post And Put Category Actions
-type ProductActionErrors = Record<string, string>;
-
-type PostAndPutCategoryResult =
-  | { success: true }
+type PostAndPutProductResult =
+  | {
+      success: true;
+    }
   | {
       success: false;
-      errors?: ProductActionErrors;
+      errors?: Partial<Record<keyof ProductFormValues, string>>;
     };
 
 export async function postProductAction(
-  formData: ProductFormValues | FlowerFormValues,
+  formData: ProductFormValues,
   productId?: number,
-): Promise<PostAndPutCategoryResult> {
+): Promise<PostAndPutProductResult> {
   const method = productId ? "put" : "post";
   const url = productId
     ? `/api/v1/admin/products/${productId}`
     : "/api/v1/admin/products";
 
-  const dataWithoutFiles: Partial<ProductFormValues | FlowerFormValues> = {
+  const dataWithoutFiles: Partial<ProductFormValues> = {
     ...formData,
   };
 
@@ -47,20 +46,20 @@ export async function postProductAction(
       const imageFormData = new FormData();
       imageFormData.append("image", image);
       imageFormData.append("is_primary", index === 0 ? "1" : "0");
-
       await http.post(
         `/api/v1/admin/products/${data.data.product.id}/images`,
         imageFormData,
       );
     }
 
-    // formData.variants.forEach(async (variant) => {
-    //   if (variant.id) {
-    //     await addVariantAction(data.data.product.id, variant, variant.id);
-    //   } else {
-    //     await addVariantAction(data.data.product.id, variant);
-    //   }
-    // });
+    // Post Or Update Variants
+    formData.variants.forEach(async (variant) => {
+      if (variant.id) {
+        await addVariantAction(data.data.product.id, variant, variant.id);
+      } else {
+        await addVariantAction(data.data.product.id, variant);
+      }
+    });
 
     updateTag("products");
     return { success: true };
@@ -195,6 +194,11 @@ export async function addVariantAction(
   try {
     await http[method](url, variantData);
 
+    // Log each recipe item to the console
+    variantData.recipe.forEach(async (recipe) => {
+      console.log("recipe", recipe);
+    });
+
     updateTag("products");
     updateTag(`product-${productId}`);
     return { success: true };
@@ -224,9 +228,7 @@ export async function deleteVariantAction(
     await http.delete(
       `/api/v1/admin/products/${productId}/variants/${variantId}`,
     );
-
-    updateTag("products");
-    updateTag(`product-${productId}`);
+    // updateTag(`product-${productId}`);
     return { success: true };
   } catch (err) {
     console.error("Error deleting variant:", err);

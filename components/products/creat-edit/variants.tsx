@@ -37,6 +37,9 @@ import NormalSelect from "@/components/form/select";
 import { useFormLocale } from "@/hooks/use-form-locale";
 import SectionLabel from "@/components/form/section-label";
 import { Product, ProductFormValues } from "@/types/products";
+import DeleteBtn from "@/components/reusable/delete-btn";
+import { useState } from "react";
+import { deleteVariantAction } from "@/lib/products";
 
 // Get list of colors including the selected color if it's not in the predefined list
 function getListOfColors(color?: string): string[] {
@@ -55,6 +58,7 @@ export default function Variants({
   dir,
   flowers,
   activeLocale,
+  productId,
 }: {
   register: UseFormRegister<ProductFormValues>;
   errors: FieldErrors<ProductFormValues>;
@@ -67,7 +71,10 @@ export default function Variants({
   dir: string;
   flowers: Product[];
   activeLocale: "ar" | "en";
+  productId?: number;
 }) {
+  const [loadingDelete, setLoadingDelete] = useState(false);
+
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-2 justify-between">
@@ -93,14 +100,44 @@ export default function Variants({
         >
           {index > 0 && (
             <div className="md:col-span-2 flex justify-end">
-              <DeleteButton
-                onClick={() => {
+              <DeleteBtn
+                loading={loadingDelete}
+                onDelete={async () => {
+                  if (variant.id && productId) {
+                    setLoadingDelete(true);
+                    await deleteVariantAction(productId, variant.id);
+                    setLoadingDelete(false);
+                  }
+
                   const updatedVariants = variants.filter(
                     (_, i) => i !== index,
                   );
+
                   setValue(`variants`, updatedVariants);
                 }}
               />
+              {/* {variant.id && productId ? (
+                <DeleteBtn
+                  loading={loadingDelete}
+                  onDelete={async () => {
+                    setLoadingDelete(true);
+                    const result = await deleteVariantAction(
+                      productId,
+                      variant.id,
+                    );
+                    setLoadingDelete(false);
+                  }}
+                />
+              ) : (
+                <DeleteButton
+                  onClick={() => {
+                    const updatedVariants = variants.filter(
+                      (_, i) => i !== index,
+                    );
+                    setValue(`variants`, updatedVariants);
+                  }}
+                />
+              )} */}
             </div>
           )}
 

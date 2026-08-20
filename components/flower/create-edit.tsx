@@ -8,6 +8,7 @@ import Footer from "../form/footer";
 import { Button } from "../ui/button";
 import AddButton from "../form/add-button";
 import { Product } from "@/types/products";
+import { postFlowerAction } from "@/lib/flower";
 import NormalFormTextarea from "../form/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { availableLocales } from "@/constants/shared";
@@ -15,7 +16,6 @@ import { useLocale, useTranslations } from "next-intl";
 import { useFormLocale } from "@/hooks/use-form-locale";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useEffect, useRef, type ReactNode } from "react";
-import { postProductAction } from "@/lib/products";
 import { FlowerFormValues, flowerSchema } from "@/types/flower";
 import LocaleFormSwitcher from "../reusable/locale-form-switcher";
 import SingleFormImageUploader from "../form/single-image-uploader";
@@ -80,7 +80,7 @@ export default function CreateEdit({
   // If there are validation errors, it displays error messages for each field.
   // If the submission fails for other reasons, it shows a generic error message.
   const onSubmit: SubmitHandler<FlowerFormValues> = async (values) => {
-    const result = await postProductAction(values, flower?.id);
+    const result = await postFlowerAction(values, flower?.id);
 
     if (result.success) {
       toast.success(

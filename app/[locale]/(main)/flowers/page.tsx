@@ -39,7 +39,7 @@ async function FlowersPage({ searchParams }: { searchParams: SearchParams }) {
     };
   }>("/api/v1/admin/products", {
     next: {
-      tags: ["products"],
+      tags: ["flowers"],
     },
     params: {
       per_page: 10,

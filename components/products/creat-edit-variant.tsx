@@ -57,6 +57,7 @@ export default function CreateEditVariant({
       color_hex: "",
       in_stock: true,
       is_on_sale: false,
+      recipe: [],
     },
   });
 

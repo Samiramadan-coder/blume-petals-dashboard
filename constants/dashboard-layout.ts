@@ -58,7 +58,7 @@ export const navigation = (
   },
   {
     label: "sidebar.navigation.flower",
-    href: "/flower",
+    href: "/flowers",
     type: "link",
     icon: createElement(Flower2, { className: "h-4 w-4" }),
     enabled: permissions.includes("catalog.view"),
