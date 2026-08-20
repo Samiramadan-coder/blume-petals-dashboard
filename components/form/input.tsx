@@ -56,7 +56,7 @@ export default function NormalFormInput<T extends FieldValues>({
   const inputRegister =
     type === "number"
       ? register(name, {
-          valueAsNumber: true,
+          setValueAs: (value) => (value === "" ? undefined : Number(value)),
         })
       : register(name);
 

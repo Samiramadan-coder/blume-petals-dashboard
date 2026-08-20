@@ -3,6 +3,7 @@
 import {
   Product,
   ProductFormValues,
+  Variant,
   VariantFormValues,
 } from "@/types/products";
 import { updateTag } from "next/cache";
@@ -192,12 +193,16 @@ export async function addVariantAction(
     : `/api/v1/admin/products/${productId}/variants`;
 
   try {
-    await http[method](url, variantData);
+    const { data } = await http[method]<{ data: { variant: Variant } }>(
+      url,
+      variantData,
+    );
 
-    // Log each recipe item to the console
-    variantData.recipe.forEach(async (recipe) => {
-      console.log("recipe", recipe);
-    });
+    await updateComponentsAction(
+      productId,
+      data.data.variant.id!,
+      variantData.recipe,
+    );
 
     updateTag("products");
     updateTag(`product-${productId}`);
@@ -232,6 +237,27 @@ export async function deleteVariantAction(
     return { success: true };
   } catch (err) {
     console.error("Error deleting variant:", err);
+    return { success: false };
+  }
+}
+
+// Update Components Action
+type UpdateComponentsResult = { success: boolean };
+
+export async function updateComponentsAction(
+  productId: number,
+  variantId: number,
+  components: VariantFormValues["recipe"],
+): Promise<UpdateComponentsResult> {
+  try {
+    await http.put(
+      `/api/v1/admin/products/${productId}/variants/${variantId}/components`,
+      { components },
+    );
+
+    return { success: true };
+  } catch (err) {
+    console.error("Error updating components:", err);
     return { success: false };
   }
 }
