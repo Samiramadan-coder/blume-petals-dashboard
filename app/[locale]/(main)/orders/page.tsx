@@ -2,13 +2,12 @@ import { Suspense } from "react";
 import { http } from "@/lib/http";
 import { Pagination } from "@/types/shared";
 import { Order, Summary } from "@/types/orders";
-import DataPreview from "@/components/orders/data-preview";
-import { getTranslations } from "next-intl/server";
 import { Spinner } from "@/components/ui/spinner";
+import { getTranslations } from "next-intl/server";
+import DataPreview from "@/components/orders/data-preview";
 
 export async function generateMetadata() {
   const t = await getTranslations("Orders");
-
   return {
     title: t("Label"),
   };
@@ -50,8 +49,6 @@ async function OrdersPage({ searchParams }: { searchParams: SearchParams }) {
   if (!ok) {
     throw new Error("Failed to fetch orders");
   }
-
-  console.log("Orders data:", data);
 
   return (
     <main className="space-y-6">
