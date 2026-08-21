@@ -51,6 +51,8 @@ async function OrdersPage({ searchParams }: { searchParams: SearchParams }) {
     throw new Error("Failed to fetch orders");
   }
 
+  console.log("Orders data:", data);
+
   return (
     <main className="space-y-6">
       <DataPreview

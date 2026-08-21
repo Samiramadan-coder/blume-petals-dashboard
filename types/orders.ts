@@ -78,10 +78,18 @@ export type Order = {
   id: number;
   items: {
     id: number;
+    product_variant_id: number;
+    name: string;
+    name_en: string;
+    name_ar: string;
+    variant_label: string;
+    sku: string;
+    unit_price: string;
+    qty: number;
     line_total: string;
     message_text: string | null;
-    name: string;
-    qty: number;
+    image_url: string;
+    slug: string;
   }[];
 };
 

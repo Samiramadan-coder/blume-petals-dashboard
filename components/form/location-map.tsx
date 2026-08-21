@@ -67,7 +67,7 @@ export default function LocationMap({ value, onChange }: LocationMapProps) {
     <MapContainer
       center={[value.latitude, value.longitude]}
       zoom={13}
-      className="h-72 w-full rounded-md"
+      className="h-72 w-full"
     >
       <TileLayer
         attribution="OpenStreetMap"

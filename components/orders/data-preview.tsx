@@ -1,39 +1,20 @@
 "use client";
 
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
-
-import { toast } from "sonner";
+import { Badge } from "../ui/badge";
 import Statistics from "./statistics";
 import { Checkbox } from "../ui/checkbox";
+import OrderDetails from "./order-details";
 import { Pagination } from "@/types/shared";
 import { useTranslations } from "next-intl";
 import { AddAdminNote } from "./admin-note";
 import { cn, formatDate } from "@/lib/utils";
-import { columns } from "@/constants/orders";
-import FiltersControl from "./filters-control";
 import { Order, Summary } from "@/types/orders";
+import FiltersControl from "./filters-control";
 import { TableCell, TableRow } from "../ui/table";
 import { DataTable } from "../reusable/data-table";
-import { orderStatuses } from "@/constants/orders";
-import { changeOrderStatus } from "@/lib/orders-actions";
-import { Badge } from "../ui/badge";
+import { columns, statusColorClasses } from "@/constants/orders";
 import { usePermissions } from "@/providers/permission-providers";
-
-const statusColorClasses: Record<Order["status"], string> = {
-  pending: "bg-amber-100 text-amber-800",
-  processing: "bg-sky-100 text-sky-800",
-  shipped: "bg-indigo-100 text-indigo-800",
-  delivered: "bg-emerald-100 text-emerald-800",
-  pickup: "bg-violet-100 text-violet-800",
-  cancelled: "bg-rose-100 text-rose-800",
-};
+import ChangeOrderStatus from "./change-order-status";
 
 const fulfillmentMethodColorClasses: Record<
   Order["fulfillment_method"],
@@ -69,10 +50,6 @@ export default function DataPreview({
         onCheckboxChange={(checked) => console.log(checked)}
       >
         {orders.map((order, index) => {
-          const statusIndex = orderStatuses(t).findIndex(
-            (status) => status.value === order.status,
-          );
-
           return (
             <TableRow key={index}>
               <TableCell className="px-4 py-3">
@@ -121,38 +98,7 @@ export default function DataPreview({
               </TableCell>
 
               <TableCell className="px-4 py-3">
-                <Select
-                  disabled={!can("orders.edit")}
-                  value={order.status}
-                  onValueChange={async (value) => {
-                    const result = await changeOrderStatus(order.id, value, "");
-                    if (result.success) {
-                      toast.success(t("OrderChangedSuccessfully"));
-                      return;
-                    }
-                    toast.error(t("OrderChangeFailed"));
-                  }}
-                >
-                  <SelectTrigger
-                    className={cn(
-                      "h-6 min-h-6 bg-white border-0 leading-none rounded-full text-[12px] font-semibold",
-                      statusColorClasses[order.status],
-                    )}
-                  >
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      {orderStatuses(t)
-                        .slice(statusIndex)
-                        .map((status) => (
-                          <SelectItem key={status.value} value={status.value}>
-                            {status.label}
-                          </SelectItem>
-                        ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
+                <ChangeOrderStatus order={order} />
               </TableCell>
 
               <TableCell className="px-4 py-3">
@@ -162,6 +108,8 @@ export default function DataPreview({
               </TableCell>
 
               <TableCell className="px-4 py-3 space-x-2">
+                <OrderDetails order={order} />
+
                 {can("orders.edit") && (
                   <AddAdminNote
                     orderId={order.id}
