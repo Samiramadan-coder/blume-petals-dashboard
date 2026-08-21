@@ -10,19 +10,46 @@ import {
   SheetTrigger,
 } from "../ui/sheet";
 import Image from "next/image";
+import { toast } from "sonner";
 import { Button } from "../ui/button";
-import { Order } from "@/types/orders";
+import { Spinner } from "../ui/spinner";
 import { Separator } from "../ui/separator";
 import { cn, formatDate } from "@/lib/utils";
 import SectionLabel from "../form/section-label";
+import NormalFormTextarea from "../form/textarea";
 import LocationPicker from "../form/location-picker";
 import ChangeOrderStatus from "./change-order-status";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocale, useTranslations } from "next-intl";
+import { updateAdminNote } from "@/lib/orders-actions";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { Eye, Mail, MapPin, Phone, X } from "lucide-react";
+import { AdminNote, AdminNoteSchema, Order } from "@/types/orders";
 
 export default function OrderDetails({ order }: { order: Order }) {
   const locale = useLocale();
+  const t = useTranslations("Orders");
   const tCommon = useTranslations("Common");
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<AdminNote>({
+    defaultValues: { admin_notes: order.admin_notes || "" },
+    resolver: zodResolver(AdminNoteSchema(t)),
+  });
+
+  const onSubmit: SubmitHandler<AdminNote> = async (data) => {
+    const result = await updateAdminNote(order.id, data.admin_notes);
+
+    if (result.success) {
+      toast.success(t("AdminNoteUpdatedSuccessfully"));
+      return;
+    }
+
+    toast.error(t("AdminNoteUpdateFailed"));
+  };
 
   return (
     <Sheet>
@@ -65,7 +92,7 @@ export default function OrderDetails({ order }: { order: Order }) {
           </SheetTitle>
         </SheetHeader>
 
-        <div className="px-6 space-y-4 flex-1 overflow-auto">
+        <div className="px-6 pb-6 space-y-4 flex-1 overflow-auto">
           <SectionLabel>Customer</SectionLabel>
           <div className="flex gap-2">
             <div className="w-12 h-12 flex items-center justify-center bg-primary rounded-full font-bold uppercase">
@@ -194,6 +221,25 @@ export default function OrderDetails({ order }: { order: Order }) {
           <Separator />
           <SectionLabel>Update Order Status</SectionLabel>
           <ChangeOrderStatus order={order} view="button" />
+
+          <Separator />
+          <SectionLabel>Internal Notes</SectionLabel>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <NormalFormTextarea
+              name="admin_notes"
+              register={register}
+              required
+              errors={errors}
+            />
+
+            <Button
+              type="submit"
+              className="w-full h-10 bg-white"
+              variant="outline"
+            >
+              {isSubmitting ? <Spinner /> : t("AdminNote")}
+            </Button>
+          </form>
         </div>
 
         <SheetFooter className="mt-4 border-t border-border bg-white px-4 py-3">

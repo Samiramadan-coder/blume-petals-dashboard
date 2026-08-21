@@ -5,14 +5,15 @@ import {
   DollarSign,
   LoaderCircle,
 } from "lucide-react";
-import { Card, CardContent } from "../ui/card";
-import { StatisticsData, Summary } from "@/types/orders";
+import { Summary } from "@/types/orders";
 import { useTranslations } from "next-intl";
+import { Card, CardContent } from "../ui/card";
 
 export default function Statistics({ summary }: { summary: Summary }) {
   const t = useTranslations("Orders.Summary");
+  const tCommon = useTranslations("Common");
 
-  const statisticsData: StatisticsData[] = [
+  const statisticsData = [
     {
       title: t("TotalOrders"),
       subtitle: t("TotalOrdersDescription"),
@@ -57,7 +58,7 @@ export default function Statistics({ summary }: { summary: Summary }) {
       title: t("Revenue"),
       subtitle: t("RevenueDescription"),
       value: parseFloat(summary.revenue),
-      currency: "AED",
+      currency: tCommon("AED"),
       icon: (
         <div className="p-1 bg-primary/20 rounded-sm">
           <DollarSign className="text-primary size-5" />

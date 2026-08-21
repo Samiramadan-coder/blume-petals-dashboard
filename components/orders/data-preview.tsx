@@ -6,23 +6,14 @@ import { Checkbox } from "../ui/checkbox";
 import OrderDetails from "./order-details";
 import { Pagination } from "@/types/shared";
 import { useTranslations } from "next-intl";
-import { AddAdminNote } from "./admin-note";
 import { cn, formatDate } from "@/lib/utils";
 import { Order, Summary } from "@/types/orders";
 import FiltersControl from "./filters-control";
 import { TableCell, TableRow } from "../ui/table";
 import { DataTable } from "../reusable/data-table";
-import { columns, statusColorClasses } from "@/constants/orders";
-import { usePermissions } from "@/providers/permission-providers";
+import { MirrorRoundIcon, Van } from "lucide-react";
 import ChangeOrderStatus from "./change-order-status";
-
-const fulfillmentMethodColorClasses: Record<
-  Order["fulfillment_method"],
-  string
-> = {
-  delivery: "bg-secondary/10 text-secondary",
-  pickup: "bg-primary/10 text-primary",
-};
+import { columns, statusColorClasses } from "@/constants/orders";
 
 export default function DataPreview({
   orders,
@@ -33,7 +24,6 @@ export default function DataPreview({
   pagination: Pagination;
   summary: Summary;
 }) {
-  const { can } = usePermissions();
   const t = useTranslations("Orders");
 
   return (
@@ -90,9 +80,16 @@ export default function DataPreview({
                   className={cn(
                     "capitalize h-6",
                     statusColorClasses[order.status],
-                    fulfillmentMethodColorClasses[order.fulfillment_method],
+                    order.fulfillment_method === "pickup"
+                      ? "bg-secondary/10 text-secondary"
+                      : "bg-primary/10 text-primary",
                   )}
                 >
+                  {order.fulfillment_method === "delivery" ? (
+                    <Van />
+                  ) : (
+                    <MirrorRoundIcon />
+                  )}
                   {order.fulfillment_method}
                 </Badge>
               </TableCell>
@@ -110,12 +107,12 @@ export default function DataPreview({
               <TableCell className="px-4 py-3 space-x-2">
                 <OrderDetails order={order} />
 
-                {can("orders.edit") && (
+                {/* {can("orders.edit") && (
                   <AddAdminNote
                     orderId={order.id}
                     adminNotes={order.admin_notes}
                   />
-                )}
+                )} */}
               </TableCell>
             </TableRow>
           );

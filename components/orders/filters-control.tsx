@@ -70,17 +70,19 @@ export default function FiltersControl() {
         }}
       >
         <TabsList className="h-auto! rounded-xl bg-muted-foreground/10 p-2 flex-wrap">
-          {orderStatuses(t).map((stat) => (
-            <TabsTrigger
-              key={stat.value}
-              value={stat.value}
-              className={cn(
-                `h-8 rounded-lg px-4 text-sm font-medium text-muted-foreground hover:text-foreground data-[state=active]:bg-white data-[state=active]:shadow-sm cursor-pointer`,
-              )}
-            >
-              {stat.label}
-            </TabsTrigger>
-          ))}
+          {[{ label: t("All"), value: "all" }]
+            .concat(orderStatuses(t))
+            .map((stat) => (
+              <TabsTrigger
+                key={stat.value}
+                value={stat.value}
+                className={cn(
+                  `h-8 rounded-lg px-4 text-sm font-medium text-muted-foreground hover:text-foreground data-[state=active]:bg-white data-[state=active]:shadow-sm cursor-pointer`,
+                )}
+              >
+                {stat.label}
+              </TabsTrigger>
+            ))}
         </TabsList>
       </Tabs>
 

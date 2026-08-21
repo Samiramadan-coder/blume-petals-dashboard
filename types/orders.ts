@@ -1,14 +1,7 @@
 import z from "zod";
 import { T } from "./shared";
 
-export const orderStatusSchema = (t: T) =>
-  z.object({
-    status: z.string().min(1, t("StatusIsRequired")),
-    note: z.string().optional(),
-  });
-
-export type OrderStatus = z.infer<ReturnType<typeof orderStatusSchema>>;
-
+// Admin note schema and types
 export const AdminNoteSchema = (t: T) =>
   z.object({
     admin_notes: z.string().min(1, t("AdminNoteIsRequired")),
@@ -16,81 +9,78 @@ export const AdminNoteSchema = (t: T) =>
 
 export type AdminNote = z.infer<ReturnType<typeof AdminNoteSchema>>;
 
-export type StatisticsData = {
-  title: string;
-  subtitle: string;
-  value: number;
-  currency?: string;
-  icon: React.ReactNode;
+// Order Type
+type Address = {
+  apartment: string | null;
+  area: string;
+  building: string;
+  city: string;
+  country: string;
+  delivery_fee: string;
+  landmark: string;
+  latitude: string;
+  longitude: string;
+  recipient_name: string;
+  recipient_phone: string;
+  street: string;
 };
 
+type Customer = {
+  id: number;
+  name: string;
+  email: string | null;
+  phone: string | null;
+};
+
+type OrderSummary = {
+  discount_total: string;
+  grand_total: string;
+  shipping_total: string;
+  subtotal: string;
+  vat_rate: string;
+  vat_total: string;
+};
+
+type Item = {
+  id: number;
+  image_url: string | null;
+  item_type: string;
+  line_total: string;
+  message_text: string | null;
+  name: string;
+  name_ar: string;
+  name_en: string;
+  product_variant_id: number;
+  qty: number;
+  sku: string;
+  slug: string;
+  unit_price: string;
+  variant_label: string;
+};
+
+export type Status =
+  | "pending"
+  | "processing"
+  | "shipped"
+  | "delivered"
+  | "cancelled";
+
 export type Order = {
-  address: {
-    apartment: string | null;
-    area: string;
-    building: string;
-    city: string;
-    country: string;
-    delivery_fee: string;
-    landmark: string;
-    latitude: string;
-    longitude: string;
-    recipient_name: string;
-    recipient_phone: string;
-    street: string;
-  };
-  customer: {
-    email: string;
-    id: number;
-    name: string;
-    phone: string | null;
-  };
-  summary: {
-    discount_total: string;
-    grand_total: string;
-    shipping_total: string;
-    subtotal: string;
-    vat_rate: string;
-    vat_total: string;
-  };
+  address: Address | null;
+  customer: Customer;
+  summary: OrderSummary;
   order_number: number;
   payment_status: string;
   admin_notes: string | null;
   placed_at: string;
   channel: string;
-  status:
-    | "pending"
-    | "processing"
-    | "shipped"
-    | "delivered"
-    | "pickup"
-    | "cancelled";
-  status_label:
-    | "Pending"
-    | "Processing"
-    | "Shipped"
-    | "Delivered"
-    | "Pickup"
-    | "Cancelled";
+  status: Status;
+  status_label: string;
   currency: string;
   customer_notes: string | null;
   fulfillment_method: "delivery" | "pickup";
   id: number;
-  items: {
-    id: number;
-    product_variant_id: number;
-    name: string;
-    name_en: string;
-    name_ar: string;
-    variant_label: string;
-    sku: string;
-    unit_price: string;
-    qty: number;
-    line_total: string;
-    message_text: string | null;
-    image_url: string;
-    slug: string;
-  }[];
+  items: Item[];
 };
 
 export type Summary = {
