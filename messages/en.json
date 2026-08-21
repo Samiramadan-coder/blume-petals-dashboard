@@ -191,7 +191,8 @@
       "Status": "Status",
       "Size": "Size",
       "ComparePrice": "Compare Price (AED)",
-      "Tags": "Tags"
+      "Tags": "Tags",
+      "Image": "Image"
     },
     "Placeholders": {
       "Name": "Enter product name",

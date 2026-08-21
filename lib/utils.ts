@@ -55,7 +55,10 @@ export const formatDate = (date: string | Date) =>
  * This function returns the default values for a product form,
  * either from an existing product or as empty values for a new product.
  */
-export function getProductDefaultValues(product?: Product): ProductFormValues {
+export function getProductDefaultValues(
+  type: "default" | "addon",
+  product?: Product,
+): ProductFormValues {
   return {
     name: product?.name || { en: "", ar: "" },
     description: product?.description || { en: "", ar: "" },
@@ -76,7 +79,13 @@ export function getProductDefaultValues(product?: Product): ProductFormValues {
       color_hex: variant.color_hex,
       in_stock: variant.in_stock,
       is_on_sale: variant.is_on_sale,
-      recipe: variant.recipe.length ? variant.recipe : [initialFlower],
-    })) || [initialVariant],
+      recipe: variant.recipe.length
+        ? variant.recipe
+        : type === "default"
+          ? [initialFlower]
+          : [],
+    })) || [
+      { ...initialVariant, recipe: type === "default" ? [initialFlower] : [] },
+    ],
   };
 }

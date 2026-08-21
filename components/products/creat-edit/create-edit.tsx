@@ -29,6 +29,7 @@ import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import LocaleFormSwitcher from "../../reusable/locale-form-switcher";
 import { Product, ProductFormValues, productSchema } from "@/types/products";
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../../ui/sheet";
+import SingleFormImageUploader from "@/components/form/single-image-uploader";
 
 // CreateEdit component for adding or editing a product
 export default function CreateEdit({
@@ -56,6 +57,8 @@ export default function CreateEdit({
   const { activeLocale, changeLocale, dir, isArabic, tLive } =
     useFormLocale("Products");
 
+  // console.log(getProductDefaultValues(type, product));
+
   const {
     register,
     control,
@@ -67,14 +70,12 @@ export default function CreateEdit({
     formState: { errors, isSubmitting, isSubmitted },
   } = useForm<ProductFormValues>({
     resolver: zodResolver(productSchema((key) => tLive(key as never))),
-    defaultValues: getProductDefaultValues(product),
+    defaultValues: getProductDefaultValues(type, product),
   });
 
   // Trigger validation when the active locale changes, if the form has been submitted
   useEffect(() => {
-    if (isSubmitted) {
-      void triggerValidation();
-    }
+    if (isSubmitted) void triggerValidation();
   }, [activeLocale, isSubmitted, triggerValidation]);
 
   // Watch the variants field to dynamically update the form when variants change
@@ -188,15 +189,24 @@ export default function CreateEdit({
             }}
             className="space-y-6 relative"
           >
-            <ImageUploader
-              key={activeLocale}
-              control={control}
-              name="images"
-              label={tLive("Fields.Photo")}
-              required
-              buttonLabel={tLive("AddPhoto")}
-              errors={errors}
-            />
+            {type === "default" ? (
+              <ImageUploader
+                key={activeLocale}
+                control={control}
+                name="images"
+                label={tLive("Fields.Photo")}
+                required
+                buttonLabel={tLive("AddPhoto")}
+                errors={errors}
+              />
+            ) : (
+              <SingleFormImageUploader
+                control={control}
+                name="images.0"
+                required
+                label={tLive("Fields.Image")}
+              />
+            )}
 
             <SectionLabel>{tLive("Labels.BasicInformation")}</SectionLabel>
             {availableLocales.map((locale) => (
@@ -282,6 +292,7 @@ export default function CreateEdit({
               setValue={setValue}
               getValues={getValues}
               productId={product?.id}
+              type={type}
             />
 
             <Separator className="bg-border" />
