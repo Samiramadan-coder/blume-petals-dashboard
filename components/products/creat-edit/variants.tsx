@@ -81,18 +81,23 @@ export default function Variants({
     <div className="space-y-4">
       <div className="flex items-center gap-2 justify-between">
         <SectionLabel>{tLive("Labels.Variants")}</SectionLabel>
-        <Button
-          type="button"
-          variant="ghost"
-          className="text-xs text-primary hover:bg-transparent hover:text-primary"
-          onClick={() => {
-            const updatedVariants = [...getValues(`variants`), initialVariant];
-            setValue(`variants`, updatedVariants);
-          }}
-        >
-          <Plus />
-          {tLive("AddVariant")}
-        </Button>
+        {type === "default" && (
+          <Button
+            type="button"
+            variant="ghost"
+            className="text-xs text-primary hover:bg-transparent hover:text-primary"
+            onClick={() => {
+              const updatedVariants = [
+                ...getValues(`variants`),
+                initialVariant,
+              ];
+              setValue(`variants`, updatedVariants);
+            }}
+          >
+            <Plus />
+            {tLive("AddVariant")}
+          </Button>
+        )}
       </div>
 
       {variants.map((variant, index) => (
