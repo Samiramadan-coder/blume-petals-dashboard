@@ -1,11 +1,4 @@
 import {
-  Field,
-  FieldError,
-  FieldLabel,
-  FieldContent,
-} from "@/components/ui/field";
-
-import {
   Control,
   Controller,
   FieldErrors,
@@ -21,30 +14,20 @@ import {
   SelectTrigger,
 } from "@/components/ui/select";
 
-import {
-  colors,
-  initialFlower,
-  initialVariant,
-  sizes,
-} from "@/constants/products";
-
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { useState } from "react";
 import Input from "@/components/form/input";
-import { Check, Plus, X } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { FieldError } from "@/components/ui/field";
 import NormalSelect from "@/components/form/select";
+import { deleteVariantAction } from "@/lib/products";
 import { useFormLocale } from "@/hooks/use-form-locale";
+import DeleteBtn from "@/components/reusable/delete-btn";
 import SectionLabel from "@/components/form/section-label";
 import { Product, ProductFormValues } from "@/types/products";
-import DeleteBtn from "@/components/reusable/delete-btn";
-import { useState } from "react";
-import { deleteVariantAction } from "@/lib/products";
-
-// Get list of colors including the selected color if it's not in the predefined list
-function getListOfColors(color?: string): string[] {
-  return [...colors, ...(color && !colors.includes(color) ? [color] : [])];
-}
+import { initialFlower, initialVariant, sizes } from "@/constants/products";
 
 export default function Variants({
   register,
@@ -403,76 +386,6 @@ export default function Variants({
               })}
             </div>
           )}
-
-          <div className="md:col-span-2">
-            <Field>
-              <FieldLabel htmlFor="colors" className="text-xs font-semibold">
-                {tLive("Fields.ColorVariants")}
-              </FieldLabel>
-              <FieldContent>
-                <Controller
-                  name={`variants.${index}.color_hex`}
-                  control={control}
-                  render={({ field }) => {
-                    const selectedColor = field.value ?? "";
-
-                    return (
-                      <div className="space-y-1.5">
-                        <div className="flex flex-wrap gap-2">
-                          {getListOfColors(variants[index].color_hex || "").map(
-                            (color) => {
-                              const isSelected = selectedColor === color;
-
-                              return (
-                                <Button
-                                  key={color}
-                                  type="button"
-                                  variant="outline"
-                                  className={cn(
-                                    "h-8 w-8 rounded-full border border-border",
-                                    {
-                                      "border-2 border-primary": isSelected,
-                                    },
-                                  )}
-                                  style={{
-                                    backgroundColor: color,
-                                  }}
-                                  onClick={() => {
-                                    const nextColor = isSelected ? "" : color;
-                                    field.onChange(nextColor);
-                                  }}
-                                >
-                                  {isSelected && <Check />}
-                                </Button>
-                              );
-                            },
-                          )}
-                          <div className="relative h-8 w-8">
-                            <Button
-                              variant="outline"
-                              className="w-8 h-8 rounded-full border-2 border-dashed bg-white"
-                            ></Button>
-                            <input
-                              type="color"
-                              className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
-                              onChange={(event) => {
-                                const nextColor = event.target.value;
-                                field.onChange(nextColor);
-                              }}
-                            />
-                          </div>
-                        </div>
-
-                        <FieldError
-                          errors={[errors.variants?.[index]?.color_hex]}
-                        />
-                      </div>
-                    );
-                  }}
-                />
-              </FieldContent>
-            </Field>
-          </div>
         </div>
       ))}
     </div>

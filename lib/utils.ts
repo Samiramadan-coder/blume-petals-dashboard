@@ -76,7 +76,6 @@ export function getProductDefaultValues(
       price: variant.price,
       stock: variant.stock,
       compare_at_price: variant.compare_at_price,
-      color_hex: variant.color_hex,
       in_stock: variant.in_stock,
       is_on_sale: variant.is_on_sale,
       recipe: variant.recipe.length

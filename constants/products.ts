@@ -50,20 +50,6 @@ export const sizes = (t: T) => [
   },
 ];
 
-// Colors
-export const colors = [
-  "#F4C2C2",
-  "#FFFFF0",
-  "#7D947B",
-  "#9B1C1C",
-  "#C7B8EA",
-  "#FFCBA4",
-  "#FFFFFF",
-  "#CBB682",
-  "#ED8074",
-  "#DCAE96",
-];
-
 // Product Statuses
 export const productStatuses = (t: T) => [
   {
@@ -90,7 +76,6 @@ export const initialVariant = {
   price: 0,
   stock: 0,
   compare_at_price: null,
-  color_hex: "",
   in_stock: true,
   is_on_sale: false,
   recipe: [initialFlower],

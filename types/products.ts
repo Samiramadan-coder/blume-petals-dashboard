@@ -44,7 +44,6 @@ export const productSchema = (t: T) =>
         price: z.number().min(1, t("Errors.PriceIsRequired")),
         stock: z.number().min(1, t("Errors.StockQuantityIsRequired")),
         compare_at_price: z.number().nullable().optional(),
-        color_hex: z.string().nullable().optional(),
         is_on_sale: z.boolean().optional(),
         in_stock: z.boolean().optional(),
         recipe: z.array(
@@ -72,7 +71,6 @@ export type Variant = {
   price: number;
   stock: number;
   compare_at_price?: number | null;
-  color_hex?: string | null;
   is_on_sale?: boolean;
   in_stock?: boolean;
   available_stock?: number;
@@ -135,7 +133,6 @@ export const variantSchema = (t: T) =>
     price: z.number().min(1, t("Errors.PriceIsRequired")),
     stock: z.number().min(1, t("Errors.StockQuantityIsRequired")),
     compare_at_price: z.number().nullable().optional(),
-    color_hex: z.string().nullable().optional(),
     is_on_sale: z.boolean().optional(),
     in_stock: z.boolean().optional(),
     recipe: z.array(
