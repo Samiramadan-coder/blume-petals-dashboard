@@ -191,44 +191,40 @@ export function ReorderableDataTable<T>({
         </Table>
       </DndContext>
 
-      {rowsCount !== undefined && (
-        <div className="p-4 bg-white flex items-center justify-between border-t border-border">
-          <div className="text-xs text-muted-foreground white-space-nowrap">
-            {!pagination ? (
-              <p>
-                {t("Showing")}{" "}
-                <span className="font-semibold text-black">{rowsCount}</span>{" "}
-                {countUnit}
-              </p>
-            ) : (
-              <p>
-                {t("Showing")}{" "}
-                <span className="font-semibold text-black">
-                  {pagination.from}
-                </span>{" "}
-                {t("To")}{" "}
-                <span className="font-semibold text-black">
-                  {pagination.to}
-                </span>{" "}
-                {t("Of")}{" "}
-                <span className="font-semibold text-black">
-                  {pagination.total}
-                </span>{" "}
-                {countUnit}
-              </p>
-            )}
-          </div>
-
-          <div>
-            {pagination && (
-              <PaginationTemplate
-                currentPage={pagination.current_page}
-                totalPages={pagination.last_page}
-              />
-            )}
-          </div>
+      <div className="p-4 bg-white flex items-center justify-between border-t border-border">
+        <div className="text-xs text-muted-foreground white-space-nowrap">
+          {!pagination ? (
+            <p>
+              {t("Showing")}{" "}
+              <span className="font-semibold text-black">{rowsCount}</span>{" "}
+              {countUnit}
+            </p>
+          ) : (
+            <p>
+              {t("Showing")}{" "}
+              <span className="font-semibold text-black">
+                {pagination.from}
+              </span>{" "}
+              {t("To")}{" "}
+              <span className="font-semibold text-black">{pagination.to}</span>{" "}
+              {t("Of")}{" "}
+              <span className="font-semibold text-black">
+                {pagination.total}
+              </span>{" "}
+              {countUnit}
+            </p>
+          )}
         </div>
-      )}
+
+        <div>
+          {pagination && (
+            <PaginationTemplate
+              currentPage={pagination.current_page}
+              totalPages={pagination.last_page}
+            />
+          )}
+        </div>
+      </div>
     </div>
   );
 }

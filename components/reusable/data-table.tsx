@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { Checkbox } from "../ui/checkbox";
 import { useTranslations } from "next-intl";
 import PaginationTemplate from "./pagination-temlate";
+import { Pagination } from "@/types/shared";
 
 export type DataTableColumn = {
   label: string;
@@ -22,8 +23,7 @@ interface DataTableProps {
   countUnit: string;
   children: React.ReactNode;
   onCheckboxChange?: (checked: boolean) => void;
-  currentPage?: number;
-  totalPages?: number;
+  pagination?: Pagination;
 }
 
 export function DataTable({
@@ -32,8 +32,7 @@ export function DataTable({
   countUnit,
   children,
   onCheckboxChange,
-  currentPage,
-  totalPages,
+  pagination,
 }: DataTableProps) {
   const t = useTranslations("Common");
 
@@ -65,17 +64,35 @@ export function DataTable({
       </Table>
 
       <div className="p-4 bg-white flex items-center justify-between border-t border-border">
-        <div className="text-sm text-muted-foreground white-space-nowrap">
-          {t("Showing")}{" "}
-          <span className="font-semibold text-black">{rowsCount}</span>{" "}
-          {countUnit}
+        <div className="text-xs text-muted-foreground white-space-nowrap">
+          {!pagination ? (
+            <p>
+              {t("Showing")}{" "}
+              <span className="font-semibold text-black">{rowsCount}</span>{" "}
+              {countUnit}
+            </p>
+          ) : (
+            <p>
+              {t("Showing")}{" "}
+              <span className="font-semibold text-black">
+                {pagination.from}
+              </span>{" "}
+              {t("To")}{" "}
+              <span className="font-semibold text-black">{pagination.to}</span>{" "}
+              {t("Of")}{" "}
+              <span className="font-semibold text-black">
+                {pagination.total}
+              </span>{" "}
+              {countUnit}
+            </p>
+          )}
         </div>
 
         <div>
-          {totalPages && currentPage && (
+          {pagination && (
             <PaginationTemplate
-              currentPage={currentPage}
-              totalPages={totalPages}
+              currentPage={pagination.current_page}
+              totalPages={pagination.last_page}
             />
           )}
         </div>

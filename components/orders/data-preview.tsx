@@ -35,8 +35,7 @@ export default function DataPreview({
         columns={columns(t)}
         rowsCount={orders.length}
         countUnit={t("Label")}
-        currentPage={pagination.current_page}
-        totalPages={pagination.last_page}
+        pagination={pagination}
         onCheckboxChange={(checked) => console.log(checked)}
       >
         {orders.map((order, index) => {
@@ -106,13 +105,6 @@ export default function DataPreview({
 
               <TableCell className="px-4 py-3 space-x-2">
                 <OrderDetails order={order} />
-
-                {/* {can("orders.edit") && (
-                  <AddAdminNote
-                    orderId={order.id}
-                    adminNotes={order.admin_notes}
-                  />
-                )} */}
               </TableCell>
             </TableRow>
           );

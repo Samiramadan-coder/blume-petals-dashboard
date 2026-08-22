@@ -29,8 +29,7 @@ export default function DataPreview({
         columns={columns(t)}
         rowsCount={initialCustomers.length}
         countUnit={t("Title")}
-        currentPage={pagination.current_page}
-        totalPages={pagination.last_page}
+        pagination={pagination}
         onCheckboxChange={(checked) => console.log(checked)}
       >
         {initialCustomers.map((customer, index) => (

@@ -43,8 +43,7 @@ export default function DataPreview({
         columns={columns(t)}
         rowsCount={flowers.length}
         countUnit={t("Flowers")}
-        currentPage={pagination.current_page}
-        totalPages={pagination.last_page}
+        pagination={pagination}
         onCheckboxChange={(checked) => console.log(checked)}
       >
         {flowers.map((flower, index) => (

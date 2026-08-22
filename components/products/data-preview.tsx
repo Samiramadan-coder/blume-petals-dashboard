@@ -70,8 +70,7 @@ export default function DataPreview({
         columns={columns(t)}
         rowsCount={products.length}
         countUnit={t("Products")}
-        currentPage={pagination.current_page}
-        totalPages={pagination.last_page}
+        pagination={pagination}
         onCheckboxChange={(checked) => console.log(checked)}
       >
         {products.map((product, index) => (
