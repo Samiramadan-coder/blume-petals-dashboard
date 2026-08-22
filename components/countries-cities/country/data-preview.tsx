@@ -6,7 +6,6 @@ import {
   updateCountryVisibilityAction,
 } from "@/lib/countries-cities";
 import { toast } from "sonner";
-import { cn } from "@/lib/utils";
 import { useState } from "react";
 import CreateEdit from "./create-edit";
 import { Pagination } from "@/types/shared";
@@ -18,8 +17,8 @@ import EditBtn from "@/components/reusable/edit-btn";
 import { columns } from "@/constants/countries-cities";
 import { useLocale, useTranslations } from "next-intl";
 import DeleteBtn from "@/components/reusable/delete-btn";
-import { ReorderableDataTable } from "@/components/reusable/date-sortable-table";
 import ModuleHeader from "@/components/reusable/module-header";
+import { ReorderableDataTable } from "@/components/reusable/date-sortable-table";
 
 export default function DataPreview({
   initialCountries,
@@ -43,8 +42,7 @@ export default function DataPreview({
       <ReorderableDataTable
         data={countries}
         getRowId={(row) => row.id}
-        currentPage={pagination.current_page}
-        totalPages={pagination.last_page}
+        pagination={pagination}
         rowsCount={countries.length}
         countUnit={t("Countries")}
         columns={columns((key) => t(key as never))}

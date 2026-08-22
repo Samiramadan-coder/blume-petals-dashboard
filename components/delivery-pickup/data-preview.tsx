@@ -47,8 +47,7 @@ export default function DataPreview({
       <ReorderableDataTable
         data={initialLocations}
         getRowId={(row) => row.id}
-        currentPage={pagination.current_page}
-        totalPages={pagination.last_page}
+        pagination={pagination}
         rowsCount={initialLocations.length}
         countUnit={t("Locations")}
         columns={columns((key) => t(key as never))}

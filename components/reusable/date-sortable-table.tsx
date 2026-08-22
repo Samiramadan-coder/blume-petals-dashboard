@@ -35,6 +35,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { GripVertical } from "lucide-react";
 import { useTranslations } from "next-intl";
 import PaginationTemplate from "./pagination-temlate";
+import { Pagination } from "@/types/shared";
 
 export type DataTableColumn = {
   key: string;
@@ -50,8 +51,7 @@ type ReorderableDataTableProps<T> = {
   onReorder?: (rows: T[]) => void;
   rowsCount?: number;
   countUnit?: string;
-  currentPage?: number;
-  totalPages?: number;
+  pagination?: Pagination;
   className?: string;
 };
 
@@ -110,9 +110,8 @@ export function ReorderableDataTable<T>({
   renderCells,
   onReorder,
   rowsCount,
-  countUnit = "items",
-  currentPage,
-  totalPages,
+  countUnit,
+  pagination,
   className,
 }: ReorderableDataTableProps<T>) {
   const dndContextId = useId();
@@ -159,7 +158,7 @@ export function ReorderableDataTable<T>({
                 <TableHead
                   key={column.key}
                   className={cn(
-                    "px-4 py-3 text-sm font-semibold uppercase text-muted-foreground",
+                    "px-4 py-2 text-sm font-semibold uppercase text-muted-foreground",
                     column.className,
                   )}
                 >
@@ -194,17 +193,37 @@ export function ReorderableDataTable<T>({
 
       {rowsCount !== undefined && (
         <div className="p-4 bg-white flex items-center justify-between border-t border-border">
-          <div className="text-sm text-muted-foreground white-space-nowrap">
-            {t("Showing")}{" "}
-            <span className="font-semibold text-black">{rowsCount}</span>{" "}
-            {countUnit}
+          <div className="text-xs text-muted-foreground white-space-nowrap">
+            {!pagination ? (
+              <p>
+                {t("Showing")}{" "}
+                <span className="font-semibold text-black">{rowsCount}</span>{" "}
+                {countUnit}
+              </p>
+            ) : (
+              <p>
+                {t("Showing")}{" "}
+                <span className="font-semibold text-black">
+                  {pagination.from}
+                </span>{" "}
+                {t("To")}{" "}
+                <span className="font-semibold text-black">
+                  {pagination.to}
+                </span>{" "}
+                {t("Of")}{" "}
+                <span className="font-semibold text-black">
+                  {pagination.total}
+                </span>{" "}
+                {countUnit}
+              </p>
+            )}
           </div>
 
           <div>
-            {totalPages && currentPage && (
+            {pagination && (
               <PaginationTemplate
-                currentPage={currentPage}
-                totalPages={totalPages}
+                currentPage={pagination.current_page}
+                totalPages={pagination.last_page}
               />
             )}
           </div>

@@ -28,7 +28,7 @@ export default function FiltersControl() {
         void setType(value);
       }}
     >
-      <TabsList className="h-auto! rounded-xl bg-muted-foreground/10 p-2 flex-wrap">
+      <TabsList className="h-auto! rounded-xl bg-muted p-1 flex-wrap">
         {types(t).map((stat) => (
           <TabsTrigger
             key={stat.value}

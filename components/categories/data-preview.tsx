@@ -32,6 +32,7 @@ export default function DataPreview({
   initialCategories: Category[];
   type: CategoryType;
 }) {
+  console.log(pagination);
   const locale = useLocale();
   const { can } = usePermissions();
   const t = useTranslations("Categories");
@@ -55,9 +56,8 @@ export default function DataPreview({
       <ReorderableDataTable
         data={categories}
         getRowId={(row) => row.id}
-        currentPage={pagination.current_page}
-        totalPages={pagination.last_page}
-        rowsCount={categories.length}
+        pagination={pagination}
+        rowsCount={pagination.total}
         countUnit={t("Categories")}
         columns={columns((key) => t(key as never))}
         onReorder={async (newCategories) => {
@@ -73,10 +73,10 @@ export default function DataPreview({
         }}
         renderCells={(category) => (
           <>
-            <TableCell className="px-4 py-3">
+            <TableCell className="px-4 py-2">
               {category.banner_url ? (
                 <Image
-                  src={category.banner_url as string}
+                  src={category.banner_url || (category.icon_url as string)}
                   alt={category.name[locale]}
                   width={40}
                   height={60}
@@ -88,34 +88,36 @@ export default function DataPreview({
                 </div>
               )}
             </TableCell>
-            <TableCell className="px-4 py-3">
-              <p className="font-semibold">{category.name[locale]}</p>
+            <TableCell className="px-4 py-2">
+              <p>{category.name[locale]}</p>
               <p className="text-muted-foreground text-xs mt-1">
                 /{category.slug}
               </p>
             </TableCell>
 
-            <TableCell className="px-4 py-3">
+            <TableCell className="px-4 py-2">
               <p className="font-semibold">
                 {category.products_count}{" "}
-                <span className="font-normal">{t("Items")}</span>
+                <span className="font-normal text-xs text-muted-foreground">
+                  {t("Items")}
+                </span>
               </p>
             </TableCell>
 
-            <TableCell className="px-4 py-3">
+            <TableCell className="px-4 py-2">
               <VisibilitySwitch
                 category={category}
                 disabled={!can("catalog.edit")}
               />
             </TableCell>
 
-            <TableCell className="px-4 py-3">
+            <TableCell className="px-4 py-2">
               <Badge className="bg-secondary/20 text-secondary">
                 {category.is_visible ? tCommon("Visible") : tCommon("Hidden")}
               </Badge>
             </TableCell>
 
-            <TableCell className="px-4 py-3">
+            <TableCell className="px-4 py-2">
               {can("catalog.edit") && (
                 <CreateEdit
                   category={category}
