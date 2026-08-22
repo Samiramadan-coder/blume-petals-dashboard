@@ -29,7 +29,6 @@ import { AdminNote, AdminNoteSchema, Order } from "@/types/orders";
 export default function OrderDetails({ order }: { order: Order }) {
   const locale = useLocale();
   const t = useTranslations("Orders");
-  const tCommon = useTranslations("Common");
 
   const {
     register,
@@ -81,7 +80,7 @@ export default function OrderDetails({ order }: { order: Order }) {
               </div>
 
               <p className="text-muted-foreground text-xs mt-1.5">
-                {formatDate(order.placed_at)}
+                {order.channel} - {formatDate(order.placed_at)}
               </p>
             </div>
             <SheetClose asChild>
@@ -93,13 +92,13 @@ export default function OrderDetails({ order }: { order: Order }) {
         </SheetHeader>
 
         <div className="px-6 pb-6 space-y-4 flex-1 overflow-auto">
-          <SectionLabel>Customer</SectionLabel>
-          <div className="flex gap-2">
-            <div className="w-12 h-12 flex items-center justify-center bg-primary rounded-full font-bold uppercase">
+          <SectionLabel>{t("Customer")}</SectionLabel>
+          <div className="flex gap-4">
+            <div className="w-10 h-10 flex items-center text-sm text-white justify-center bg-primary rounded-full font-bold uppercase">
               {order.customer.name.slice(0, 2)}
             </div>
             <div className="flex flex-col gap-1">
-              <p className="text-sm">{order.customer.name}</p>
+              <p className="text-sm font-semibold">{order.customer.name}</p>
               {order.customer.phone && (
                 <p className="text-xs text-muted-foreground flex items-center gap-1">
                   <Phone className="size-3" />
@@ -116,7 +115,9 @@ export default function OrderDetails({ order }: { order: Order }) {
           </div>
 
           <Separator />
-          <SectionLabel>Items ({order.items.length})</SectionLabel>
+          <SectionLabel>
+            {t("Items")} ({order.items.length})
+          </SectionLabel>
           <div className="flex flex-col gap-2">
             {order.items.map((item) => (
               <div
@@ -133,7 +134,7 @@ export default function OrderDetails({ order }: { order: Order }) {
                         height={50}
                       />
                     ) : (
-                      <div className="min-w-11 min-h-11 flex items-center justify-center bg-primary rounded-full font-bold uppercase">
+                      <div className="min-w-10 min-h-10 text-sm text-white flex items-center justify-center bg-primary rounded-full font-bold uppercase">
                         {item.name.slice(0, 2)}
                       </div>
                     )}
@@ -142,28 +143,29 @@ export default function OrderDetails({ order }: { order: Order }) {
                   <div className="flex flex-col gap-1">
                     <p className="text-sm font-semibold">{item.name}</p>
                     <p className="text-xs text-muted-foreground">
-                      Quantity: {item.qty}
+                      {t("Quantity")}: {item.qty}
                     </p>
                   </div>
                 </div>
 
                 <p className="text-sm font-bold">
-                  {item.unit_price} {tCommon("AED")}
+                  {item.unit_price} {order.currency}
                 </p>
               </div>
             ))}
           </div>
-          {order.address && (
-            <>
-              <Separator />
-              <SectionLabel>Fulfillment</SectionLabel>
-              <div className="rounded-lg border border-border">
+
+          <Separator />
+          <SectionLabel>{t("Fulfillment")}</SectionLabel>
+          <div className="rounded-lg border border-border overflow-hidden">
+            {order.fulfillment_method === "delivery" && order.address && (
+              <>
                 <div className="border-b border-border p-3 flex items-start gap-3">
                   <div className="p-2 bg-secondary/20 rounded-md">
                     <MapPin className="size-4 text-secondary" />
                   </div>
                   <div className="flex flex-col gap-1">
-                    <p className="text-sm font-semibold">Home Delivery</p>
+                    <p className="text-sm font-semibold">{t("HomeDelivery")}</p>
                     <p className="text-xs text-muted-foreground">
                       {order.address.building}, {order.address.street}
                     </p>
@@ -175,61 +177,94 @@ export default function OrderDetails({ order }: { order: Order }) {
                 </div>
                 <div>
                   <LocationPicker
+                    onChange={() => {}}
                     value={{
                       latitude: +order.address.latitude,
                       longitude: +order.address.longitude,
                     }}
-                    onChange={() => {}}
                   />
                 </div>
-              </div>
-            </>
-          )}
+              </>
+            )}
+
+            {order.fulfillment_method === "pickup" && order.pickup && (
+              <>
+                <div className="p-3 flex items-start gap-3">
+                  <div className="p-2 bg-secondary/20 rounded-md">
+                    <MapPin className="size-4 text-secondary" />
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <p className="text-sm font-semibold">{t("StorePickup")}</p>
+                    <p
+                      className="text-xs text-muted-foreground"
+                      dangerouslySetInnerHTML={{ __html: order.pickup.address }}
+                    ></p>
+                    <p className="text-xs text-muted-foreground">
+                      {order.pickup.name}
+                    </p>
+                    <p className="text-primary text-xs font-semibold">
+                      {order.pickup.ready_in}
+                    </p>
+                  </div>
+                </div>
+                <div>
+                  <LocationPicker
+                    onChange={() => {}}
+                    value={{
+                      latitude: +order.pickup.latitude,
+                      longitude: +order.pickup.longitude,
+                    }}
+                  />
+                </div>
+              </>
+            )}
+          </div>
 
           <Separator />
-          <SectionLabel>Payment</SectionLabel>
+          <SectionLabel>{t("Payment")}</SectionLabel>
           <div className="border border-border rounded-lg">
             <div className="text-xs text-muted-foreground flex items-center justify-between px-3 py-2 border-b border-border">
-              <span>Subtotal</span>
+              <span>{t("Subtotal")}</span>
               <span>
-                {order.summary.subtotal} {tCommon("AED")}
+                {order.summary.subtotal} {order.currency}
               </span>
             </div>
             <div className="text-xs text-muted-foreground flex items-center justify-between px-3 py-2 border-b border-border">
-              <span>Delivery</span>
+              <span>{t("DeliveryFee")}</span>
               <span>
-                {order.summary.shipping_total} {tCommon("AED")}
+                {order.summary.shipping_total} {order.currency}
               </span>
             </div>
             <div className="text-xs text-muted-foreground flex items-center justify-between px-3 py-2 border-b border-border">
-              <span>Discount</span>
+              <span>{t("Discount")}</span>
               <span>
-                {order.summary.discount_total} {tCommon("AED")}
+                {order.summary.discount_total} {order.currency}
               </span>
             </div>
             <div className="flex items-center justify-between px-3 py-2">
-              <span className="font-bold">Total</span>
+              <span className="font-bold">{t("Total")}</span>
               <span>
                 {+order.summary.subtotal +
                   +order.summary.shipping_total -
                   +order.summary.discount_total}{" "}
-                {tCommon("AED")}
+                {order.currency}
               </span>
             </div>
           </div>
 
           <Separator />
-          <SectionLabel>Update Order Status</SectionLabel>
+          <SectionLabel>{t("UpdateOrderStatus")}</SectionLabel>
           <ChangeOrderStatus order={order} view="button" />
 
           <Separator />
-          <SectionLabel>Internal Notes</SectionLabel>
+          <SectionLabel>{t("InternalNote")}</SectionLabel>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <NormalFormTextarea
               name="admin_notes"
               register={register}
               required
               errors={errors}
+              placeholder={t("InternalNotePlaceholder")}
             />
 
             <Button
@@ -246,11 +281,11 @@ export default function OrderDetails({ order }: { order: Order }) {
           <div className="flex items-center justify-end gap-2">
             <SheetClose asChild>
               <Button type="button" variant="outline" className="h-10 flex-1">
-                Download PDF
+                {t("DownloadPDF")}
               </Button>
             </SheetClose>
             <Button type="submit" className="h-10 flex-1">
-              Print Invoice
+              {t("PrintInvoice")}
             </Button>
           </div>
         </SheetFooter>

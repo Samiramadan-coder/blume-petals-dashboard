@@ -72,7 +72,7 @@ export default function Statistics({ summary }: { summary: Summary }) {
       {statisticsData.map((stat, index) => (
         <Card
           key={index}
-          className="border border-primary/20"
+          className="border border-primary/30"
           style={{ boxShadow: "none" }}
         >
           <CardContent className="space-y-2">

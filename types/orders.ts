@@ -58,6 +58,16 @@ type Item = {
   variant_label: string;
 };
 
+type Pickup = {
+  address: string;
+  city_id: number;
+  hours: string;
+  latitude: string;
+  longitude: string;
+  name: string;
+  ready_in: string;
+};
+
 export type Status =
   | "pending"
   | "processing"
@@ -81,6 +91,7 @@ export type Order = {
   fulfillment_method: "delivery" | "pickup";
   id: number;
   items: Item[];
+  pickup: Pickup | null;
 };
 
 export type Summary = {

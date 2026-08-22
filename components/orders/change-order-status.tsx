@@ -77,7 +77,9 @@ export default function ChangeOrderStatus({
               className={cn(
                 "w-full h-11 border-2 flex items-center justify-between rounded-lg px-3 py-2",
                 status.value === order.status && "border-primary",
-                statusIndex > index && "cursor-not-allowed opacity-50",
+                statusIndex > index
+                  ? "cursor-not-allowed opacity-50"
+                  : "cursor-pointer",
               )}
               onClick={async () => {
                 if (statusIndex > index) {
