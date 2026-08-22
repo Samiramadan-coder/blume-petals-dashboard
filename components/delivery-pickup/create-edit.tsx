@@ -14,10 +14,10 @@ import Switch from "../form/switch";
 import Footer from "../form/footer";
 import { Button } from "../ui/button";
 import FormHeader from "../form/header";
-import RichText from "../form/rich-text";
 import AddButton from "../form/add-button";
 import { City } from "@/types/countries-cities";
 import React, { useEffect, useRef } from "react";
+import NormalFormTextarea from "../form/textarea";
 import LocationPicker from "../form/location-picker";
 import { availableLocales } from "@/constants/shared";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -231,12 +231,13 @@ export default function CreateEdit({
                   required
                 />
 
-                <RichText<DeliveryPickupLocationFormValues>
-                  control={control}
-                  label={tLive("Fields.Address.Label")}
+                <NormalFormTextarea
                   name={`address.${locale}`}
+                  label={tLive("Fields.Address.Label")}
                   placeholder={tLive("Fields.Address.Placeholder")}
+                  register={register}
                   required
+                  errors={errors}
                   className={cn({
                     hidden: activeLocale !== locale,
                   })}

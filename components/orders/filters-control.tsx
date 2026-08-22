@@ -69,7 +69,7 @@ export default function FiltersControl() {
           void setStatus(value);
         }}
       >
-        <TabsList className="h-auto! rounded-xl bg-muted-foreground/10 p-2 flex-wrap">
+        <TabsList className="h-auto! rounded-xl bg-muted p-1 flex-wrap">
           {[{ label: t("All"), value: "all" }]
             .concat(orderStatuses(t))
             .map((stat) => (

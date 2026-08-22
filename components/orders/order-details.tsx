@@ -195,10 +195,9 @@ export default function OrderDetails({ order }: { order: Order }) {
                   </div>
                   <div className="flex flex-col gap-1">
                     <p className="text-sm font-semibold">{t("StorePickup")}</p>
-                    <p
-                      className="text-xs text-muted-foreground"
-                      dangerouslySetInnerHTML={{ __html: order.pickup.address }}
-                    ></p>
+                    <p className="text-xs text-muted-foreground">
+                      {order.pickup.address}
+                    </p>
                     <p className="text-xs text-muted-foreground">
                       {order.pickup.name}
                     </p>
