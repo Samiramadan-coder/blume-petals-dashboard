@@ -32,7 +32,6 @@ export default function DataPreview({
   initialCategories: Category[];
   type: CategoryType;
 }) {
-  console.log(pagination);
   const locale = useLocale();
   const { can } = usePermissions();
   const t = useTranslations("Categories");

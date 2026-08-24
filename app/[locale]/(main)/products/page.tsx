@@ -101,7 +101,14 @@ async function ProductsPage({ searchParams }: { searchParams: SearchParams }) {
     throw new Error(t("Errors.FetchingData"));
   }
 
-  console.log("Products Data:", products.data.items);
+  // const { data: components } = await http.put(
+  //   "api/v1/admin/products/46/variants/71/components",
+  //   {
+  //     components: [{ component_variant_id: 45, qty: 15 }],
+  //   },
+  // );
+
+  // console.log(components);
 
   return (
     <main className="space-y-6">
