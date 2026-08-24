@@ -46,76 +46,86 @@ export default function DataPreview({
         pagination={pagination}
         onCheckboxChange={(checked) => console.log(checked)}
       >
-        {flowers.map((flower, index) => (
-          <TableRow key={index}>
-            <TableCell className="px-4 py-3">
-              <Checkbox />
-            </TableCell>
-
-            <TableCell className="px-4 py-3">
-              <div className="flex items-center gap-2">
-                {flower.images.length > 0 ? (
-                  <Image
-                    src={flower.images[0].url as string}
-                    alt={flower.name[locale]}
-                    width={40}
-                    height={40}
-                    className="rounded-md shadow-sm w-auto h-auto"
-                  />
-                ) : (
-                  <div className="w-12 h-12 rounded-md bg-primary/10 grid place-content-center">
-                    {flower.name[locale].charAt(0).toUpperCase()}
-                  </div>
-                )}
-                <p className="font-medium">{flower.name[locale]}</p>
-              </div>
-            </TableCell>
-
-            <TableCell className="px-4 py-3">
-              {flower.variants[0].available_stock}
-            </TableCell>
-
-            <TableCell className="px-4 py-3">-</TableCell>
-
-            <TableCell className="px-4 py-3">
-              {flower.variants[0].price} {tCommon("AED")}
-            </TableCell>
-
-            <TableCell className="px-4 py-3">
-              <Badge>
-                {flower.variants[0].in_stock ? t("InStock") : t("OutOfStock")}
-              </Badge>
-            </TableCell>
-
-            <TableCell className="px-4 py-3">-</TableCell>
-
-            <TableCell className="px-4 py-3">
-              {can("catalog.edit") && (
-                <CreateEdit
-                  flower={flower}
-                  trigger={<EditBtn />}
-                  firstCategoryId={firstCategoryId}
-                />
-              )}
-
-              {can("catalog.delete") && (
-                <DeleteBtn
-                  onDelete={async () => {
-                    setLoadingDelete(true);
-                    const result = await deleteProductAction(flower);
-                    setLoadingDelete(false);
-                    if (result.success) {
-                      toast.success(tCommon("DeletedSuccessfully"));
-                      return;
-                    }
-                    toast.error(tCommon("DeleteFailed"));
-                  }}
-                  loading={loadingDelete}
-                />
-              )}
+        {flowers.length === 0 ? (
+          <TableRow>
+            <TableCell colSpan={columns(t).length + 1} className="px-4 py-3">
+              <p className="text-center text-sm text-muted-foreground">
+                {t("NoFlowers")}
+              </p>
             </TableCell>
           </TableRow>
-        ))}
+        ) : (
+          flowers.map((flower, index) => (
+            <TableRow key={index}>
+              <TableCell className="px-4 py-3">
+                <Checkbox />
+              </TableCell>
+
+              <TableCell className="px-4 py-3">
+                <div className="flex items-center gap-2">
+                  {flower.images.length > 0 ? (
+                    <Image
+                      src={flower.images[0].url as string}
+                      alt={flower.name[locale]}
+                      width={40}
+                      height={40}
+                      className="rounded-md shadow-sm w-auto h-auto"
+                    />
+                  ) : (
+                    <div className="w-12 h-12 rounded-md bg-primary/10 grid place-content-center">
+                      {flower.name[locale].charAt(0).toUpperCase()}
+                    </div>
+                  )}
+                  <p className="font-medium">{flower.name[locale]}</p>
+                </div>
+              </TableCell>
+
+              <TableCell className="px-4 py-3">
+                {flower.variants[0].available_stock}
+              </TableCell>
+
+              <TableCell className="px-4 py-3">-</TableCell>
+
+              <TableCell className="px-4 py-3">
+                {flower.variants[0].price} {tCommon("AED")}
+              </TableCell>
+
+              <TableCell className="px-4 py-3">
+                <Badge>
+                  {flower.variants[0].in_stock ? t("InStock") : t("OutOfStock")}
+                </Badge>
+              </TableCell>
+
+              <TableCell className="px-4 py-3">-</TableCell>
+
+              <TableCell className="px-4 py-3">
+                {can("catalog.edit") && (
+                  <CreateEdit
+                    flower={flower}
+                    trigger={<EditBtn />}
+                    firstCategoryId={firstCategoryId}
+                  />
+                )}
+
+                {can("catalog.delete") && (
+                  <DeleteBtn
+                    onDelete={async () => {
+                      setLoadingDelete(true);
+                      const result = await deleteProductAction(flower);
+                      setLoadingDelete(false);
+                      if (result.success) {
+                        toast.success(tCommon("DeletedSuccessfully"));
+                        return;
+                      }
+                      toast.error(tCommon("DeleteFailed"));
+                    }}
+                    loading={loadingDelete}
+                  />
+                )}
+              </TableCell>
+            </TableRow>
+          ))
+        )}
       </DataTable>
     </>
   );

@@ -735,6 +735,7 @@
     "EditFlower": "تعديل الزهرة",
     "AddFlowerDescription": "أضف نوعًا جديدًا من الزهور إلى المخزون.",
     "EditFlowerDescription": "تعديل تفاصيل نوع الزهرة.",
+    "NoFlowers": "لم يتم العثور على أي زهور في المخزون.",
     "Fields": {
       "Photo": {
         "Label": "صورة الزهرة",

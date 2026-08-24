@@ -741,6 +741,7 @@
     "EditFlowerDescription": "Edit flower type details.",
     "InStock": "In Stock",
     "OutOfStock": "Out of Stock",
+    "NoFlowers": "No flowers available",
     "Fields": {
       "Photo": {
         "Label": "Flower Photo",
