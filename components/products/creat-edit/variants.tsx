@@ -178,12 +178,11 @@ export default function Variants({
                   const flower = flowers.find(
                     (flower) => flower.id === item.component_variant_id,
                   );
-                  // console.log(flower, total, item.qty, "flower, total, item.qty");
                   return total + item.qty * (flower?.variants[0]?.price ?? 0);
                 }, 0);
 
                 const margin =
-                  ((variant.price - estimatedCost) / estimatedCost) * 100;
+                  ((variant.price - estimatedCost) / estimatedCost || 1) * 100;
 
                 return (
                   <div key={recipeIndex}>
@@ -335,38 +334,43 @@ export default function Variants({
                           {tLive("AddFlower")}
                         </Button>
 
-                        <div className="p-4 bg-background rounded-md border border-border space-y-1">
-                          <p className="flex items-center justify-between">
-                            <span className="text-xs text-muted-foreground">
-                              {tLive("EstimatedCost")}
-                            </span>
-                            <span className="text-xs font-semibold">
-                              {estimatedCost} {tLiveCommon("AED")}
-                            </span>
-                          </p>
+                        {estimatedCost > 0 && (
+                          <div className="p-4 bg-background rounded-md border border-border space-y-1">
+                            <p className="flex items-center justify-between">
+                              <span className="text-xs text-muted-foreground">
+                                {tLive("EstimatedCost")}
+                              </span>
+                              <span className="text-xs font-semibold">
+                                {estimatedCost} {tLiveCommon("AED")}
+                              </span>
+                            </p>
 
-                          <p className="flex items-center justify-between">
-                            <span className="text-xs text-muted-foreground">
-                              {tLive("SellingPrice")}
-                            </span>
-                            <span className="text-xs font-semibold">
-                              {variant.price} {tLiveCommon("AED")}
-                            </span>
-                          </p>
+                            <p className="flex items-center justify-between">
+                              <span className="text-xs text-muted-foreground">
+                                {tLive("SellingPrice")}
+                              </span>
+                              <span className="text-xs font-semibold">
+                                {variant.price} {tLiveCommon("AED")}
+                              </span>
+                            </p>
 
-                          <p
-                            className={cn("flex items-center justify-between", {
-                              "text-destructive": margin < 0,
-                            })}
-                          >
-                            <span className="text-xs text-muted-foreground">
-                              {tLive("Margin")}
-                            </span>
-                            <span className="text-xs font-semibold">
-                              {margin.toFixed(2)}%
-                            </span>
-                          </p>
-                        </div>
+                            <p
+                              className={cn(
+                                "flex items-center justify-between",
+                                {
+                                  "text-destructive": margin < 0,
+                                },
+                              )}
+                            >
+                              <span className="text-xs text-muted-foreground">
+                                {tLive("Margin")}
+                              </span>
+                              <span className="text-xs font-semibold">
+                                {margin.toFixed(2)}%
+                              </span>
+                            </p>
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
