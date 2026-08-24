@@ -171,7 +171,8 @@ export default function CreateEditVariant({
                     {recipe.map((recipeItem, index) => {
                       const selectedFlower = flowers.find(
                         (flower) =>
-                          flower.id === recipeItem.component_variant_id,
+                          flower.variants[0].id ===
+                          recipeItem.component_variant_id,
                       );
 
                       const chosenFlowerIds = recipe.map(
@@ -180,8 +181,11 @@ export default function CreateEditVariant({
 
                       const availableFlowers = flowers.filter(
                         (flower) =>
-                          !chosenFlowerIds.includes(flower.id) ||
-                          flower.id === recipeItem.component_variant_id,
+                          !chosenFlowerIds.includes(
+                            flower.variants[0]?.id || 0,
+                          ) ||
+                          flower.variants[0].id ===
+                            recipeItem.component_variant_id,
                       );
 
                       return (
@@ -194,7 +198,8 @@ export default function CreateEditVariant({
                             name={`recipe.${index}.component_variant_id`}
                             render={({ field }) => {
                               const selectedFlower = flowers.find(
-                                (flower) => flower.id === field.value,
+                                (flower) =>
+                                  flower.variants[0].id === field.value,
                               );
 
                               return (
@@ -240,7 +245,7 @@ export default function CreateEditVariant({
                                     {availableFlowers.map((flower) => (
                                       <SelectItem
                                         key={flower.id}
-                                        value={String(flower.id)}
+                                        value={String(flower.variants[0].id)}
                                         className="py-1.5"
                                       >
                                         <div className="flex min-w-0 items-center gap-2">

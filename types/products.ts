@@ -28,6 +28,10 @@ export const productSchema = (t: T) =>
       en: z.string(),
       ar: z.string(),
     }),
+    eta_text: z.object({
+      en: z.string(),
+      ar: z.string(),
+    }),
     category_id: z.number().min(1, t("Errors.CategoryIsRequired")),
     occasion_ids: z.array(z.number()),
     tags: z.array(z.string()),

@@ -157,7 +157,7 @@ export default function Variants({
                 // Get the selected flower for this recipe item
                 const selectedFlower = flowers.find(
                   (flower) =>
-                    flower.id ===
+                    flower.variants[0].id ===
                     variants[index].recipe[recipeIndex].component_variant_id,
                 );
 
@@ -169,14 +169,15 @@ export default function Variants({
                 // Filter the available flowers to exclude those already chosen, except for the current recipe item
                 const availableFlowers = flowers.filter(
                   (flower) =>
-                    !chossenFlowersIds.includes(flower.id) ||
-                    flower.id === recipeItem.component_variant_id,
+                    !chossenFlowersIds.includes(flower.variants[0]?.id || 0) ||
+                    flower.variants[0].id === recipeItem.component_variant_id,
                 );
 
                 // Calculate the estimated cost for this variant based on the recipe items and their quantities
                 const estimatedCost = variant.recipe.reduce((total, item) => {
                   const flower = flowers.find(
-                    (flower) => flower.id === item.component_variant_id,
+                    (flower) =>
+                      flower.variants[0].id === item.component_variant_id,
                   );
                   return total + item.qty * (flower?.variants[0]?.price ?? 0);
                 }, 0);
@@ -241,7 +242,7 @@ export default function Variants({
                                   {availableFlowers.map((flower) => (
                                     <SelectItem
                                       key={flower.id}
-                                      value={String(flower.id)}
+                                      value={String(flower.variants[0].id)}
                                       className="py-1.5"
                                     >
                                       <div className="flex min-w-0 items-center gap-2">

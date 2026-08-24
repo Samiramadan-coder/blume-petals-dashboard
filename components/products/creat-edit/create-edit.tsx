@@ -261,6 +261,19 @@ export default function CreateEdit({
               />
             ))}
 
+            {availableLocales.map((locale) => (
+              <NormalFormTextarea<ProductFormValues>
+                key={locale}
+                name={`eta_text.${locale}`}
+                register={register}
+                label={tLive("Fields.ETA")}
+                placeholder={tLive("Placeholders.ETA")}
+                className={cn("sm:col-span-2", {
+                  hidden: activeLocale !== locale,
+                })}
+              />
+            ))}
+
             <NormalFormTagsInput
               name="tags"
               control={control}

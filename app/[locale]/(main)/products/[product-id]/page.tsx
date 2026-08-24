@@ -270,7 +270,8 @@ async function ProductDetails({ params }: { params: Params }) {
                           {variant.recipe.map((recipeItem, recipeIndex) => {
                             const flower = flowers.data.items.find(
                               (item) =>
-                                item.id === recipeItem.component_variant_id,
+                                item.variants[0].id ===
+                                recipeItem.component_variant_id,
                             );
 
                             return (
