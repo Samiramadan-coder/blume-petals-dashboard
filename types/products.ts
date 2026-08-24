@@ -32,6 +32,8 @@ export const productSchema = (t: T) =>
     occasion_ids: z.array(z.number()),
     tags: z.array(z.string()),
     status: z.string().min(1, t("Errors.StatusIsRequired")),
+    is_purchasable: z.boolean(),
+    show_in_builder: z.boolean(),
     sku: z
       .string()
       .min(1, t("Errors.SKUIsRequired"))
@@ -42,10 +44,10 @@ export const productSchema = (t: T) =>
         sku: z.string().min(1, t("Errors.SKUIsRequired")),
         size: z.string().min(1, t("Errors.SizeIsRequired")),
         price: z.number().min(1, t("Errors.PriceIsRequired")),
-        stock: z.number().min(1, t("Errors.StockQuantityIsRequired")),
+        // stock: z.number().min(1, t("Errors.StockQuantityIsRequired")),
         compare_at_price: z.number().nullable().optional(),
-        is_on_sale: z.boolean().optional(),
-        in_stock: z.boolean().optional(),
+        // is_on_sale: z.boolean().optional(),
+        // in_stock: z.boolean().optional(),
         recipe: z.array(
           z.object({
             component_variant_id: z

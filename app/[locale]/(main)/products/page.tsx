@@ -101,6 +101,8 @@ async function ProductsPage({ searchParams }: { searchParams: SearchParams }) {
     throw new Error(t("Errors.FetchingData"));
   }
 
+  console.log("Products Data:", products.data.items);
+
   return (
     <main className="space-y-6">
       <div className="flex gap-2 items-center">

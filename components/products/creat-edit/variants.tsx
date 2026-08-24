@@ -17,17 +17,16 @@ import {
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
-import Input from "@/components/form/input";
 import { Plus, X } from "lucide-react";
+import Input from "@/components/form/input";
 import { Button } from "@/components/ui/button";
 import { FieldError } from "@/components/ui/field";
-import NormalSelect from "@/components/form/select";
 import { deleteVariantAction } from "@/lib/products";
 import { useFormLocale } from "@/hooks/use-form-locale";
 import DeleteBtn from "@/components/reusable/delete-btn";
 import SectionLabel from "@/components/form/section-label";
 import { Product, ProductFormValues } from "@/types/products";
-import { initialFlower, initialVariant, sizes } from "@/constants/products";
+import { initialFlower, initialVariant } from "@/constants/products";
 
 export default function Variants({
   register,
@@ -130,23 +129,13 @@ export default function Variants({
           />
 
           <Input<ProductFormValues>
-            label={tLive("Fields.StockQuantity")}
-            name={`variants.${index}.stock`}
-            type="number"
-            register={register}
-            errors={errors}
-            required
-            placeholder={tLive("Placeholders.StockQuantity")}
-          />
-
-          <NormalSelect<ProductFormValues>
-            control={control}
             label={tLive("Fields.Size")}
             name={`variants.${index}.size`}
+            type="text"
+            register={register}
             placeholder={tLive("Placeholders.Size")}
             required
-            dir={dir}
-            options={sizes((key) => tLive(key as never))}
+            errors={errors}
           />
 
           <Input<ProductFormValues>
@@ -156,7 +145,6 @@ export default function Variants({
             register={register}
             placeholder={tLive("Placeholders.ComparePrice")}
             errors={errors}
-            className="md:col-span-2"
           />
 
           {type === "default" && (

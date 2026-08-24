@@ -84,33 +84,32 @@ export default function CreateEdit({
   // Handle form submission for creating or updating a product
   // The onSubmit function sends the form data to the server and handles success or error responses
   const onSubmit: SubmitHandler<ProductFormValues> = async (values) => {
-    console.log("Form Values:", values);
-    // const result = await postProductAction(values, product?.id);
+    const result = await postProductAction(values, product?.id);
 
-    // if (result.success) {
-    //   toast.success(
-    //     product
-    //       ? tCommon("UpdatedSuccessfully")
-    //       : tCommon("CreatedSuccessfully"),
-    //   );
-    //   form.current?.reset();
-    //   closeBtn.current?.click();
-    //   return;
-    // }
+    if (result.success) {
+      toast.success(
+        product
+          ? tCommon("UpdatedSuccessfully")
+          : tCommon("CreatedSuccessfully"),
+      );
+      form.current?.reset();
+      closeBtn.current?.click();
+      return;
+    }
 
-    // if (result.errors) {
-    //   Object.entries(result.errors).forEach(([field, message]) => {
-    //     toast.error(message);
-    //     setError(field as keyof ProductFormValues, {
-    //       type: "server",
-    //       message,
-    //     });
-    //   });
+    if (result.errors) {
+      Object.entries(result.errors).forEach(([field, message]) => {
+        toast.error(message);
+        setError(field as keyof ProductFormValues, {
+          type: "server",
+          message,
+        });
+      });
 
-    //   return;
-    // }
+      return;
+    }
 
-    // toast.error(product ? tCommon("UpdateFailed") : tCommon("CreationFailed"));
+    toast.error(product ? tCommon("UpdateFailed") : tCommon("CreationFailed"));
   };
 
   return (
@@ -280,6 +279,7 @@ export default function CreateEdit({
             )}
 
             <Separator className="bg-border" />
+
             <Variants
               register={register}
               errors={errors}

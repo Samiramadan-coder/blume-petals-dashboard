@@ -67,17 +67,16 @@ export function getProductDefaultValues(
     tags: product?.tags || [],
     sku: product?.sku || "",
     status: product?.status || "published",
+    is_purchasable: true,
+    show_in_builder: false,
     images: product?.images.map((image) => image.url) || [],
     is_new: product?.is_new || false,
     variants: product?.variants.map((variant) => ({
-      id: variant.id,
-      sku: variant.sku,
-      size: variant.size,
-      price: variant.price,
-      stock: variant.stock,
-      compare_at_price: variant.compare_at_price,
-      in_stock: variant.in_stock,
-      is_on_sale: variant.is_on_sale,
+      id: variant.id || undefined,
+      sku: variant.sku || "",
+      size: variant.size || "",
+      price: variant.price || 0,
+      compare_at_price: variant.compare_at_price || undefined,
       recipe: variant.recipe.length
         ? variant.recipe
         : type === "default"

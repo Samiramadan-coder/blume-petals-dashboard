@@ -30,26 +30,6 @@ export const columns = (t: T): DataTableColumn[] => [
   },
 ];
 
-// Sizes
-export const sizes = (t: T) => [
-  {
-    value: "S",
-    label: t("Labels.S"),
-  },
-  {
-    value: "M",
-    label: t("Labels.M"),
-  },
-  {
-    value: "L",
-    label: t("Labels.L"),
-  },
-  {
-    value: "XL",
-    label: t("Labels.XL"),
-  },
-];
-
 // Product Statuses
 export const productStatuses = (t: T) => [
   {
