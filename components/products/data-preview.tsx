@@ -131,7 +131,10 @@ export default function DataPreview({
               <TableCell className="px-4 py-3">
                 <div className="flex items-center gap-2">
                   {product.variants.map((variant) => (
-                    <Badge key={variant.id} className="font-semibold">
+                    <Badge
+                      key={variant.id}
+                      className="font-normal text-xs bg-primary/20 text-primary border-primary/30 h-6"
+                    >
                       {variant.size} - {variant.price}
                     </Badge>
                   ))}
@@ -143,9 +146,10 @@ export default function DataPreview({
                   {product.variants.map((variant) => (
                     <div key={variant.id}>
                       <Badge
-                        className={cn({
-                          "bg-primary/20 text-primary": variant.in_stock,
-                          "bg-destructive/30 text-destructive":
+                        className={cn("h-6", {
+                          "bg-primary/20 text-primary border-primary/30":
+                            variant.in_stock,
+                          "bg-destructive/10 text-destructive border-destructive/30":
                             !variant.in_stock,
                         })}
                       >
