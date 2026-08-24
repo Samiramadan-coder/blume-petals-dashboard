@@ -32,9 +32,7 @@ export async function postFlowerAction(
 
   try {
     const { data } = await http[method]<{
-      data: {
-        product: Product;
-      };
+      data: { product: Product };
     }>(url, dataWithoutFiles);
 
     // Post Or Update Images

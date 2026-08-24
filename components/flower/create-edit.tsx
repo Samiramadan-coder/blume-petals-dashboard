@@ -58,6 +58,7 @@ export default function CreateEdit({
       sku: flower?.sku || "",
       variants: [
         {
+          id: flower?.variants[0]?.id,
           price: flower ? flower.variants[0].price : undefined,
           stock: flower ? flower.variants[0].stock : undefined,
           sku: flower ? flower.variants[0].sku : "",
