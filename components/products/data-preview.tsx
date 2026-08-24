@@ -146,7 +146,7 @@ export default function DataPreview({
                   {product.variants.map((variant) => (
                     <div key={variant.id}>
                       <Badge
-                        className={cn("h-6", {
+                        className={cn("h-6 text-xs!", {
                           "bg-primary/20 text-primary border-primary/30":
                             variant.in_stock,
                           "bg-destructive/10 text-destructive border-destructive/30":
