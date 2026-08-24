@@ -25,11 +25,12 @@ import { useFormLocale } from "@/hooks/use-form-locale";
 import { useEffect, useRef, type ReactNode } from "react";
 import { cn, getProductDefaultValues } from "@/lib/utils";
 import NormalFormTextarea from "@/components/form/textarea";
+import NormalFormRichText from "@/components/form/rich-text";
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import LocaleFormSwitcher from "../../reusable/locale-form-switcher";
 import { Product, ProductFormValues, productSchema } from "@/types/products";
-import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../../ui/sheet";
 import SingleFormImageUploader from "@/components/form/single-image-uploader";
+import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../../ui/sheet";
 
 // CreateEdit component for adding or editing a product
 export default function CreateEdit({
@@ -56,8 +57,6 @@ export default function CreateEdit({
     useFormLocale("Common");
   const { activeLocale, changeLocale, dir, isArabic, tLive } =
     useFormLocale("Products");
-
-  // console.log(getProductDefaultValues(type, product));
 
   const {
     register,
@@ -262,16 +261,20 @@ export default function CreateEdit({
             ))}
 
             {availableLocales.map((locale) => (
-              <NormalFormTextarea<ProductFormValues>
+              <div
                 key={locale}
-                name={`eta_text.${locale}`}
-                register={register}
-                label={tLive("Fields.ETA")}
-                placeholder={tLive("Placeholders.ETA")}
-                className={cn("sm:col-span-2", {
+                className={cn({
                   hidden: activeLocale !== locale,
                 })}
-              />
+              >
+                <NormalFormRichText<ProductFormValues>
+                  key={activeLocale}
+                  control={control}
+                  label={tLive("Fields.ETA")}
+                  name={`eta_text.${locale}`}
+                  placeholder={tLive("Placeholders.ETA")}
+                />
+              </div>
             ))}
 
             <NormalFormTagsInput
@@ -292,7 +295,6 @@ export default function CreateEdit({
             )}
 
             <Separator className="bg-border" />
-
             <Variants
               register={register}
               errors={errors}
