@@ -154,6 +154,7 @@
     "EstimatedCost": "Estimated cost for this size",
     "SellingPrice": "Selling price",
     "Margin": "Margin",
+    "NoProducts": "No products available",
     "Table": {
       "Photo": "Photo",
       "Name": "Name",

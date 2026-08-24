@@ -33,10 +33,6 @@ async function ProductsPage({ searchParams }: { searchParams: SearchParams }) {
   const activeTab = searchParams.type || "default";
   const t = await getTranslations("Products");
 
-  const { data } = await http.get("/api/v1/admin/products/22/variants");
-
-  console.log("My Availabel Stock", data);
-
   // Fetch categories
   const { data: categories, ok: ok1 } = await http.get<{
     data: {

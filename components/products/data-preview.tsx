@@ -73,149 +73,160 @@ export default function DataPreview({
         pagination={pagination}
         onCheckboxChange={(checked) => console.log(checked)}
       >
-        {products.map((product, index) => (
-          <TableRow key={index}>
-            <TableCell className="px-4 py-3">
-              <Checkbox />
-            </TableCell>
-
-            <TableCell className="px-4 py-3">
-              {product.images.length > 0 ? (
-                <Image
-                  src={product.images[0].url as string}
-                  alt={product.name[locale]}
-                  width={40}
-                  height={80}
-                  className="rounded-md shadow-sm w-auto h-auto"
-                />
-              ) : (
-                <div className="w-10 h-10 rounded-md bg-primary/10 grid place-content-center">
-                  {product.name[locale].charAt(0).toUpperCase()}
-                </div>
-              )}
-            </TableCell>
-
-            <TableCell className="px-4 py-3">
-              <p className="font-semibold">
-                {product.name[locale]}
-                {product.is_new && (
-                  <Badge className="mx-2 text-[10px] font-semibold text-foreground">
-                    {tCommon("New")}
-                  </Badge>
-                )}
+        {products.length === 0 ? (
+          <TableRow>
+            <TableCell colSpan={columns(t).length + 1} className="px-4 py-3">
+              <p className="text-center text-sm text-muted-foreground">
+                {t("NoProducts")}
               </p>
-              <p className="text-muted-foreground text-xs mt-1">
-                {product.sku}
-              </p>
-            </TableCell>
-
-            <TableCell className="px-4 py-3">
-              <span className="text-muted-foreground">
-                {
-                  categories.find(
-                    (category) => category.id === product.category_id,
-                  )?.name[locale]
-                }
-              </span>
-            </TableCell>
-
-            <TableCell className="px-4 py-3">
-              <div className="flex items-center gap-2">
-                {product.variants.map((variant) => (
-                  <Badge key={variant.id} className="font-semibold">
-                    {variant.size} - {variant.price}
-                  </Badge>
-                ))}
-              </div>
-            </TableCell>
-
-            <TableCell className="px-4 py-3">
-              <div className="flex items-center gap-2">
-                {product.variants.map((variant) => (
-                  <div key={variant.id}>
-                    <Badge
-                      className={cn({
-                        "bg-primary/20 text-primary": variant.in_stock,
-                        "bg-destructive/30 text-destructive": !variant.in_stock,
-                      })}
-                    >
-                      <span
-                        className={cn("w-1.5 h-1.5 rounded-full shrink-0", {
-                          "bg-primary": variant.in_stock,
-                          "bg-destructive": !variant.in_stock,
-                        })}
-                      ></span>{" "}
-                      {variant.in_stock ? t("In") : t("Out")} - {variant.size}
-                    </Badge>
-
-                    <p className="text-muted-foreground text-xs mt-2">
-                      {variant.stock} {t("Labels.Units")}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </TableCell>
-
-            <TableCell className="px-4 py-3">
-              <div className="flex items-center gap-1">
-                <Star className="size-2.5 text-primary fill-primary" />
-                <span className="font-semibold text-xs">
-                  {product.rating_avg}
-                </span>
-                <span className="text-xs text-muted-foreground">
-                  ({product.rating_count})
-                </span>
-              </div>
-            </TableCell>
-
-            <TableCell className="px-4 py-3">
-              <VisibilitySwitch
-                product={product}
-                disabled={!can("catalog.edit")}
-              />
-            </TableCell>
-
-            <TableCell className="px-4 py-3 text-center">
-              {can("catalog.edit") && (
-                <CreateEdit
-                  categories={categories}
-                  occasions={occasions}
-                  product={product}
-                  trigger={<EditBtn />}
-                  type={type}
-                  flowers={flowers}
-                />
-              )}
-
-              {type === "default" && (
-                <Link
-                  href={`/products/${product.id}?type=${type}`}
-                  locale={locale}
-                >
-                  <Button variant="ghost">
-                    <Eye className="size-4 text-muted-foreground" />
-                  </Button>
-                </Link>
-              )}
-
-              {can("catalog.delete") && (
-                <DeleteBtn
-                  onDelete={async () => {
-                    setLoadingDelete(true);
-                    const result = await deleteProductAction(product);
-                    setLoadingDelete(false);
-                    if (result.success) {
-                      toast.success(tCommon("DeletedSuccessfully"));
-                      return;
-                    }
-                    toast.error(tCommon("DeleteFailed"));
-                  }}
-                  loading={loadingDelete}
-                />
-              )}
             </TableCell>
           </TableRow>
-        ))}
+        ) : (
+          products.map((product, index) => (
+            <TableRow key={index}>
+              <TableCell className="px-4 py-3">
+                <Checkbox />
+              </TableCell>
+
+              <TableCell className="px-4 py-3">
+                {product.images.length > 0 ? (
+                  <Image
+                    src={product.images[0].url as string}
+                    alt={product.name[locale]}
+                    width={40}
+                    height={80}
+                    className="rounded-md shadow-sm w-auto h-auto"
+                  />
+                ) : (
+                  <div className="w-10 h-10 rounded-md bg-primary/10 grid place-content-center">
+                    {product.name[locale].charAt(0).toUpperCase()}
+                  </div>
+                )}
+              </TableCell>
+
+              <TableCell className="px-4 py-3">
+                <p className="font-semibold">
+                  {product.name[locale]}
+                  {product.is_new && (
+                    <Badge className="mx-2 text-[10px] font-semibold text-foreground">
+                      {tCommon("New")}
+                    </Badge>
+                  )}
+                </p>
+                <p className="text-muted-foreground text-xs mt-1">
+                  {product.sku}
+                </p>
+              </TableCell>
+
+              <TableCell className="px-4 py-3">
+                <span className="text-muted-foreground">
+                  {
+                    categories.find(
+                      (category) => category.id === product.category_id,
+                    )?.name[locale]
+                  }
+                </span>
+              </TableCell>
+
+              <TableCell className="px-4 py-3">
+                <div className="flex items-center gap-2">
+                  {product.variants.map((variant) => (
+                    <Badge key={variant.id} className="font-semibold">
+                      {variant.size} - {variant.price}
+                    </Badge>
+                  ))}
+                </div>
+              </TableCell>
+
+              <TableCell className="px-4 py-3">
+                <div className="flex items-center gap-2">
+                  {product.variants.map((variant) => (
+                    <div key={variant.id}>
+                      <Badge
+                        className={cn({
+                          "bg-primary/20 text-primary": variant.in_stock,
+                          "bg-destructive/30 text-destructive":
+                            !variant.in_stock,
+                        })}
+                      >
+                        <span
+                          className={cn("w-1.5 h-1.5 rounded-full shrink-0", {
+                            "bg-primary": variant.in_stock,
+                            "bg-destructive": !variant.in_stock,
+                          })}
+                        ></span>{" "}
+                        {variant.in_stock ? t("In") : t("Out")} - {variant.size}
+                      </Badge>
+
+                      <p className="text-muted-foreground text-xs mt-2">
+                        {variant.stock} {t("Labels.Units")}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </TableCell>
+
+              <TableCell className="px-4 py-3">
+                <div className="flex items-center gap-1">
+                  <Star className="size-2.5 text-primary fill-primary" />
+                  <span className="font-semibold text-xs">
+                    {product.rating_avg}
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    ({product.rating_count})
+                  </span>
+                </div>
+              </TableCell>
+
+              <TableCell className="px-4 py-3">
+                <VisibilitySwitch
+                  product={product}
+                  disabled={!can("catalog.edit")}
+                />
+              </TableCell>
+
+              <TableCell className="px-4 py-3 text-center">
+                {can("catalog.edit") && (
+                  <CreateEdit
+                    categories={categories}
+                    occasions={occasions}
+                    product={product}
+                    trigger={<EditBtn />}
+                    type={type}
+                    flowers={flowers}
+                  />
+                )}
+
+                {type === "default" && (
+                  <Link
+                    href={`/products/${product.id}?type=${type}`}
+                    locale={locale}
+                  >
+                    <Button variant="ghost">
+                      <Eye className="size-4 text-muted-foreground" />
+                    </Button>
+                  </Link>
+                )}
+
+                {can("catalog.delete") && (
+                  <DeleteBtn
+                    onDelete={async () => {
+                      setLoadingDelete(true);
+                      const result = await deleteProductAction(product);
+                      setLoadingDelete(false);
+                      if (result.success) {
+                        toast.success(tCommon("DeletedSuccessfully"));
+                        return;
+                      }
+                      toast.error(tCommon("DeleteFailed"));
+                    }}
+                    loading={loadingDelete}
+                  />
+                )}
+              </TableCell>
+            </TableRow>
+          ))
+        )}
       </DataTable>
     </>
   );
