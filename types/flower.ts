@@ -30,6 +30,7 @@ export const flowerSchema = (t: T) =>
     }),
     category_id: z.number(),
     show_in_builder: z.boolean(),
+    is_purchasable: z.boolean(),
     status: z.string(),
     sku: z
       .string()
@@ -40,10 +41,7 @@ export const flowerSchema = (t: T) =>
         id: z.number().optional(),
         price: z.number().min(1, t("Fields.UnitCost.MinValue")),
         stock: z.number().min(1, t("Fields.InitialQuantity.MinValue")),
-        sku: z
-          .string()
-          .min(1, t("Fields.VariantSku.Required"))
-          .min(2, t("Fields.VariantSku.MinLength")),
+        sku: z.string(),
       }),
     ),
     images: z

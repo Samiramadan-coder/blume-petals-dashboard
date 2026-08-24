@@ -54,6 +54,7 @@ export default function CreateEdit({
       category_id: flower?.category_id || firstCategoryId,
       status: "published",
       show_in_builder: true,
+      is_purchasable: false,
       sku: flower?.sku || "",
       variants: [
         {
@@ -68,19 +69,19 @@ export default function CreateEdit({
   // Use Effect to Trigger Validation on Locale Change
   // This effect runs whenever the active locale changes or the form has been submitted.
   useEffect(() => {
-    if (isSubmitted) {
-      void triggerValidation();
-    }
+    if (isSubmitted) void triggerValidation();
   }, [activeLocale, isSubmitted, triggerValidation]);
 
   // Form Submission Handler
-  // This function handles the form submission for creating or editing a flower product.
-  // It uses the `postProductAction` function to send the form data to the server.
-  // If the submission is successful, it shows a success toast message and resets the form.
-  // If there are validation errors, it displays error messages for each field.
-  // If the submission fails for other reasons, it shows a generic error message.
   const onSubmit: SubmitHandler<FlowerFormValues> = async (values) => {
-    const result = await postFlowerAction(values, flower?.id);
+    // Here i set the variant SKU to be the same as the flower name in English,
+    // replacing spaces with hyphens.
+    const variants = values.variants.map((variant) => ({
+      ...variant,
+      sku: values.name.en.split(" ").join("-"),
+    }));
+
+    const result = await postFlowerAction({ ...values, variants }, flower?.id);
 
     if (result.success) {
       toast.success(
@@ -222,7 +223,7 @@ export default function CreateEdit({
               placeholder={tLive("Fields.UnitCost.Placeholder")}
             />
 
-            <Input<FlowerFormValues>
+            {/* <Input<FlowerFormValues>
               label={tLive("Fields.VariantSku.Label")}
               name="variants.0.sku"
               type="text"
@@ -230,7 +231,7 @@ export default function CreateEdit({
               errors={errors}
               required
               placeholder={tLive("Fields.VariantSku.Placeholder")}
-            />
+            /> */}
 
             {availableLocales.map((locale) => (
               <NormalFormTextarea<FlowerFormValues>
