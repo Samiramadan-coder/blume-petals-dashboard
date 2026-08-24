@@ -77,7 +77,7 @@ export default async function MainLayout({
           <SidebarToggleControl />
         </Sidebar>
 
-        <SidebarInset className="min-h-screen min-w-0 flex-1 overflow-x-hidden bg-background">
+        <SidebarInset className="min-h-screen min-w-0 flex-1 bg-background">
           <DashboardHeader />
           <main className="min-w-0 w-full overflow-x-hidden p-4 sm:p-6">
             <div className="min-w-0 w-full">{children}</div>
