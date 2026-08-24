@@ -1,11 +1,11 @@
 import { Suspense } from "react";
 import { http } from "@/lib/http";
+import { Product } from "@/types/products";
 import { Pagination } from "@/types/shared";
+import { Category } from "@/types/categories";
 import { Spinner } from "@/components/ui/spinner";
 import { getTranslations } from "next-intl/server";
-import { Product, Summary } from "@/types/products";
 import DataPreview from "@/components/flower/data-preview";
-import { Category } from "@/types/categories";
 
 type SearchParams = {
   page?: string;
@@ -35,7 +35,6 @@ async function FlowersPage({ searchParams }: { searchParams: SearchParams }) {
     data: {
       items: Product[];
       pagination: Pagination;
-      summary: Summary;
     };
   }>("/api/v1/admin/products", {
     next: {

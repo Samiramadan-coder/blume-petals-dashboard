@@ -9,19 +9,18 @@ import {
 import Image from "next/image";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { X } from "lucide-react";
 import Input from "../form/input";
 import Header from "../form/header";
 import Footer from "../form/footer";
-import Select from "../form/select";
 import { Button } from "../ui/button";
-import { X } from "lucide-react";
 import AddButton from "../form/add-button";
 import { Product } from "@/types/products";
 import { useRef, type ReactNode } from "react";
 import { addVariantAction } from "@/lib/products";
+import { initialFlower } from "@/constants/products";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocale, useTranslations } from "next-intl";
-import { initialFlower, sizes } from "@/constants/products";
 import { Field, FieldContent, FieldLabel } from "../ui/field";
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Variant, VariantFormValues, variantSchema } from "@/types/products";
@@ -55,14 +54,10 @@ export default function CreateEditVariant({
   } = useForm<VariantFormValues>({
     resolver: zodResolver(variantSchema((key) => t(key as never))),
     defaultValues: variant || {
-      id: undefined,
       sku: "",
       size: "",
       price: 0,
-      stock: 0,
       compare_at_price: null,
-      in_stock: true,
-      is_on_sale: false,
       recipe: [{ component_variant_id: 0, qty: 0 }],
     },
   });
@@ -146,22 +141,13 @@ export default function CreateEditVariant({
             />
 
             <Input<VariantFormValues>
-              label={t("Fields.StockQuantity")}
-              name="stock"
-              type="number"
-              register={register}
-              errors={errors}
-              required
-              placeholder={t("Placeholders.StockQuantity")}
-            />
-
-            <Select<VariantFormValues>
-              control={control}
               label={t("Fields.Size")}
               name="size"
+              type="text"
+              register={register}
               placeholder={t("Placeholders.Size")}
               required
-              options={sizes((key) => t(key as never))}
+              errors={errors}
             />
 
             <Input<VariantFormValues>

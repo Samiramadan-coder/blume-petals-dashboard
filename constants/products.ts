@@ -54,9 +54,6 @@ export const initialVariant = {
   sku: "",
   size: "",
   price: 0,
-  stock: 0,
-  compare_at_price: null,
-  in_stock: true,
-  is_on_sale: false,
+  compare_at_price: undefined,
   recipe: [initialFlower],
 };

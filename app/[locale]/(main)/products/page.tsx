@@ -3,11 +3,11 @@ import { Suspense } from "react";
 import { http } from "@/lib/http";
 import { Link } from "@/i18n/navigation";
 import { Pagination } from "@/types/shared";
-import { Spinner } from "@/components/ui/spinner";
-import { Product, Summary } from "@/types/products";
-import { getTranslations } from "next-intl/server";
 import { Occasion } from "@/types/occasions";
 import { Category } from "@/types/categories";
+import { Spinner } from "@/components/ui/spinner";
+import { getTranslations } from "next-intl/server";
+import { Product, Summary } from "@/types/products";
 import DataPreview from "@/components/products/data-preview";
 
 type SearchParams = {
@@ -100,15 +100,6 @@ async function ProductsPage({ searchParams }: { searchParams: SearchParams }) {
   if (!ok1 || !ok2 || !ok3 || !ok4) {
     throw new Error(t("Errors.FetchingData"));
   }
-
-  // const { data: components } = await http.put(
-  //   "api/v1/admin/products/46/variants/71/components",
-  //   {
-  //     components: [{ component_variant_id: 45, qty: 15 }],
-  //   },
-  // );
-
-  // console.log(components);
 
   return (
     <main className="space-y-6">
