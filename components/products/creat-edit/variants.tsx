@@ -186,7 +186,7 @@ export default function Variants({
 
                 return (
                   <div key={recipeIndex}>
-                    <div className="mb-3 grid items-center grid-cols-[1.3fr_0.3fr_0.4fr] gap-2">
+                    <div className="mb-3 grid items-center grid-cols-[1.2fr_0.4fr_0.4fr] gap-2">
                       <div>
                         <Controller
                           control={control}
@@ -272,7 +272,6 @@ export default function Variants({
                             );
                           }}
                         />
-
                         <FieldError
                           errors={[
                             errors.variants?.[index]?.recipe?.[recipeIndex]
@@ -287,6 +286,8 @@ export default function Variants({
                         register={register}
                         errors={errors}
                         required
+                        min={1}
+                        max={selectedFlower?.variants[0].available_stock}
                       />
 
                       <div className="flex items-center justify-between gap-1">

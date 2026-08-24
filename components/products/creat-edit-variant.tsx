@@ -53,12 +53,14 @@ export default function CreateEditVariant({
     formState: { errors, isSubmitting },
   } = useForm<VariantFormValues>({
     resolver: zodResolver(variantSchema((key) => t(key as never))),
-    defaultValues: variant || {
-      sku: "",
-      size: "",
-      price: 0,
-      compare_at_price: null,
-      recipe: [{ component_variant_id: 0, qty: 0 }],
+    defaultValues: {
+      sku: variant?.sku ?? "",
+      size: variant?.size ?? "",
+      price: variant?.price ?? 0,
+      compare_at_price: variant?.compare_at_price ?? undefined,
+      recipe: variant?.recipe.length
+        ? variant.recipe
+        : [{ component_variant_id: 0, qty: 0 }],
     },
   });
   const recipe = useWatch({ control, name: "recipe" });
@@ -276,6 +278,8 @@ export default function CreateEditVariant({
                             register={register}
                             errors={errors}
                             required
+                            min={1}
+                            max={selectedFlower?.variants[0].available_stock}
                           />
 
                           <div className="flex items-center justify-between gap-1">
