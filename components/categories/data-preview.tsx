@@ -6,7 +6,6 @@ import {
   updateCategoryVisibilityAction,
 } from "@/lib/categories-actions";
 import { toast } from "sonner";
-import Image from "next/image";
 import { useState } from "react";
 import { Badge } from "../ui/badge";
 import { Switch } from "../ui/switch";
@@ -73,19 +72,9 @@ export default function DataPreview({
         renderCells={(category) => (
           <>
             <TableCell className="px-4 py-2">
-              {category.banner_url ? (
-                <Image
-                  src={category.banner_url || (category.icon_url as string)}
-                  alt={category.name[locale]}
-                  width={40}
-                  height={60}
-                  className="rounded-md shadow-sm w-auto h-auto"
-                />
-              ) : (
-                <div className="w-10 h-10 rounded-md bg-primary/20 grid place-content-center">
-                  {category.name[locale].charAt(0).toUpperCase()}
-                </div>
-              )}
+              <div className="w-10 h-10 font-semibold rounded-lg bg-primary/20 grid place-content-center uppercase">
+                {category.name[locale].slice(0, 2)}
+              </div>
             </TableCell>
             <TableCell className="px-4 py-2">
               <p>{category.name[locale]}</p>

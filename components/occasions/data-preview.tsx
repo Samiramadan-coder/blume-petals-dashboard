@@ -6,7 +6,6 @@ import {
   updateOccasionVisibilityAction,
 } from "@/lib/occasion-actions";
 import { toast } from "sonner";
-import Image from "next/image";
 import { useState } from "react";
 import { formatDate } from "@/lib/utils";
 import { Badge } from "../ui/badge";
@@ -20,8 +19,8 @@ import DeleteBtn from "../reusable/delete-btn";
 import { columns } from "@/constants/occasions";
 import ModuleHeader from "../reusable/module-header";
 import { useLocale, useTranslations } from "next-intl";
-import { ReorderableDataTable } from "../reusable/date-sortable-table";
 import { usePermissions } from "@/providers/permission-providers";
+import { ReorderableDataTable } from "../reusable/date-sortable-table";
 
 export default function DataPreview({
   initialOccasions,
@@ -63,13 +62,9 @@ export default function DataPreview({
         renderCells={(occasion) => (
           <>
             <TableCell className="px-4 py-3">
-              <Image
-                src={occasion.banner_url as string}
-                alt={occasion.name_translations[locale]}
-                width={40}
-                height={60}
-                className="rounded-md shadow-sm w-auto h-auto"
-              />
+              <div className="w-10 h-10 font-semibold rounded-lg bg-primary/20 grid place-content-center uppercase">
+                {occasion.name_translations[locale].slice(0, 2)}
+              </div>
             </TableCell>
             <TableCell className="px-4 py-3">
               <p className="font-semibold">

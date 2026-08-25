@@ -88,7 +88,7 @@ export default function DataPreview({
               </TableCell>
 
               <TableCell className="px-4 py-3">
-                <div className="w-10 h-10 font-bold rounded-lg bg-primary/20 text-primary grid place-content-center uppercase">
+                <div className="w-10 h-10 font-semibold rounded-lg bg-primary/20 grid place-content-center uppercase">
                   {product.name[locale].slice(0, 2)}
                 </div>
               </TableCell>
