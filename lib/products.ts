@@ -4,7 +4,7 @@ import {
   Product,
   ProductFormValues,
   Variant,
-  VariantFormValues,
+  // VariantFormValues,
 } from "@/types/products";
 import { updateTag } from "next/cache";
 import { http, ValidationError } from "@/lib/http";
@@ -190,12 +190,12 @@ export async function deleteImageAction(
 // Add Variant Action
 type AddVariantResult = {
   success: boolean;
-  errors?: Partial<Record<keyof VariantFormValues, string>>;
+  errors?: Partial<Record<keyof ProductFormValues["variants"][number], string>>;
 };
 
 export async function addVariantAction(
   productId: number,
-  variantData: VariantFormValues,
+  variantData: ProductFormValues["variants"][number],
   variantId?: number,
 ): Promise<AddVariantResult> {
   const method = variantId ? "put" : "post";
@@ -226,7 +226,7 @@ export async function addVariantAction(
           field,
           messages[0] ?? "Invalid value",
         ]),
-      ) as Partial<Record<keyof VariantFormValues, string>>;
+      ) as Partial<Record<keyof ProductFormValues["variants"][number], string>>;
       return { success: false, errors };
     }
     return { success: false };
@@ -258,7 +258,7 @@ type UpdateComponentsResult = { success: boolean };
 export async function updateComponentsAction(
   productId: number,
   variantId: number,
-  components: VariantFormValues["recipe"],
+  components: ProductFormValues["variants"][number]["recipe"],
 ): Promise<UpdateComponentsResult> {
   try {
     await http.put(
