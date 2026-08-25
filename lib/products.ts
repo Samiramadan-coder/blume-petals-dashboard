@@ -53,8 +53,19 @@ export async function postProductAction(
       );
     }
 
+    // because the product is created first, we need to update the variant ids if they exist
+    const preparedVariants = formData.variants.map((variant) => {
+      const existingVariant = data.data.product.variants.find(
+        (v) => v.sku === variant.sku,
+      );
+      return {
+        ...variant,
+        id: existingVariant?.id,
+      };
+    });
+
     // Post Or Update Variants
-    formData.variants.forEach(async (variant) => {
+    preparedVariants.forEach(async (variant) => {
       if (variant.id) {
         await addVariantAction(data.data.product.id, variant, variant.id);
       } else {

@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { toast } from "sonner";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -89,26 +88,16 @@ export default function DataPreview({
               </TableCell>
 
               <TableCell className="px-4 py-3">
-                {product.images.length > 0 ? (
-                  <Image
-                    src={product.images[0].url as string}
-                    alt={product.name[locale]}
-                    width={40}
-                    height={80}
-                    className="rounded-md shadow-sm w-auto h-auto"
-                  />
-                ) : (
-                  <div className="w-10 h-10 rounded-md bg-primary/10 grid place-content-center">
-                    {product.name[locale].charAt(0).toUpperCase()}
-                  </div>
-                )}
+                <div className="w-10 h-10 font-bold rounded-lg bg-primary/20 text-primary grid place-content-center uppercase">
+                  {product.name[locale].slice(0, 2)}
+                </div>
               </TableCell>
 
               <TableCell className="px-4 py-3">
                 <p className="font-semibold">
                   {product.name[locale]}
                   {product.is_new && (
-                    <Badge className="mx-2 text-[10px] font-semibold text-foreground">
+                    <Badge className="mx-2 text-[10px] font-semibold text-foreground uppercase">
                       {tCommon("New")}
                     </Badge>
                   )}
@@ -129,42 +118,42 @@ export default function DataPreview({
               </TableCell>
 
               <TableCell className="px-4 py-3">
-                <div className="flex items-center gap-2">
+                <div className="space-y-1">
                   {product.variants.map((variant) => (
-                    <Badge
-                      key={variant.id}
-                      className="font-normal text-xs bg-primary/20 text-primary border-primary/30 h-6"
-                    >
-                      {variant.size} - {variant.price}
-                    </Badge>
+                    <div key={variant.id}>
+                      <span className="text-xs">
+                        <span className="text-muted-foreground">
+                          {variant.size}:{" "}
+                        </span>
+                        <span className="font-semibold">{variant.price}</span>
+                      </span>
+                    </div>
                   ))}
                 </div>
               </TableCell>
 
               <TableCell className="px-4 py-3">
-                <div className="flex items-center gap-2">
+                <div className="space-y-1.5">
                   {product.variants.map((variant) => (
                     <div key={variant.id}>
-                      <Badge
-                        className={cn("h-6 text-xs!", {
-                          "bg-primary/20 text-primary border-primary/30":
-                            variant.in_stock,
-                          "bg-destructive/10 text-destructive border-destructive/30":
-                            !variant.in_stock,
-                        })}
-                      >
-                        <span
-                          className={cn("w-1.5 h-1.5 rounded-full shrink-0", {
-                            "bg-primary": variant.in_stock,
-                            "bg-destructive": !variant.in_stock,
-                          })}
-                        ></span>{" "}
-                        {variant.in_stock ? t("In") : t("Out")} - {variant.size}
-                      </Badge>
-
-                      <p className="text-muted-foreground text-xs mt-2">
-                        {variant.stock} {t("Labels.Units")}
-                      </p>
+                      <span className="text-xs">
+                        <span className="text-muted-foreground">
+                          {variant.size}:{" "}
+                        </span>
+                        <span className="font-semibold">
+                          {variant.available_stock}{" "}
+                        </span>
+                        <Badge
+                          className={cn(
+                            "font-semibold border",
+                            variant.in_stock
+                              ? "text-emerald-700 bg-emerald-50 border-emerald-200"
+                              : "text-destructive bg-destructive/10 border-destructive/50",
+                          )}
+                        >
+                          {variant.in_stock ? t("In") : t("Out")}
+                        </Badge>
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -247,10 +236,11 @@ function VisibilitySwitch({
   disabled?: boolean;
 }) {
   const tCommon = useTranslations("Common");
+  const tProducts = useTranslations("Products");
   const [loading, setLoading] = useState(false);
 
   return (
-    <>
+    <div className="flex items-center gap-2">
       {loading ? (
         <Spinner className="text-primary" />
       ) : (
@@ -271,6 +261,11 @@ function VisibilitySwitch({
           }}
         />
       )}
-    </>
+      <span className="font-semibold text-xs">
+        {product.status === "published"
+          ? tProducts("Labels.Active")
+          : tProducts("Labels.Draft")}
+      </span>
+    </div>
   );
 }
