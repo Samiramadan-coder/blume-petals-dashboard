@@ -6,19 +6,16 @@ export const columns = (t: T): DataTableColumn[] => [
     label: t("Table.Flower"),
   },
   {
-    label: t("Table.StockQty"),
+    label: t("Table.Name"),
   },
   {
-    label: t("Table.Threshold"),
+    label: t("Table.StockQty"),
   },
   {
     label: t("Table.UnitCost"),
   },
   {
     label: t("Table.Status"),
-  },
-  {
-    label: t("Table.Level"),
   },
   {
     label: t("Table.Actions"),

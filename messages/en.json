@@ -793,11 +793,10 @@
     },
     "Table": {
       "Flower": "Flower",
+      "Name": "Name",
       "StockQty": "Stock Qty",
-      "Threshold": "Threshold",
       "UnitCost": "Unit Cost",
       "Status": "Status",
-      "Level": "Level",
       "Actions": "Actions"
     },
     "DetailsTable": {

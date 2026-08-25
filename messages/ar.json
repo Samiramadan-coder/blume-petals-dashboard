@@ -787,11 +787,10 @@
     },
     "Table": {
       "Flower": "الزهرة",
+      "Name": "الاسم",
       "StockQty": "الكمية بالمخزون",
-      "Threshold": "حد التنبيه",
       "UnitCost": "تكلفة الوحدة",
       "Status": "الحالة",
-      "Level": "المستوى",
       "Actions": "الإجراءات"
     },
     "DetailsTable": {

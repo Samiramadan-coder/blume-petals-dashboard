@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { toast } from "sonner";
 import { useState } from "react";
 import { Badge } from "../ui/badge";
@@ -14,8 +13,8 @@ import DeleteBtn from "../reusable/delete-btn";
 import { TableCell, TableRow } from "../ui/table";
 import { DataTable } from "../reusable/data-table";
 import ModuleHeader from "../reusable/module-header";
-import { useLocale, useTranslations } from "next-intl";
 import { deleteProductAction } from "@/lib/products";
+import { useLocale, useTranslations } from "next-intl";
 import { usePermissions } from "@/providers/permission-providers";
 
 export default function DataPreview({
@@ -62,41 +61,39 @@ export default function DataPreview({
               </TableCell>
 
               <TableCell className="px-4 py-3">
-                <div className="flex items-center gap-2">
-                  {flower.images.length > 0 ? (
-                    <Image
-                      src={flower.images[0].url as string}
-                      alt={flower.name[locale]}
-                      width={40}
-                      height={40}
-                      className="rounded-md shadow-sm w-auto h-auto"
-                    />
-                  ) : (
-                    <div className="w-12 h-12 rounded-md bg-primary/10 grid place-content-center">
-                      {flower.name[locale].charAt(0).toUpperCase()}
-                    </div>
-                  )}
-                  <p className="font-medium">{flower.name[locale]}</p>
+                <div className="w-10 h-10 font-semibold rounded-lg bg-primary/20 grid place-content-center uppercase">
+                  {flower.name[locale].slice(0, 2)}
                 </div>
               </TableCell>
 
               <TableCell className="px-4 py-3">
+                <div>
+                  <p className="mb-1 font-semibold">{flower.name[locale]}</p>
+                  <span className="text-muted-foreground text-xs">
+                    {flower.sku}
+                  </span>
+                </div>
+              </TableCell>
+
+              <TableCell className="px-4 py-3 font-bold">
                 {flower.variants[0].available_stock}
               </TableCell>
 
-              <TableCell className="px-4 py-3">-</TableCell>
-
-              <TableCell className="px-4 py-3">
-                {flower.variants[0].price} {tCommon("AED")}
+              <TableCell className="px-4 py-3 text-muted-foreground text-xs">
+                {tCommon("AED")} {flower.price_from}
               </TableCell>
 
               <TableCell className="px-4 py-3">
-                <Badge>
+                <Badge
+                  className={
+                    flower.variants[0].in_stock
+                      ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                      : "bg-destructive/10 text-destructive border border-destructive/50"
+                  }
+                >
                   {flower.variants[0].in_stock ? t("InStock") : t("OutOfStock")}
                 </Badge>
               </TableCell>
-
-              <TableCell className="px-4 py-3">-</TableCell>
 
               <TableCell className="px-4 py-3">
                 {can("catalog.edit") && (
