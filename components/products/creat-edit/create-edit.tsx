@@ -24,7 +24,6 @@ import { useLocale, useTranslations } from "next-intl";
 import { useFormLocale } from "@/hooks/use-form-locale";
 import { useEffect, useRef, type ReactNode } from "react";
 import { cn, getProductDefaultValues } from "@/lib/utils";
-import NormalFormTextarea from "@/components/form/textarea";
 import NormalFormRichText from "@/components/form/rich-text";
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import LocaleFormSwitcher from "../../reusable/locale-form-switcher";
@@ -238,16 +237,20 @@ export default function CreateEdit({
             />
 
             {availableLocales.map((locale) => (
-              <NormalFormTextarea<ProductFormValues>
+              <div
                 key={locale}
-                name={`description.${locale}`}
-                register={register}
-                label={tLive("Fields.Description")}
-                placeholder={tLive("Placeholders.Description")}
-                className={cn("sm:col-span-2", {
+                className={cn({
                   hidden: activeLocale !== locale,
                 })}
-              />
+              >
+                <NormalFormRichText<ProductFormValues>
+                  key={activeLocale}
+                  control={control}
+                  label={tLive("Fields.Description")}
+                  name={`description.${locale}`}
+                  placeholder={tLive("Placeholders.Description")}
+                />
+              </div>
             ))}
 
             {availableLocales.map((locale) => (

@@ -128,21 +128,3 @@ export type Summary = {
   out_of_stock: number;
   total: number;
 };
-
-// export const variantSchema = (t: T) =>
-//   z.object({
-//     sku: z.string().min(1, t("Errors.SKUIsRequired")),
-//     size: z.string().min(1, t("Errors.SizeIsRequired")),
-//     price: z.number().min(1, t("Errors.PriceIsRequired")),
-//     compare_at_price: z.number().nullable().optional(),
-//     recipe: z.array(
-//       z.object({
-//         component_variant_id: z
-//           .number()
-//           .min(1, t("Errors.ComponentVariantIsRequired")),
-//         qty: z.number().min(1, t("Errors.QuantityIsRequired")),
-//       }),
-//     ),
-//   });
-
-// export type VariantFormValues = z.infer<ReturnType<typeof variantSchema>>;
