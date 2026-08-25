@@ -15,6 +15,7 @@ import { Trash2 } from "lucide-react";
 import { Button } from "../ui/button";
 import { Spinner } from "../ui/spinner";
 import { useTranslations } from "next-intl";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 export default function DeleteBtn({
   onDelete,
@@ -33,18 +34,25 @@ export default function DeleteBtn({
 
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="ghost">
-          <Trash2 className="text-red-400" />
-        </Button>
-      </DialogTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <DialogTrigger asChild>
+            <Button variant="ghost">
+              <Trash2 className="text-destructive/70" />
+            </Button>
+          </DialogTrigger>
+        </TooltipTrigger>
+        <TooltipContent>{t("Delete")}</TooltipContent>
+      </Tooltip>
 
       <DialogContent className="sm:max-w-md">
         <DialogClose asChild>
           <Button className="hidden" ref={closeBtn}></Button>
         </DialogClose>
         <DialogHeader>
-          <DialogTitle className="text-red-600">{t("Delete")}</DialogTitle>
+          <DialogTitle className="text-destructive/70">
+            {t("Delete")}
+          </DialogTitle>
           <DialogDescription>{t("DeleteConfirmation")}</DialogDescription>
         </DialogHeader>
         <DialogFooter className="sm:justify-end">

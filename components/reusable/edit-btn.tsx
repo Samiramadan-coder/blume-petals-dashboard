@@ -1,10 +1,21 @@
+"use client";
+
 import { Pencil } from "lucide-react";
 import { Button } from "../ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { useTranslations } from "next-intl";
 
 export default function EditBtn(props: React.ComponentProps<typeof Button>) {
+  const t = useTranslations("Common");
+
   return (
-    <Button type="button" variant="ghost" {...props}>
-      <Pencil className="text-muted-foreground" />
-    </Button>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button type="button" variant="ghost" {...props}>
+          <Pencil className="text-muted-foreground" />
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>{t("Edit")}</TooltipContent>
+    </Tooltip>
   );
 }
