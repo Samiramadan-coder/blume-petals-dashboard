@@ -8,10 +8,10 @@ import { Switch } from "../ui/switch";
 import Statistics from "./statistics";
 import { Button } from "../ui/button";
 import { Spinner } from "../ui/spinner";
-import { Eye, Star } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { Checkbox } from "../ui/checkbox";
 import EditBtn from "../reusable/edit-btn";
+import { Images, Star } from "lucide-react";
 import { Pagination } from "@/types/shared";
 import { Occasion } from "@/types/occasions";
 import { Category } from "@/types/categories";
@@ -25,6 +25,7 @@ import { Product, Summary } from "@/types/products";
 import { useLocale, useTranslations } from "next-intl";
 import { usePermissions } from "@/providers/permission-providers";
 import { deleteProductAction, updateProductStatusAction } from "@/lib/products";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 export default function DataPreview({
   products,
@@ -190,16 +191,16 @@ export default function DataPreview({
                   />
                 )}
 
-                {type === "default" && (
-                  <Link
-                    href={`/products/${product.id}?type=${type}`}
-                    locale={locale}
-                  >
-                    <Button variant="ghost">
-                      <Eye className="size-4 text-muted-foreground" />
-                    </Button>
-                  </Link>
-                )}
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Link href={`/products/${product.id}`} locale={locale}>
+                      <Button variant="ghost">
+                        <Images className="size-4 text-muted-foreground" />
+                      </Button>
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent>{t("Labels.Gallery")}</TooltipContent>
+                </Tooltip>
 
                 {can("catalog.delete") && (
                   <DeleteBtn

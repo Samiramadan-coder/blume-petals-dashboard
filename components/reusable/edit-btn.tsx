@@ -11,7 +11,7 @@ export default function EditBtn(props: React.ComponentProps<typeof Button>) {
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <Button type="button" variant="ghost" {...props}>
+        <Button type="button" variant="ghost" className="px-0" {...props}>
           <Pencil className="text-muted-foreground" />
         </Button>
       </TooltipTrigger>

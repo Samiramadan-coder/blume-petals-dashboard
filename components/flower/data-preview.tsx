@@ -16,6 +16,10 @@ import ModuleHeader from "../reusable/module-header";
 import { deleteProductAction } from "@/lib/products";
 import { useLocale, useTranslations } from "next-intl";
 import { usePermissions } from "@/providers/permission-providers";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { Link } from "@/i18n/navigation";
+import { Button } from "../ui/button";
+import { Images } from "lucide-react";
 
 export default function DataPreview({
   flowers,
@@ -103,6 +107,17 @@ export default function DataPreview({
                     firstCategoryId={firstCategoryId}
                   />
                 )}
+
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Link href={`/products/${flower.id}`} locale={locale}>
+                      <Button variant="ghost">
+                        <Images className="size-4 text-muted-foreground" />
+                      </Button>
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent>{t("Gallery")}</TooltipContent>
+                </Tooltip>
 
                 {can("catalog.delete") && (
                   <DeleteBtn

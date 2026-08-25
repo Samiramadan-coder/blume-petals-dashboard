@@ -85,7 +85,7 @@ export default function DataPreview({
               <VisibilitySwitch city={city} />
             </TableCell>
 
-            <TableCell className="px-4 py-3">
+            <TableCell className="px-4 py-3 space-x-4">
               <CreateEdit
                 city={city}
                 trigger={<EditBtn />}

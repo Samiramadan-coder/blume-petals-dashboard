@@ -124,7 +124,7 @@ export default function DataPreview({
               <ActiveSwitch coupon={coupon} disabled={!can("coupons.edit")} />
             </TableCell>
 
-            <TableCell className="px-4 py-3">
+            <TableCell className="px-4 py-3 space-x-4">
               {can("coupons.edit") && (
                 <CreateEdit
                   coupon={coupon}

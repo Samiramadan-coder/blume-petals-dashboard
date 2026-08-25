@@ -68,7 +68,7 @@ export default function DataPreview({
         renderCells={(location) => (
           <>
             <TableCell className="px-4 py-3">
-              <p>{location.name[locale]}</p>
+              <p className="font-semibold">{location.name[locale]}</p>
             </TableCell>
 
             <TableCell className="px-4 py-3">
@@ -78,7 +78,9 @@ export default function DataPreview({
             </TableCell>
 
             <TableCell className="px-4 py-3">
-              <p>{location.ready_in_text[locale]}</p>
+              <p className="text-muted-foreground text-xs">
+                {location.ready_in_text[locale]}
+              </p>
             </TableCell>
 
             <TableCell className="px-4 py-3">
@@ -89,7 +91,7 @@ export default function DataPreview({
               <VisibilitySwitch location={location} />
             </TableCell>
 
-            <TableCell className="px-4 py-3">
+            <TableCell className="px-4 py-3 space-x-4">
               <CreateEdit
                 location={location}
                 trigger={<EditBtn />}

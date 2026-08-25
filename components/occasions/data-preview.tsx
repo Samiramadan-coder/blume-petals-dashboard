@@ -104,7 +104,7 @@ export default function DataPreview({
               </Badge>
             </TableCell>
 
-            <TableCell className="px-4 py-3">
+            <TableCell className="px-4 py-3 space-x-4">
               {can("catalog.edit") && (
                 <CreateEdit
                   occasion={occasion}

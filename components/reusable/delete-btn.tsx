@@ -37,7 +37,7 @@ export default function DeleteBtn({
       <Tooltip>
         <TooltipTrigger asChild>
           <DialogTrigger asChild>
-            <Button variant="ghost">
+            <Button variant="ghost" className="px-0">
               <Trash2 className="text-destructive/70" />
             </Button>
           </DialogTrigger>

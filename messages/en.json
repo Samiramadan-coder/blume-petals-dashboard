@@ -746,6 +746,7 @@
     "InStock": "In Stock",
     "OutOfStock": "Out of Stock",
     "NoFlowers": "No flowers available",
+    "Gallery": "Gallery",
     "Fields": {
       "Photo": {
         "Label": "Flower Photo",

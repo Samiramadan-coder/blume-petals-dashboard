@@ -29,7 +29,6 @@ import NormalFormRichText from "@/components/form/rich-text";
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import LocaleFormSwitcher from "../../reusable/locale-form-switcher";
 import { Product, ProductFormValues, productSchema } from "@/types/products";
-import SingleFormImageUploader from "@/components/form/single-image-uploader";
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../../ui/sheet";
 
 // CreateEdit component for adding or editing a product
@@ -188,24 +187,15 @@ export default function CreateEdit({
             }}
             className="space-y-6 relative"
           >
-            {type === "default" ? (
-              <ImageUploader
-                key={activeLocale}
-                control={control}
-                name="images"
-                label={tLive("Fields.Photo")}
-                required
-                buttonLabel={tLive("AddPhoto")}
-                errors={errors}
-              />
-            ) : (
-              <SingleFormImageUploader
-                control={control}
-                name="images.0"
-                required
-                label={tLive("Fields.Image")}
-              />
-            )}
+            <ImageUploader
+              key={activeLocale}
+              control={control}
+              name="images"
+              label={tLive("Fields.Photo")}
+              required
+              buttonLabel={tLive("AddPhoto")}
+              errors={errors}
+            />
 
             <SectionLabel>{tLive("Labels.BasicInformation")}</SectionLabel>
             {availableLocales.map((locale) => (
