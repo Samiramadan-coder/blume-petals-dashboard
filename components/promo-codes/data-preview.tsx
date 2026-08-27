@@ -23,6 +23,8 @@ import { TableCell, TableRow } from "../ui/table";
 import { columns } from "@/constants/promo-codes";
 import { DataTable } from "../reusable/data-table";
 import { usePermissions } from "@/providers/permission-providers";
+import { Button } from "../ui/button";
+import { Trash2 } from "lucide-react";
 
 export default function DataPreview({
   coupons,
@@ -44,7 +46,24 @@ export default function DataPreview({
       <FiltersControl />
 
       {can("coupons.create") && (
-        <div className="flex justify-end">
+        <div className="flex items-center justify-end gap-2">
+          {checkedIds.length ? (
+            <>
+              <span className="text-muted-foreground font-semibold text-xs">
+                {checkedIds.length} {tCommon("Selected")}
+              </span>
+              <DeleteBtn
+                trigger={
+                  <Button variant="outline" className="h-10 bg-white">
+                    <Trash2 className="text-destructive/70" />
+                    <span className="text-destructive">
+                      {tCommon("BulkDelete")}
+                    </span>
+                  </Button>
+                }
+              />
+            </>
+          ) : null}
           <CreateEdit categories={categories} />
         </div>
       )}
@@ -56,23 +75,29 @@ export default function DataPreview({
         pagination={pagination}
         isCheckbox={checkedIds.length === coupons.length}
         onCheckboxChange={(checked) =>
-          setCheckedIds(checked ? coupons.map((c) => c.id) : [])
+          can("coupons.delete")
+            ? setCheckedIds(checked ? coupons.map((c) => c.id) : [])
+            : undefined
         }
       >
         {coupons.map((coupon, index) => (
           <TableRow key={index}>
-            <TableCell className="px-4 py-3">
-              <Checkbox
-                checked={checkedIds.includes(coupon.id)}
-                onCheckedChange={(checked) => {
-                  if (checked) {
-                    setCheckedIds([...checkedIds, coupon.id]);
-                  } else {
-                    setCheckedIds(checkedIds.filter((id) => id !== coupon.id));
-                  }
-                }}
-              />
-            </TableCell>
+            {can("contact.delete") && (
+              <TableCell className="px-4 py-3">
+                <Checkbox
+                  checked={checkedIds.includes(coupon.id)}
+                  onCheckedChange={(checked) => {
+                    if (checked) {
+                      setCheckedIds([...checkedIds, coupon.id]);
+                    } else {
+                      setCheckedIds(
+                        checkedIds.filter((id) => id !== coupon.id),
+                      );
+                    }
+                  }}
+                />
+              </TableCell>
+            )}
 
             <TableCell className="px-4 py-3">
               <div>

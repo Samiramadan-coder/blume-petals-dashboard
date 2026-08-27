@@ -3,7 +3,7 @@
 import { toast } from "sonner";
 import { useState } from "react";
 import { Button } from "../ui/button";
-import { Images } from "lucide-react";
+import { Images, Trash2 } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { Checkbox } from "../ui/checkbox";
 import EditBtn from "../reusable/edit-btn";
@@ -40,7 +40,29 @@ export default function DataPreview({
   return (
     <>
       <ModuleHeader title={t("Title")} description={t("Description")}>
-        <CreateEdit firstCategoryId={firstCategoryId} />
+        {can("catalog.create") && (
+          <div className="flex items-center gap-2">
+            {checkedIds.length ? (
+              <>
+                <span className="text-muted-foreground font-semibold text-xs">
+                  {checkedIds.length} {tCommon("Selected")}
+                </span>
+                <DeleteBtn
+                  trigger={
+                    <Button variant="outline" className="h-10 bg-white">
+                      <Trash2 className="text-destructive/70" />
+                      <span className="text-destructive">
+                        {tCommon("BulkDelete")}
+                      </span>
+                    </Button>
+                  }
+                />
+              </>
+            ) : null}
+
+            <CreateEdit firstCategoryId={firstCategoryId} />
+          </div>
+        )}
       </ModuleHeader>
 
       <DataTable
@@ -50,9 +72,11 @@ export default function DataPreview({
         pagination={pagination}
         isCheckbox={checkedIds.length === templates.length}
         onCheckboxChange={(checked) =>
-          checked
-            ? setCheckedIds(templates.map((template) => template.id))
-            : setCheckedIds([])
+          can("catalog.delete")
+            ? checked
+              ? setCheckedIds(templates.map((template) => template.id))
+              : setCheckedIds([])
+            : undefined
         }
       >
         {templates.length === 0 ? (
@@ -66,20 +90,22 @@ export default function DataPreview({
         ) : (
           templates.map((template, index) => (
             <TableRow key={index}>
-              <TableCell className="px-4 py-3">
-                <Checkbox
-                  checked={checkedIds.includes(template.id)}
-                  onCheckedChange={(checked) => {
-                    if (checked) {
-                      setCheckedIds((prev) => [...prev, template.id]);
-                    } else {
-                      setCheckedIds((prev) =>
-                        prev.filter((id) => id !== template.id),
-                      );
-                    }
-                  }}
-                />
-              </TableCell>
+              {can("catalog.delete") && (
+                <TableCell className="px-4 py-3">
+                  <Checkbox
+                    checked={checkedIds.includes(template.id)}
+                    onCheckedChange={(checked) => {
+                      if (checked) {
+                        setCheckedIds((prev) => [...prev, template.id]);
+                      } else {
+                        setCheckedIds((prev) =>
+                          prev.filter((id) => id !== template.id),
+                        );
+                      }
+                    }}
+                  />
+                </TableCell>
+              )}
 
               <TableCell className="px-4 py-3">
                 <Image

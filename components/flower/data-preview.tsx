@@ -19,7 +19,7 @@ import { usePermissions } from "@/providers/permission-providers";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { Link } from "@/i18n/navigation";
 import { Button } from "../ui/button";
-import { Images } from "lucide-react";
+import { Images, Trash2 } from "lucide-react";
 import Image from "next/image";
 
 export default function DataPreview({
@@ -41,7 +41,29 @@ export default function DataPreview({
   return (
     <>
       <ModuleHeader title={t("Title")} description={t("Description")}>
-        <CreateEdit firstCategoryId={firstCategoryId} />
+        {can("catalog.create") && (
+          <div className="flex items-center gap-2">
+            {checkedIds.length ? (
+              <>
+                <span className="text-muted-foreground font-semibold text-xs">
+                  {checkedIds.length} {tCommon("Selected")}
+                </span>
+                <DeleteBtn
+                  trigger={
+                    <Button variant="outline" className="h-10 bg-white">
+                      <Trash2 className="text-destructive/70" />
+                      <span className="text-destructive">
+                        {tCommon("BulkDelete")}
+                      </span>
+                    </Button>
+                  }
+                />
+              </>
+            ) : null}
+
+            <CreateEdit firstCategoryId={firstCategoryId} />
+          </div>
+        )}
       </ModuleHeader>
 
       <DataTable
@@ -51,7 +73,9 @@ export default function DataPreview({
         pagination={pagination}
         isCheckbox={checkedIds.length === flowers.length}
         onCheckboxChange={(checked) =>
-          setCheckedIds(checked ? flowers.map((flower) => flower.id) : [])
+          can("catalog.delete")
+            ? setCheckedIds(checked ? flowers.map((flower) => flower.id) : [])
+            : undefined
         }
       >
         {flowers.length === 0 ? (
@@ -65,20 +89,22 @@ export default function DataPreview({
         ) : (
           flowers.map((flower, index) => (
             <TableRow key={index}>
-              <TableCell className="px-4 py-3">
-                <Checkbox
-                  checked={checkedIds.includes(flower.id)}
-                  onCheckedChange={(checked) => {
-                    if (checked) {
-                      setCheckedIds((prev) => [...prev, flower.id]);
-                    } else {
-                      setCheckedIds((prev) =>
-                        prev.filter((id) => id !== flower.id),
-                      );
-                    }
-                  }}
-                />
-              </TableCell>
+              {can("catalog.delete") && (
+                <TableCell className="px-4 py-3">
+                  <Checkbox
+                    checked={checkedIds.includes(flower.id)}
+                    onCheckedChange={(checked) => {
+                      if (checked) {
+                        setCheckedIds((prev) => [...prev, flower.id]);
+                      } else {
+                        setCheckedIds((prev) =>
+                          prev.filter((id) => id !== flower.id),
+                        );
+                      }
+                    }}
+                  />
+                </TableCell>
+              )}
 
               <TableCell className="px-4 py-3">
                 <Image

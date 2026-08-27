@@ -1,4 +1,5 @@
 import {
+  Box,
   Bell,
   Mail,
   Tags,
@@ -11,7 +12,6 @@ import {
   LayoutGrid,
   UsersRound,
   ShieldCheck,
-  FolderKanban,
   ShoppingCart,
   CalendarDays,
   MessageSquare,
@@ -46,7 +46,7 @@ export const navigation = (
     label: "sidebar.navigation.products",
     href: "/products",
     type: "link",
-    icon: createElement(FolderKanban, { className: "h-4 w-4" }),
+    icon: createElement(Box, { className: "h-4 w-4" }),
     enabled: permissions.includes("catalog.view"),
   },
   {
