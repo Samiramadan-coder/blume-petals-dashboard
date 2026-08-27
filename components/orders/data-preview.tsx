@@ -2,7 +2,6 @@
 
 import { Badge } from "../ui/badge";
 import Statistics from "./statistics";
-import { Checkbox } from "../ui/checkbox";
 import OrderDetails from "./order-details";
 import { Pagination } from "@/types/shared";
 import { useTranslations } from "next-intl";
@@ -36,15 +35,10 @@ export default function DataPreview({
         rowsCount={orders.length}
         countUnit={t("Label")}
         pagination={pagination}
-        onCheckboxChange={(checked) => console.log(checked)}
       >
         {orders.map((order, index) => {
           return (
             <TableRow key={index}>
-              <TableCell className="px-4 py-3">
-                <Checkbox />
-              </TableCell>
-
               <TableCell className="px-4 py-3">
                 <p className="font-bold">#{order.order_number}</p>
               </TableCell>

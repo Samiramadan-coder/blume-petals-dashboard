@@ -1,8 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { User } from "@/types/customers";
 import { formatDate } from "@/lib/utils";
-import { Checkbox } from "../ui/checkbox";
 import { useTranslations } from "next-intl";
 import { Pagination } from "@/types/shared";
 import FiltersControl from "./filters-control";
@@ -10,7 +10,6 @@ import { columns } from "@/constants/customers";
 import { TableCell, TableRow } from "../ui/table";
 import { DataTable } from "../reusable/data-table";
 import CellDataNotFound from "../reusable/cell-data-not-found";
-import Image from "next/image";
 
 export default function DataPreview({
   initialCustomers,
@@ -30,14 +29,9 @@ export default function DataPreview({
         rowsCount={initialCustomers.length}
         countUnit={t("Title")}
         pagination={pagination}
-        onCheckboxChange={(checked) => console.log(checked)}
       >
         {initialCustomers.map((customer, index) => (
           <TableRow key={index}>
-            <TableCell className="px-4 py-3">
-              <Checkbox />
-            </TableCell>
-
             <TableCell className="px-4 py-3">
               <div className="flex items-center gap-4">
                 {customer.photo_url ? (

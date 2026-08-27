@@ -11,7 +11,7 @@ import { Spinner } from "../ui/spinner";
 import { Link } from "@/i18n/navigation";
 import { Checkbox } from "../ui/checkbox";
 import EditBtn from "../reusable/edit-btn";
-import { Images, Star } from "lucide-react";
+import { Images, Star, Trash2 } from "lucide-react";
 import { Pagination } from "@/types/shared";
 import { Occasion } from "@/types/occasions";
 import { Category } from "@/types/categories";
@@ -24,8 +24,8 @@ import { DataTable } from "../reusable/data-table";
 import { Product, Summary } from "@/types/products";
 import { useLocale, useTranslations } from "next-intl";
 import { usePermissions } from "@/providers/permission-providers";
-import { deleteProductAction, updateProductStatusAction } from "@/lib/products";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { deleteProductAction, updateProductStatusAction } from "@/lib/products";
 import Image from "next/image";
 
 export default function DataPreview({
@@ -50,18 +50,39 @@ export default function DataPreview({
   const t = useTranslations("Products");
   const tCommon = useTranslations("Common");
   const [loadingDelete, setLoadingDelete] = useState(false);
+  const [checkedIds, setCheckedIds] = useState<number[]>([]);
 
   return (
     <>
       <header className="flex items-center justify-between flex-wrap gap-4">
         <FiltersControl categories={categories} />
         {can("catalog.create") && (
-          <CreateEdit
-            categories={categories}
-            occasions={occasions}
-            type={type}
-            flowers={flowers}
-          />
+          <div className="flex items-center gap-2">
+            {checkedIds.length ? (
+              <>
+                <span className="text-muted-foreground font-semibold text-xs">
+                  {checkedIds.length} {tCommon("Selected")}
+                </span>
+                <DeleteBtn
+                  trigger={
+                    <Button variant="outline" className="h-10 bg-white">
+                      <Trash2 className="text-destructive/70" />
+                      <span className="text-destructive">
+                        {tCommon("BulkDelete")}
+                      </span>
+                    </Button>
+                  }
+                />
+              </>
+            ) : null}
+
+            <CreateEdit
+              categories={categories}
+              occasions={occasions}
+              type={type}
+              flowers={flowers}
+            />
+          </div>
         )}
       </header>
 
@@ -72,7 +93,13 @@ export default function DataPreview({
         rowsCount={products.length}
         countUnit={t("Products")}
         pagination={pagination}
-        onCheckboxChange={(checked) => console.log(checked)}
+        isCheckbox={checkedIds.length === products.length}
+        onCheckboxChange={
+          can("catalog.delete")
+            ? (checked) =>
+                setCheckedIds(checked ? products.map((p) => p.id) : [])
+            : undefined
+        }
       >
         {products.length === 0 ? (
           <TableRow>
@@ -85,9 +112,22 @@ export default function DataPreview({
         ) : (
           products.map((product, index) => (
             <TableRow key={index}>
-              <TableCell className="px-4 py-3">
-                <Checkbox />
-              </TableCell>
+              {can("catalog.delete") && (
+                <TableCell className="px-4 py-3">
+                  <Checkbox
+                    checked={checkedIds.includes(product.id)}
+                    onCheckedChange={(checked) => {
+                      if (checked) {
+                        setCheckedIds((prev) => [...prev, product.id]);
+                      } else {
+                        setCheckedIds((prev) =>
+                          prev.filter((id) => id !== product.id),
+                        );
+                      }
+                    }}
+                  />
+                </TableCell>
+              )}
 
               <TableCell className="px-4 py-3">
                 <Image
@@ -141,7 +181,17 @@ export default function DataPreview({
               <TableCell className="px-4 py-3">
                 <div className="space-y-1.5">
                   {product.variants.map((variant) => (
-                    <div key={variant.id}>
+                    <div key={variant.id} className="space-x-1.5">
+                      <Badge
+                        className={cn(
+                          "font-semibold border",
+                          variant.in_stock
+                            ? "text-emerald-700 bg-emerald-50 border-emerald-200"
+                            : "text-destructive bg-destructive/10 border-destructive/50",
+                        )}
+                      >
+                        {variant.in_stock ? t("In") : t("Out")}
+                      </Badge>
                       <span className="text-xs">
                         <span className="text-muted-foreground">
                           {variant.size}:{" "}
@@ -149,16 +199,6 @@ export default function DataPreview({
                         <span className="font-semibold">
                           {variant.available_stock}{" "}
                         </span>
-                        <Badge
-                          className={cn(
-                            "font-semibold border",
-                            variant.in_stock
-                              ? "text-emerald-700 bg-emerald-50 border-emerald-200"
-                              : "text-destructive bg-destructive/10 border-destructive/50",
-                          )}
-                        >
-                          {variant.in_stock ? t("In") : t("Out")}
-                        </Badge>
                       </span>
                     </div>
                   ))}

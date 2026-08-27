@@ -35,6 +35,7 @@ export default function DataPreview({
   const t = useTranslations("CustomBuilder");
   const tCommon = useTranslations("Common");
   const [loadingDelete, setLoadingDelete] = useState(false);
+  const [checkedIds, setCheckedIds] = useState<number[]>([]);
 
   return (
     <>
@@ -47,7 +48,12 @@ export default function DataPreview({
         rowsCount={templates.length}
         countUnit={t("Templates")}
         pagination={pagination}
-        onCheckboxChange={(checked) => console.log(checked)}
+        isCheckbox={checkedIds.length === templates.length}
+        onCheckboxChange={(checked) =>
+          checked
+            ? setCheckedIds(templates.map((template) => template.id))
+            : setCheckedIds([])
+        }
       >
         {templates.length === 0 ? (
           <TableRow>
@@ -61,7 +67,18 @@ export default function DataPreview({
           templates.map((template, index) => (
             <TableRow key={index}>
               <TableCell className="px-4 py-3">
-                <Checkbox />
+                <Checkbox
+                  checked={checkedIds.includes(template.id)}
+                  onCheckedChange={(checked) => {
+                    if (checked) {
+                      setCheckedIds((prev) => [...prev, template.id]);
+                    } else {
+                      setCheckedIds((prev) =>
+                        prev.filter((id) => id !== template.id),
+                      );
+                    }
+                  }}
+                />
               </TableCell>
 
               <TableCell className="px-4 py-3">

@@ -36,6 +36,7 @@ export default function DataPreview({
   const t = useTranslations("Flower");
   const tCommon = useTranslations("Common");
   const [loadingDelete, setLoadingDelete] = useState(false);
+  const [checkedIds, setCheckedIds] = useState<number[]>([]);
 
   return (
     <>
@@ -48,7 +49,10 @@ export default function DataPreview({
         rowsCount={flowers.length}
         countUnit={t("Flowers")}
         pagination={pagination}
-        onCheckboxChange={(checked) => console.log(checked)}
+        isCheckbox={checkedIds.length === flowers.length}
+        onCheckboxChange={(checked) =>
+          setCheckedIds(checked ? flowers.map((flower) => flower.id) : [])
+        }
       >
         {flowers.length === 0 ? (
           <TableRow>
@@ -62,7 +66,18 @@ export default function DataPreview({
           flowers.map((flower, index) => (
             <TableRow key={index}>
               <TableCell className="px-4 py-3">
-                <Checkbox />
+                <Checkbox
+                  checked={checkedIds.includes(flower.id)}
+                  onCheckedChange={(checked) => {
+                    if (checked) {
+                      setCheckedIds((prev) => [...prev, flower.id]);
+                    } else {
+                      setCheckedIds((prev) =>
+                        prev.filter((id) => id !== flower.id),
+                      );
+                    }
+                  }}
+                />
               </TableCell>
 
               <TableCell className="px-4 py-3">

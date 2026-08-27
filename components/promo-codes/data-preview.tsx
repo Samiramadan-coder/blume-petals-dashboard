@@ -9,6 +9,7 @@ import { useState } from "react";
 import { Switch } from "../ui/switch";
 import CreateEdit from "./create-edit";
 import { Spinner } from "../ui/spinner";
+import { formatDate } from "@/lib/utils";
 import { Checkbox } from "../ui/checkbox";
 import EditBtn from "../reusable/edit-btn";
 import { Pagination } from "@/types/shared";
@@ -21,7 +22,6 @@ import LimitProgress from "../ui/limit-progress";
 import { TableCell, TableRow } from "../ui/table";
 import { columns } from "@/constants/promo-codes";
 import { DataTable } from "../reusable/data-table";
-import { formatDate } from "@/lib/utils";
 import { usePermissions } from "@/providers/permission-providers";
 
 export default function DataPreview({
@@ -37,6 +37,7 @@ export default function DataPreview({
   const t = useTranslations("PromoCodes");
   const tCommon = useTranslations("Common");
   const [loadingDelete, setLoadingDelete] = useState(false);
+  const [checkedIds, setCheckedIds] = useState<number[]>([]);
 
   return (
     <>
@@ -53,12 +54,24 @@ export default function DataPreview({
         rowsCount={coupons.length}
         countUnit={t("Title")}
         pagination={pagination}
-        onCheckboxChange={(checked) => console.log(checked)}
+        isCheckbox={checkedIds.length === coupons.length}
+        onCheckboxChange={(checked) =>
+          setCheckedIds(checked ? coupons.map((c) => c.id) : [])
+        }
       >
         {coupons.map((coupon, index) => (
           <TableRow key={index}>
             <TableCell className="px-4 py-3">
-              <Checkbox />
+              <Checkbox
+                checked={checkedIds.includes(coupon.id)}
+                onCheckedChange={(checked) => {
+                  if (checked) {
+                    setCheckedIds([...checkedIds, coupon.id]);
+                  } else {
+                    setCheckedIds(checkedIds.filter((id) => id !== coupon.id));
+                  }
+                }}
+              />
             </TableCell>
 
             <TableCell className="px-4 py-3">

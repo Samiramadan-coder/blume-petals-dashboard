@@ -39,7 +39,9 @@
     "AED": "AED",
     "ImageAddedSuccessfully": "Image added successfully",
     "ImageAddFailed": "Failed to add image. Please try again.",
-    "NotFound": "Not Found"
+    "NotFound": "Not Found",
+    "BulkDelete": "Bulk delete",
+    "Selected": "Selected"
   },
   "Auth": {
     "Login": {

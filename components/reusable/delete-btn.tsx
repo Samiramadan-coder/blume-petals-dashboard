@@ -20,9 +20,11 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 export default function DeleteBtn({
   onDelete,
   loading,
+  trigger,
 }: {
   loading?: boolean;
   onDelete?: () => Promise<void>;
+  trigger?: React.ReactNode;
 }) {
   const t = useTranslations("Common");
   const closeBtn = useRef<HTMLButtonElement>(null);
@@ -37,9 +39,13 @@ export default function DeleteBtn({
       <Tooltip>
         <TooltipTrigger asChild>
           <DialogTrigger asChild>
-            <Button variant="ghost" className="px-0">
-              <Trash2 className="text-destructive/70" />
-            </Button>
+            {trigger ? (
+              trigger
+            ) : (
+              <Button variant="ghost" className="px-0">
+                <Trash2 className="text-destructive/70" />
+              </Button>
+            )}
           </DialogTrigger>
         </TooltipTrigger>
         <TooltipContent>{t("Delete")}</TooltipContent>

@@ -24,6 +24,7 @@ interface DataTableProps {
   children: React.ReactNode;
   onCheckboxChange?: (checked: boolean) => void;
   pagination?: Pagination;
+  isCheckbox?: boolean;
 }
 
 export function DataTable({
@@ -33,6 +34,7 @@ export function DataTable({
   children,
   onCheckboxChange,
   pagination,
+  isCheckbox,
 }: DataTableProps) {
   const t = useTranslations("Common");
 
@@ -43,7 +45,10 @@ export function DataTable({
           <TableRow>
             {onCheckboxChange && (
               <TableHead className="w-8 px-3 py-4">
-                <Checkbox onCheckedChange={onCheckboxChange} />
+                <Checkbox
+                  onCheckedChange={onCheckboxChange}
+                  checked={isCheckbox}
+                />
               </TableHead>
             )}
 
