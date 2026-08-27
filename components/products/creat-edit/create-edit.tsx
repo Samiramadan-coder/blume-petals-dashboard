@@ -14,7 +14,7 @@ import AddButton from "../../form/add-button";
 import { Category } from "@/types/categories";
 import { Separator } from "../../ui/separator";
 import StatusSelector from "./status-selector";
-import NormalFormTagsInput from "../../form/tags";
+// import NormalFormTagsInput from "../../form/tags";
 import { postProductAction } from "@/lib/products";
 import SectionLabel from "../../form/section-label";
 import ImageUploader from "../../form/image-uploader";
@@ -269,14 +269,6 @@ export default function CreateEdit({
                 />
               </div>
             ))}
-
-            <NormalFormTagsInput
-              name="tags"
-              control={control}
-              label={tLive("Fields.Tags")}
-              placeholder={tLive("Placeholders.Tags")}
-              maxTags={10}
-            />
 
             {type === "default" && (
               <Occasions

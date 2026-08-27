@@ -65,7 +65,6 @@ export function getProductDefaultValues(
     eta_text: product?.eta_text || { en: "", ar: "" },
     category_id: product?.category_id || 0,
     occasion_ids: product?.occasion_ids || [],
-    tags: product?.tags || [],
     sku: product?.sku || "",
     status: product?.status || "published",
     is_purchasable: true,

@@ -82,16 +82,6 @@ export default function Variants({
             </div>
           )}
 
-          {/* <Input<TemplateFormValues>
-            label={tLive("Fields.ShapeName.Label")}
-            name={`variants.${index}.sku`}
-            type="text"
-            register={register}
-            placeholder={tLive("Fields.ShapeName.Placeholder")}
-            required
-            errors={errors}
-          /> */}
-
           <Input<TemplateFormValues>
             label={tLive("Fields.ShapePrice.Label")}
             name={`variants.${index}.price`}
