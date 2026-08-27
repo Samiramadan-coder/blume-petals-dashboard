@@ -21,6 +21,7 @@ import ModuleHeader from "../reusable/module-header";
 import { useLocale, useTranslations } from "next-intl";
 import { usePermissions } from "@/providers/permission-providers";
 import { ReorderableDataTable } from "../reusable/date-sortable-table";
+import Image from "next/image";
 
 export default function DataPreview({
   initialOccasions,
@@ -62,9 +63,13 @@ export default function DataPreview({
         renderCells={(occasion) => (
           <>
             <TableCell className="px-4 py-3">
-              <div className="w-10 h-10 font-semibold rounded-lg bg-primary/20 grid place-content-center uppercase">
-                {occasion.name_translations[locale].slice(0, 2)}
-              </div>
+              <Image
+                src={occasion.banner_url}
+                alt={occasion.name_translations[locale]}
+                width={40}
+                height={40}
+                className="rounded-lg"
+              />
             </TableCell>
             <TableCell className="px-4 py-3">
               <p className="font-semibold">

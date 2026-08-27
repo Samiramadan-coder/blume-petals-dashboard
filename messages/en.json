@@ -811,5 +811,53 @@
       "Balance": "Balance",
       "Note": "Note"
     }
+  },
+  "CustomBuilder": {
+    "Title": "Custom Builder",
+    "Description": "Build and manage your custom templates here.",
+    "Templates": "Templates",
+    "NoTemplates": "No templates available",
+    "Gallery": "Gallery",
+    "AddTemplate": "Add Template",
+    "EditTemplate": "Edit Template",
+    "AddTemplateDescription": "Use this form to create a new custom template.",
+    "Shapes": "Shapes",
+    "AddShape": "Shape",
+    "Table": {
+      "Name": "Name",
+      "Actions": "Actions",
+      "Photo": "Photo",
+      "ShapesCount": "Shapes Count"
+    },
+    "Fields": {
+      "Photo": {
+        "Label": "Template Photos",
+        "AddPhoto": "Add Photo",
+        "AtLeastOneImageIsRequired": "At least one image is required",
+        "ImageMaxSize": "Image must be less than 1MB"
+      },
+      "Name": {
+        "Label": "Template Name",
+        "Placeholder": "Enter template name",
+        "Required": "Template name is required",
+        "MinLength": "Template name must be at least 2 characters"
+      },
+      "SKU": {
+        "Label": "Template SKU",
+        "Placeholder": "Enter template SKU",
+        "Required": "Template SKU is required",
+        "MinLength": "Template SKU must be at least 2 characters"
+      },
+      "ShapePrice": {
+        "Label": "Price",
+        "Placeholder": "Enter shape price",
+        "Required": "Shape price is required"
+      },
+      "Tags": {
+        "Label": "Tags",
+        "Placeholder": "Enter tags",
+        "MaxTags": "You can add up to 10 tags"
+      }
+    }
   }
 }

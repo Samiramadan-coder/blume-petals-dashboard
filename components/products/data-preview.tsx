@@ -26,6 +26,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { usePermissions } from "@/providers/permission-providers";
 import { deleteProductAction, updateProductStatusAction } from "@/lib/products";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import Image from "next/image";
 
 export default function DataPreview({
   products,
@@ -89,9 +90,13 @@ export default function DataPreview({
               </TableCell>
 
               <TableCell className="px-4 py-3">
-                <div className="w-10 h-10 font-semibold rounded-lg bg-primary/20 grid place-content-center uppercase">
-                  {product.name[locale].slice(0, 2)}
-                </div>
+                <Image
+                  src={product.images[0].url}
+                  alt={product.name[locale]}
+                  width={40}
+                  height={40}
+                  className="rounded-lg"
+                />
               </TableCell>
 
               <TableCell className="px-4 py-3">

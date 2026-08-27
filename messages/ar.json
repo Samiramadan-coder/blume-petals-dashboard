@@ -805,5 +805,53 @@
       "Balance": "الرصيد",
       "Note": "ملاحظة"
     }
+  },
+  "CustomBuilder": {
+    "Title": "منشئ مخصص",
+    "Description": "قم بإنشاء وإدارة القوالب المخصصة الخاصة بك هنا.",
+    "Templates": "القوالب",
+    "NoTemplates": "لا توجد قوالب متاحة",
+    "Gallery": "المعرض",
+    "AddTemplate": "إضافة قالب",
+    "EditTemplate": "تحرير القالب",
+    "AddTemplateDescription": "استخدم هذا النموذج لإنشاء قالب مخصص جديد.",
+    "Shapes": "الأشكال",
+    "AddShape": "إضافة شكل",
+    "Table": {
+      "Name": "الاسم",
+      "Actions": "الإجراءات",
+      "Photo": "الصورة",
+      "ShapesCount": "عدد الأشكال"
+    },
+    "Fields": {
+      "Photo": {
+        "Label": "صور القالب",
+        "AddPhoto": "إضافة صورة",
+        "AtLeastOneImageIsRequired": "مطلوب صورة واحدة على الأقل"
+      },
+      "Name": {
+        "Label": "اسم القالب",
+        "Placeholder": "أدخل اسم القالب",
+        "Required": "اسم القالب مطلوب",
+        "MinLength": "يجب أن يكون اسم القالب مكونًا من حرفين على الأقل"
+      },
+      "SKU": {
+        "Label": "معرف القالب",
+        "Placeholder": "أدخل معرف القالب",
+        "Required": "معرف القالب مطلوب",
+        "MinLength": "يجب أن يكون معرف القالب مكونًا من حرفين على الأقل"
+      },
+      "ShapePrice": {
+        "Label": "سعر الشكل",
+        "Placeholder": "أدخل سعر الشكل",
+        "Required": "سعر الشكل مطلوب",
+        "MinLength": "يجب أن يكون سعر الشكل مكونًا من حرفين على الأقل"
+      },
+      "Tags": {
+        "Label": "العلامات",
+        "Placeholder": "أدخل العلامات",
+        "MaxTags": "يمكنك إضافة ما يصل إلى 10 علامات"
+      }
+    }
   }
 }

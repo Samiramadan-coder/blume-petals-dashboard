@@ -2,38 +2,37 @@
 
 import { toast } from "sonner";
 import { useState } from "react";
-import { Badge } from "../ui/badge";
-import CreateEdit from "./create-edit";
+import { Button } from "../ui/button";
+import { Images } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 import { Checkbox } from "../ui/checkbox";
-import { Product } from "@/types/products";
 import EditBtn from "../reusable/edit-btn";
+import { Product } from "@/types/products";
 import { Pagination } from "@/types/shared";
-import { columns } from "@/constants/flowers";
 import DeleteBtn from "../reusable/delete-btn";
 import { TableCell, TableRow } from "../ui/table";
+import CreateEdit from "./creat-edit/create-edit";
 import { DataTable } from "../reusable/data-table";
 import ModuleHeader from "../reusable/module-header";
+import { columns } from "@/constants/custom-builder";
 import { deleteProductAction } from "@/lib/products";
 import { useLocale, useTranslations } from "next-intl";
 import { usePermissions } from "@/providers/permission-providers";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import { Link } from "@/i18n/navigation";
-import { Button } from "../ui/button";
-import { Images } from "lucide-react";
 import Image from "next/image";
 
 export default function DataPreview({
-  flowers,
+  templates,
   pagination,
   firstCategoryId,
 }: {
-  flowers: Product[];
+  templates: Product[];
   pagination: Pagination;
   firstCategoryId: number;
 }) {
   const locale = useLocale();
   const { can } = usePermissions();
-  const t = useTranslations("Flower");
+  const t = useTranslations("CustomBuilder");
   const tCommon = useTranslations("Common");
   const [loadingDelete, setLoadingDelete] = useState(false);
 
@@ -45,21 +44,21 @@ export default function DataPreview({
 
       <DataTable
         columns={columns(t)}
-        rowsCount={flowers.length}
-        countUnit={t("Flowers")}
+        rowsCount={templates.length}
+        countUnit={t("Templates")}
         pagination={pagination}
         onCheckboxChange={(checked) => console.log(checked)}
       >
-        {flowers.length === 0 ? (
+        {templates.length === 0 ? (
           <TableRow>
             <TableCell colSpan={columns(t).length + 1} className="px-4 py-3">
               <p className="text-center text-sm text-muted-foreground">
-                {t("NoFlowers")}
+                {t("NoTemplates")}
               </p>
             </TableCell>
           </TableRow>
         ) : (
-          flowers.map((flower, index) => (
+          templates.map((template, index) => (
             <TableRow key={index}>
               <TableCell className="px-4 py-3">
                 <Checkbox />
@@ -67,8 +66,8 @@ export default function DataPreview({
 
               <TableCell className="px-4 py-3">
                 <Image
-                  src={flower.images[0].url}
-                  alt={flower.name[locale]}
+                  src={template.images[0].url}
+                  alt={template.name[locale]}
                   width={40}
                   height={40}
                   className="rounded-lg"
@@ -76,46 +75,25 @@ export default function DataPreview({
               </TableCell>
 
               <TableCell className="px-4 py-3">
-                <div>
-                  <p className="mb-1 font-semibold">{flower.name[locale]}</p>
-                  <span className="text-muted-foreground text-xs">
-                    {flower.sku}
-                  </span>
-                </div>
-              </TableCell>
-
-              <TableCell className="px-4 py-3 font-bold">
-                {flower.variants[0].available_stock}
-              </TableCell>
-
-              <TableCell className="px-4 py-3 text-muted-foreground text-xs">
-                {tCommon("AED")} {flower.price_from}
+                <p className="font-semibold">{template.name[locale]}</p>
               </TableCell>
 
               <TableCell className="px-4 py-3">
-                <Badge
-                  className={
-                    flower.variants[0].in_stock
-                      ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
-                      : "bg-destructive/10 text-destructive border border-destructive/50"
-                  }
-                >
-                  {flower.variants[0].in_stock ? t("InStock") : t("OutOfStock")}
-                </Badge>
+                <p className="font-semibold">{template.variants.length}</p>
               </TableCell>
 
-              <TableCell className="px-4 py-3">
+              <TableCell className="px-4 py-3 text-center">
                 {can("catalog.edit") && (
                   <CreateEdit
-                    flower={flower}
-                    trigger={<EditBtn />}
                     firstCategoryId={firstCategoryId}
+                    template={template}
+                    trigger={<EditBtn />}
                   />
                 )}
 
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Link href={`/products/${flower.id}`} locale={locale}>
+                    <Link href={`/products/${template.id}`} locale={locale}>
                       <Button variant="ghost">
                         <Images className="size-4 text-muted-foreground" />
                       </Button>
@@ -128,7 +106,7 @@ export default function DataPreview({
                   <DeleteBtn
                     onDelete={async () => {
                       setLoadingDelete(true);
-                      const result = await deleteProductAction(flower);
+                      const result = await deleteProductAction(template);
                       setLoadingDelete(false);
                       if (result.success) {
                         toast.success(tCommon("DeletedSuccessfully"));

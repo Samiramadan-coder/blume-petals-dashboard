@@ -21,6 +21,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { Category, CategoryType } from "@/types/categories";
 import { usePermissions } from "@/providers/permission-providers";
 import { ReorderableDataTable } from "../reusable/date-sortable-table";
+import Image from "next/image";
 
 export default function DataPreview({
   pagination,
@@ -72,9 +73,13 @@ export default function DataPreview({
         renderCells={(category) => (
           <>
             <TableCell className="px-4 py-2">
-              <div className="w-10 h-10 font-semibold rounded-lg bg-primary/20 grid place-content-center uppercase">
-                {category.name[locale].slice(0, 2)}
-              </div>
+              <Image
+                src={category.banner_url}
+                alt={category.name[locale]}
+                width={40}
+                height={40}
+                className="rounded-lg"
+              />
             </TableCell>
             <TableCell className="px-4 py-2">
               <p>{category.name[locale]}</p>

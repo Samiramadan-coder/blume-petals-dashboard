@@ -1,11 +1,6 @@
 "use server";
 
-import {
-  Product,
-  ProductFormValues,
-  Variant,
-  // VariantFormValues,
-} from "@/types/products";
+import { Product, ProductFormValues, Variant } from "@/types/products";
 import { updateTag } from "next/cache";
 import { http, ValidationError } from "@/lib/http";
 
@@ -216,7 +211,6 @@ export async function addVariantAction(
     );
 
     updateTag("products");
-    updateTag(`product-${productId}`);
     return { success: true };
   } catch (err) {
     console.error("Error adding variant:", err);
@@ -244,7 +238,6 @@ export async function deleteVariantAction(
     await http.delete(
       `/api/v1/admin/products/${productId}/variants/${variantId}`,
     );
-    // updateTag(`product-${productId}`);
     return { success: true };
   } catch (err) {
     console.error("Error deleting variant:", err);
