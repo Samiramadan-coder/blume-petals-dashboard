@@ -26,7 +26,12 @@ export const templateSchema = (t: T) =>
     status: z.string(),
     is_purchasable: z.boolean(),
     show_in_builder: z.boolean(),
-    tags: z.array(z.string()),
+    tags: z.array(
+      z
+        .string()
+        .min(1, t("Fields.Tags.Required"))
+        .regex(/^template:[^\s:]+$/, t("Fields.Tags.Format")),
+    ),
     sku: z
       .string()
       .min(1, t("Fields.SKU.Required"))

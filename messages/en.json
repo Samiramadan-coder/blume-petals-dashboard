@@ -856,9 +856,10 @@
         "Required": "Shape price is required"
       },
       "Tags": {
-        "Label": "Tags",
-        "Placeholder": "Enter tags",
-        "MaxTags": "You can add up to 10 tags"
+        "Label": "Tag",
+        "Placeholder": "e.g template:heart",
+        "Required": "Tag is Required",
+        "Format": "Template must be in the format template:string"
       }
     }
   }

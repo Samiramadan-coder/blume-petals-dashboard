@@ -15,7 +15,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { availableLocales } from "@/constants/shared";
 import { useLocale, useTranslations } from "next-intl";
 import { useFormLocale } from "@/hooks/use-form-locale";
-import NormalFormTagsInput from "@/components/form/tags";
 import { useEffect, useRef, type ReactNode } from "react";
 import { postTemplateAction } from "@/lib/custom-builder";
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
@@ -82,7 +81,18 @@ export default function CreateEdit({
   // Handle form submission for creating or updating a product
   // The onSubmit function sends the form data to the server and handles success or error responses
   const onSubmit: SubmitHandler<TemplateFormValues> = async (values) => {
-    const result = await postTemplateAction(values, template?.id);
+    const preparedValues = {
+      ...values,
+      variants: values.variants.map((v, index) => ({
+        ...v,
+        sku: values.tags[0] + "-" + index,
+      })),
+    };
+
+    // console.log(preparedValues);
+    // return;
+
+    const result = await postTemplateAction(preparedValues, template?.id);
 
     if (result.success) {
       toast.success(
@@ -205,12 +215,14 @@ export default function CreateEdit({
               required
             />
 
-            <NormalFormTagsInput
-              name="tags"
-              control={control}
+            <Input<TemplateFormValues>
               label={tLive("Fields.Tags.Label")}
-              placeholder={tLive("Fields.Tags.Label")}
-              maxTags={10}
+              name="tags.0"
+              type="text"
+              placeholder={tLive("Fields.Tags.Placeholder")}
+              register={register}
+              errors={errors}
+              required
             />
 
             <Separator className="bg-border" />

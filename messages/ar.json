@@ -850,9 +850,10 @@
         "MinLength": "يجب أن يكون سعر الشكل مكونًا من حرفين على الأقل"
       },
       "Tags": {
-        "Label": "العلامات",
-        "Placeholder": "أدخل العلامات",
-        "MaxTags": "يمكنك إضافة ما يصل إلى 10 علامات"
+        "Label": "العلامة",
+        "Placeholder": "مثال: template:heart",
+        "Required": "العلامة مطلوبة",
+        "Format": "يجب أن تكون العلامة بالصيغة template:string"
       }
     }
   }
