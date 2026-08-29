@@ -112,7 +112,7 @@ export default function DataPreview({
                   alt={flower.name[locale]}
                   width={40}
                   height={40}
-                  className="rounded-lg"
+                  className="rounded-lg max-h-10"
                 />
               </TableCell>
 

@@ -78,7 +78,7 @@ export default function DataPreview({
                 alt={category.name[locale]}
                 width={40}
                 height={40}
-                className="rounded-lg"
+                className="rounded-lg max-h-10"
               />
             </TableCell>
             <TableCell className="px-4 py-2">
