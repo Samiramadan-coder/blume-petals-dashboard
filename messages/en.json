@@ -825,6 +825,8 @@
     "AddTemplateDescription": "Use this form to create a new custom template.",
     "Shapes": "Shapes",
     "AddShape": "Shape",
+    "Stems": "Stems",
+    "Max": "Max",
     "Table": {
       "Name": "Name",
       "Actions": "Actions",
@@ -851,7 +853,7 @@
         "MinLength": "Template SKU must be at least 2 characters"
       },
       "ShapePrice": {
-        "Label": "Price",
+        "Label": "Price AED",
         "Placeholder": "Enter shape price",
         "Required": "Shape price is required"
       },

@@ -1,14 +1,15 @@
 "use client";
 
+import Image from "next/image";
 import { toast } from "sonner";
 import { useState } from "react";
 import { Button } from "../ui/button";
-import { Images, Trash2 } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { Checkbox } from "../ui/checkbox";
 import EditBtn from "../reusable/edit-btn";
 import { Product } from "@/types/products";
 import { Pagination } from "@/types/shared";
+import { Images, Trash2 } from "lucide-react";
 import DeleteBtn from "../reusable/delete-btn";
 import { TableCell, TableRow } from "../ui/table";
 import CreateEdit from "./creat-edit/create-edit";
@@ -19,7 +20,7 @@ import { deleteProductAction } from "@/lib/products";
 import { useLocale, useTranslations } from "next-intl";
 import { usePermissions } from "@/providers/permission-providers";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import Image from "next/image";
+import { Badge } from "../ui/badge";
 
 export default function DataPreview({
   templates,
@@ -122,7 +123,21 @@ export default function DataPreview({
               </TableCell>
 
               <TableCell className="px-4 py-3">
-                <p className="font-semibold">{template.variants.length}</p>
+                <div className="space-y-1">
+                  {template.variants.map((temp) => (
+                    <div key={temp.id} className="flex gap-2">
+                      <p className="font-normal text-muted-foreground text-xs">
+                        {temp.size}:
+                      </p>
+                      <div>
+                        <Badge className="text-xs text-primary bg-primary/10 border-primary/20">
+                          ({temp.min_stems} {t("Stems")} - {temp.max_stems}{" "}
+                          {t("Stems")} {t("Max")})
+                        </Badge>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </TableCell>
 
               <TableCell className="px-4 py-3 text-center">
