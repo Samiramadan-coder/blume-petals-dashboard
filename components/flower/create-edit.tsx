@@ -172,7 +172,6 @@ export default function CreateEdit({
             className="space-y-6 relative"
           >
             <NormalFormImageUploader
-              key={activeLocale}
               control={control}
               name="images"
               label={tLive("Fields.Photo.Label")}

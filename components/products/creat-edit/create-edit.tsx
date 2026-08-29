@@ -187,7 +187,6 @@ export default function CreateEdit({
             className="space-y-6 relative"
           >
             <ImageUploader
-              key={activeLocale}
               control={control}
               name="images"
               label={tLive("Fields.Photo")}
