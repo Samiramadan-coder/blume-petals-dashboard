@@ -46,7 +46,13 @@ export default function Variants({
           onClick={() => {
             const updatedVariants = [
               ...getValues(`variants`),
-              { sku: "", price: 0 },
+              {
+                sku: "",
+                price: 0,
+                size: "",
+                min_stems: 0,
+                max_stems: 0,
+              },
             ];
             setValue(`variants`, updatedVariants);
           }}
@@ -59,7 +65,7 @@ export default function Variants({
       {variants.map((variant, index) => (
         <div
           key={index}
-          className="grid grid-cols-1 gap-4 border border-border p-4 rounded-md"
+          className="grid grid-cols-1 sm:grid-cols-2 gap-4 border border-border p-4 rounded-md"
         >
           {index > 0 && (
             <div className="md:col-span-2 flex justify-end">
@@ -83,6 +89,16 @@ export default function Variants({
           )}
 
           <Input<TemplateFormValues>
+            register={register}
+            errors={errors}
+            name={`variants.${index}.size`}
+            label={tLive("Fields.Size.Label")}
+            type="text"
+            required
+            placeholder={tLive("Fields.Size.Placeholder")}
+          />
+
+          <Input<TemplateFormValues>
             label={tLive("Fields.ShapePrice.Label")}
             name={`variants.${index}.price`}
             type="number"
@@ -90,6 +106,26 @@ export default function Variants({
             errors={errors}
             required
             placeholder={tLive("Fields.ShapePrice.Placeholder")}
+          />
+
+          <Input<TemplateFormValues>
+            label={tLive("Fields.MinStems.Label")}
+            name={`variants.${index}.min_stems`}
+            type="number"
+            register={register}
+            errors={errors}
+            required
+            placeholder={tLive("Fields.MinStems.Placeholder")}
+          />
+
+          <Input<TemplateFormValues>
+            label={tLive("Fields.MaxStems.Label")}
+            name={`variants.${index}.max_stems`}
+            type="number"
+            register={register}
+            errors={errors}
+            required
+            placeholder={tLive("Fields.MaxStems.Placeholder")}
           />
         </div>
       ))}

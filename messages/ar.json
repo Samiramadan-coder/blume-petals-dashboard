@@ -829,7 +829,8 @@
       "Photo": {
         "Label": "صور القالب",
         "AddPhoto": "إضافة صورة",
-        "AtLeastOneImageIsRequired": "مطلوب صورة واحدة على الأقل"
+        "AtLeastOneImageIsRequired": "مطلوب صورة واحدة على الأقل",
+        "ImageMaxSize": "يجب ألا يتجاوز حجم الصورة الحد الأقصى المسموح به"
       },
       "Name": {
         "Label": "اسم القالب",
@@ -854,6 +855,21 @@
         "Placeholder": "مثال: template:heart",
         "Required": "العلامة مطلوبة",
         "Format": "يجب أن تكون العلامة بالصيغة template:string"
+      },
+      "MinStems": {
+        "Label": "الحد الأدنى من السيقان",
+        "Placeholder": "أدخل الحد الأدنى من السيقان",
+        "Required": "الحد الأدنى من السيقان مطلوب"
+      },
+      "MaxStems": {
+        "Label": "الحد الأقصى من السيقان",
+        "Placeholder": "أدخل الحد الأقصى من السيقان",
+        "Required": "الحد الأقصى من السيقان مطلوب"
+      },
+      "Size": {
+        "Label": "الحجم",
+        "Placeholder": "أدخل الحجم",
+        "Required": "الحجم مطلوب"
       }
     }
   }

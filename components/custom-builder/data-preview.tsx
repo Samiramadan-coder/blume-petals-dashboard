@@ -30,6 +30,7 @@ export default function DataPreview({
   pagination: Pagination;
   firstCategoryId: number;
 }) {
+  console.log(templates);
   const locale = useLocale();
   const { can } = usePermissions();
   const t = useTranslations("CustomBuilder");

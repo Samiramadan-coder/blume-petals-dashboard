@@ -41,6 +41,9 @@ export const templateSchema = (t: T) =>
         id: z.number().optional(),
         sku: z.string(),
         price: z.number().min(1, t("Fields.ShapePrice.Required")),
+        size: z.string().min(1, t("Fields.Size.Required")),
+        min_stems: z.number().min(1, t("Fields.MinStems.Required")),
+        max_stems: z.number().min(1, t("Fields.MaxStems.Required")),
       }),
     ),
     images: z

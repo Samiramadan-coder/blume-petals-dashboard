@@ -860,6 +860,21 @@
         "Placeholder": "e.g template:heart",
         "Required": "Tag is Required",
         "Format": "Template must be in the format template:string"
+      },
+      "MinStems": {
+        "Label": "Minimum Stems",
+        "Placeholder": "Enter minimum stems",
+        "Required": "Minimum stems is required"
+      },
+      "MaxStems": {
+        "Label": "Maximum Stems",
+        "Placeholder": "Enter maximum stems",
+        "Required": "Maximum stems is required"
+      },
+      "Size": {
+        "Label": "Size",
+        "Placeholder": "Enter size",
+        "Required": "Size is required"
       }
     }
   }

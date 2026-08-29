@@ -1,3 +1,5 @@
+"use server";
+
 import { Product } from "@/types/products";
 import { http, ValidationError } from "./http";
 import { updateTag } from "next/cache";

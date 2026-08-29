@@ -65,8 +65,19 @@ export default function CreateEdit({
             id: variant.id,
             sku: variant.sku || "",
             price: variant.price || 0,
+            size: variant.size || "",
+            min_stems: variant.min_stems || 0,
+            max_stems: variant.max_stems || 0,
           }))
-        : [{ sku: "", price: 0 }],
+        : [
+            {
+              sku: "",
+              price: 0,
+              size: "",
+              min_stems: 0,
+              max_stems: 0,
+            },
+          ],
     },
   });
 
@@ -180,7 +191,6 @@ export default function CreateEdit({
             className="space-y-6 relative"
           >
             <ImageUploader
-              key={activeLocale}
               control={control}
               name="images"
               label={tLive("Fields.Photo.Label")}

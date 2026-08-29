@@ -76,6 +76,8 @@ export type Variant = {
   is_on_sale?: boolean;
   in_stock?: boolean;
   available_stock?: number;
+  min_stems: number | null;
+  max_stems: number | null;
   recipe: {
     component_variant_id: number;
     qty: number;
