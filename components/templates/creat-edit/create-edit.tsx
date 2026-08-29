@@ -10,13 +10,13 @@ import { Button } from "../../ui/button";
 import { Product } from "@/types/products";
 import AddButton from "../../form/add-button";
 import { Separator } from "../../ui/separator";
+import { postTemplateAction } from "@/lib/templates";
 import ImageUploader from "../../form/image-uploader";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { availableLocales } from "@/constants/shared";
 import { useLocale, useTranslations } from "next-intl";
 import { useFormLocale } from "@/hooks/use-form-locale";
 import { useEffect, useRef, type ReactNode } from "react";
-import { postTemplateAction } from "@/lib/custom-builder";
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import LocaleFormSwitcher from "../../reusable/locale-form-switcher";
 import { TemplateFormValues, templateSchema } from "@/types/custom-builder";
@@ -99,9 +99,6 @@ export default function CreateEdit({
         sku: values.tags[0] + "-" + index,
       })),
     };
-
-    // console.log(preparedValues);
-    // return;
 
     const result = await postTemplateAction(preparedValues, template?.id);
 

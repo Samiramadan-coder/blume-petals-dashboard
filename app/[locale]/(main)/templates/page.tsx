@@ -5,7 +5,7 @@ import { Pagination } from "@/types/shared";
 import { Category } from "@/types/categories";
 import { Spinner } from "@/components/ui/spinner";
 import { getTranslations } from "next-intl/server";
-import DataPreview from "@/components/custom-builder/data-preview";
+import DataPreview from "@/components/templates/data-preview";
 
 type SearchParams = { page?: string };
 
@@ -48,6 +48,7 @@ async function ProductsPage({ searchParams }: { searchParams: SearchParams }) {
       per_page: 10,
       page: searchParams.page ?? 1,
       show_in_builder: 0,
+      template: 1,
     },
   });
 

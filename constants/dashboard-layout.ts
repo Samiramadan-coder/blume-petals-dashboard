@@ -65,7 +65,7 @@ export const navigation = (
   },
   {
     label: "sidebar.navigation.customBuilder",
-    href: "/custom-builder",
+    href: "/templates",
     type: "link",
     icon: createElement(SlidersVertical, { className: "h-4 w-4" }),
     enabled: permissions.includes("catalog.view"),
