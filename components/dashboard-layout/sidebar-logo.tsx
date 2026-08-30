@@ -13,7 +13,7 @@ export default function SidebarLogo() {
 
   return (
     <>
-      <div className="py-3 px-1 flex items-center gap-4">
+      <div className="py-3 px-4 flex items-center gap-4">
         <div className="bg-primary p-1 rounded-md">
           <svg
             xmlns="http://www.w3.org/2000/svg"

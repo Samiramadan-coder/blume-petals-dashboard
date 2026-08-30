@@ -58,7 +58,7 @@ export default async function MainLayout({
           className="border-e border-border z-50"
         >
           <SidebarContent className="bg-white">
-            <SidebarGroup className="p-0">
+            <SidebarGroup className="p-0 relative">
               <SidebarLogo />
               <SidebarMenu className="p-2">
                 {availabelNavigation.map((item) => (

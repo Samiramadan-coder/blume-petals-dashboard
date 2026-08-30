@@ -7,7 +7,7 @@ import {
   Store,
   Truck,
   Ticket,
-  UserCog,
+  // UserCog,
   Flower2,
   LayoutGrid,
   UsersRound,
@@ -169,11 +169,11 @@ export const navigation = (
     icon: createElement(ShieldCheck, { className: "h-4 w-4" }),
     enabled: permissions.includes("roles.view"),
   },
-  {
-    label: "sidebar.navigation.adminAccount",
-    href: "/admin-account",
-    type: "link",
-    icon: createElement(UserCog, { className: "h-4 w-4" }),
-    enabled: true,
-  },
+  // {
+  //   label: "sidebar.navigation.adminAccount",
+  //   href: "/admin-account",
+  //   type: "link",
+  //   icon: createElement(UserCog, { className: "h-4 w-4" }),
+  //   enabled: true,
+  // },
 ];
