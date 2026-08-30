@@ -177,3 +177,79 @@ export const navigation = (
   //   enabled: true,
   // },
 ];
+
+export const navigationLabels = () =>
+  [
+    {
+      label: "sidebar.navigation.dashboard",
+      href: "/",
+    },
+
+    {
+      label: "sidebar.navigation.products",
+      href: "/products",
+    },
+    {
+      label: "sidebar.navigation.categories",
+      href: "/categories",
+    },
+    {
+      label: "sidebar.navigation.flower",
+      href: "/flowers",
+    },
+    {
+      label: "sidebar.navigation.customBuilder",
+      href: "/templates",
+    },
+
+    {
+      label: "sidebar.navigation.orders",
+      href: "/orders",
+    },
+    {
+      label: "sidebar.navigation.customers",
+      href: "/customers",
+    },
+    {
+      label: "sidebar.navigation.reviews",
+      href: "/reviews",
+    },
+    {
+      label: "sidebar.navigation.reports",
+      href: "/reports",
+    },
+
+    {
+      label: "sidebar.navigation.promoCodes",
+      href: "/promo-codes",
+    },
+    {
+      label: "sidebar.navigation.occasionsCollections",
+      href: "/occasions",
+    },
+
+    {
+      label: "sidebar.navigation.countriesCities",
+      href: "/countries-cities",
+    },
+    {
+      label: "sidebar.navigation.storeSettings",
+      href: "/store-settings",
+    },
+    {
+      label: "sidebar.navigation.messages",
+      href: "/messages",
+    },
+    {
+      label: "sidebar.navigation.deliveryPickup",
+      href: "/delivery-pickup",
+    },
+    {
+      label: "sidebar.navigation.notifications",
+      href: "/notifications",
+    },
+    {
+      label: "sidebar.navigation.rolesAndPermissions",
+      href: "/roles-and-permissions",
+    },
+  ] as const;
