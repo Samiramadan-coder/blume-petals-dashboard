@@ -883,6 +883,10 @@
   "Dashboard": {
     "TodaysRevenue": "Today's Revenue",
     "VsYesterday": "vs yesterday",
-    "OrdersToday": "Orders Today"
+    "OrdersToday": "Orders Today",
+    "PendingOrders": "Pending Orders",
+    "NeedsAttention": "Needs attention",
+    "ActiveCustomDesign": "Active Custom Design",
+    "SavedNotPurchased": "Saved not purchased"
   }
 }

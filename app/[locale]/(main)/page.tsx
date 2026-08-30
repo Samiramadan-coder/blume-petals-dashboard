@@ -24,7 +24,7 @@ export default async function Home() {
   console.log(data.data.today);
 
   return (
-    <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
       <div>
         <TodaysRevenue today={data.data.today} />
       </div>
@@ -34,11 +34,11 @@ export default async function Home() {
       </div>
 
       <div>
-        <PendingOrders />
+        <PendingOrders today={data.data.today} />
       </div>
 
       <div>
-        <ActiveCustomDesign />
+        <ActiveCustomDesign today={data.data.today} />
       </div>
 
       <div className="md:col-span-2 lg:col-span-3">
