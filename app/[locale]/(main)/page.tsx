@@ -1,22 +1,36 @@
-import ActiveCustomDesign from "@/components/home/active-custom-design";
+import { http } from "@/lib/http";
+import { Today } from "@/types/dashboard";
 import LockStock from "@/components/home/lock-stock";
-import OrdersByChannel from "@/components/home/orders-by-channel";
 import OrdersToday from "@/components/home/orders-today";
-import PendingOrders from "@/components/home/pending-orders";
 import RecentOrders from "@/components/home/recent-orders";
-import RevenueThisMonth from "@/components/home/revenu-this-month";
+import PendingOrders from "@/components/home/pending-orders";
 import TodaysRevenue from "@/components/home/todays-revenue";
+import OrdersByChannel from "@/components/home/orders-by-channel";
+import RevenueThisMonth from "@/components/home/revenu-this-month";
+import ActiveCustomDesign from "@/components/home/active-custom-design";
 import TopCustomBuilderCombos from "@/components/home/top-custom-builder-combos";
 
 export default async function Home() {
+  const { data, ok } = await http.get<{
+    data: {
+      today: Today;
+    };
+  }>("api/v1/admin/dashboard?days=30");
+
+  if (!ok) {
+    throw new Error("Failed to fetch dashboard data");
+  }
+
+  console.log(data.data.today);
+
   return (
     <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       <div>
-        <TodaysRevenue />
+        <TodaysRevenue today={data.data.today} />
       </div>
 
       <div>
-        <OrdersToday />
+        <OrdersToday today={data.data.today} />
       </div>
 
       <div>

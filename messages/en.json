@@ -879,5 +879,10 @@
         "Required": "Size is required"
       }
     }
+  },
+  "Dashboard": {
+    "TodaysRevenue": "Today's Revenue",
+    "VsYesterday": "vs yesterday",
+    "OrdersToday": "Orders Today"
   }
 }
