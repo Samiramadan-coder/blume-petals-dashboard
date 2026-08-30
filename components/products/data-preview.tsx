@@ -102,7 +102,7 @@ export default function DataPreview({
         }
       >
         {products.length === 0 ? (
-          <TableRow>
+          <TableRow className="border-primary/20">
             <TableCell colSpan={columns(t).length + 1} className="px-4 py-3">
               <p className="text-center text-sm text-muted-foreground">
                 {t("NoProducts")}
@@ -111,7 +111,7 @@ export default function DataPreview({
           </TableRow>
         ) : (
           products.map((product, index) => (
-            <TableRow key={index}>
+            <TableRow key={index} className="border-primary/20">
               {can("catalog.delete") && (
                 <TableCell className="px-4 py-3">
                   <Checkbox

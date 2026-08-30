@@ -84,7 +84,9 @@ function SortableTableRow<T>({
         transform: CSS.Transform.toString(transform),
         transition,
       }}
-      className={cn(isDragging && "relative z-10 bg-muted opacity-80")}
+      className={cn(
+        isDragging && "relative z-10 bg-muted opacity-80 border-primary/20",
+      )}
     >
       <TableCell className="w-6 min-w-6 max-w-6 px-4 py-3">
         <Button
@@ -139,7 +141,7 @@ export function ReorderableDataTable<T>({
   return (
     <div
       className={cn(
-        "overflow-hidden rounded-lg border border-border",
+        "overflow-hidden rounded-lg border border-primary/20",
         className,
       )}
     >
@@ -151,7 +153,7 @@ export function ReorderableDataTable<T>({
       >
         <Table>
           <TableHeader>
-            <TableRow>
+            <TableRow className="border-primary/20">
               <TableHead className="w-10 px-4 py-3" />
 
               {columns.map((column) => (

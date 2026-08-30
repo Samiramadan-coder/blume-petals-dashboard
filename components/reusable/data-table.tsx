@@ -39,10 +39,10 @@ export function DataTable({
   const t = useTranslations("Common");
 
   return (
-    <div className="w-full min-w-0 border border-border rounded-lg overflow-hidden">
+    <div className="w-full min-w-0 border border-primary/20 rounded-lg overflow-hidden">
       <Table className="[&_thead_th:first-child]:w-8 [&_thead_th:first-child]:px-3 [&_tbody_td:first-child]:w-8 [&_tbody_td:first-child]:px-3">
         <TableHeader>
-          <TableRow>
+          <TableRow className="border-primary/20">
             {onCheckboxChange && (
               <TableHead className="w-8 px-3 py-4">
                 <Checkbox

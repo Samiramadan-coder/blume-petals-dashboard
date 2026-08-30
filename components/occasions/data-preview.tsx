@@ -104,7 +104,7 @@ export default function DataPreview({
             </TableCell>
 
             <TableCell className="px-4 py-3">
-              <Badge className="bg-secondary/20 text-secondary">
+              <Badge className="bg-secondary/10 text-secondary border border-secondary/50">
                 {occasion.is_visible ? tCommon("Visible") : tCommon("Hidden")}
               </Badge>
             </TableCell>

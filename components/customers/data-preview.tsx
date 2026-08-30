@@ -31,7 +31,7 @@ export default function DataPreview({
         pagination={pagination}
       >
         {initialCustomers.map((customer, index) => (
-          <TableRow key={index}>
+          <TableRow key={index} className="border-primary/20">
             <TableCell className="px-4 py-3">
               <div className="flex items-center gap-4">
                 {customer.photo_url ? (

@@ -38,7 +38,7 @@ export default function DataPreview({
       >
         {orders.map((order, index) => {
           return (
-            <TableRow key={index}>
+            <TableRow key={index} className="border-primary/20">
               <TableCell className="px-4 py-3">
                 <p className="font-bold">#{order.order_number}</p>
               </TableCell>

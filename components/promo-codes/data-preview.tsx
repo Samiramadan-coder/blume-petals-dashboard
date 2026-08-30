@@ -81,7 +81,7 @@ export default function DataPreview({
         }
       >
         {coupons.map((coupon, index) => (
-          <TableRow key={index}>
+          <TableRow key={index} className="border-primary/20">
             {can("contact.delete") && (
               <TableCell className="px-4 py-3">
                 <Checkbox

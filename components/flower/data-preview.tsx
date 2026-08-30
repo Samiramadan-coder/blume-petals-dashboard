@@ -86,7 +86,7 @@ export default function DataPreview({
           </TableRow>
         ) : (
           flowers.map((flower, index) => (
-            <TableRow key={index}>
+            <TableRow key={index} className="border-primary/20">
               {can("catalog.delete") && (
                 <TableCell className="px-4 py-3">
                   <Checkbox
