@@ -72,14 +72,12 @@ export default function SingleFormImageUploader<T extends FieldValues>({
                         alt="Selected image"
                         width={400}
                         height={400}
-                        className="h-35 w-full object-cover"
+                        className="h-35 w-full object-contain"
                       />
 
                       <Button
                         type="button"
-                        size="icon"
-                        variant="destructive"
-                        className="absolute inset-e-2 top-2 size-7"
+                        aria-label="Remove image"
                         onClick={() => {
                           field.onChange("");
 
@@ -87,8 +85,9 @@ export default function SingleFormImageUploader<T extends FieldValues>({
                             fileInputRef.current.value = "";
                           }
                         }}
+                        className="absolute inset-e-2 top-2 flex size-6 items-center justify-center rounded-full bg-destructive text-white shadow-sm transition hover:bg-destructive"
                       >
-                        <X className="size-4" />
+                        <X className="size-3.5" />
                       </Button>
                     </div>
                   ) : (

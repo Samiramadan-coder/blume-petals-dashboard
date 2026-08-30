@@ -33,8 +33,6 @@ export default async function Home() {
     throw new Error("Failed to fetch dashboard data");
   }
 
-  console.log(data.data);
-
   return (
     <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
       <div>

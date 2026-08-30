@@ -57,7 +57,7 @@ function ImagePreview({
       onDrop={onDrop}
       onDragEnd={onDragEnd}
       className={cn(
-        "relative overflow-hidden rounded-lg border border-border",
+        "relative overflow-hidden rounded-lg border border-border bg-white",
         isDragged && "opacity-60",
       )}
     >
@@ -67,14 +67,14 @@ function ImagePreview({
           alt={`Product Image ${index + 1}`}
           width={300}
           height={300}
-          className="h-24 w-full object-cover"
+          className="h-24 w-full object-contain"
         />
       ) : (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={imageUrl}
           alt={`Product Image ${index + 1}`}
-          className="h-24 w-full object-cover"
+          className="h-24 w-full object-contain"
         />
       )}
 
@@ -92,7 +92,7 @@ function ImagePreview({
           event.preventDefault();
           event.stopPropagation();
         }}
-        className="absolute inset-e-2 top-2 flex size-6 items-center justify-center rounded-full bg-background/90 text-destructive shadow-sm transition hover:text-destructive-foreground"
+        className="absolute inset-e-2 top-2 flex size-6 items-center justify-center rounded-full bg-destructive text-white shadow-sm transition hover:bg-destructive"
       >
         <X className="size-3.5" />
       </Button>

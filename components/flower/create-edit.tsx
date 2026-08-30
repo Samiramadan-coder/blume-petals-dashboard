@@ -16,9 +16,9 @@ import { useLocale, useTranslations } from "next-intl";
 import { useFormLocale } from "@/hooks/use-form-locale";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useEffect, useRef, type ReactNode } from "react";
-import NormalFormImageUploader from "../form/image-uploader";
 import { FlowerFormValues, flowerSchema } from "@/types/flower";
 import LocaleFormSwitcher from "../reusable/locale-form-switcher";
+import SingleFormImageUploader from "../form/single-image-uploader";
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../ui/sheet";
 
 export default function CreateEdit({
@@ -171,13 +171,11 @@ export default function CreateEdit({
             }}
             className="space-y-6 relative"
           >
-            <NormalFormImageUploader
+            <SingleFormImageUploader
               control={control}
-              name="images"
-              label={tLive("Fields.Photo.Label")}
+              name="images.0"
               required
-              buttonLabel={tLive("AddFlower")}
-              errors={errors}
+              label={tLive("Fields.Photo.Label")}
             />
 
             {availableLocales.map((locale) => (

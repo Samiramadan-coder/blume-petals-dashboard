@@ -1,8 +1,11 @@
 "use client";
 
 import { toast } from "sonner";
+import Image from "next/image";
 import { useState } from "react";
 import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
+import { Trash2 } from "lucide-react";
 import CreateEdit from "./create-edit";
 import { Checkbox } from "../ui/checkbox";
 import { Product } from "@/types/products";
@@ -16,11 +19,6 @@ import ModuleHeader from "../reusable/module-header";
 import { deleteProductAction } from "@/lib/products";
 import { useLocale, useTranslations } from "next-intl";
 import { usePermissions } from "@/providers/permission-providers";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import { Link } from "@/i18n/navigation";
-import { Button } from "../ui/button";
-import { Images, Trash2 } from "lucide-react";
-import Image from "next/image";
 
 export default function DataPreview({
   flowers,
@@ -145,7 +143,7 @@ export default function DataPreview({
                 </Badge>
               </TableCell>
 
-              <TableCell className="px-4 py-3">
+              <TableCell className="px-4 py-3 space-x-4">
                 {can("catalog.edit") && (
                   <CreateEdit
                     flower={flower}
@@ -153,17 +151,6 @@ export default function DataPreview({
                     firstCategoryId={firstCategoryId}
                   />
                 )}
-
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Link href={`/products/${flower.id}`} locale={locale}>
-                      <Button variant="ghost">
-                        <Images className="size-4 text-muted-foreground" />
-                      </Button>
-                    </Link>
-                  </TooltipTrigger>
-                  <TooltipContent>{t("Gallery")}</TooltipContent>
-                </Tooltip>
 
                 {can("catalog.delete") && (
                   <DeleteBtn

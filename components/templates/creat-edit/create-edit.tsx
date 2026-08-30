@@ -11,7 +11,6 @@ import { Product } from "@/types/products";
 import AddButton from "../../form/add-button";
 import { Separator } from "../../ui/separator";
 import { postTemplateAction } from "@/lib/templates";
-import ImageUploader from "../../form/image-uploader";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { availableLocales } from "@/constants/shared";
 import { useLocale, useTranslations } from "next-intl";
@@ -20,6 +19,7 @@ import { useEffect, useRef, type ReactNode } from "react";
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import LocaleFormSwitcher from "../../reusable/locale-form-switcher";
 import { TemplateFormValues, templateSchema } from "@/types/custom-builder";
+import SingleFormImageUploader from "@/components/form/single-image-uploader";
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../../ui/sheet";
 
 // CreateEdit component for adding or editing a product
@@ -187,13 +187,11 @@ export default function CreateEdit({
             }}
             className="space-y-6 relative"
           >
-            <ImageUploader
+            <SingleFormImageUploader
               control={control}
-              name="images"
-              label={tLive("Fields.Photo.Label")}
+              name="images.0"
               required
-              buttonLabel={tLive("Fields.Photo.AddPhoto")}
-              errors={errors}
+              label={tLive("Fields.Photo.Label")}
             />
 
             {availableLocales.map((locale) => (
