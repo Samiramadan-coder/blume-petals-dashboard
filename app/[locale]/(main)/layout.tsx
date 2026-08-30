@@ -14,6 +14,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { getLocale } from "next-intl/server";
 import { navigation } from "@/constants/dashboard-layout";
+import LogoutBtn from "@/components/dashboard-layout/logout-btn";
 import SidebarLogo from "@/components/dashboard-layout/sidebar-logo";
 import { PermissionsProvider } from "@/providers/permission-providers";
 import SidebarNavLink from "@/components/dashboard-layout/sidebar-nav-link";
@@ -45,6 +46,8 @@ export default async function MainLayout({
 
   const user = data.data;
 
+  console.log(user);
+
   const availabelNavigation = navigation(user.permissions).filter(
     (item) => item.enabled,
   );
@@ -55,12 +58,13 @@ export default async function MainLayout({
         <Sidebar
           side={locale === "ar" ? "right" : "left"}
           collapsible="icon"
-          className="border-e border-border z-50"
+          className="border-e border-primary/30 z-50"
         >
           <SidebarContent className="bg-white">
-            <SidebarGroup className="p-0 relative">
+            <SidebarGroup className="p-0 relative h-full">
               <SidebarLogo />
-              <SidebarMenu className="p-2">
+
+              <SidebarMenu className="p-2 max-h-[calc(100vh-123px)] overflow-auto">
                 {availabelNavigation.map((item) => (
                   <SidebarMenuItem key={item.label}>
                     {item.type === "link" ? (
@@ -71,6 +75,8 @@ export default async function MainLayout({
                   </SidebarMenuItem>
                 ))}
               </SidebarMenu>
+
+              <LogoutBtn user={user} />
             </SidebarGroup>
           </SidebarContent>
 

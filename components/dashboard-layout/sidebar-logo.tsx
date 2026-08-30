@@ -1,9 +1,8 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { useLocale, useTranslations } from "next-intl";
 import { useSidebar } from "../ui/sidebar";
-import { Separator } from "../ui/separator";
+import { useLocale, useTranslations } from "next-intl";
 
 export default function SidebarLogo() {
   const { state } = useSidebar();
@@ -12,8 +11,8 @@ export default function SidebarLogo() {
   const locale = useLocale();
 
   return (
-    <>
-      <div className="py-3 px-4 flex items-center gap-4">
+    <div className="sticky top-0 bg-white z-50 border-b border-primary/30 min-h-15">
+      <div className="py-3 px-4 flex items-center gap-4 h-full">
         <div className="bg-primary p-1 rounded-md">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -52,8 +51,6 @@ export default function SidebarLogo() {
           </p>
         </div>
       </div>
-
-      <Separator />
-    </>
+    </div>
   );
 }

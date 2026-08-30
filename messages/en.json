@@ -66,6 +66,7 @@
       "brandSubtitle": "Admin Panel",
       "toggleExpand": "Expand sidebar",
       "toggleCollapse": "Collapse sidebar",
+      "logout": "Logout",
       "navigation": {
         "overview": "Overview",
         "dashboard": "Dashboard",
