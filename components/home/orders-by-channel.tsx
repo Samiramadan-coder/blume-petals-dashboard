@@ -1,14 +1,16 @@
 "use client";
 
-import { Globe, Smartphone } from "lucide-react";
-import { Card, CardContent } from "../ui/card";
 import {
-  ResponsiveContainer,
-  PieChart,
   Pie,
   Sector,
+  PieChart,
+  ResponsiveContainer,
   PieSectorShapeProps,
 } from "recharts";
+import { Card, CardContent } from "../ui/card";
+import { Globe, Smartphone } from "lucide-react";
+import { OrdersByChannelType } from "@/types/dashboard";
+import { useTranslations } from "next-intl";
 
 type DonutChartItem = {
   label: string;
@@ -16,21 +18,6 @@ type DonutChartItem = {
   color: string;
   icon: React.ReactNode;
 };
-
-const data: DonutChartItem[] = [
-  {
-    label: "Mobile App",
-    value: 62,
-    color: "#cbb682",
-    icon: <Smartphone size={12} />,
-  },
-  {
-    label: "Website",
-    value: 38,
-    color: "#7f967b",
-    icon: <Globe size={12} />,
-  },
-];
 
 function DonutSlice(props: PieSectorShapeProps) {
   const item = props.payload as DonutChartItem;
@@ -40,16 +27,45 @@ function DonutSlice(props: PieSectorShapeProps) {
   );
 }
 
-export default function OrdersByChannel() {
+export default function OrdersByChannel({
+  ordersByChannel,
+}: {
+  ordersByChannel: OrdersByChannelType;
+}) {
+  const t = useTranslations("Dashboard");
+
+  const data: DonutChartItem[] = [
+    {
+      label: "Mobile App",
+      value: Number(
+        ordersByChannel.channels.find((c) => c.channel === "mobile_app")
+          ?.percent ?? 0,
+      ),
+      color: "#cbb682",
+      icon: <Smartphone size={12} />,
+    },
+    {
+      label: "Website",
+      value: Number(
+        ordersByChannel.channels.find((c) => c.channel === "website")
+          ?.percent ?? 0,
+      ),
+      color: "#7f967b",
+      icon: <Globe size={12} />,
+    },
+  ];
+
   return (
     <Card>
       <CardContent>
         <div>
           <p className="uppercase text-muted-foreground text-sm">
-            Orders by Channel
+            {t("OrdersByChannel")}
           </p>
-          <p className="font-semibold text-foreground">548</p>
-          <p className="text-xs text-muted-foreground">This month</p>
+          <p className="font-semibold text-foreground">
+            {ordersByChannel.total}
+          </p>
+          <p className="text-xs text-muted-foreground">{t("ThisMonth")}</p>
         </div>
 
         <div className="w-full h-45 mt-4">
