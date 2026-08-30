@@ -72,7 +72,7 @@ export default function DataPreview({
         }}
         renderCells={(category) => (
           <>
-            <TableCell className="px-4 py-2">
+            <TableCell className="px-4 py-3">
               <Image
                 src={category.banner_url}
                 alt={category.name[locale]}
@@ -81,14 +81,14 @@ export default function DataPreview({
                 className="rounded-lg max-h-10"
               />
             </TableCell>
-            <TableCell className="px-4 py-2">
+            <TableCell className="px-4 py-3">
               <p>{category.name[locale]}</p>
               <p className="text-muted-foreground text-xs mt-1">
                 /{category.slug}
               </p>
             </TableCell>
 
-            <TableCell className="px-4 py-2">
+            <TableCell className="px-4 py-3">
               <p className="font-semibold">
                 {category.products_count}{" "}
                 <span className="font-normal text-xs text-muted-foreground">
@@ -97,20 +97,20 @@ export default function DataPreview({
               </p>
             </TableCell>
 
-            <TableCell className="px-4 py-2">
+            <TableCell className="px-4 py-3">
               <VisibilitySwitch
                 category={category}
                 disabled={!can("catalog.edit")}
               />
             </TableCell>
 
-            <TableCell className="px-4 py-2">
+            <TableCell className="px-4 py-3">
               <Badge className="bg-secondary/20 text-secondary">
                 {category.is_visible ? tCommon("Visible") : tCommon("Hidden")}
               </Badge>
             </TableCell>
 
-            <TableCell className="px-4 py-2 space-x-4">
+            <TableCell className="px-4 py-3 space-x-4">
               {can("catalog.edit") && (
                 <CreateEdit
                   category={category}
