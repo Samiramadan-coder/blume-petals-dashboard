@@ -426,7 +426,8 @@
       "FulfillmentStatus": "Fulfillment Status",
       "Status": "Status",
       "OrderDate": "Order Date",
-      "Actions": "Actions"
+      "Actions": "Actions",
+      "Channel": "Channel"
     }
   },
   "PromoCodes": {
@@ -893,6 +894,12 @@
     "OrdersByChannel": "Orders by Channel",
     "ThisMonth": "This Month",
     "RecentOrders": "Recent Orders",
-    "ViewAll": "View All"
+    "ViewAll": "View All",
+    "TopCustomBuilderCombos": "Top Custom Builder Combos",
+    "MostPickedFlowerCombinations": "Most-picked flower combinations this month",
+    "Orders": "Orders",
+    "LowStockAlerts": "Low Stock Alerts",
+    "Items": "Items",
+    "Left": "Left"
   }
 }

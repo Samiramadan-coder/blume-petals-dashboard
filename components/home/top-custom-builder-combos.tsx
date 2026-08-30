@@ -1,53 +1,39 @@
 import { cn } from "@/lib/utils";
-import { Progress } from "../ui/progress";
+import { TopCombo } from "@/types/dashboard";
 import { Card, CardContent } from "../ui/card";
+import { getTranslations } from "next-intl/server";
 
-const orders = [
-  {
-    title: "Peony",
-    total: 40,
-    percent: 20,
-  },
-  {
-    title: "Lavender",
-    total: 30,
-    percent: 70,
-  },
-  {
-    title: "Baby's Breath",
-    total: 20,
-    percent: 35,
-  },
-  {
-    title: "Tulip (Pink)",
-    total: 15,
-    percent: 45,
-  },
-  {
-    title: "Gold Ribbon",
-    total: 10,
-    percent: 80,
-  },
-];
+export default async function TopCustomBuilderCombos({
+  topCombos,
+}: {
+  topCombos: TopCombo[];
+}) {
+  const t = await getTranslations("Dashboard");
 
-export default function TopCustomBuilderCombos() {
+  const flowers = topCombos.flatMap((combo) =>
+    combo.flowers.map((flower) => ({
+      ...flower,
+      orders: combo.orders,
+    })),
+  );
+
   return (
-    <Card className="p-0 h-full">
+    <Card className="p-0 h-full ring-0! border border-primary/30">
       <CardContent className="p-0">
         <div className="p-4 border-b border-border">
           <p className="text-sm font-semibold text-foreground">
-            Top Custom Builder Combos
+            {t("TopCustomBuilderCombos")}
           </p>
           <p className="text-xs text-muted-foreground">
-            Most-picked flower combinations this month
+            {t("MostPickedFlowerCombinations")}
           </p>
         </div>
 
-        {orders.map((order, index) => (
+        {flowers.map((flower, index) => (
           <div
             key={index}
             className={cn("p-4", {
-              "border-b border-border": index !== orders.length - 1,
+              "border-b border-border": index !== flowers.length - 1,
             })}
           >
             <div className="flex items-center justify-between mb-1">
@@ -55,15 +41,13 @@ export default function TopCustomBuilderCombos() {
                 <div className="w-5 h-5 text-xs grid place-content-center rounded-full bg-primary text-white">
                   {index + 1}
                 </div>
-                <p className="font-semibold">{order.title}</p>
+                <p className="font-semibold">{flower.name}</p>
               </div>
 
               <div className="text-xs text-muted-foreground">
-                {order.total} orders
+                {flower.orders} {t("Orders")}
               </div>
             </div>
-
-            <Progress value={order.percent} />
           </div>
         ))}
       </CardContent>

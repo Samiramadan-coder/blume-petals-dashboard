@@ -7,7 +7,7 @@ import { getTranslations } from "next-intl/server";
 export default async function OrdersToday({ today }: { today: Today }) {
   const t = await getTranslations("Dashboard");
   return (
-    <Card className="h-full">
+    <Card className="h-full ring-0! border border-primary/30">
       <CardContent>
         <header className="flex items-center justify-between gap-4">
           <div>

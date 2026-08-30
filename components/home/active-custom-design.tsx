@@ -8,7 +8,7 @@ export default async function ActiveCustomDesign({ today }: { today: Today }) {
   const t = await getTranslations("Dashboard");
 
   return (
-    <Card>
+    <Card className="ring-0! border border-primary/30">
       <CardContent>
         <header className="flex items-center justify-between gap-4">
           <div>

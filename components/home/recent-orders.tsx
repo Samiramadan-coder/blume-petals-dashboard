@@ -6,15 +6,15 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
+import { cn } from "@/lib/utils";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Link } from "@/i18n/navigation";
 import { Order } from "@/types/dashboard";
 import { Card, CardContent } from "../ui/card";
 import { getTranslations } from "next-intl/server";
-import { ArrowRight, TabletSmartphone, GlobeCheck } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { statusColorClasses } from "@/constants/orders";
+import { ArrowRight, TabletSmartphone, GlobeCheck } from "lucide-react";
 
 export default async function RecentOrders({
   recentOrders,
@@ -23,11 +23,12 @@ export default async function RecentOrders({
 }) {
   const t = await getTranslations("Dashboard");
   const tCommon = await getTranslations("Common");
+  const tOrders = await getTranslations("Orders");
 
   return (
-    <Card className="p-0 h-full">
+    <Card className="p-0 h-full ring-0! border border-primary/30">
       <CardContent className="p-0">
-        <div className="flex items-center justify-between gap-4 p-4 border-b border-border">
+        <div className="flex items-center justify-between gap-4 p-4 border-b border-primary/30">
           <p className="text-sm font-semibold text-foreground">
             {t("RecentOrders")}
           </p>
@@ -45,31 +46,31 @@ export default async function RecentOrders({
 
         <Table>
           <TableHeader>
-            <TableRow>
+            <TableRow className="border-primary/30">
               <TableHead className="ps-6 text-muted-foreground uppercase text-xs">
-                Order
+                {tOrders("Table.OrderID")}
               </TableHead>
               <TableHead className="text-muted-foreground uppercase text-xs">
-                Customer
+                {tOrders("Table.CustomerName")}
               </TableHead>
               <TableHead className="text-muted-foreground uppercase text-xs">
-                Items
+                {tOrders("Table.ItemsCount")}
               </TableHead>
               <TableHead className="text-muted-foreground uppercase text-xs">
-                Total
+                {tOrders("Table.TotalAmount")}
               </TableHead>
               <TableHead className="text-muted-foreground uppercase text-xs">
-                Status
+                {tOrders("Table.Status")}
               </TableHead>
               <TableHead className="text-muted-foreground uppercase text-xs">
-                CH
+                {tOrders("Table.Channel")}
               </TableHead>
             </TableRow>
           </TableHeader>
 
           <TableBody>
             {recentOrders.map((order, index) => (
-              <TableRow key={index}>
+              <TableRow key={index} className="border-primary/30">
                 <TableCell className="py-4 ps-6 text-xs">
                   {order.order_number}
                 </TableCell>

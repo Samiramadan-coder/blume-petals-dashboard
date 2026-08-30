@@ -41,3 +41,18 @@ export type Order = {
     qty: number;
   }[];
 };
+
+export type TopCombo = {
+  orders: number;
+  flowers: { name: string; variant_id: number }[];
+};
+
+export type LowStock = {
+  kind: string;
+  left: number;
+  name: string;
+  sku: string;
+  threshold: number;
+  variant: string;
+  variant_id: number;
+};

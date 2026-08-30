@@ -56,7 +56,7 @@ export default function OrdersByChannel({
   ];
 
   return (
-    <Card>
+    <Card className="ring-0! border border-primary/30">
       <CardContent>
         <div>
           <p className="uppercase text-muted-foreground text-sm">

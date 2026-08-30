@@ -9,7 +9,7 @@ export default async function TodaysRevenue({ today }: { today: Today }) {
   const tCommon = await getTranslations("Common");
 
   return (
-    <Card className="h-full">
+    <Card className="h-full ring-0! border border-primary/30">
       <CardContent>
         <header className="flex items-center justify-between gap-4">
           <div>

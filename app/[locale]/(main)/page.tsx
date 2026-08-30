@@ -1,11 +1,13 @@
-import { http } from "@/lib/http";
-import LockStock from "@/components/home/lock-stock";
 import {
   Order,
-  OrdersByChannelType,
-  RevenueSerie,
   Today,
+  LowStock,
+  TopCombo,
+  RevenueSerie,
+  OrdersByChannelType,
 } from "@/types/dashboard";
+import { http } from "@/lib/http";
+import LockStock from "@/components/home/lock-stock";
 import OrdersToday from "@/components/home/orders-today";
 import RecentOrders from "@/components/home/recent-orders";
 import PendingOrders from "@/components/home/pending-orders";
@@ -22,6 +24,8 @@ export default async function Home() {
       revenue_series: RevenueSerie[];
       orders_by_channel: OrdersByChannelType;
       recent_orders: Order[];
+      top_combos: TopCombo[];
+      low_stock: LowStock[];
     };
   }>("api/v1/admin/dashboard?days=30");
 
@@ -62,11 +66,11 @@ export default async function Home() {
       </div>
 
       <div className="md:col-span-2 lg:col-span-1">
-        <TopCustomBuilderCombos />
+        <TopCustomBuilderCombos topCombos={data.data.top_combos} />
       </div>
 
       <div className="md:col-span-2 lg:col-span-4">
-        <LockStock />
+        <LockStock lowStock={data.data.low_stock} />
       </div>
     </main>
   );

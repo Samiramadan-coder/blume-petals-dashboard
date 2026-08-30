@@ -423,7 +423,8 @@
       "FulfillmentStatus": "حالة التنفيذ",
       "Status": "الحالة",
       "OrderDate": "تاريخ الطلب",
-      "Actions": "الإجراءات"
+      "Actions": "الإجراءات",
+      "Channel": "القناة"
     }
   },
   "PromoCodes": {
@@ -874,5 +875,26 @@
         "Required": "الحجم مطلوب"
       }
     }
+  },
+  "Dashboard": {
+    "TodaysRevenue": "إيرادات اليوم",
+    "VsYesterday": "مقابل الأمس",
+    "OrdersToday": "الطلبات اليوم",
+    "PendingOrders": "الطلبات المعلقة",
+    "NeedsAttention": "تحتاج إلى اهتمام",
+    "ActiveCustomDesign": "تصميم مخصص نشط",
+    "SavedNotPurchased": "تم الحفظ ولم يتم الشراء",
+    "RevenueThisMonth": "إيرادات هذا الشهر",
+    "Last30Days": "آخر 30 يومًا",
+    "OrdersByChannel": "الطلبات حسب القناة",
+    "ThisMonth": "هذا الشهر",
+    "RecentOrders": "الطلبات الأخيرة",
+    "ViewAll": "عرض الكل",
+    "TopCustomBuilderCombos": "أفضل مجموعات منشئ القوالب المخصصة",
+    "MostPickedFlowerCombinations": "أكثر مجموعات الزهور اختيارًا هذا الشهر",
+    "Orders": "الطلبات",
+    "LowStockAlerts": "تنبيهات انخفاض المخزون",
+    "Items": "العناصر",
+    "Left": "المتبقي"
   }
 }

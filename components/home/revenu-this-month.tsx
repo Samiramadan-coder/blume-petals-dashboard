@@ -27,7 +27,7 @@ export default function RevenueThisMonth({
   );
 
   return (
-    <Card className="h-full">
+    <Card className="h-full ring-0! border border-primary/30">
       <CardContent>
         <div className="mb-4 flex items-start justify-between">
           <div>
