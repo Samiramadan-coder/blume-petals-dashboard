@@ -943,6 +943,13 @@
       "RevenueByEmirateDescription": "Delivery orders only — sorted by revenue",
       "Emirate": "Emirate",
       "Distribution": "Distribution"
+    },
+    "CustomerStats": {
+      "TotalCustomers": "Total Customers",
+      "NewCustomers": "New Customers",
+      "RetentionRate": "Repeat Purchase Rate",
+      "AvgLifetimeValue": "Avg. Lifetime Value",
+      "ThisPeriod": "this period"
     }
   }
 }

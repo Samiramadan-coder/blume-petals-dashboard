@@ -68,3 +68,22 @@ export type ByEmirate = {
   revenue: string;
   share_pct: string;
 };
+
+// Customer Stats Report
+export type CustomerTotalType = {
+  active_customers: number;
+  active_customers_change_pct: string | null;
+  active_customers_previous: number;
+  lifetime_value: string;
+  new_customers: number;
+  new_customers_change_pct: string | null;
+  new_customers_previous: number;
+  retention_pct: string;
+  retention_pct_previous: string;
+  returning_customers: number;
+  returning_customers_change_pct: string | null;
+  returning_customers_previous: number;
+  revenue: string;
+  revenue_change_pct: string | null;
+  revenue_previous: string;
+};

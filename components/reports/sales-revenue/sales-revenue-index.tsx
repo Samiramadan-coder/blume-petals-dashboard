@@ -33,8 +33,6 @@ export default async function SalesRevenueIndex() {
     throw new Error("Failed to fetch sales revenue data");
   }
 
-  console.log(data.data);
-
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
       <Totals totals={data.data.totals} />
