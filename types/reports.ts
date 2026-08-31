@@ -59,3 +59,12 @@ export type ByFulfillment = {
   share_pct: string;
   shipping: string;
 };
+
+export type ByEmirate = {
+  city_id: number;
+  name_en: string;
+  name_ar: string;
+  orders: number;
+  revenue: string;
+  share_pct: string;
+};

@@ -938,7 +938,11 @@
       "RevenueShare": "Revenue Share",
       "Delivery": "Delivery",
       "Pickup": "Pickup",
-      "Total": "Total"
+      "Total": "Total",
+      "RevenueByEmirate": "Revenue by Emirate",
+      "RevenueByEmirateDescription": "Delivery orders only — sorted by revenue",
+      "Emirate": "Emirate",
+      "Distribution": "Distribution"
     }
   }
 }

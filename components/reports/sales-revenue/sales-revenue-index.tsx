@@ -5,6 +5,7 @@ import {
   TopProduct,
   ByFulfillment,
   RevenueOverTimeSerie,
+  ByEmirate,
 } from "@/types/reports";
 import Totals from "./totals";
 import { http } from "@/lib/http";
@@ -13,6 +14,7 @@ import RevenueByChannel from "./revenue-by-channel";
 import RevenueByCategory from "./revenue-by-category";
 import RevenueTopProducts from "./revenue-top-products";
 import RevenueByDeliveryMethod from "./revenue-by-delivery-method";
+import RevenueByEmirate from "./revenue-by-emirate";
 
 export default async function SalesRevenueIndex() {
   const { data, ok } = await http.get<{
@@ -23,6 +25,7 @@ export default async function SalesRevenueIndex() {
       by_category: ByCategory[];
       top_products: TopProduct[];
       by_fulfillment: ByFulfillment[];
+      by_emirate: ByEmirate[];
     };
   }>("/api/v1/admin/reports/sales");
 
@@ -56,6 +59,10 @@ export default async function SalesRevenueIndex() {
         <RevenueByDeliveryMethod
           revenueByFulfillment={data.data.by_fulfillment}
         />
+      </div>
+
+      <div className="sm:col-span-2 md:col-span-4">
+        <RevenueByEmirate revenueByEmirate={data.data.by_emirate} />
       </div>
     </div>
   );
