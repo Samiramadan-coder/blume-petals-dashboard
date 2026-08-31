@@ -1,13 +1,15 @@
 import { http } from "@/lib/http";
-import { RevenueOverTimeSerie, TotalType } from "@/types/reports";
+import { ByChannel, RevenueOverTimeSerie, TotalType } from "@/types/reports";
 import Totals from "./totals";
 import RevenueOverTime from "./revenue-overtime";
+import RevenueByChannel from "./revenue-by-channel";
 
 export default async function SalesRevenueIndex() {
   const { data, ok } = await http.get<{
     data: {
       totals: TotalType;
       revenue_series: RevenueOverTimeSerie[];
+      by_channel: ByChannel[];
     };
   }>("/api/v1/admin/reports/sales");
 
@@ -23,6 +25,10 @@ export default async function SalesRevenueIndex() {
 
       <div className="sm:col-span-2 md:col-span-4">
         <RevenueOverTime revenueOverTime={data.data.revenue_series} />
+      </div>
+
+      <div className="sm:col-span-2">
+        <RevenueByChannel revenueByChannel={data.data.by_channel} />
       </div>
     </div>
   );

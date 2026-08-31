@@ -9,7 +9,6 @@ import {
   CartesianGrid,
   ResponsiveContainer,
 } from "recharts";
-import { Badge } from "@/components/ui/badge";
 import { useTranslations } from "next-intl";
 import { Card, CardContent } from "@/components/ui/card";
 import { RevenueOverTimeSerie } from "@/types/reports";

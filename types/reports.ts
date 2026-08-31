@@ -22,3 +22,10 @@ export type RevenueOverTimeSerie = {
   revenue: number;
   orders: number;
 };
+
+export type ByChannel = {
+  channel: "website" | "mobile_app";
+  orders: number;
+  revenue: string;
+  share_pct: string;
+};
