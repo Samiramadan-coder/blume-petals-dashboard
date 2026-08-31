@@ -4,6 +4,7 @@ import {
   Pie,
   Sector,
   PieChart,
+  Tooltip,
   ResponsiveContainer,
   PieSectorShapeProps,
 } from "recharts";
@@ -97,6 +98,56 @@ export default function RevenueByChannel({
                 stroke="#ffffff"
                 strokeWidth={3}
                 shape={DonutSlice}
+              />
+
+              <Tooltip
+                cursor={false}
+                content={({ active, payload }) => {
+                  if (!active || !payload?.length) {
+                    return null;
+                  }
+
+                  const item = payload[0].payload as DonutChartItem;
+
+                  return (
+                    <div className="min-w-40 rounded-lg border border-primary/20 bg-background p-3 shadow-md">
+                      <div className="mb-2 flex items-center gap-2">
+                        <span
+                          className="size-2.5 rounded-full"
+                          style={{
+                            backgroundColor: item.color,
+                          }}
+                        />
+
+                        <span className="text-sm font-semibold text-foreground">
+                          {item.label}
+                        </span>
+                      </div>
+
+                      <div className="space-y-1.5 text-xs">
+                        <div className="flex items-center justify-between gap-5">
+                          <span className="text-muted-foreground">
+                            {t("Revenue")}
+                          </span>
+
+                          <span className="font-medium text-foreground">
+                            {tCommon("AED")} {item.value.toLocaleString()}
+                          </span>
+                        </div>
+
+                        <div className="flex items-center justify-between gap-5">
+                          <span className="text-muted-foreground">
+                            {t("Share")}
+                          </span>
+
+                          <span className="font-medium text-foreground">
+                            {item.percent}%
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }}
               />
             </PieChart>
           </ResponsiveContainer>

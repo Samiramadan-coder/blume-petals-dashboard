@@ -916,7 +916,12 @@
       "RefundsCancellations": "Refunds / Cancellations",
       "Orders": "Orders",
       "RevenueOverTime": "Revenue Over Time",
-      "RevenueByChannel": "Revenue by Channel"
+      "RevenueByChannel": "Revenue by Channel",
+      "RevenueByCategory": "Revenue by Category",
+      "CategoriesCount": "{count} Categories",
+      "Revenue": "Revenue",
+      "Units": "Units",
+      "Share": "Share"
     }
   }
 }

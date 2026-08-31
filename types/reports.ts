@@ -29,3 +29,12 @@ export type ByChannel = {
   revenue: string;
   share_pct: string;
 };
+
+export type ByCategory = {
+  category: string;
+  orders: number;
+  revenue: string;
+  share_pct: string;
+  slug: string;
+  units: number;
+};
