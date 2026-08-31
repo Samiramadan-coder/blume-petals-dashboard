@@ -907,6 +907,14 @@
     "Sales": "Sales & Revenue",
     "Inventory": "Inventory & Stock",
     "Analytics": "Custom Builder Analytics",
-    "Customers": "Customers"
+    "Customers": "Customers",
+    "SalesRevenue": {
+      "TotalRevenue": "Total Revenue",
+      "VsPrevPeriod": "vs Previous Period",
+      "TotalOrders": "Total Orders",
+      "AvgOrderValue": "Avg. Order Value",
+      "RefundsCancellations": "Refunds / Cancellations",
+      "Orders": "Orders"
+    }
   }
 }
