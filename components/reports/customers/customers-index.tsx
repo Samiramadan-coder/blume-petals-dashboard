@@ -5,12 +5,14 @@ import {
   NewVsReturningItem,
   CustomerByEmirateType,
   TopCustomer,
+  CustomerByChannel,
 } from "@/types/reports";
 import CustomerTotals from "./customer-totals";
 import CustomerGrowth from "./customer-growth";
 import NewVsReturningCustomers from "./customer-new-vs-returning";
 import CustomersByEmirate from "./customers-by-emirate";
 import TopCustomers from "./top-customers";
+import NewCustomerAcquisitionChannel from "./new-customers-aquasitions-channel";
 
 export default async function CustomersIndex() {
   const { data, ok } = await http.get<{
@@ -20,6 +22,7 @@ export default async function CustomersIndex() {
       new_vs_returning: NewVsReturningItem[];
       by_emirate: CustomerByEmirateType[];
       top: TopCustomer[];
+      by_channel: CustomerByChannel[];
     };
   }>("/api/v1/admin/reports/customers");
 
@@ -44,8 +47,12 @@ export default async function CustomersIndex() {
         <CustomersByEmirate customersByEmirate={data.data.by_emirate} />
       </div>
 
-      <div className="sm:col-span-2 md:col-span-4">
+      <div className="sm:col-span-2">
         <TopCustomers customers={data.data.top} />
+      </div>
+
+      <div className="sm:col-span-2">
+        <NewCustomerAcquisitionChannel byChannel={data.data.by_channel} />
       </div>
     </div>
   );

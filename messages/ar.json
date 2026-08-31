@@ -951,7 +951,19 @@
       "Customers": "العملاء",
       "Orders": "الطلبات",
       "Revenue": "الإيرادات",
-      "Share": "الحصة"
+      "Share": "الحصة",
+      "CustomersByEmirate": "العملاء حسب الإمارة",
+      "TopCustomers": "أفضل 10 عملاء",
+      "ByTotalSpent": "حسب إجمالي الإنفاق",
+      "ByTotalOrders": "حسب إجمالي الطلبات",
+      "Rank": "الترتيب",
+      "Name": "الاسم",
+      "TotalSpent": "إجمالي الإنفاق",
+      "LastOrder": "آخر طلب",
+      "NewCustomerAcquisitionChannel": "قناة اكتساب العملاء الجدد",
+      "MobileApp": "تطبيق الجوال",
+      "Website": "الموقع الإلكتروني",
+      "CustomersCount": "{count, plural, one {# عميل} other {# عملاء}"
     }
   }
 }

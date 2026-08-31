@@ -119,3 +119,9 @@ export type TopCustomer = {
   lifetime_spent: string;
   last_order_at: string | null;
 };
+
+export type CustomerByChannel = {
+  channel: "website" | "mobile_app";
+  customers: number;
+  share_pct: string;
+};

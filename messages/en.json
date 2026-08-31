@@ -956,15 +956,19 @@
       "Orders": "Orders",
       "Revenue": "Revenue",
       "CustomersByEmirate": "Customers by Emirate",
-      "Customers": "Customers",
-      "Share": "Share",
       "TopCustomers": "Top 10 Customers",
       "ByTotalSpent": "By Total Spent",
       "ByTotalOrders": "By Total Orders",
       "Rank": "Rank",
       "Name": "Name",
       "TotalSpent": "Total Spent",
-      "LastOrder": "Last Order"
+      "LastOrder": "Last Order",
+      "NewCustomerAcquisitionChannel": "New Customer Acquisition Channel",
+      "MobileApp": "Mobile App",
+      "Website": "Website",
+      "Customers": "Customers",
+      "Share": "Share",
+      "CustomersCount": "{count, plural, one {# customer} other {# customers}}"
     }
   }
 }
