@@ -100,3 +100,22 @@ export type NewVsReturningItem = {
   revenue: string;
   share_pct: string;
 };
+
+export type CustomerByEmirateType = {
+  city_id: number;
+  customers: number;
+  name_ar: string;
+  name_en: string;
+  share_pct: string;
+};
+
+export type TopCustomer = {
+  user_id: number;
+  name: string;
+  email: string;
+  orders: number;
+  spent: string;
+  lifetime_orders: number;
+  lifetime_spent: string;
+  last_order_at: string | null;
+};

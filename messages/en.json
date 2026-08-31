@@ -953,10 +953,18 @@
       "NewVsReturningCustomers": "New vs Returning Customers",
       "NewCustomers": "New Customers",
       "ReturningCustomers": "Returning Customers",
-      "Customers": "Customers",
       "Orders": "Orders",
       "Revenue": "Revenue",
-      "Share": "Share"
+      "CustomersByEmirate": "Customers by Emirate",
+      "Customers": "Customers",
+      "Share": "Share",
+      "TopCustomers": "Top 10 Customers",
+      "ByTotalSpent": "By Total Spent",
+      "ByTotalOrders": "By Total Orders",
+      "Rank": "Rank",
+      "Name": "Name",
+      "TotalSpent": "Total Spent",
+      "LastOrder": "Last Order"
     }
   }
 }
