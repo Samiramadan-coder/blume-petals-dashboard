@@ -143,3 +143,66 @@ export type Funnel = {
   purchased_change_pct: string | null;
   purchased_previous: number;
 };
+
+export type TemplateItem = {
+  variant_id: number;
+  sku: string;
+  slug: string;
+  name_en: string;
+  name_ar: string;
+  size: string;
+  designs: number;
+  share_pct: string;
+};
+
+export type SizeItem = {
+  size: string;
+  designs: number;
+  share_pct: string;
+};
+
+export type FlowerItem = {
+  variant_id: number;
+  sku: string;
+  name_en: string;
+  name_ar: string;
+  color_slug: string | null;
+  size: string | null;
+  available: number;
+  units: number;
+  share_pct: string;
+  label: string;
+};
+
+export type ColorItem = {
+  color: string | null;
+  stems: number;
+  share_pct: string;
+};
+
+export type AddonsData = {
+  attach_pct: number | string;
+  orders: number;
+  revenue: string;
+  with_addon: number;
+};
+
+export type UnconvertedData = {
+  designs: number;
+  potential_value: string;
+  unbuildable: number;
+};
+
+export type GiftOptionMetric = {
+  attach_pct: string;
+  lines: number;
+  revenue: string;
+};
+
+export type GiftOptionsData = {
+  breakdown: unknown[];
+  card_style: GiftOptionMetric;
+  ribbon: GiftOptionMetric;
+  lines: number;
+  revenue_total: string;
+};

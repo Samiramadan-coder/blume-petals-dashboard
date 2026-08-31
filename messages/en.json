@@ -980,7 +980,32 @@
       "BuildToPurchaseConversion": "Build to purchase conversion",
       "Target": "Target",
       "DroppedBuilds": "Dropped Builds",
-      "BuildsNotPurchased": "Builds not purchased"
+      "BuildsNotPurchased": "Builds not purchased",
+      "MostChosenTemplate": "Most Chosen Template",
+      "MostChosenSize": "Most Chosen Size",
+      "Top": "top",
+      "MostChosenFlowers": "Most Chosen Flowers",
+      "MostChosenColors": "Most Chosen Colors",
+      "UnspecifiedColor": "Unspecified",
+      "AddonsPerformance": "Add-ons Performance",
+      "AddonAttachRate": "Add-on attach rate",
+      "Orders": "Orders",
+      "WithAddon": "With Add-on",
+      "AddonRevenue": "Add-on Revenue",
+      "OrdersWithAddon": "orders included an add-on",
+      "Of": "of",
+      "UnconvertedDesigns": "Unconverted Designs",
+      "DesignsNotConverted": "Designs not converted to purchase",
+      "PotentialValue": "Potential Value",
+      "UnbuildableDesigns": "Unbuildable Designs",
+      "GiftOptionsPerformance": "Gift Options Performance",
+      "GiftOptionLines": "Gift option lines",
+      "TotalRevenue": "Total Revenue",
+      "CardStyle": "Card Style",
+      "Ribbon": "Ribbon",
+      "Lines": "lines",
+      "AttachRate": "attach rate",
+      "Revenue": "Revenue"
     }
   }
 }
