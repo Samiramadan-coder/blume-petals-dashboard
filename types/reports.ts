@@ -125,3 +125,21 @@ export type CustomerByChannel = {
   customers: number;
   share_pct: string;
 };
+
+// Custom Builder Analytics Report
+export type Funnel = {
+  built: number;
+  built_change_pct: string | null;
+  built_previous: number;
+  conversion_pct: string;
+  conversion_pct_previous: string;
+  dropped: number;
+  dropped_change_pct: string | null;
+  dropped_previous: number;
+  in_cart: number;
+  in_cart_change_pct: string | null;
+  in_cart_previous: number;
+  purchased: number;
+  purchased_change_pct: string | null;
+  purchased_previous: number;
+};

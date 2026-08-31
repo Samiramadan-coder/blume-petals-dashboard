@@ -969,6 +969,18 @@
       "Customers": "Customers",
       "Share": "Share",
       "CustomersCount": "{count, plural, one {# customer} other {# customers}}"
+    },
+    "CustomBuilderAnalytics": {
+      "CustomBuildsStarted": "Custom Builds Started",
+      "BuilderSessionsInitiated": "Builder sessions initiated",
+      "CustomBuildsPurchased": "Custom Builds Purchased",
+      "CompletedPurchase": "Completed purchase",
+      "OfSessions": "of sessions",
+      "ConversionRate": "Conversion Rate",
+      "BuildToPurchaseConversion": "Build to purchase conversion",
+      "Target": "Target",
+      "DroppedBuilds": "Dropped Builds",
+      "BuildsNotPurchased": "Builds not purchased"
     }
   }
 }
