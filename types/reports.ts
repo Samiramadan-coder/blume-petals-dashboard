@@ -69,6 +69,67 @@ export type ByEmirate = {
   share_pct: string;
 };
 
+// Inventory Stock Report
+export type InventoryTotals = {
+  low_stock: number;
+  out_of_stock: number;
+  skus: number;
+  stock_value: string;
+  units: number;
+};
+
+export type StockLevel = {
+  variant_id: number;
+  sku: string;
+  slug: string;
+  name_en: string;
+  name_ar: string;
+  kind: string;
+  color_slug: string | null;
+  size: string | null;
+  price: string;
+  stock: number;
+  reserved: number;
+  available: number;
+  threshold: number;
+  status: string;
+  value: string;
+};
+
+export type BuilderFlower = {
+  available: number;
+  color_slug: string | null;
+  label: string;
+  name_ar: string;
+  name_en: string;
+  share_pct: string;
+  size: string | null;
+  sku: string;
+  units: number;
+  variant_id: number;
+};
+
+export type BuilderUsage = {
+  flowers: BuilderFlower[];
+  total_stems: number;
+  unknown: {
+    variants: number;
+    units: number;
+  };
+};
+
+export type FastestMovingItem = {
+  variant_id: number;
+  sku: string;
+  name_en: string;
+  name_ar: string;
+  label: string;
+  color_slug: string | null;
+  size: string | null;
+  units: number;
+  available: number;
+};
+
 // Customer Stats Report
 export type CustomerTotalType = {
   active_customers: number;
