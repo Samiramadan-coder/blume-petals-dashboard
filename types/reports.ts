@@ -87,3 +87,16 @@ export type CustomerTotalType = {
   revenue_change_pct: string | null;
   revenue_previous: string;
 };
+
+export type CustomerGrowthSerie = {
+  date: string;
+  new_customers: number;
+};
+
+export type NewVsReturningItem = {
+  group: "new" | "returning";
+  customers: number;
+  orders: number;
+  revenue: string;
+  share_pct: string;
+};
