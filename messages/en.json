@@ -914,7 +914,8 @@
       "TotalOrders": "Total Orders",
       "AvgOrderValue": "Avg. Order Value",
       "RefundsCancellations": "Refunds / Cancellations",
-      "Orders": "Orders"
+      "Orders": "Orders",
+      "RevenueOverTime": "Revenue Over Time"
     }
   }
 }

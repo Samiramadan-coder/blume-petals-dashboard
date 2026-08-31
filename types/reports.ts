@@ -16,3 +16,9 @@ export type TotalType = {
   revenue_change_pct: string | null;
   revenue_previous: string;
 };
+
+export type RevenueOverTimeSerie = {
+  date: string;
+  revenue: number;
+  orders: number;
+};
