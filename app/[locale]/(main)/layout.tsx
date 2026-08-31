@@ -46,8 +46,6 @@ export default async function MainLayout({
 
   const user = data.data;
 
-  console.log(user);
-
   const availabelNavigation = navigation(user.permissions).filter(
     (item) => item.enabled,
   );

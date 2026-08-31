@@ -902,5 +902,11 @@
     "LowStockAlerts": "Low Stock Alerts",
     "Items": "Items",
     "Left": "Left"
+  },
+  "Reports": {
+    "Sales": "Sales & Revenue",
+    "Inventory": "Inventory & Stock",
+    "Analytics": "Custom Builder Analytics",
+    "Customers": "Customers"
   }
 }
