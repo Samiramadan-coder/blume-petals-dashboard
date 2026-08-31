@@ -38,3 +38,24 @@ export type ByCategory = {
   slug: string;
   units: number;
 };
+
+export type TopProduct = {
+  sku: string;
+  slug: string;
+  name_en: string;
+  name_ar: string;
+  category: string;
+  item_type: string;
+  units: number;
+  revenue: string;
+  share_pct: string;
+};
+
+export type ByFulfillment = {
+  average: string;
+  method: "delivery" | "pickup";
+  orders: number;
+  revenue: string;
+  share_pct: string;
+  shipping: string;
+};

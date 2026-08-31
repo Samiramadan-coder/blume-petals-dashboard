@@ -921,7 +921,24 @@
       "CategoriesCount": "{count} Categories",
       "Revenue": "Revenue",
       "Units": "Units",
-      "Share": "Share"
+      "Share": "Share",
+      "TopSellingProducts": "Top Selling Products",
+      "BasedOnRevenueSelectedPeriod": "Based on revenue in the selected period",
+      "ViewFullReport": "View Full Report",
+      "Rank": "Rank",
+      "Product": "Product",
+      "Category": "Category",
+      "UnitsSold": "Units Sold",
+      "PercentOfTotal": "Percent of Total",
+      "RevenueByDeliveryMethod": "Revenue by Delivery Method",
+      "DeliveryMethodDescription": "Delivery vs. in-store pickup breakdown",
+      "Method": "Method",
+      "AvgAov": "Avg. AOV",
+      "Shipping": "Shipping",
+      "RevenueShare": "Revenue Share",
+      "Delivery": "Delivery",
+      "Pickup": "Pickup",
+      "Total": "Total"
     }
   }
 }

@@ -1,14 +1,18 @@
 import {
   ByChannel,
-  RevenueOverTimeSerie,
   TotalType,
   ByCategory,
+  TopProduct,
+  ByFulfillment,
+  RevenueOverTimeSerie,
 } from "@/types/reports";
 import Totals from "./totals";
 import { http } from "@/lib/http";
 import RevenueOverTime from "./revenue-overtime";
 import RevenueByChannel from "./revenue-by-channel";
 import RevenueByCategory from "./revenue-by-category";
+import RevenueTopProducts from "./revenue-top-products";
+import RevenueByDeliveryMethod from "./revenue-by-delivery-method";
 
 export default async function SalesRevenueIndex() {
   const { data, ok } = await http.get<{
@@ -17,6 +21,8 @@ export default async function SalesRevenueIndex() {
       revenue_series: RevenueOverTimeSerie[];
       by_channel: ByChannel[];
       by_category: ByCategory[];
+      top_products: TopProduct[];
+      by_fulfillment: ByFulfillment[];
     };
   }>("/api/v1/admin/reports/sales");
 
@@ -40,6 +46,16 @@ export default async function SalesRevenueIndex() {
 
       <div className="sm:col-span-2">
         <RevenueByCategory revenueByCategory={data.data.by_category} />
+      </div>
+
+      <div className="sm:col-span-2 md:col-span-4">
+        <RevenueTopProducts topProducts={data.data.top_products} />
+      </div>
+
+      <div className="sm:col-span-2 md:col-span-4">
+        <RevenueByDeliveryMethod
+          revenueByFulfillment={data.data.by_fulfillment}
+        />
       </div>
     </div>
   );
