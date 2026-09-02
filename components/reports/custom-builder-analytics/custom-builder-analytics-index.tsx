@@ -18,7 +18,11 @@ import MostChosenTemplate from "./most-choosen-templates";
 import UnconvertedDesigns from "./unconverted-designs";
 import GiftOptionsPerformance from "./gift-options-performance";
 
-export default async function CustomBuilderAnalyticsIndex() {
+export default async function CustomBuilderAnalyticsIndex({
+  days,
+}: {
+  days: string;
+}) {
   const { data, ok } = await http.get<{
     data: {
       funnel: Funnel;
@@ -30,7 +34,11 @@ export default async function CustomBuilderAnalyticsIndex() {
       unconverted: UnconvertedData;
       gift_options: GiftOptionsData;
     };
-  }>("/api/v1/admin/reports/builder");
+  }>("/api/v1/admin/reports/builder", {
+    params: {
+      days: days,
+    },
+  });
 
   if (!ok) {
     throw new Error("Failed to fetch customer stats data");

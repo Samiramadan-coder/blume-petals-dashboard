@@ -10,7 +10,7 @@ import StockLevels from "./stock-levels";
 import FlowerUsageBreakdown from "./flower-usage-break-down";
 import FastestMovingItems from "./fastest-moving-items";
 
-export default async function InventoryStockIndex() {
+export default async function InventoryStockIndex({ days }: { days: string }) {
   const { data, ok } = await http.get<{
     data: {
       totals: InventoryTotals;
@@ -18,7 +18,11 @@ export default async function InventoryStockIndex() {
       builder_usage: BuilderUsage;
       fastest_moving: { items: FastestMovingItem[] };
     };
-  }>("/api/v1/admin/reports/inventory");
+  }>("/api/v1/admin/reports/inventory", {
+    params: {
+      days: days,
+    },
+  });
 
   if (!ok) {
     throw new Error("Failed to fetch customer stats data");

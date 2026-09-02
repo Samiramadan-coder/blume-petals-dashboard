@@ -16,7 +16,7 @@ import RevenueTopProducts from "./revenue-top-products";
 import RevenueByDeliveryMethod from "./revenue-by-delivery-method";
 import RevenueByEmirate from "./revenue-by-emirate";
 
-export default async function SalesRevenueIndex() {
+export default async function SalesRevenueIndex({ days }: { days: string }) {
   const { data, ok } = await http.get<{
     data: {
       totals: TotalType;
@@ -27,7 +27,11 @@ export default async function SalesRevenueIndex() {
       by_fulfillment: ByFulfillment[];
       by_emirate: ByEmirate[];
     };
-  }>("/api/v1/admin/reports/sales");
+  }>("/api/v1/admin/reports/sales", {
+    params: {
+      days: days,
+    },
+  });
 
   if (!ok) {
     throw new Error("Failed to fetch sales revenue data");

@@ -14,7 +14,7 @@ import CustomersByEmirate from "./customers-by-emirate";
 import TopCustomers from "./top-customers";
 import NewCustomerAcquisitionChannel from "./new-customers-aquasitions-channel";
 
-export default async function CustomersIndex() {
+export default async function CustomersIndex({ days }: { days: string }) {
   const { data, ok } = await http.get<{
     data: {
       totals: CustomerTotalType;
@@ -24,7 +24,11 @@ export default async function CustomersIndex() {
       top: TopCustomer[];
       by_channel: CustomerByChannel[];
     };
-  }>("/api/v1/admin/reports/customers");
+  }>("/api/v1/admin/reports/customers", {
+    params: {
+      days: days,
+    },
+  });
 
   if (!ok) {
     throw new Error("Failed to fetch customer stats data");
