@@ -28,7 +28,7 @@ export default async function ReportsPage({
       {tab === undefined && (
         <SalesRevenueIndex
           days={days || "30"}
-          compare={compare || "0"}
+          compare={compare}
           from={from}
           to={to}
         />
@@ -37,7 +37,7 @@ export default async function ReportsPage({
       {tab === "inventory" && (
         <InventoryStockIndex
           days={days || "30"}
-          compare={compare || "0"}
+          compare={compare}
           from={from}
           to={to}
         />
@@ -46,7 +46,7 @@ export default async function ReportsPage({
       {tab === "analytics" && (
         <CustomBuilderAnalyticsIndex
           days={days || "30"}
-          compare={compare || "0"}
+          compare={compare}
           from={from}
           to={to}
         />
@@ -55,7 +55,7 @@ export default async function ReportsPage({
       {tab === "customers" && (
         <CustomersIndex
           days={days || "30"}
-          compare={compare || "0"}
+          compare={compare}
           from={from}
           to={to}
         />

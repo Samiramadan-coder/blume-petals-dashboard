@@ -25,7 +25,7 @@ export default async function CustomBuilderAnalyticsIndex({
   to,
 }: {
   days: string;
-  compare: string;
+  compare?: string;
   from?: string;
   to?: string;
 }) {
@@ -43,7 +43,7 @@ export default async function CustomBuilderAnalyticsIndex({
   }>("/api/v1/admin/reports/builder", {
     params: {
       days: days,
-      compare: compare,
+      ...(compare ? { compare } : {}),
       ...(from ? { from } : {}),
       ...(to ? { to } : {}),
     },

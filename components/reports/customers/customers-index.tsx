@@ -21,7 +21,7 @@ export default async function CustomersIndex({
   to,
 }: {
   days: string;
-  compare: string;
+  compare?: string;
   from?: string;
   to?: string;
 }) {
@@ -37,7 +37,7 @@ export default async function CustomersIndex({
   }>("/api/v1/admin/reports/customers", {
     params: {
       days: days,
-      compare: compare,
+      ...(compare ? { compare } : {}),
       ...(from ? { from } : {}),
       ...(to ? { to } : {}),
     },
