@@ -10,13 +10,23 @@ import {
 import Totals from "./totals";
 import { http } from "@/lib/http";
 import RevenueOverTime from "./revenue-overtime";
+import RevenueByEmirate from "./revenue-by-emirate";
 import RevenueByChannel from "./revenue-by-channel";
 import RevenueByCategory from "./revenue-by-category";
 import RevenueTopProducts from "./revenue-top-products";
 import RevenueByDeliveryMethod from "./revenue-by-delivery-method";
-import RevenueByEmirate from "./revenue-by-emirate";
 
-export default async function SalesRevenueIndex({ days }: { days: string }) {
+export default async function SalesRevenueIndex({
+  days,
+  compare,
+  from,
+  to,
+}: {
+  days: string;
+  compare: string;
+  from?: string;
+  to?: string;
+}) {
   const { data, ok } = await http.get<{
     data: {
       totals: TotalType;
@@ -30,6 +40,9 @@ export default async function SalesRevenueIndex({ days }: { days: string }) {
   }>("/api/v1/admin/reports/sales", {
     params: {
       days: days,
+      compare: compare,
+      ...(from ? { from } : {}),
+      ...(to ? { to } : {}),
     },
   });
 

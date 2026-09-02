@@ -903,6 +903,15 @@
     "Inventory": "المخزون والمخزون",
     "Analytics": "تحليلات منشئ القوالب المخصصة",
     "Customers": "العملاء",
+    "Filters": {
+      "Today": "اليوم",
+      "Last7Days": "آخر 7 أيام",
+      "Last30Days": "آخر 30 يومًا",
+      "ThisMonth": "هذا الشهر",
+      "LastMonth": "الشهر الماضي",
+      "CompareToPreviousPeriod": "مقارنة بالفترة السابقة",
+      "SelectDate": "اختر نطاق التاريخ"
+    },
     "SalesRevenue": {
       "TotalRevenue": "إجمالي الإيرادات",
       "VsPrevPeriod": "مقابل الفترة السابقة",

@@ -1,16 +1,26 @@
-import { http } from "@/lib/http";
-import InventoryStatsCards from "./inventory-stats";
 import {
   BuilderUsage,
   InventoryTotals,
   StockLevel,
   FastestMovingItem,
 } from "@/types/reports";
+import { http } from "@/lib/http";
 import StockLevels from "./stock-levels";
-import FlowerUsageBreakdown from "./flower-usage-break-down";
+import InventoryStatsCards from "./inventory-stats";
 import FastestMovingItems from "./fastest-moving-items";
+import FlowerUsageBreakdown from "./flower-usage-break-down";
 
-export default async function InventoryStockIndex({ days }: { days: string }) {
+export default async function InventoryStockIndex({
+  days,
+  compare,
+  from,
+  to,
+}: {
+  days: string;
+  compare: string;
+  from?: string;
+  to?: string;
+}) {
   const { data, ok } = await http.get<{
     data: {
       totals: InventoryTotals;
@@ -21,11 +31,14 @@ export default async function InventoryStockIndex({ days }: { days: string }) {
   }>("/api/v1/admin/reports/inventory", {
     params: {
       days: days,
+      compare: compare,
+      ...(from ? { from } : {}),
+      ...(to ? { to } : {}),
     },
   });
 
   if (!ok) {
-    throw new Error("Failed to fetch customer stats data");
+    throw new Error("Failed to fetch inventory stock data");
   }
 
   return (

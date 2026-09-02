@@ -908,6 +908,15 @@
     "Inventory": "Inventory & Stock",
     "Analytics": "Custom Builder Analytics",
     "Customers": "Customers",
+    "Filters": {
+      "Today": "Today",
+      "Last7Days": "Last 7 Days",
+      "Last30Days": "Last 30 Days",
+      "ThisMonth": "This Month",
+      "LastMonth": "Last Month",
+      "CompareToPreviousPeriod": "Compare to Prev.Period",
+      "SelectDate": "Select date range"
+    },
     "SalesRevenue": {
       "TotalRevenue": "Total Revenue",
       "VsPrevPeriod": "vs Previous Period",

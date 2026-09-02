@@ -1,4 +1,3 @@
-import { http } from "@/lib/http";
 import {
   CustomerTotalType,
   CustomerGrowthSerie,
@@ -7,14 +6,25 @@ import {
   TopCustomer,
   CustomerByChannel,
 } from "@/types/reports";
+import { http } from "@/lib/http";
+import TopCustomers from "./top-customers";
 import CustomerTotals from "./customer-totals";
 import CustomerGrowth from "./customer-growth";
-import NewVsReturningCustomers from "./customer-new-vs-returning";
 import CustomersByEmirate from "./customers-by-emirate";
-import TopCustomers from "./top-customers";
+import NewVsReturningCustomers from "./customer-new-vs-returning";
 import NewCustomerAcquisitionChannel from "./new-customers-aquasitions-channel";
 
-export default async function CustomersIndex({ days }: { days: string }) {
+export default async function CustomersIndex({
+  days,
+  compare,
+  from,
+  to,
+}: {
+  days: string;
+  compare: string;
+  from?: string;
+  to?: string;
+}) {
   const { data, ok } = await http.get<{
     data: {
       totals: CustomerTotalType;
@@ -27,6 +37,9 @@ export default async function CustomersIndex({ days }: { days: string }) {
   }>("/api/v1/admin/reports/customers", {
     params: {
       days: days,
+      compare: compare,
+      ...(from ? { from } : {}),
+      ...(to ? { to } : {}),
     },
   });
 

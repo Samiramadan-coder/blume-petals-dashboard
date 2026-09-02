@@ -14,14 +14,20 @@ import MostChosenSize from "./most-choosen-sizes";
 import MostChosenColors from "./most-choosen-colors";
 import AddonsPerformance from "./add-on-performance";
 import MostChosenFlowers from "./most-choosen-flowers";
-import MostChosenTemplate from "./most-choosen-templates";
 import UnconvertedDesigns from "./unconverted-designs";
+import MostChosenTemplate from "./most-choosen-templates";
 import GiftOptionsPerformance from "./gift-options-performance";
 
 export default async function CustomBuilderAnalyticsIndex({
   days,
+  compare,
+  from,
+  to,
 }: {
   days: string;
+  compare: string;
+  from?: string;
+  to?: string;
 }) {
   const { data, ok } = await http.get<{
     data: {
@@ -37,6 +43,9 @@ export default async function CustomBuilderAnalyticsIndex({
   }>("/api/v1/admin/reports/builder", {
     params: {
       days: days,
+      compare: compare,
+      ...(from ? { from } : {}),
+      ...(to ? { to } : {}),
     },
   });
 
