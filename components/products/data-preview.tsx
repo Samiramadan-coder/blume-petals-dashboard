@@ -131,7 +131,7 @@ export default function DataPreview({
 
               <TableCell className="px-4 py-3">
                 <Image
-                  src={product.images[0].url}
+                  src={product.images.find((img) => img.is_primary)?.url || ""}
                   alt={product.name[locale]}
                   width={40}
                   height={40}

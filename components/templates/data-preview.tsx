@@ -110,7 +110,7 @@ export default function DataPreview({
 
               <TableCell className="px-4 py-3">
                 <Image
-                  src={template.images[0].url}
+                  src={template.images.find((img) => img.is_primary)?.url || ""}
                   alt={template.name[locale]}
                   width={40}
                   height={40}
@@ -140,7 +140,7 @@ export default function DataPreview({
                 </div>
               </TableCell>
 
-              <TableCell className="px-4 py-3 text-center">
+              <TableCell className="px-4 py-3 text-center space-x-4">
                 {can("catalog.edit") && (
                   <CreateEdit
                     firstCategoryId={firstCategoryId}
@@ -149,7 +149,7 @@ export default function DataPreview({
                   />
                 )}
 
-                <Tooltip>
+                {/* <Tooltip>
                   <TooltipTrigger asChild>
                     <Link href={`/products/${template.id}`} locale={locale}>
                       <Button variant="ghost">
@@ -158,7 +158,7 @@ export default function DataPreview({
                     </Link>
                   </TooltipTrigger>
                   <TooltipContent>{t("Gallery")}</TooltipContent>
-                </Tooltip>
+                </Tooltip> */}
 
                 {can("catalog.delete") && (
                   <DeleteBtn
