@@ -5,15 +5,15 @@ import { useRef } from "react";
 import Input from "../form/input";
 import Header from "../form/header";
 import Footer from "../form/footer";
-import AddButton from "../form/add-button";
+import { Plus } from "lucide-react";
+import { Button } from "../ui/button";
 import { Product } from "@/types/products";
-import { Sheet, SheetClose, SheetContent } from "../ui/sheet";
 import { restockFlowerAction } from "@/lib/flower";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocale, useTranslations } from "next-intl";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { RestockFormValues, restockSchema } from "@/types/flower";
-import { Button } from "../ui/button";
+import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../ui/sheet";
 
 export default function Restock({ flower }: { flower: Product }) {
   const locale = useLocale();
@@ -68,7 +68,14 @@ export default function Restock({ flower }: { flower: Product }) {
 
   return (
     <Sheet>
-      <AddButton label={t("Restock.Title", { flower: "" })} />
+      <SheetTrigger>
+        <Button
+          variant="outline"
+          className="text-[#8a6f2a] bg-primary/10 text-xs font-semibold"
+        >
+          {t("Restock.Title", { flower: "" })} <Plus />
+        </Button>
+      </SheetTrigger>
 
       <SheetContent
         showCloseButton={false}
