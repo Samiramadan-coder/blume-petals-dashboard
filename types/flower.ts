@@ -50,3 +50,11 @@ export const flowerSchema = (t: T) =>
   });
 
 export type FlowerFormValues = z.infer<ReturnType<typeof flowerSchema>>;
+
+export const restockSchema = (t: T) =>
+  z.object({
+    mode: z.enum(["increment"]),
+    value: z.number().min(1, t("Restock.Required")),
+  });
+
+export type RestockFormValues = z.infer<ReturnType<typeof restockSchema>>;

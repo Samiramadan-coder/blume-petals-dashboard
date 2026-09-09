@@ -173,7 +173,7 @@ export default function CreateEdit({
         showCloseButton={false}
         className="flex h-full flex-col sm:max-w-2xl"
         side={locale === "ar" ? "left" : "right"}
-        onInteractOutside={(event) => event.preventDefault()}
+        // onInteractOutside={(event) => event.preventDefault()}
       >
         <SheetClose asChild>
           <Button ref={closeBtn} className="hidden"></Button>

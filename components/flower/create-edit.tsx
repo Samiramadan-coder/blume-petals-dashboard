@@ -120,7 +120,7 @@ export default function CreateEdit({
       <SheetContent
         showCloseButton={false}
         className="flex h-full flex-col sm:max-w-4xl"
-        onInteractOutside={(event) => event.preventDefault()}
+        // onInteractOutside={(event) => event.preventDefault()}
         side={locale === "ar" ? "left" : "right"}
       >
         <SheetClose asChild>
@@ -204,15 +204,17 @@ export default function CreateEdit({
               placeholder={tLive("Fields.FlowerSku.Placeholder")}
             />
 
-            <Input<FlowerFormValues>
-              label={tLive("Fields.InitialQuantity.Label")}
-              name={`variants.0.stock`}
-              type="number"
-              register={register}
-              errors={errors}
-              required
-              placeholder={tLive("Fields.InitialQuantity.Placeholder")}
-            />
+            {flower === undefined && (
+              <Input<FlowerFormValues>
+                label={tLive("Fields.InitialQuantity.Label")}
+                name={`variants.0.stock`}
+                type="number"
+                register={register}
+                errors={errors}
+                required
+                placeholder={tLive("Fields.InitialQuantity.Placeholder")}
+              />
+            )}
 
             <Input<FlowerFormValues>
               label={tLive("Fields.UnitCost.Label")}
@@ -223,16 +225,6 @@ export default function CreateEdit({
               required
               placeholder={tLive("Fields.UnitCost.Placeholder")}
             />
-
-            {/* <Input<FlowerFormValues>
-              label={tLive("Fields.VariantSku.Label")}
-              name="variants.0.sku"
-              type="text"
-              register={register}
-              errors={errors}
-              required
-              placeholder={tLive("Fields.VariantSku.Placeholder")}
-            /> */}
 
             {availableLocales.map((locale) => (
               <NormalFormTextarea<FlowerFormValues>

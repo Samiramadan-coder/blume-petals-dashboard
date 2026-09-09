@@ -1,6 +1,6 @@
 "use server";
 
-import { FlowerFormValues } from "@/types/flower";
+import { FlowerFormValues, RestockFormValues } from "@/types/flower";
 import { Product } from "@/types/products";
 import { http, ValidationError } from "./http";
 import { updateTag } from "next/cache";
@@ -58,6 +58,44 @@ export async function postFlowerAction(
           messages[0] ?? "Invalid value",
         ]),
       ) as Partial<Record<keyof FlowerFormValues, string>>;
+
+      return { success: false, errors };
+    }
+    return { success: false };
+  }
+}
+
+// Restock Flower Action
+type RestockFlowerResult =
+  | {
+      success: true;
+    }
+  | {
+      success: false;
+      errors?: Partial<Record<keyof RestockFormValues, string>>;
+    };
+
+export async function restockFlowerAction(
+  formData: RestockFormValues,
+  productId: number,
+  variantId: number,
+): Promise<RestockFlowerResult> {
+  try {
+    await http.patch(
+      `/api/v1/admin/products/${productId}/variants/${variantId}/stock`,
+      formData,
+    );
+    updateTag("flowers");
+    return { success: true };
+  } catch (err) {
+    console.error("Restock request failed", err);
+    if (err instanceof ValidationError) {
+      const errors = Object.fromEntries(
+        Object.entries(err.errors).map(([field, messages]) => [
+          field,
+          messages[0] ?? "Invalid value",
+        ]),
+      ) as Partial<Record<keyof RestockFormValues, string>>;
 
       return { success: false, errors };
     }

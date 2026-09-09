@@ -743,6 +743,8 @@
     "EditFlower": "تعديل الزهرة",
     "AddFlowerDescription": "أضف نوعًا جديدًا من الزهور إلى المخزون.",
     "EditFlowerDescription": "تعديل تفاصيل نوع الزهرة.",
+    "InStock": "متوفر في المخزون",
+    "OutOfStock": "نفد من المخزون",
     "NoFlowers": "لم يتم العثور على أي زهور في المخزون.",
     "Gallery": "معرض الصور",
     "Fields": {
@@ -808,6 +810,15 @@
       "Change": "التغيير",
       "Balance": "الرصيد",
       "Note": "ملاحظة"
+    },
+    "Restock": {
+      "Title": "إعادة تخزين {flower}",
+      "Description": "أضف سيقان جديدة إلى المخزون الحالي.",
+      "AddStems": "أضف سيقان",
+      "AddStemsPlaceholder": "مثال: 100",
+      "Required": "يرجى إدخال عدد السيقان المراد إضافتها",
+      "StockUpdated": "تم تحديث المخزون بنجاح",
+      "UpdateFailed": "فشل في تحديث المخزون"
     }
   },
   "CustomBuilder": {

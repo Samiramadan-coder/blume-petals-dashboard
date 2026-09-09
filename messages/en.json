@@ -814,6 +814,15 @@
       "Change": "Change",
       "Balance": "Balance",
       "Note": "Note"
+    },
+    "Restock": {
+      "Title": "Restock {flower}",
+      "Description": "Add new stems to current stock.",
+      "AddStems": "Add Stems",
+      "AddStemsPlaceholder": "e.g. 100",
+      "Required": "Please enter the number of stems to add",
+      "StockUpdated": "Stock has been successfully updated",
+      "UpdateFailed": "Failed to update stock"
     }
   },
   "CustomBuilder": {
