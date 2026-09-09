@@ -2,6 +2,7 @@ import z from "zod";
 import { T } from "./shared";
 
 export type Permission =
+  | "dashboard.view"
   | "catalog.view"
   | "catalog.create"
   | "catalog.edit"
@@ -37,6 +38,12 @@ export type Role = {
   name: string;
   permissions: Permission[];
   users_count: number;
+};
+
+type DashboardModule = {
+  key: "dashboard";
+  actions: Array<"view">;
+  permissions: Array<"dashboard.view">;
 };
 
 type CatalogModule = {
@@ -117,7 +124,8 @@ export type PermissionModule =
   | RolesModule
   | NotificationsModule
   | ContactModule
-  | SettingsModule;
+  | SettingsModule
+  | DashboardModule;
 
 // Create And Edit Role Form
 export const roleFormSchema = (t: T) =>
@@ -129,6 +137,7 @@ export const roleFormSchema = (t: T) =>
     description: z.string(),
     permissions: z.array(
       z.enum([
+        "dashboard.view",
         "catalog.view",
         "catalog.create",
         "catalog.edit",

@@ -35,7 +35,7 @@ export const navigation = (
     href: "/",
     type: "link",
     icon: createElement(LayoutGrid, { className: "h-4 w-4" }),
-    enabled: true,
+    enabled: permissions.includes("dashboard.view"),
   },
   {
     label: "sidebar.navigation.catalog",

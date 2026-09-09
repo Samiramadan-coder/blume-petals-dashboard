@@ -633,6 +633,7 @@
   "RolesAndPermissions": {
     "RolesAndPermissions": "الأدوار والأذونات",
     "RolesAndPermissionsDescription": "التحكم فيما يمكن أن يراه كل دور إداري وما يمكنه فعله عبر لوحة التحكم.",
+    "Dashboard": "لوحة التحكم",
     "Roles": "الأدوار",
     "System": "النظام",
     "Custom": "مخصص",

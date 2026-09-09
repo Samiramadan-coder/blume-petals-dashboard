@@ -636,6 +636,7 @@
   "RolesAndPermissions": {
     "RolesAndPermissions": "Roles & Permissions",
     "RolesAndPermissionsDescription": "Control what each admin role can see and do across the dashboard.",
+    "Dashboard": "Dashboard",
     "Roles": "Roles",
     "System": "System",
     "Custom": "Custom",
