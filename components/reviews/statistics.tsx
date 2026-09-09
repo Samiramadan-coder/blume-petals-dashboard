@@ -11,8 +11,8 @@ export default function Statistics({ summary }: { summary: Summary }) {
       title: t("TotalReviews"),
       value: summary.total_reviews,
       icon: (
-        <div className="p-1 bg-primary/20 rounded-sm">
-          <Star className="text-primary size-5" />
+        <div className="p-2 bg-primary/20 rounded-sm">
+          <Star className="text-primary size-4" />
         </div>
       ),
     },
@@ -20,8 +20,8 @@ export default function Statistics({ summary }: { summary: Summary }) {
       title: t("AverageRating"),
       value: summary.average_rating,
       icon: (
-        <div className="p-1 bg-secondary/20 rounded-sm">
-          <Star className="text-secondary size-5" />
+        <div className="p-2 bg-secondary/20 rounded-sm">
+          <Star className="text-secondary/50 size-4" />
         </div>
       ),
     },
@@ -29,8 +29,8 @@ export default function Statistics({ summary }: { summary: Summary }) {
       title: t("ThisMonth"),
       value: summary.this_month,
       icon: (
-        <div className="p-1 bg-red-300/20 rounded-sm">
-          <Clock className="text-red-300 size-5" />
+        <div className="p-2 bg-red-300/20 rounded-sm">
+          <Clock className="text-red-300 size-4" />
         </div>
       ),
     },

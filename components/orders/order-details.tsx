@@ -62,7 +62,7 @@ export default function OrderDetails({ order }: { order: Order }) {
         showCloseButton={false}
         className="flex h-full flex-col sm:max-w-2xl"
         side={locale === "ar" ? "left" : "right"}
-        onInteractOutside={(event) => event.preventDefault()}
+        // onInteractOutside={(event) => event.preventDefault()}
       >
         <SheetHeader className="pt-2 pb-2">
           <SheetTitle className="flex items-center justify-between border-b border-border px-4 py-3 -mx-4">

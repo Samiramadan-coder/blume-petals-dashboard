@@ -184,12 +184,18 @@ export default function DataPreview({
                     <div key={variant.id} className="space-x-1.5">
                       <Badge
                         className={cn(
-                          "font-semibold border",
+                          "h-5 px-4",
                           variant.in_stock
-                            ? "text-emerald-700 bg-emerald-50 border-emerald-200"
-                            : "text-destructive bg-destructive/10 border-destructive/50",
+                            ? "text-secondary bg-secondary/10"
+                            : "text-[#b83a30] bg-destructive/10",
                         )}
                       >
+                        <span
+                          className={cn(
+                            "size-1.5 rounded-full",
+                            variant.in_stock ? "bg-secondary" : "bg-[#b83a30]",
+                          )}
+                        ></span>
                         {variant.in_stock ? t("In") : t("Out")}
                       </Badge>
                       <span className="text-xs">

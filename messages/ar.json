@@ -101,7 +101,7 @@
     "AddOns": "الإضافات",
     "CategoriesBrief": "نظّم منتجاتك وتحكّم بما يظهر في واجهة المتجر.",
     "AddOnsBrief": "نظّم إضافاتك وتحكّم بما يظهر في واجهة المتجر.",
-    "AddCategory": "فئة",
+    "AddCategory": "إضافة فئة",
     "AddAddOnsCategory": "فئة الإضافات",
     "CreateCategoryDescription": "قم بإنشاء فئة منتج جديدة",
     "CreateAddOnsCategoryDescription": "قم بإنشاء فئة إضافات جديدة",
@@ -138,7 +138,7 @@
   "Products": {
     "Products": "المنتجات",
     "AddOnsProducts": "منتجات الإضافات",
-    "AddProduct": "منتج",
+    "AddProduct": "إضافة منتج",
     "AddAddOnsProduct": "منتج الإضافات",
     "EditProduct": "تعديل المنتج",
     "AddProductDescription": "املأ تفاصيل المنتج أدناه",

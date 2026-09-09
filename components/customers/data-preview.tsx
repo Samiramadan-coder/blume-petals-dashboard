@@ -9,7 +9,6 @@ import FiltersControl from "./filters-control";
 import { columns } from "@/constants/customers";
 import { TableCell, TableRow } from "../ui/table";
 import { DataTable } from "../reusable/data-table";
-import CellDataNotFound from "../reusable/cell-data-not-found";
 
 export default function DataPreview({
   initialCustomers,
@@ -53,14 +52,12 @@ export default function DataPreview({
             </TableCell>
 
             <TableCell className="px-4 py-3">
-              <p className="text-muted-foreground">
-                {customer.email || <CellDataNotFound />}
-              </p>
+              <p className="text-muted-foreground">{customer.email || "_"}</p>
             </TableCell>
 
             <TableCell className="px-4 py-3">
               <p className="text-muted-foreground tracking-[1px]">
-                {customer.phone || <CellDataNotFound />}
+                {customer.phone || "_"}
               </p>
             </TableCell>
 
@@ -74,11 +71,9 @@ export default function DataPreview({
 
             <TableCell className="px-4 py-3">
               <p className="text-muted-foreground text-xs">
-                {customer.last_order_at ? (
-                  formatDate(customer.last_order_at)
-                ) : (
-                  <CellDataNotFound />
-                )}
+                {customer.last_order_at
+                  ? formatDate(customer.last_order_at)
+                  : "_"}
               </p>
             </TableCell>
 

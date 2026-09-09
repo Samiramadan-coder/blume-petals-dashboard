@@ -68,7 +68,7 @@ export default function Restock({ flower }: { flower: Product }) {
 
   return (
     <Sheet>
-      <SheetTrigger>
+      <SheetTrigger asChild>
         <Button
           variant="outline"
           className="text-[#8a6f2a] bg-primary/10 text-xs font-semibold"

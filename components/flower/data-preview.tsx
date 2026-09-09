@@ -22,6 +22,7 @@ import { usePermissions } from "@/providers/permission-providers";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { Link } from "@/i18n/navigation";
 import Restock from "./restock";
+import { cn } from "@/lib/utils";
 
 export default function DataPreview({
   flowers,
@@ -136,12 +137,21 @@ export default function DataPreview({
 
               <TableCell className="px-4 py-3">
                 <Badge
-                  className={
+                  className={cn(
+                    "h-5 px-4",
                     flower.variants[0].in_stock
-                      ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
-                      : "bg-destructive/10 text-destructive border border-destructive/50"
-                  }
+                      ? "text-secondary bg-secondary/10"
+                      : "text-[#b83a30] bg-destructive/10",
+                  )}
                 >
+                  <span
+                    className={cn(
+                      "size-1.5 rounded-full",
+                      flower.variants[0].in_stock
+                        ? "bg-secondary"
+                        : "bg-[#b83a30]",
+                    )}
+                  ></span>
                   {flower.variants[0].in_stock ? t("InStock") : t("OutOfStock")}
                 </Badge>
               </TableCell>
