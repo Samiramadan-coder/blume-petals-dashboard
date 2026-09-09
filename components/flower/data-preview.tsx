@@ -33,6 +33,7 @@ export default function DataPreview({
   pagination: Pagination;
   firstCategoryId: number;
 }) {
+  console.log(flowers);
   const locale = useLocale();
   const { can } = usePermissions();
   const t = useTranslations("Flower");

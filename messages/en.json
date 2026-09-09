@@ -776,10 +776,14 @@
         "MinValue": "Low stock threshold must be at least 1",
         "Description": "We'll alert you when stock reaches this number so you can reorder in time."
       },
+      "CostPrice": {
+        "Label": "Cost Price (AED / stem)",
+        "Placeholder": "Enter cost price"
+      },
       "UnitCost": {
-        "Label": "Unit Cost (AED / stem)",
-        "Placeholder": "Enter unit cost",
-        "MinValue": "Unit cost must be at least 1",
+        "Label": "Selling Price (AED / stem)",
+        "Placeholder": "Enter selling price",
+        "MinValue": "Selling price must be at least 1",
         "Description": "For internal margin calculation only — never shown to customers."
       },
       "Note": {

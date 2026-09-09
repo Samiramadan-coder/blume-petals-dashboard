@@ -179,7 +179,13 @@ export default function Variants({
                     (flower) =>
                       flower.variants[0].id === item.component_variant_id,
                   );
-                  return total + item.qty * (flower?.variants[0]?.price ?? 0);
+                  return (
+                    total +
+                    item.qty *
+                      (flower?.variants[0]?.cost_price ??
+                        flower?.variants[0]?.price ??
+                        0)
+                  );
                 }, 0);
 
                 const margin =
@@ -294,7 +300,9 @@ export default function Variants({
                       <div className="flex items-center justify-between gap-1">
                         <p className="text-xs text-muted-foreground">
                           {recipeItem.qty *
-                            (selectedFlower?.variants[0]?.price ?? 0)}{" "}
+                            (selectedFlower?.variants[0]?.cost_price ??
+                              selectedFlower?.variants[0]?.price ??
+                              0)}{" "}
                           {tLiveCommon("AED")}
                         </p>
 

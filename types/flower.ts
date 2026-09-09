@@ -42,6 +42,7 @@ export const flowerSchema = (t: T) =>
         price: z.number().min(1, t("Fields.UnitCost.MinValue")),
         stock: z.number().min(1, t("Fields.InitialQuantity.MinValue")),
         sku: z.string(),
+        cost_price: z.number().optional(),
       }),
     ),
     images: z

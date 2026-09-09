@@ -62,6 +62,7 @@ export default function CreateEdit({
           price: flower ? flower.variants[0].price : undefined,
           stock: flower ? flower.variants[0].stock : undefined,
           sku: flower ? flower.variants[0].sku : "",
+          cost_price: flower?.variants[0]?.cost_price || undefined,
         },
       ],
     },
@@ -215,6 +216,14 @@ export default function CreateEdit({
                 placeholder={tLive("Fields.InitialQuantity.Placeholder")}
               />
             )}
+
+            <Input<FlowerFormValues>
+              label={tLive("Fields.CostPrice.Label")}
+              name={`variants.0.cost_price`}
+              type="number"
+              register={register}
+              placeholder={tLive("Fields.CostPrice.Placeholder")}
+            />
 
             <Input<FlowerFormValues>
               label={tLive("Fields.UnitCost.Label")}
