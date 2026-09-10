@@ -59,3 +59,13 @@ export const restockSchema = (t: T) =>
   });
 
 export type RestockFormValues = z.infer<ReturnType<typeof restockSchema>>;
+
+export type LogItem = {
+  balance: number;
+  by: string | null;
+  change: number;
+  date: string;
+  id: number;
+  label: string;
+  note: string | null;
+};

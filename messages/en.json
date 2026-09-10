@@ -752,6 +752,12 @@
     "OutOfStock": "Out of Stock",
     "NoFlowers": "No flowers available",
     "Gallery": "Gallery",
+    "StockLog": "Stock Log",
+    "DownloadStockLog": "Download Stock Log",
+    "Date": "Date",
+    "Action": "Action",
+    "Change": "Change",
+    "Balance": "Balance",
     "Fields": {
       "Photo": {
         "Label": "Flower Photo",

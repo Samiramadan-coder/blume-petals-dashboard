@@ -748,6 +748,12 @@
     "OutOfStock": "نفد من المخزون",
     "NoFlowers": "لم يتم العثور على أي زهور في المخزون.",
     "Gallery": "معرض الصور",
+    "StockLog": "سجل المخزون",
+    "DownloadStockLog": "تنزيل سجل المخزون",
+    "Date": "التاريخ",
+    "Action": "الإجراء",
+    "Change": "التغيير",
+    "Balance": "الرصيد",
     "Fields": {
       "Photo": {
         "Label": "صورة الزهرة",
