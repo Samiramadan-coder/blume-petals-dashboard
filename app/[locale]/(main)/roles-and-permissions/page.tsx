@@ -36,8 +36,6 @@ export default async function RolesAndPermissionsPage() {
     throw new Error("Failed to fetch roles, permissions, or customers");
   }
 
-  console.log({ rolesData, permissionsData, customersData });
-
   return (
     <main>
       <DataPreview

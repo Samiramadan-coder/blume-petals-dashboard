@@ -72,22 +72,16 @@ export function DataTable({
         <div className="text-xs text-muted-foreground white-space-nowrap">
           {!pagination ? (
             <p>
-              {t("Showing")}{" "}
-              <span className="font-semibold text-black">{rowsCount}</span>{" "}
-              {countUnit}
+              {t("Showing")} <span>{rowsCount}</span> {countUnit}
             </p>
           ) : (
             <p>
-              {t("Showing")}{" "}
-              <span className="font-semibold text-black">
-                {pagination.from}
-              </span>{" "}
-              {t("To")}{" "}
-              <span className="font-semibold text-black">{pagination.to}</span>{" "}
-              {t("Of")}{" "}
-              <span className="font-semibold text-black">
-                {pagination.total}
-              </span>{" "}
+              {t("Showing")}
+              <span className="mx-1">{pagination.from}</span>
+              {t("To")}
+              <span className="mx-1">{pagination.to}</span>
+              {t("Of")}
+              <span className="mx-1">{pagination.total}</span>
               {countUnit}
             </p>
           )}

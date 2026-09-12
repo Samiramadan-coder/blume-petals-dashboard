@@ -42,7 +42,6 @@ export default function DataPreview({
   pagination: Pagination;
   firstCategoryId: number;
 }) {
-  console.log(flowers);
   const t = useTranslations("Flower");
 
   return (
