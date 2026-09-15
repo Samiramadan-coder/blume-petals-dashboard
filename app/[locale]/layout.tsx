@@ -67,7 +67,7 @@ export default async function RootLayout({
             <DirectionProvider dir={dir}>
               <body className="min-h-full flex flex-col">
                 {children}
-                <Toaster richColors />
+                <Toaster richColors position="top-center" />
               </body>
             </DirectionProvider>
           </TooltipProvider>

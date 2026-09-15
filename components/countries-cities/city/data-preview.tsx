@@ -94,6 +94,7 @@ export default function DataPreview({
               />
 
               <DeleteBtn
+                itemName={city.name[locale]}
                 onDelete={async () => {
                   setLoadingDelete(true);
                   const result = await deleteCityAction(city);

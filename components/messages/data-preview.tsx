@@ -65,6 +65,7 @@ export default function DataPreview({
 
                 {can("contact.delete") && (
                   <DeleteBtn
+                    itemName={message.email}
                     loading={loadingDelete}
                     onDelete={async () => {
                       setLoadingDelete(true);

@@ -173,6 +173,7 @@ export default function DataPreview({
 
               {can("coupons.delete") && (
                 <DeleteBtn
+                  itemName={coupon.code}
                   onDelete={async () => {
                     setLoadingDelete(true);
                     const result = await deleteCouponAction(coupon);

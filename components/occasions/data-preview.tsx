@@ -120,6 +120,7 @@ export default function DataPreview({
 
               {can("catalog.delete") && (
                 <DeleteBtn
+                  itemName={occasion.name_translations[locale]}
                   onDelete={async () => {
                     setLoadingDelete(true);
                     const result = await deleteOccasionAction(occasion);

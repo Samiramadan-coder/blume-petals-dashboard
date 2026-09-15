@@ -1,5 +1,6 @@
 {
   "Common": {
+    "Item": "العنصر",
     "English": "الإنجليزية",
     "Arabic": "العربية",
     "Showing": "عرض",
@@ -11,7 +12,7 @@
     "Cancel": "إلغاء",
     "Delete": "حذف",
     "Edit": "تعديل",
-    "DeleteConfirmation": "هل أنت متأكد أنك تريد حذف هذا العنصر؟ لا يمكن التراجع عن هذا الإجراء.",
+    "DeleteConfirmation": "هل أنت متأكد أنك تريد حذف <highlight>{item}</highlight>؟ لا يمكن التراجع عن هذا الإجراء.",
     "Confirmation": "تأكيد",
     "Error": "خطأ",
     "ErrorOccurred": "حدث خطأ أثناء معالجة طلبك. يرجى المحاولة مرة أخرى.",

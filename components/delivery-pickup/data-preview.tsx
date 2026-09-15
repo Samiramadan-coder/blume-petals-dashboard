@@ -99,6 +99,7 @@ export default function DataPreview({
               />
 
               <DeleteBtn
+                itemName={location.name[locale]}
                 onDelete={async () => {
                   setLoadingDelete(true);
                   const result =

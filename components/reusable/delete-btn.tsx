@@ -21,10 +21,12 @@ export default function DeleteBtn({
   onDelete,
   loading,
   trigger,
+  itemName,
 }: {
   loading?: boolean;
   onDelete?: () => Promise<void>;
   trigger?: React.ReactNode;
+  itemName?: string;
 }) {
   const t = useTranslations("Common");
   const closeBtn = useRef<HTMLButtonElement>(null);
@@ -51,21 +53,32 @@ export default function DeleteBtn({
         <TooltipContent>{t("Delete")}</TooltipContent>
       </Tooltip>
 
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md ring-0!">
         <DialogClose asChild>
           <Button className="hidden" ref={closeBtn}></Button>
         </DialogClose>
         <DialogHeader>
-          <DialogTitle className="text-destructive/70">
+          <DialogTitle className="text-destructive/70 font-semibold">
             {t("Delete")}
           </DialogTitle>
-          <DialogDescription>{t("DeleteConfirmation")}</DialogDescription>
+          <DialogDescription>
+            {t.rich("DeleteConfirmation", {
+              item: itemName || t("Item"),
+              highlight: (chunks) => (
+                <span className="text-destructive underline font-medium">
+                  {chunks}
+                </span>
+              ),
+            })}
+          </DialogDescription>
         </DialogHeader>
         <DialogFooter className="sm:justify-end">
-          <DialogClose asChild>
-            <Button type="button">Close</Button>
-          </DialogClose>
-          <Button type="button" variant="destructive" onClick={handleDelete}>
+          <Button
+            type="button"
+            className="rounded-sm text-xs py-4 px-4"
+            variant="destructive"
+            onClick={handleDelete}
+          >
             {loading ? <Spinner /> : t("Confirmation")}
           </Button>
         </DialogFooter>

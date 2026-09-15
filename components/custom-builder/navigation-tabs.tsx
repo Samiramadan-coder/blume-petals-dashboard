@@ -12,10 +12,10 @@ export default function NavigationTabs() {
   const isCards = pathname === "/templates/cards";
 
   return (
-    <div className="p-1 my-4 w-fit border border-border rounded-xl">
+    <div className="p-0.5 my-4 w-fit border border-border rounded-lg bg-white">
       <Link href="/templates">
         <Button
-          className={`px-4 rounded-lg text-[13px] font-semibold ${isTemplates ? "bg-primary text-primary-foreground" : ""}`}
+          className={`px-4 min-w-25 rounded-sm text-[13px] font-semibold hover:bg-primary hover:text-primary-foreground ${isTemplates ? "bg-primary text-primary-foreground" : ""}`}
           variant="ghost"
           aria-pressed={isTemplates}
         >
@@ -25,7 +25,7 @@ export default function NavigationTabs() {
 
       <Link href="/templates/ribbons">
         <Button
-          className={`px-4 rounded-lg text-[13px] font-semibold ${isRibbons ? "bg-primary text-primary-foreground" : ""}`}
+          className={`px-4 min-w-25 rounded-sm text-[13px] font-semibold hover:bg-primary hover:text-primary-foreground ${isRibbons ? "bg-primary text-primary-foreground" : ""}`}
           variant="ghost"
           aria-pressed={isRibbons}
         >
@@ -35,7 +35,7 @@ export default function NavigationTabs() {
 
       <Link href="/templates/cards">
         <Button
-          className={`px-4 rounded-lg text-[13px] font-semibold ${isCards ? "bg-primary text-primary-foreground" : ""}`}
+          className={`px-4 min-w-25 rounded-sm text-[13px] font-semibold hover:bg-primary hover:text-primary-foreground ${isCards ? "bg-primary text-primary-foreground" : ""}`}
           variant="ghost"
           aria-pressed={isCards}
         >

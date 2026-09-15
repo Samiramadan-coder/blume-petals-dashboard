@@ -51,6 +51,20 @@ export default function DataPreview({
   const tCommon = useTranslations("Common");
   const [loadingDelete, setLoadingDelete] = useState(false);
   const [checkedIds, setCheckedIds] = useState<number[]>([]);
+  const [sortBy, setSortBy] = useState<string | undefined>(undefined);
+  const [sortDirection, setSortDirection] = useState<
+    "asc" | "desc" | undefined
+  >(undefined);
+
+  const handleSort = (column: string) => {
+    console.log("Sorting by column:", column);
+    // if (sortBy === column) {
+    //   setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    // } else {
+    //   setSortBy(column);
+    //   setSortDirection("asc");
+    // }
+  };
 
   return (
     <>
@@ -100,6 +114,9 @@ export default function DataPreview({
                 setCheckedIds(checked ? products.map((p) => p.id) : [])
             : undefined
         }
+        sortBy={sortBy}
+        sortDirection={sortDirection}
+        onSort={handleSort}
       >
         {products.length === 0 ? (
           <TableRow className="border-primary/20">
@@ -255,6 +272,7 @@ export default function DataPreview({
 
                 {can("catalog.delete") && (
                   <DeleteBtn
+                    itemName={product.name[locale]}
                     onDelete={async () => {
                       setLoadingDelete(true);
                       const result = await deleteProductAction(product);

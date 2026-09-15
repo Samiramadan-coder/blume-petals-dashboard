@@ -8,6 +8,7 @@ export const columns = (t: T): DataTableColumn[] => [
   },
   {
     label: t("Table.Name"),
+    sortKey: "name",
   },
   {
     label: t("Table.Category"),

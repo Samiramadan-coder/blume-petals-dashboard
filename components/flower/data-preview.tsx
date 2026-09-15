@@ -176,6 +176,7 @@ function FlowerRow({
 
           {can("catalog.delete") && (
             <DeleteBtn
+              itemName={flower.name[locale]}
               onDelete={async () => {
                 setLoadingDelete(true);
                 const result = await deleteProductAction(flower);

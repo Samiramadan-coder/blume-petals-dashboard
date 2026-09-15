@@ -61,17 +61,22 @@ export default function DataPreviewCards({
                     alt={card.name[locale]}
                     width={40}
                     height={40}
+                    className="rounded-sm max-h-10"
                   />
                 </TableCell>
 
-                <TableCell className="px-4 py-3">{card.name[locale]}</TableCell>
-
                 <TableCell className="px-4 py-3">
-                  {card.description[locale]}
+                  <p className="font-semibold">{card.name[locale]}</p>
                 </TableCell>
 
                 <TableCell className="px-4 py-3">
-                  {tCommon("AED")} {card.price}
+                  <p className="text-xs">{card.description[locale]}</p>
+                </TableCell>
+
+                <TableCell className="px-4 py-3">
+                  <p className="text-xs font-semibold">
+                    {tCommon("AED")} {card.price}
+                  </p>
                 </TableCell>
 
                 <TableCell className="px-4 py-3 space-x-2">
@@ -79,6 +84,7 @@ export default function DataPreviewCards({
 
                   {can("catalog.delete") && (
                     <DeleteBtn
+                      itemName={card.name[locale]}
                       onDelete={async () => {
                         setLoadingDelete(true);
                         const result = await deleteCardAction(card);

@@ -122,6 +122,7 @@ export default function DataPreview({
 
               {can("catalog.delete") && (
                 <DeleteBtn
+                  itemName={category.name[locale]}
                   onDelete={async () => {
                     setLoadingDelete(true);
                     const result = await deleteCategoryAction(category);

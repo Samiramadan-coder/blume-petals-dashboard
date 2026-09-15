@@ -54,8 +54,8 @@ export default function DataPreviewRibbons({
           ) : (
             ribbons.map((ribbon, index) => (
               <TableRow key={index} className="border-primary/20">
-                <TableCell className="px-4 py-3 min-w-50">
-                  {ribbon.name[locale]}
+                <TableCell className="px-4 py-3">
+                  <p className="font-semibold">{ribbon.name[locale]}</p>
                 </TableCell>
 
                 <TableCell className="px-4 py-3">
@@ -68,7 +68,9 @@ export default function DataPreviewRibbons({
                 </TableCell>
 
                 <TableCell className="px-4 py-3">
-                  {tCommon("AED")} {ribbon.price}
+                  <p className="text-xs font-semibold">
+                    {tCommon("AED")} {ribbon.price}
+                  </p>
                 </TableCell>
 
                 <TableCell className="px-4 py-3 space-x-2">
@@ -76,6 +78,7 @@ export default function DataPreviewRibbons({
 
                   {can("catalog.delete") && (
                     <DeleteBtn
+                      itemName={ribbon.name[locale]}
                       onDelete={async () => {
                         setLoadingDelete(true);
                         const result = await deleteRibbonAction(ribbon);
