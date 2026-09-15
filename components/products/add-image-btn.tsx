@@ -33,7 +33,7 @@ export default function AddImageBtn({ productId }: { productId: number }) {
             const result = await addImageAction(productId, file);
 
             if (result.success) {
-              toast.success(t("ImageAddedSuccessfully"));
+              toast.success(result.message);
               return;
             }
 

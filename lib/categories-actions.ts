@@ -6,7 +6,10 @@ import { Category, CategoryFormValues } from "@/types/categories";
 
 // Post And Put Category Actions
 type PostAndPutCategoryResult =
-  | { success: true }
+  | {
+      success: true;
+      message: string;
+    }
   | {
       success: false;
       errors?: Partial<Record<keyof CategoryFormValues, string>>;
@@ -26,10 +29,10 @@ export async function postCategoryAction(
   delete dataWithoutFiles.banner;
 
   try {
-    const { data } = await http[method]<{ data: { category: Category } }>(
-      url,
-      dataWithoutFiles,
-    );
+    const { data } = await http[method]<{
+      data: { category: Category };
+      message: string;
+    }>(url, dataWithoutFiles);
 
     // Post Or Update Icon
     if (formData.icon instanceof Blob) {
@@ -62,7 +65,7 @@ export async function postCategoryAction(
     }
 
     updateTag("categories");
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (err) {
     if (err instanceof ValidationError) {
       const errors = Object.fromEntries(
@@ -79,18 +82,23 @@ export async function postCategoryAction(
 }
 
 // Update Visibility Action
-type UpdateCategoryVisibilityResult = { success: boolean };
+type UpdateCategoryVisibilityResult =
+  | { success: true; message: string }
+  | { success: false };
 
 export async function updateCategoryVisibilityAction(
   category: Category,
 ): Promise<UpdateCategoryVisibilityResult> {
   try {
-    await http.patch(`/api/v1/admin/categories/${category.id}/visibility`, {
-      is_visible: !category.is_visible,
-    });
+    const { data } = await http.patch<{ message: string }>(
+      `/api/v1/admin/categories/${category.id}/visibility`,
+      {
+        is_visible: !category.is_visible,
+      },
+    );
 
     updateTag("categories");
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (err) {
     console.error("Error updating category visibility:", err);
     return { success: false };
@@ -98,15 +106,19 @@ export async function updateCategoryVisibilityAction(
 }
 
 // Delete Category Action
-type DeleteCategoryResult = { success: boolean };
+type DeleteCategoryResult =
+  | { success: true; message: string }
+  | { success: false };
 
 export async function deleteCategoryAction(
   category: Category,
 ): Promise<DeleteCategoryResult> {
   try {
-    await http.delete(`/api/v1/admin/categories/${category.id}`);
+    const { data } = await http.delete<{ message: string }>(
+      `/api/v1/admin/categories/${category.id}`,
+    );
     updateTag("categories");
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (err) {
     console.error("Error deleting category:", err);
     return { success: false };
@@ -114,17 +126,21 @@ export async function deleteCategoryAction(
 }
 
 // Reorder Categories Action
-type ReorderCategoriesResult = { success: boolean };
+type ReorderCategoriesResult =
+  | { success: true; message: string }
+  | { success: false };
 
 export async function reorderCategoriesAction(
   ids: number[],
 ): Promise<ReorderCategoriesResult> {
   try {
-    await http.patch("/api/v1/admin/categories/reorder", {
+    const { data } = await http.patch<{ message: string }>(
+      "/api/v1/admin/categories/reorder",
       ids,
-    });
+    );
+
     updateTag("categories");
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (err) {
     console.error("Error reordering categories:", err);
     return { success: false };

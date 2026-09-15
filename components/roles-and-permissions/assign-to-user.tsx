@@ -50,7 +50,7 @@ export default function AssignToUser({
     const result = await assignRoleToUser(data.user_id, data.role_id);
 
     if (result.success) {
-      toast.success(tCommon("CreatedSuccessfully"));
+      toast.success(result.message);
       closeBtn.current?.click();
       return;
     }

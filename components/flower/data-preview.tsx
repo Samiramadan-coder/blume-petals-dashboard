@@ -181,7 +181,7 @@ function FlowerRow({
                 const result = await deleteProductAction(flower);
                 setLoadingDelete(false);
                 if (result.success) {
-                  toast.success(tCommon("DeletedSuccessfully"));
+                  toast.success(result.message);
                   return;
                 }
                 toast.error(tCommon("DeleteFailed"));

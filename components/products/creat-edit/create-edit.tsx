@@ -84,11 +84,7 @@ export default function CreateEdit({
     const result = await postProductAction(values, product?.id);
 
     if (result.success) {
-      toast.success(
-        product
-          ? tCommon("UpdatedSuccessfully")
-          : tCommon("CreatedSuccessfully"),
-      );
+      toast.success(result.message);
       form.current?.reset();
       closeBtn.current?.click();
       return;

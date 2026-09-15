@@ -9,7 +9,7 @@ import {
 
 // Post And Put Country Actions
 type PostAndPutCountryResult =
-  | { success: true }
+  | { success: true; message: string }
   | {
       success: false;
       errors?: Partial<Record<keyof DeliveryPickupLocationFormValues, string>>;
@@ -25,9 +25,9 @@ export async function postDeliveryPickupLocationAction(
     : "/api/v1/admin/pickup-locations";
 
   try {
-    await http[method](url, formData);
+    const { data } = await http[method]<{ message: string }>(url, formData);
     updateTag("delivery-pickup-locations");
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (err) {
     if (err instanceof ValidationError) {
       const errors = Object.fromEntries(
@@ -43,13 +43,15 @@ export async function postDeliveryPickupLocationAction(
 }
 
 // Update Visibility Action
-type UpdateLocationVisibilityResult = { success: boolean };
+type UpdateLocationVisibilityResult =
+  | { success: true; message: string }
+  | { success: false };
 
 export async function updateLocationVisibilityAction(
   location: DeliveryPickupLocation,
 ): Promise<UpdateLocationVisibilityResult> {
   try {
-    await http.patch(
+    const { data } = await http.patch<{ message: string }>(
       `/api/v1/admin/pickup-locations/${location.id}/visibility`,
       {
         is_active: !location.is_active,
@@ -57,7 +59,7 @@ export async function updateLocationVisibilityAction(
     );
 
     updateTag("delivery-pickup-locations");
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (err) {
     console.error("Error updating location visibility:", err);
     return { success: false };
@@ -65,16 +67,20 @@ export async function updateLocationVisibilityAction(
 }
 
 // Delete Country Action
-type DeleteDeliveryPickupLocationResult = { success: boolean };
+type DeleteDeliveryPickupLocationResult =
+  | { success: true; message: string }
+  | { success: false };
 
 export async function deleteDeliveryPickupLocationAction(
   location: DeliveryPickupLocation,
 ): Promise<DeleteDeliveryPickupLocationResult> {
   try {
-    await http.delete(`/api/v1/admin/pickup-locations/${location.id}`);
+    const { data } = await http.delete<{ message: string }>(
+      `/api/v1/admin/pickup-locations/${location.id}`,
+    );
 
     updateTag("delivery-pickup-locations");
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (err) {
     console.error("Error deleting location:", err);
     return { success: false };
@@ -82,17 +88,22 @@ export async function deleteDeliveryPickupLocationAction(
 }
 
 // Reorder Countries Action
-type ReorderDeliveryPickupLocationsResult = { success: boolean };
+type ReorderDeliveryPickupLocationsResult =
+  | { success: true; message: string }
+  | { success: false };
 
 export async function reorderDeliveryPickupLocationsAction(
   ids: number[],
 ): Promise<ReorderDeliveryPickupLocationsResult> {
   try {
-    await http.patch("/api/v1/admin/pickup-locations/reorder", {
-      ids,
-    });
+    const { data } = await http.patch<{ message: string }>(
+      "/api/v1/admin/pickup-locations/reorder",
+      {
+        ids,
+      },
+    );
     updateTag("delivery-pickup-locations");
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (err) {
     console.error("Error reordering delivery pickup locations:", err);
     return { success: false };

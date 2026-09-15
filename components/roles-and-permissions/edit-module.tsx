@@ -58,7 +58,7 @@ export default function EditModule({
     const result = await createRole(data, role.id);
 
     if (result.success) {
-      toast.success(tCommon("UpdatedSuccessfully"));
+      toast.success(result.message);
       return;
     }
 

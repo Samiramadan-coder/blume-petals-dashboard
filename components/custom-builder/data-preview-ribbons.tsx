@@ -81,7 +81,7 @@ export default function DataPreviewRibbons({
                         const result = await deleteRibbonAction(ribbon);
                         setLoadingDelete(false);
                         if (result.success) {
-                          toast.success(tCommon("DeletedSuccessfully"));
+                          toast.success(result.message);
                           return;
                         }
                         toast.error(tCommon("DeleteFailed"));

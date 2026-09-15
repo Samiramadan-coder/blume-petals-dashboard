@@ -59,7 +59,7 @@ export default function Create() {
     const result = await postNotificationAction(data);
 
     if (result.success) {
-      toast.success(tCommon("CreatedSuccessfully"));
+      toast.success(result.message);
       form.current?.reset();
       closeBtn.current?.click();
       return;

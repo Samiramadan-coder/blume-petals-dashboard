@@ -58,11 +58,7 @@ export default function CreateEditRibbon({
   const onSubmit: SubmitHandler<RibbonFormValues> = async (data) => {
     const result = await postRibbonAction(data, ribbon?.id);
     if (result.success) {
-      toast.success(
-        ribbon
-          ? tCommon("UpdatedSuccessfully")
-          : tCommon("CreatedSuccessfully"),
-      );
+      toast.success(result.message);
       form.current?.reset();
       closeBtn.current?.click();
       return;

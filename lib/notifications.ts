@@ -3,7 +3,7 @@ import { http, ValidationError } from "./http";
 
 // Create Notifications
 type NotificationResponse =
-  | { success: true }
+  | { success: true; message: string }
   | {
       success: false;
       errors?: Partial<Record<keyof NotificationFormData, string>>;
@@ -13,8 +13,11 @@ export async function postNotificationAction(
   data: NotificationFormData,
 ): Promise<NotificationResponse> {
   try {
-    await http.post("/api/v1/admin/notifications/broadcast", data);
-    return { success: true };
+    const { data: responseData } = await http.post<{ message: string }>(
+      "/api/v1/admin/notifications/broadcast",
+      data,
+    );
+    return { success: true, message: responseData.message };
   } catch (error) {
     console.error("Error creating notification:", error);
 

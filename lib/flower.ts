@@ -9,6 +9,7 @@ import { updateTag } from "next/cache";
 type PostAndPutFlowerResult =
   | {
       success: true;
+      message: string;
     }
   | {
       success: false;
@@ -33,6 +34,7 @@ export async function postFlowerAction(
   try {
     const { data } = await http[method]<{
       data: { product: Product };
+      message: string;
     }>(url, dataWithoutFiles);
 
     // Post Or Update Images
@@ -48,7 +50,7 @@ export async function postFlowerAction(
     }
 
     updateTag("flowers");
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (err) {
     console.error("Product create/update request failed", err);
     if (err instanceof ValidationError) {
@@ -69,6 +71,7 @@ export async function postFlowerAction(
 type RestockFlowerResult =
   | {
       success: true;
+      message: string;
     }
   | {
       success: false;
@@ -81,12 +84,12 @@ export async function restockFlowerAction(
   variantId: number,
 ): Promise<RestockFlowerResult> {
   try {
-    await http.patch(
+    const { data } = await http.patch<{ message: string }>(
       `/api/v1/admin/products/${productId}/variants/${variantId}/stock`,
       formData,
     );
     updateTag("flowers");
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (err) {
     console.error("Restock request failed", err);
     if (err instanceof ValidationError) {

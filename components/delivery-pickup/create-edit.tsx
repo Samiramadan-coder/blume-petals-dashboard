@@ -91,11 +91,7 @@ export default function CreateEdit({
     const result = await postDeliveryPickupLocationAction(data, location?.id);
 
     if (result.success) {
-      toast.success(
-        location
-          ? tCommon("UpdatedSuccessfully")
-          : tCommon("CreatedSuccessfully"),
-      );
+      toast.success(result.message);
       form.current?.reset();
       closeBtn.current?.click();
       return;

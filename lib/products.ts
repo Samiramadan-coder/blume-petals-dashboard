@@ -8,6 +8,7 @@ import { http, ValidationError } from "@/lib/http";
 type PostAndPutProductResult =
   | {
       success: true;
+      message: string;
     }
   | {
       success: false;
@@ -31,9 +32,8 @@ export async function postProductAction(
 
   try {
     const { data } = await http[method]<{
-      data: {
-        product: Product;
-      };
+      data: { product: Product };
+      message: string;
     }>(url, dataWithoutFiles);
 
     // Post Or Update Images
@@ -69,7 +69,7 @@ export async function postProductAction(
     });
 
     updateTag("products");
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (err) {
     console.error("Product create/update request failed", err);
     if (err instanceof ValidationError) {
@@ -87,18 +87,23 @@ export async function postProductAction(
 }
 
 // Update Visibility Action
-type UpdateProductStatusResult = { success: boolean };
+type UpdateProductStatusResult =
+  | { success: true; message: string }
+  | { success: false };
 
 export async function updateProductStatusAction(
   product: Product,
 ): Promise<UpdateProductStatusResult> {
   try {
-    await http.patch(`/api/v1/admin/products/${product.id}/status`, {
-      status: product.status === "published" ? "draft" : "published",
-    });
+    const { data } = await http.patch<{ message: string }>(
+      `/api/v1/admin/products/${product.id}/status`,
+      {
+        status: product.status === "published" ? "draft" : "published",
+      },
+    );
 
     updateTag("products");
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (err) {
     console.error("Error updating product status:", err);
     return { success: false };
@@ -106,15 +111,19 @@ export async function updateProductStatusAction(
 }
 
 // Delete Product Action
-type DeleteProductResult = { success: boolean };
+type DeleteProductResult =
+  | { success: true; message: string }
+  | { success: false };
 
 export async function deleteProductAction(
   product: Product,
 ): Promise<DeleteProductResult> {
   try {
-    await http.delete(`/api/v1/admin/products/${product.id}`);
+    const { data } = await http.delete<{ message: string }>(
+      `/api/v1/admin/products/${product.id}`,
+    );
     updateTag("products");
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (err) {
     console.error("Error deleting product:", err);
     return { success: false };
@@ -122,7 +131,7 @@ export async function deleteProductAction(
 }
 
 // Add Image Action
-type AddImageResult = { success: boolean };
+type AddImageResult = { success: true; message: string } | { success: false };
 
 export async function addImageAction(
   productId: number,
@@ -132,11 +141,14 @@ export async function addImageAction(
     const formData = new FormData();
     formData.append("image", image);
     formData.append("is_primary", "0");
-    await http.post(`/api/v1/admin/products/${productId}/images`, formData);
+    const { data } = await http.post<{ message: string }>(
+      `/api/v1/admin/products/${productId}/images`,
+      formData,
+    );
 
     updateTag("products");
     updateTag(`product-${productId}`);
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (err) {
     console.error("Error adding image:", err);
     return { success: false };
@@ -144,20 +156,22 @@ export async function addImageAction(
 }
 
 // Set As Main Image Action
-type SetAsMainImageResult = { success: boolean };
+type SetAsMainImageResult =
+  | { success: true; message: string }
+  | { success: false };
 
 export async function setAsMainImageAction(
   productId: number,
   imageId: number,
 ): Promise<SetAsMainImageResult> {
   try {
-    await http.patch(
+    const { data } = await http.patch<{ message: string }>(
       `/api/v1/admin/products/${productId}/images/${imageId}/primary`,
     );
 
     updateTag("products");
     updateTag(`product-${productId}`);
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (err) {
     console.error("Error setting image as main:", err);
     return { success: false };
@@ -165,17 +179,21 @@ export async function setAsMainImageAction(
 }
 
 // Delete Image Action
-type DeleteImageResult = { success: boolean };
+type DeleteImageResult =
+  | { success: true; message: string }
+  | { success: false };
 
 export async function deleteImageAction(
   productId: number,
   imageId: number,
 ): Promise<DeleteImageResult> {
   try {
-    await http.delete(`/api/v1/admin/products/${productId}/images/${imageId}`);
+    const { data } = await http.delete<{ message: string }>(
+      `/api/v1/admin/products/${productId}/images/${imageId}`,
+    );
     updateTag("products");
     updateTag(`product-${productId}`);
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (err) {
     console.error("Error deleting image:", err);
     return { success: false };
@@ -228,17 +246,19 @@ export async function addVariantAction(
 }
 
 // Delete Variant Action
-type DeleteVariantResult = { success: boolean };
+type DeleteVariantResult =
+  | { success: true; message: string }
+  | { success: false };
 
 export async function deleteVariantAction(
   productId: number,
   variantId: number,
 ): Promise<DeleteVariantResult> {
   try {
-    await http.delete(
+    const { data } = await http.delete<{ message: string }>(
       `/api/v1/admin/products/${productId}/variants/${variantId}`,
     );
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (err) {
     console.error("Error deleting variant:", err);
     return { success: false };

@@ -260,7 +260,7 @@ export default function DataPreview({
                       const result = await deleteProductAction(product);
                       setLoadingDelete(false);
                       if (result.success) {
-                        toast.success(tCommon("DeletedSuccessfully"));
+                        toast.success(result.message);
                         return;
                       }
                       toast.error(tCommon("DeleteFailed"));
@@ -305,7 +305,7 @@ function VisibilitySwitch({
             setLoading(false);
 
             if (result.success) {
-              toast.success(tCommon("VisibilityUpdated"));
+              toast.success(result.message);
               return;
             }
 

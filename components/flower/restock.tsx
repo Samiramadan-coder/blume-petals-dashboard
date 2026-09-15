@@ -47,7 +47,7 @@ export default function Restock({ flower }: { flower: Product }) {
     );
 
     if (result.success) {
-      toast.success(t("Restock.StockUpdated"));
+      toast.success(result.message);
       closeBtn.current?.click();
       return;
     }

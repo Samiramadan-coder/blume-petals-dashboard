@@ -52,7 +52,7 @@ export default function DataPreview({
             newOccasions.map((occasion) => occasion.id),
           );
           if (result.success) {
-            toast.success(tCommon("ReorderedSuccessfully"));
+            toast.success(result.message);
             return;
           }
           toast.error(tCommon("ReorderFailed"));
@@ -125,7 +125,7 @@ export default function DataPreview({
                     const result = await deleteOccasionAction(occasion);
                     setLoadingDelete(false);
                     if (result.success) {
-                      toast.success(tCommon("DeletedSuccessfully"));
+                      toast.success(result.message);
                       return;
                     }
                     toast.error(tCommon("DeleteFailed"));
@@ -167,7 +167,7 @@ function VisibilitySwitch({
             const result = await updateOccasionVisibilityAction(occasion);
             setLoading(false);
             if (result.success) {
-              toast.success(tCommon("VisibilityUpdated"));
+              toast.success(result.message);
               return;
             }
             toast.error(tCommon("VisibilityUpdateFailed"));

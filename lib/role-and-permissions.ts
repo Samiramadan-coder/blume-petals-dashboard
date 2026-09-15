@@ -5,7 +5,15 @@ import { ForbiddenError, http, ServerError } from "./http";
 import { RoleFormValues } from "@/types/role-and-permissions";
 
 // Create Or Edit Role Form
-type RoleResponse = { success: true } | { success: false; message?: string };
+type RoleResponse =
+  | {
+      success: true;
+      message: string;
+    }
+  | {
+      success: false;
+      message?: string;
+    };
 
 export async function createRole(
   role: RoleFormValues,
@@ -15,9 +23,9 @@ export async function createRole(
   const method = roleId ? "put" : "post";
 
   try {
-    await http[method](url, role);
+    const { data } = await http[method]<{ message: string }>(url, role);
     updateTag("roles-and-permissions");
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (error) {
     console.error("Error creating role:", error);
 
@@ -35,14 +43,16 @@ export async function createRole(
 
 // Delete Role
 type DeleteRoleResponse =
-  | { success: true }
+  | { success: true; message: string }
   | { success: false; message?: string };
 
 export async function deleteRole(roleId: number): Promise<DeleteRoleResponse> {
   try {
-    await http.delete(`/api/v1/admin/roles/${roleId}`);
+    const { data } = await http.delete<{ message: string }>(
+      `/api/v1/admin/roles/${roleId}`,
+    );
     updateTag("roles-and-permissions");
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (error) {
     console.error("Error deleting role:", error);
 
@@ -60,7 +70,7 @@ export async function deleteRole(roleId: number): Promise<DeleteRoleResponse> {
 
 // Assign Role to User
 type AssignRoleToUserResponse =
-  | { success: true }
+  | { success: true; message: string }
   | { success: false; message?: string };
 
 export async function assignRoleToUser(
@@ -68,11 +78,14 @@ export async function assignRoleToUser(
   roleId: number,
 ): Promise<AssignRoleToUserResponse> {
   try {
-    await http.put(`/api/v1/admin/users/${userId}/role`, {
-      role_id: roleId,
-    });
+    const { data } = await http.put<{ message: string }>(
+      `/api/v1/admin/users/${userId}/role`,
+      {
+        role_id: roleId,
+      },
+    );
     updateTag("roles-and-permissions");
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (error) {
     console.error("Error assigning role to user:", error);
 

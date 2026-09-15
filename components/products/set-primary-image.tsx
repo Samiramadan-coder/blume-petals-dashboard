@@ -19,7 +19,7 @@ export default function SetPrimaryImage({
       const result = await setAsMainImageAction(productId, imageId);
 
       if (result.success) {
-        toast.success(t("SetAsMainSuccess"));
+        toast.success(result.message);
       }
     } catch (err) {
       console.error("Error setting image as main:", err);

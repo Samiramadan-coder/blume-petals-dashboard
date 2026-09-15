@@ -38,7 +38,7 @@ export default function DataPreview({ settings }: { settings: Settings }) {
     const result = await saveSettings(data);
 
     if (result.success) {
-      toast.success(t("SavedSuccessfully"));
+      toast.success(result.message);
       return;
     }
 

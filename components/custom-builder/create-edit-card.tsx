@@ -63,9 +63,7 @@ export default function CreateEditCard({
     const result = await postCardAction(data, card?.id);
 
     if (result.success) {
-      toast.success(
-        card ? tCommon("UpdatedSuccessfully") : tCommon("CreatedSuccessfully"),
-      );
+      toast.success(result.message);
       form.current?.reset();
       closeBtn.current?.click();
       return;

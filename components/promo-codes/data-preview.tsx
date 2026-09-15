@@ -179,7 +179,7 @@ export default function DataPreview({
                     setLoadingDelete(false);
 
                     if (result.success) {
-                      toast.success(tCommon("DeletedSuccessfully"));
+                      toast.success(result.message);
                       return;
                     }
 
@@ -223,7 +223,7 @@ function ActiveSwitch({
             setLoading(false);
 
             if (result.success) {
-              toast.success(tCommon("VisibilityUpdated"));
+              toast.success(result.message);
               return;
             }
 

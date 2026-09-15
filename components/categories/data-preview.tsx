@@ -127,7 +127,7 @@ export default function DataPreview({
                     const result = await deleteCategoryAction(category);
                     setLoadingDelete(false);
                     if (result.success) {
-                      toast.success(tCommon("DeletedSuccessfully"));
+                      toast.success(result.message);
                       return;
                     }
                     toast.error(tCommon("DeleteFailed"));
@@ -169,7 +169,7 @@ function VisibilitySwitch({
             const result = await updateCategoryVisibilityAction(category);
             setLoading(false);
             if (result.success) {
-              toast.success(tCommon("VisibilityUpdated"));
+              toast.success(result.message);
               return;
             }
             toast.error(tCommon("VisibilityUpdateFailed"));

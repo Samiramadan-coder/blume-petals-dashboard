@@ -108,11 +108,7 @@ export default function CreateEdit({
     const result = await postTemplateAction(preparedValues, template?.id);
 
     if (result.success) {
-      toast.success(
-        template
-          ? tCommon("UpdatedSuccessfully")
-          : tCommon("CreatedSuccessfully"),
-      );
+      toast.success(result.message);
       form.current?.reset();
       closeBtn.current?.click();
       return;

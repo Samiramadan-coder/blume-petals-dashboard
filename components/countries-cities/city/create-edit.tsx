@@ -86,9 +86,7 @@ export default function CreateEdit({
     const result = await postCityAction(data, city?.id);
 
     if (result.success) {
-      toast.success(
-        city ? tCommon("UpdatedSuccessfully") : tCommon("CreatedSuccessfully"),
-      );
+      toast.success(result.message);
       form.current?.reset();
       closeBtn.current?.click();
       return;

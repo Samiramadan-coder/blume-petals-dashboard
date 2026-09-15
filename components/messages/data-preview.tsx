@@ -72,7 +72,7 @@ export default function DataPreview({
                       setLoadingDelete(false);
 
                       if (result.success) {
-                        toast.success(tCommon("DeletedSuccessfully"));
+                        toast.success(result.message);
                         return;
                       }
 

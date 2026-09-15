@@ -59,7 +59,7 @@ export default function DataPreview({
           );
 
           if (result.success) {
-            toast.success(tCommon("ReorderedSuccessfully"));
+            toast.success(result.message);
             return;
           }
 
@@ -105,7 +105,7 @@ export default function DataPreview({
                     await deleteDeliveryPickupLocationAction(location);
                   setLoadingDelete(false);
                   if (result.success) {
-                    toast.success(tCommon("DeletedSuccessfully"));
+                    toast.success(result.message);
                     return;
                   }
                   toast.error(tCommon("DeleteFailed"));
@@ -139,7 +139,7 @@ function VisibilitySwitch({ location }: { location: DeliveryPickupLocation }) {
             const result = await updateLocationVisibilityAction(location);
             setLoading(false);
             if (result.success) {
-              toast.success(tCommon("VisibilityUpdated"));
+              toast.success(result.message);
               return;
             }
             toast.error(tCommon("VisibilityUpdateFailed"));

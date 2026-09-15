@@ -59,7 +59,7 @@ export default function DataPreview({
           );
 
           if (result.success) {
-            toast.success(tCommon("ReorderedSuccessfully"));
+            toast.success(result.message);
             return;
           }
 
@@ -100,7 +100,7 @@ export default function DataPreview({
                   setLoadingDelete(false);
 
                   if (result.success) {
-                    toast.success(tCommon("DeletedSuccessfully"));
+                    toast.success(result.message);
                     return;
                   }
 
@@ -136,7 +136,7 @@ function VisibilitySwitch({ city }: { city: City }) {
             setLoading(false);
 
             if (result.success) {
-              toast.success(tCommon("VisibilityUpdated"));
+              toast.success(result.message);
               return;
             }
 

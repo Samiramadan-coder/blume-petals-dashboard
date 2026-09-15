@@ -19,7 +19,7 @@ export default function DeleteImage({
       const result = await deleteImageAction(productId, imageId);
 
       if (result.success) {
-        toast.success(tCommon("DeletedSuccessfully"));
+        toast.success(result.message);
       }
     } catch (err) {
       console.error("Error deleting image:", err);

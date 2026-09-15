@@ -168,7 +168,7 @@ export default function DataPreview({
                         const result = await deleteProductAction(template);
                         setLoadingDelete(false);
                         if (result.success) {
-                          toast.success(tCommon("DeletedSuccessfully"));
+                          toast.success(result.message);
                           return;
                         }
                         toast.error(tCommon("DeleteFailed"));

@@ -1,7 +1,9 @@
 import { SettingsSchema } from "@/types/settings";
 import { http } from "./http";
 
-type SaveSettingsResponse = { success: boolean };
+type SaveSettingsResponse =
+  | { success: true; message: string }
+  | { success: false };
 
 export async function saveSettings(
   settings: SettingsSchema,
@@ -9,7 +11,10 @@ export async function saveSettings(
   try {
     const dataWithoutLogo: Partial<SettingsSchema> = { ...settings };
     delete dataWithoutLogo.logo_url;
-    await http.put("/api/v1/admin/settings", dataWithoutLogo);
+    const { data } = await http.put<{ message: string }>(
+      "/api/v1/admin/settings",
+      dataWithoutLogo,
+    );
 
     if (settings.logo_url instanceof File) {
       const formData = new FormData();
@@ -17,7 +22,7 @@ export async function saveSettings(
       await http.post("/api/v1/admin/settings/logo", formData);
     }
 
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (error) {
     console.error("Error saving settings:", error);
     return { success: false };

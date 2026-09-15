@@ -86,11 +86,7 @@ export default function CreateEdit({
     const result = await postFlowerAction({ ...values, variants }, flower?.id);
 
     if (result.success) {
-      toast.success(
-        flower
-          ? tCommon("UpdatedSuccessfully")
-          : tCommon("CreatedSuccessfully"),
-      );
+      toast.success(result.message);
       form.current?.reset();
       closeBtn.current?.click();
       return;

@@ -51,7 +51,7 @@ export default function CreateNewRole({ roles }: { roles: Role[] }) {
     const result = await createRole(data);
 
     if (result.success) {
-      toast.success(tCommon("CreatedSuccessfully"));
+      toast.success(result.message);
       closeBtn.current?.click();
       return;
     }

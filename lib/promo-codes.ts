@@ -8,7 +8,7 @@ import { Coupon, PromoCodeFormValues } from "@/types/promo-codes";
 type PromoCodesActionErrors = Record<string, string>;
 
 type PostAndPutPromoCodeResult =
-  | { success: true }
+  | { success: true; message: string }
   | {
       success: false;
       errors?: PromoCodesActionErrors;
@@ -24,10 +24,10 @@ export async function postPromoCodeAction(
     : "/api/v1/admin/coupons";
 
   try {
-    await http[method](url, formData);
+    const { data } = await http[method]<{ message: string }>(url, formData);
 
     updateTag("promo-codes");
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (err) {
     console.error("Promo code create/update request failed", err);
     if (err instanceof ValidationError) {
@@ -44,18 +44,23 @@ export async function postPromoCodeAction(
 }
 
 // Update Visibility Action
-type UpdateCouponStatusResult = { success: boolean };
+type UpdateCouponStatusResult =
+  | { success: true; message: string }
+  | { success: false };
 
 export async function updateCouponStatusAction(
   coupon: Coupon,
 ): Promise<UpdateCouponStatusResult> {
   try {
-    await http.patch(`/api/v1/admin/coupons/${coupon.id}/active`, {
-      is_active: !coupon.is_active,
-    });
+    const { data } = await http.patch<{ message: string }>(
+      `/api/v1/admin/coupons/${coupon.id}/active`,
+      {
+        is_active: !coupon.is_active,
+      },
+    );
 
     updateTag("promo-codes");
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (err) {
     console.error("Error updating coupon status:", err);
     return { success: false };
@@ -63,15 +68,19 @@ export async function updateCouponStatusAction(
 }
 
 // Delete Coupon Action
-type DeleteCouponResult = { success: boolean };
+type DeleteCouponResult =
+  | { success: true; message: string }
+  | { success: false };
 
 export async function deleteCouponAction(
   coupon: Coupon,
 ): Promise<DeleteCouponResult> {
   try {
-    await http.delete(`/api/v1/admin/coupons/${coupon.id}`);
+    const { data } = await http.delete<{ message: string }>(
+      `/api/v1/admin/coupons/${coupon.id}`,
+    );
     updateTag("promo-codes");
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (err) {
     console.error("Error deleting coupon:", err);
     return { success: false };

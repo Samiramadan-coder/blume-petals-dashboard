@@ -134,11 +134,7 @@ export default function CreateEdit({
     const result = await postCategoryAction(data, category?.id);
 
     if (result.success) {
-      toast.success(
-        category
-          ? tCommon("UpdatedSuccessfully")
-          : tCommon("CreatedSuccessfully"),
-      );
+      toast.success(result.message);
       form.current?.reset();
       closeBtn.current?.click();
       return;
@@ -173,7 +169,6 @@ export default function CreateEdit({
         showCloseButton={false}
         className="flex h-full flex-col sm:max-w-2xl"
         side={locale === "ar" ? "left" : "right"}
-        // onInteractOutside={(event) => event.preventDefault()}
       >
         <SheetClose asChild>
           <Button ref={closeBtn} className="hidden"></Button>

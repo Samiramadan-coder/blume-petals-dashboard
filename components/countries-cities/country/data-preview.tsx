@@ -54,7 +54,7 @@ export default function DataPreview({
           );
 
           if (result.success) {
-            toast.success(tCommon("ReorderedSuccessfully"));
+            toast.success(result.message);
             return;
           }
 
@@ -87,7 +87,7 @@ export default function DataPreview({
                   const result = await deleteCountryAction(country);
                   setLoadingDelete(false);
                   if (result.success) {
-                    toast.success(tCommon("DeletedSuccessfully"));
+                    toast.success(result.message);
                     return;
                   }
                   toast.error(tCommon("DeleteFailed"));
@@ -121,7 +121,7 @@ function VisibilitySwitch({ country }: { country: Country }) {
             const result = await updateCountryVisibilityAction(country);
             setLoading(false);
             if (result.success) {
-              toast.success(tCommon("VisibilityUpdated"));
+              toast.success(result.message);
               return;
             }
             toast.error(tCommon("VisibilityUpdateFailed"));

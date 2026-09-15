@@ -90,11 +90,7 @@ export default function CreateEdit({
     const result = await postPromoCodeAction(data, coupon?.id);
 
     if (result.success) {
-      toast.success(
-        coupon
-          ? tCommon("UpdatedSuccessfully")
-          : tCommon("CreatedSuccessfully"),
-      );
+      toast.success(result.message);
       form.current?.reset();
       closeBtn.current?.click();
       return;

@@ -11,7 +11,7 @@ import {
 
 // Post And Put Country Actions
 type PostAndPutCountryResult =
-  | { success: true }
+  | { success: true; message: string }
   | {
       success: false;
       errors?: Partial<Record<keyof CountryFormValues, string>>;
@@ -27,9 +27,9 @@ export async function postCountryAction(
     : "/api/v1/admin/countries";
 
   try {
-    await http[method](url, formData);
+    const { data } = await http[method]<{ message: string }>(url, formData);
     updateTag("countries");
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (err) {
     if (err instanceof ValidationError) {
       const errors = Object.fromEntries(
@@ -46,18 +46,23 @@ export async function postCountryAction(
 }
 
 // Update Visibility Action
-type UpdateCountryVisibilityResult = { success: boolean };
+type UpdateCountryVisibilityResult =
+  | { success: true; message: string }
+  | { success: false };
 
 export async function updateCountryVisibilityAction(
   country: Country,
 ): Promise<UpdateCountryVisibilityResult> {
   try {
-    await http.patch(`/api/v1/admin/countries/${country.id}/visibility`, {
-      is_active: !country.is_active,
-    });
+    const { data } = await http.patch<{ message: string }>(
+      `/api/v1/admin/countries/${country.id}/visibility`,
+      {
+        is_active: !country.is_active,
+      },
+    );
 
     updateTag("countries");
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (err) {
     console.error("Error updating country visibility:", err);
     return { success: false };
@@ -65,15 +70,19 @@ export async function updateCountryVisibilityAction(
 }
 
 // Delete Country Action
-type DeleteCountryResult = { success: boolean };
+type DeleteCountryResult =
+  | { success: true; message: string }
+  | { success: false };
 
 export async function deleteCountryAction(
   country: Country,
 ): Promise<DeleteCountryResult> {
   try {
-    await http.delete(`/api/v1/admin/countries/${country.id}`);
+    const { data } = await http.delete<{ message: string }>(
+      `/api/v1/admin/countries/${country.id}`,
+    );
     updateTag("countries");
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (err) {
     console.error("Error deleting country:", err);
     return { success: false };
@@ -81,17 +90,22 @@ export async function deleteCountryAction(
 }
 
 // Reorder Countries Action
-type ReorderCountriesResult = { success: boolean };
+type ReorderCountriesResult =
+  | { success: true; message: string }
+  | { success: false };
 
 export async function reorderCountriesAction(
   ids: number[],
 ): Promise<ReorderCountriesResult> {
   try {
-    await http.patch("/api/v1/admin/countries/reorder", {
-      ids,
-    });
+    const { data } = await http.patch<{ message: string }>(
+      "/api/v1/admin/countries/reorder",
+      {
+        ids,
+      },
+    );
     updateTag("countries");
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (err) {
     console.error("Error reordering countries:", err);
     return { success: false };
@@ -100,7 +114,7 @@ export async function reorderCountriesAction(
 
 // Post And Put Country Actions
 type PostAndPutCityResult =
-  | { success: true }
+  | { success: true; message: string }
   | {
       success: false;
       errors?: Partial<Record<keyof CityFormValues, string>>;
@@ -116,9 +130,9 @@ export async function postCityAction(
     : "/api/v1/admin/cities";
 
   try {
-    await http[method](url, formData);
+    const { data } = await http[method]<{ message: string }>(url, formData);
     updateTag("cities");
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (err) {
     if (err instanceof ValidationError) {
       const errors = Object.fromEntries(
@@ -135,17 +149,22 @@ export async function postCityAction(
 }
 
 // Reorder Countries Action
-type ReorderCitiesResult = { success: boolean };
+type ReorderCitiesResult =
+  | { success: true; message: string }
+  | { success: false };
 
 export async function reorderCitiesAction(
   ids: number[],
 ): Promise<ReorderCitiesResult> {
   try {
-    await http.patch("/api/v1/admin/cities/reorder", {
-      ids,
-    });
+    const { data } = await http.patch<{ message: string }>(
+      "/api/v1/admin/cities/reorder",
+      {
+        ids,
+      },
+    );
     updateTag("cities");
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (err) {
     console.error("Error reordering cities:", err);
     return { success: false };
@@ -153,13 +172,15 @@ export async function reorderCitiesAction(
 }
 
 // Delete Country Action
-type DeleteCityResult = { success: boolean };
+type DeleteCityResult = { success: true; message: string } | { success: false };
 
 export async function deleteCityAction(city: City): Promise<DeleteCityResult> {
   try {
-    await http.delete(`/api/v1/admin/cities/${city.id}`);
+    const { data } = await http.delete<{ message: string }>(
+      `/api/v1/admin/cities/${city.id}`,
+    );
     updateTag("cities");
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (err) {
     console.error("Error deleting city:", err);
     return { success: false };
@@ -167,18 +188,23 @@ export async function deleteCityAction(city: City): Promise<DeleteCityResult> {
 }
 
 // Update Visibility Action
-type UpdateCityVisibilityResult = { success: boolean };
+type UpdateCityVisibilityResult =
+  | { success: true; message: string }
+  | { success: false };
 
 export async function updateCityVisibilityAction(
   city: City,
 ): Promise<UpdateCityVisibilityResult> {
   try {
-    await http.patch(`/api/v1/admin/cities/${city.id}/visibility`, {
-      is_active: !city.is_active,
-    });
+    const { data } = await http.patch<{ message: string }>(
+      `/api/v1/admin/cities/${city.id}/visibility`,
+      {
+        is_active: !city.is_active,
+      },
+    );
 
     updateTag("cities");
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (err) {
     console.error("Error updating city visibility:", err);
     return { success: false };

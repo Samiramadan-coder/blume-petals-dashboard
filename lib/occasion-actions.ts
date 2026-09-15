@@ -6,7 +6,7 @@ import { Occasion, OccasionFormValues } from "@/types/occasions";
 
 // Post And Put Category Actions
 type PostAndPutOccasionsResult =
-  | { success: true }
+  | { success: true; message: string }
   | {
       success: false;
       errors?: Partial<Record<keyof OccasionFormValues, string>>;
@@ -25,10 +25,10 @@ export async function postOccasionAction(
   delete dataWithoutFiles.banner;
 
   try {
-    const { data } = await http[method]<{ data: { occasion: Occasion } }>(
-      url,
-      dataWithoutFiles,
-    );
+    const { data } = await http[method]<{
+      data: { occasion: Occasion };
+      message: string;
+    }>(url, dataWithoutFiles);
 
     // Post Or Update Icon
     if (formData.banner instanceof Blob) {
@@ -46,7 +46,7 @@ export async function postOccasionAction(
     }
 
     updateTag("occasions");
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (err) {
     console.error("Error posting occasion:", err);
     if (err instanceof ValidationError) {
@@ -63,18 +63,23 @@ export async function postOccasionAction(
 }
 
 // Update Visibility Action
-type UpdateOccasionVisibilityResult = { success: boolean };
+type UpdateOccasionVisibilityResult =
+  | { success: true; message: string }
+  | { success: false };
 
 export async function updateOccasionVisibilityAction(
   occasion: Occasion,
 ): Promise<UpdateOccasionVisibilityResult> {
   try {
-    await http.patch(`/api/v1/admin/occasions/${occasion.id}/visibility`, {
-      is_visible: !occasion.is_visible,
-    });
+    const { data } = await http.patch<{ message: string }>(
+      `/api/v1/admin/occasions/${occasion.id}/visibility`,
+      {
+        is_visible: !occasion.is_visible,
+      },
+    );
 
     updateTag("occasions");
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (err) {
     console.error("Error updating occasion visibility:", err);
     return { success: false };
@@ -82,15 +87,19 @@ export async function updateOccasionVisibilityAction(
 }
 
 // Delete Occasion Action
-type DeleteOccasionResult = { success: boolean };
+type DeleteOccasionResult =
+  | { success: true; message: string }
+  | { success: false };
 
 export async function deleteOccasionAction(
   occasion: Occasion,
 ): Promise<DeleteOccasionResult> {
   try {
-    await http.delete(`/api/v1/admin/occasions/${occasion.id}`);
+    const { data } = await http.delete<{ message: string }>(
+      `/api/v1/admin/occasions/${occasion.id}`,
+    );
     updateTag("occasions");
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (err) {
     console.error("Error deleting occasion:", err);
     return { success: false };
@@ -98,17 +107,22 @@ export async function deleteOccasionAction(
 }
 
 // Reorder Occasions Action
-type ReorderOccasionsResult = { success: boolean };
+type ReorderOccasionsResult =
+  | { success: true; message: string }
+  | { success: false };
 
 export async function reorderOccasionsAction(
   ids: number[],
 ): Promise<ReorderOccasionsResult> {
   try {
-    await http.patch("/api/v1/admin/occasions/reorder", {
-      ids,
-    });
+    const { data } = await http.patch<{ message: string }>(
+      "/api/v1/admin/occasions/reorder",
+      {
+        ids,
+      },
+    );
     updateTag("occasions");
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (err) {
     console.error("Error reordering occasions:", err);
     return { success: false };

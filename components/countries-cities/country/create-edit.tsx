@@ -79,11 +79,7 @@ export default function CreateEdit({
     const result = await postCountryAction(data, country?.id);
 
     if (result.success) {
-      toast.success(
-        country
-          ? tCommon("UpdatedSuccessfully")
-          : tCommon("CreatedSuccessfully"),
-      );
+      toast.success(result.message);
       form.current?.reset();
       closeBtn.current?.click();
       return;

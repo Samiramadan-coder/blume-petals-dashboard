@@ -13,7 +13,10 @@ import {
 
 // Post And Put Category Actions
 type PostAndPutProductResult =
-  | { success: true }
+  | {
+      success: true;
+      message: string;
+    }
   | {
       success: false;
       errors?: Partial<Record<keyof TemplateFormValues, string>>;
@@ -36,9 +39,8 @@ export async function postTemplateAction(
 
   try {
     const { data } = await http[method]<{
-      data: {
-        product: Product;
-      };
+      data: { product: Product };
+      message: string;
     }>(url, dataWithoutFiles);
 
     // Post Or Update Images
@@ -74,7 +76,7 @@ export async function postTemplateAction(
     });
 
     updateTag("templates");
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (err) {
     console.error("Product create/update request failed", err);
     if (err instanceof ValidationError) {
@@ -133,7 +135,7 @@ export async function addVariantAction(
 
 // Edit Create Ribbon
 type PostAndPutRibbonResult =
-  | { success: true }
+  | { success: true; message: string }
   | {
       success: false;
       errors?: Partial<Record<keyof RibbonFormValues, string>>;
@@ -149,10 +151,10 @@ export async function postRibbonAction(
     : "/api/v1/admin/gift-options";
 
   try {
-    await http[method](url, formData);
+    const { data } = await http[method]<{ message: string }>(url, formData);
 
     updateTag("ribbons");
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (err) {
     console.error("Post Ribbon Action Error:", err);
     if (err instanceof ValidationError) {
@@ -170,15 +172,19 @@ export async function postRibbonAction(
 }
 
 // Delete Ribbon Action
-type DeleteRibbonResult = { success: boolean };
+type DeleteRibbonResult =
+  | { success: true; message: string }
+  | { success: false };
 
 export async function deleteRibbonAction(
   ribbon: Ribbon,
 ): Promise<DeleteRibbonResult> {
   try {
-    await http.delete(`/api/v1/admin/gift-options/${ribbon.id}`);
+    const { data } = await http.delete<{ message: string }>(
+      `/api/v1/admin/gift-options/${ribbon.id}`,
+    );
     updateTag("ribbons");
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (err) {
     console.error("Error deleting ribbon:", err);
     return { success: false };
@@ -187,7 +193,7 @@ export async function deleteRibbonAction(
 
 // Edit Create Ribbon
 type PostAndPutCardResult =
-  | { success: true }
+  | { success: true; message: string }
   | {
       success: false;
       errors?: Partial<Record<keyof CardFormValues, string>>;
@@ -209,10 +215,10 @@ export async function postCardAction(
   delete dataWithoutFiles.image;
 
   try {
-    const { data } = await http[method]<{ data: { gift_option: Card } }>(
-      url,
-      formData,
-    );
+    const { data } = await http[method]<{
+      data: { gift_option: Card };
+      message: string;
+    }>(url, formData);
 
     // Post Or Update Banner
     if (formData.image instanceof Blob) {
@@ -230,7 +236,7 @@ export async function postCardAction(
     }
 
     updateTag("cards");
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (err) {
     console.error("Post Card Action Error:", err);
     if (err instanceof ValidationError) {
@@ -248,13 +254,15 @@ export async function postCardAction(
 }
 
 // Delete Card Action
-type DeleteCardResult = { success: boolean };
+type DeleteCardResult = { success: true; message: string } | { success: false };
 
 export async function deleteCardAction(card: Card): Promise<DeleteCardResult> {
   try {
-    await http.delete(`/api/v1/admin/gift-options/${card.id}`);
+    const { data } = await http.delete<{ message: string }>(
+      `/api/v1/admin/gift-options/${card.id}`,
+    );
     updateTag("cards");
-    return { success: true };
+    return { success: true, message: data.message };
   } catch (err) {
     console.error("Error deleting card:", err);
     return { success: false };
