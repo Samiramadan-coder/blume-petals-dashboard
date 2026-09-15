@@ -14,6 +14,20 @@ export const columns = (t: T): DataTableColumn[] => [
   },
   {
     label: t("Table.Actions"),
-    className: "text-center",
+  },
+];
+
+export const ribbonsColumns = (t: T): DataTableColumn[] => [
+  {
+    label: t("Table.Name"),
+  },
+  {
+    label: t("Table.Color"),
+  },
+  {
+    label: t("Table.Price"),
+  },
+  {
+    label: t("Table.Actions"),
   },
 ];

@@ -3,7 +3,11 @@
 import { Product } from "@/types/products";
 import { http, ValidationError } from "./http";
 import { updateTag } from "next/cache";
-import { TemplateFormValues } from "@/types/custom-builder";
+import {
+  Ribbon,
+  RibbonFormValues,
+  TemplateFormValues,
+} from "@/types/custom-builder";
 
 // Post And Put Category Actions
 type PostAndPutProductResult =
@@ -121,6 +125,60 @@ export async function addVariantAction(
       >;
       return { success: false, errors };
     }
+    return { success: false };
+  }
+}
+
+// Edit Create Ribbon
+type PostAndPutRibbonResult =
+  | { success: true }
+  | {
+      success: false;
+      errors?: Partial<Record<keyof RibbonFormValues, string>>;
+    };
+
+export async function postRibbonAction(
+  formData: RibbonFormValues,
+  ribbonId?: number,
+): Promise<PostAndPutRibbonResult> {
+  const method = ribbonId ? "put" : "post";
+  const url = ribbonId
+    ? `/api/v1/admin/gift-options/${ribbonId}`
+    : "/api/v1/admin/gift-options";
+
+  try {
+    await http[method](url, formData);
+
+    updateTag("ribbons");
+    return { success: true };
+  } catch (err) {
+    console.error("Post Ribbon Action Error:", err);
+    if (err instanceof ValidationError) {
+      const errors = Object.fromEntries(
+        Object.entries(err.errors).map(([field, messages]) => [
+          field,
+          messages[0] ?? "Invalid value",
+        ]),
+      ) as Partial<Record<keyof RibbonFormValues, string>>;
+
+      return { success: false, errors };
+    }
+    return { success: false };
+  }
+}
+
+// Delete Category Action
+type DeleteRibbonResult = { success: boolean };
+
+export async function deleteRibbonAction(
+  ribbon: Ribbon,
+): Promise<DeleteRibbonResult> {
+  try {
+    await http.delete(`/api/v1/admin/gift-options/${ribbon.id}`);
+    updateTag("ribbons");
+    return { success: true };
+  } catch (err) {
+    console.error("Error deleting ribbon:", err);
     return { success: false };
   }
 }

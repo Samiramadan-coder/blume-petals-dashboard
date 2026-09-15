@@ -610,7 +610,8 @@
       "Orders": "Orders",
       "Spent": "Spent (AED)",
       "LastOrder": "Last Order",
-      "Joined": "Joined"
+      "Joined": "Joined",
+      "Actions": "Actions"
     },
     "ShowingCustomers": "Showing {count} customers"
   },
@@ -849,6 +850,11 @@
     "AddShape": "Shape",
     "Stems": "Stems",
     "Max": "Max",
+    "NavigationTabs": {
+      "Cards": "Cards",
+      "Ribbons": "Ribbons",
+      "Templates": "Templates"
+    },
     "Table": {
       "Name": "Name",
       "Actions": "Actions",
@@ -899,6 +905,37 @@
         "Label": "Size",
         "Placeholder": "Enter size",
         "Required": "Size is required"
+      }
+    },
+    "Ribbons": {
+      "NoRibbons": "No Ribbons",
+      "Ribbons": "Ribbons",
+      "AddRibbon": "Add Ribbon",
+      "EditRibbon": "Edit Ribbon",
+      "AddRibbonDescription": "Use this form to create a new custom ribbon.",
+      "EditRibbonDescription": "Use this form to edit the custom ribbon.",
+      "Table": {
+        "Name": "Name",
+        "Color": "Color",
+        "Price": "Price",
+        "Actions": "Actions"
+      },
+      "Fields": {
+        "Color": {
+          "Label": "Color",
+          "Required": "Color is required"
+        },
+        "Name": {
+          "Label": "Name",
+          "Placeholder": "Enter name",
+          "Required": "Name is required",
+          "MinLength": "Name must be at least 2 characters"
+        },
+        "Price": {
+          "Label": "Price",
+          "Placeholder": "Enter price",
+          "Required": "Price is required"
+        }
       }
     }
   },

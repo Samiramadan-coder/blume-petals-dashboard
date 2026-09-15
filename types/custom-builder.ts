@@ -1,5 +1,5 @@
 import z from "zod";
-import { T } from "./shared";
+import { LocaleObj, T } from "./shared";
 
 const imageSchema = (t: T) =>
   z.union([z.string(), z.instanceof(Blob)]).refine(
@@ -52,3 +52,31 @@ export const templateSchema = (t: T) =>
   });
 
 export type TemplateFormValues = z.infer<ReturnType<typeof templateSchema>>;
+
+// Ribbons Type
+export const ribbonSchema = (t: T) =>
+  z.object({
+    color_hex: z.string().min(1, t("Ribbons.Fields.Color.Required")),
+    kind: z.literal("ribbon"),
+    name: z.object({
+      en: z
+        .string()
+        .min(1, t("Ribbons.Fields.Name.Required"))
+        .min(2, t("Ribbons.Fields.Name.MinLength")),
+      ar: z
+        .string()
+        .min(1, t("Ribbons.Fields.Name.Required"))
+        .min(2, t("Ribbons.Fields.Name.MinLength")),
+    }),
+    price: z.number().min(1, t("Ribbons.Fields.Price.Required")),
+  });
+
+export type RibbonFormValues = z.infer<ReturnType<typeof ribbonSchema>>;
+
+export type Ribbon = {
+  id: number;
+  color_hex: string;
+  kind: "ribbon";
+  name: LocaleObj;
+  price: string;
+};

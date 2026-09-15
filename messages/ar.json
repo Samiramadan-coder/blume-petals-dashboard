@@ -607,7 +607,8 @@
       "Orders": "الطلبات",
       "Spent": "الإنفاق (درهم)",
       "LastOrder": "آخر طلب",
-      "Joined": "تاريخ الانضمام"
+      "Joined": "تاريخ الانضمام",
+      "Actions": "الإجراءات"
     },
     "ShowingCustomers": "عرض {count} عميل"
   },
@@ -845,6 +846,11 @@
     "AddShape": "إضافة شكل",
     "Stems": "السيقان",
     "Max": "الحد الأقصى",
+    "NavigationTabs": {
+      "Cards": "البطاقات",
+      "Ribbons": "الأشرطة",
+      "Templates": "القوالب"
+    },
     "Table": {
       "Name": "الاسم",
       "Actions": "الإجراءات",
@@ -896,6 +902,37 @@
         "Label": "الحجم",
         "Placeholder": "أدخل الحجم",
         "Required": "الحجم مطلوب"
+      }
+    },
+    "Ribbons": {
+      "NoRibbons": "لا توجد أشرطة متاحة",
+      "Ribbons": "الأشرطة",
+      "AddRibbon": "إضافة شريط",
+      "EditRibbon": "تحرير الشريط",
+      "AddRibbonDescription": "استخدم هذا النموذج لإنشاء شريط مخصص جديد.",
+      "EditRibbonDescription": "استخدم هذا النموذج لتحرير الشريط المخصص.",
+      "Table": {
+        "Name": "الاسم",
+        "Color": "اللون",
+        "Price": "السعر",
+        "Actions": "الإجراءات"
+      },
+      "Fields": {
+        "Color": {
+          "Label": "اللون",
+          "Required": "اللون مطلوب"
+        },
+        "Name": {
+          "Label": "الاسم",
+          "Placeholder": "أدخل الاسم",
+          "Required": "الاسم مطلوب",
+          "MinLength": "يجب أن يكون الاسم مكونًا من حرفين على الأقل"
+        },
+        "Price": {
+          "Label": "السعر",
+          "Placeholder": "أدخل السعر",
+          "Required": "السعر مطلوب"
+        }
       }
     }
   },

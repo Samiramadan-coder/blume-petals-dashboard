@@ -9,6 +9,7 @@ import FiltersControl from "./filters-control";
 import { columns } from "@/constants/customers";
 import { TableCell, TableRow } from "../ui/table";
 import { DataTable } from "../reusable/data-table";
+import CustomerDetails from "./details";
 
 export default function DataPreview({
   initialCustomers,
@@ -81,6 +82,10 @@ export default function DataPreview({
               <p className="text-muted-foreground text-xs">
                 {formatDate(customer.created_at)}
               </p>
+            </TableCell>
+
+            <TableCell className="px-4 py-3">
+              <CustomerDetails customer={customer} />
             </TableCell>
           </TableRow>
         ))}

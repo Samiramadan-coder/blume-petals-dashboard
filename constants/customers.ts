@@ -23,6 +23,9 @@ export const columns = (t: T): DataTableColumn[] => [
   {
     label: t("Table.Joined"),
   },
+  {
+    label: t("Table.Actions"),
+  },
 ];
 
 export const customersStatuses = (t: T) => [
