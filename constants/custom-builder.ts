@@ -31,3 +31,21 @@ export const ribbonsColumns = (t: T): DataTableColumn[] => [
     label: t("Table.Actions"),
   },
 ];
+
+export const cardsColumns = (t: T): DataTableColumn[] => [
+  {
+    label: t("Table.Photo"),
+  },
+  {
+    label: t("Table.Name"),
+  },
+  {
+    label: t("Table.Description"),
+  },
+  {
+    label: t("Table.Price"),
+  },
+  {
+    label: t("Table.Actions"),
+  },
+];

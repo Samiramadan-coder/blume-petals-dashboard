@@ -918,6 +918,11 @@
         "Actions": "الإجراءات"
       },
       "Fields": {
+        "Image": {
+          "Label": "الصورة",
+          "Required": "الصورة مطلوبة",
+          "ImageMaxSize": "يجب ألا يتجاوز حجم الصورة الحد الأقصى المسموح به"
+        },
         "Color": {
           "Label": "اللون",
           "Required": "اللون مطلوب"
@@ -927,6 +932,44 @@
           "Placeholder": "أدخل الاسم",
           "Required": "الاسم مطلوب",
           "MinLength": "يجب أن يكون الاسم مكونًا من حرفين على الأقل"
+        },
+        "Price": {
+          "Label": "السعر",
+          "Placeholder": "أدخل السعر",
+          "Required": "السعر مطلوب"
+        }
+      }
+    },
+    "Cards": {
+      "NoCards": "لا توجد بطاقات متاحة",
+      "Cards": "البطاقات",
+      "AddCard": "إضافة بطاقة",
+      "EditCard": "تحرير البطاقة",
+      "AddCardDescription": "استخدم هذا النموذج لإنشاء بطاقة مخصصة جديدة.",
+      "EditCardDescription": "استخدم هذا النموذج لتحرير البطاقة المخصصة.",
+      "Table": {
+        "Photo": "الصورة",
+        "Name": "الاسم",
+        "Description": "الوصف",
+        "Price": "السعر",
+        "Actions": "الإجراءات"
+      },
+      "Fields": {
+        "Image": {
+          "Label": "الصورة",
+          "Required": "الصورة مطلوبة"
+        },
+        "Name": {
+          "Label": "الاسم",
+          "Placeholder": "أدخل الاسم",
+          "Required": "الاسم مطلوب",
+          "MinLength": "يجب أن يكون الاسم مكونًا من حرفين على الأقل"
+        },
+        "Description": {
+          "Label": "الوصف",
+          "Placeholder": "أدخل الوصف",
+          "Required": "الوصف مطلوب",
+          "MinLength": "يجب أن يكون الوصف مكونًا من حرفين على الأقل"
         },
         "Price": {
           "Label": "السعر",

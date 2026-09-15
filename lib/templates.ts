@@ -4,6 +4,8 @@ import { Product } from "@/types/products";
 import { http, ValidationError } from "./http";
 import { updateTag } from "next/cache";
 import {
+  Card,
+  CardFormValues,
   Ribbon,
   RibbonFormValues,
   TemplateFormValues,
@@ -167,7 +169,7 @@ export async function postRibbonAction(
   }
 }
 
-// Delete Category Action
+// Delete Ribbon Action
 type DeleteRibbonResult = { success: boolean };
 
 export async function deleteRibbonAction(
@@ -179,6 +181,82 @@ export async function deleteRibbonAction(
     return { success: true };
   } catch (err) {
     console.error("Error deleting ribbon:", err);
+    return { success: false };
+  }
+}
+
+// Edit Create Ribbon
+type PostAndPutCardResult =
+  | { success: true }
+  | {
+      success: false;
+      errors?: Partial<Record<keyof CardFormValues, string>>;
+    };
+
+export async function postCardAction(
+  formData: CardFormValues,
+  cardId?: number,
+): Promise<PostAndPutCardResult> {
+  const method = cardId ? "put" : "post";
+  const url = cardId
+    ? `/api/v1/admin/gift-options/${cardId}`
+    : "/api/v1/admin/gift-options";
+
+  const dataWithoutFiles: Partial<CardFormValues> = {
+    ...formData,
+  };
+
+  delete dataWithoutFiles.image;
+
+  try {
+    const { data } = await http[method]<{ data: { gift_option: Card } }>(
+      url,
+      formData,
+    );
+
+    // Post Or Update Banner
+    if (formData.image instanceof Blob) {
+      const imageFormData = new FormData();
+      imageFormData.append("kind", "image");
+      imageFormData.append(
+        "image",
+        formData.image,
+        formData.image instanceof File ? formData.image.name : "Image",
+      );
+      await http.post(
+        `/api/v1/admin/gift-options/${data.data.gift_option.id}/image`,
+        imageFormData,
+      );
+    }
+
+    updateTag("cards");
+    return { success: true };
+  } catch (err) {
+    console.error("Post Card Action Error:", err);
+    if (err instanceof ValidationError) {
+      const errors = Object.fromEntries(
+        Object.entries(err.errors).map(([field, messages]) => [
+          field,
+          messages[0] ?? "Invalid value",
+        ]),
+      ) as Partial<Record<keyof CardFormValues, string>>;
+
+      return { success: false, errors };
+    }
+    return { success: false };
+  }
+}
+
+// Delete Card Action
+type DeleteCardResult = { success: boolean };
+
+export async function deleteCardAction(card: Card): Promise<DeleteCardResult> {
+  try {
+    await http.delete(`/api/v1/admin/gift-options/${card.id}`);
+    updateTag("cards");
+    return { success: true };
+  } catch (err) {
+    console.error("Error deleting card:", err);
     return { success: false };
   }
 }

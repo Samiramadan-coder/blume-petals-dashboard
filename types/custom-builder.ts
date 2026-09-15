@@ -80,3 +80,49 @@ export type Ribbon = {
   name: LocaleObj;
   price: string;
 };
+
+// Cards Type
+export const cardSchema = (t: T) =>
+  z.object({
+    kind: z.literal("card_style"),
+    name: z.object({
+      en: z
+        .string()
+        .min(1, t("Cards.Fields.Name.Required"))
+        .min(2, t("Cards.Fields.Name.MinLength")),
+      ar: z
+        .string()
+        .min(1, t("Cards.Fields.Name.Required"))
+        .min(2, t("Cards.Fields.Name.MinLength")),
+    }),
+    description: z.object({
+      en: z
+        .string()
+        .min(1, t("Cards.Fields.Description.Required"))
+        .min(2, t("Cards.Fields.Description.MinLength")),
+      ar: z
+        .string()
+        .min(1, t("Cards.Fields.Description.Required"))
+        .min(2, t("Cards.Fields.Description.MinLength")),
+    }),
+    price: z.number().min(1, t("Cards.Fields.Price.Required")),
+    image: z.union([z.string().min(1), z.instanceof(Blob)]).refine(
+      (image) => {
+        if (typeof image === "string") return true;
+        return image.size <= 1024 * 1024;
+      },
+      { message: t("Cards.Fields.Image.ImageMaxSize") },
+    ),
+  });
+
+export type CardFormValues = z.infer<ReturnType<typeof cardSchema>>;
+
+export type Card = {
+  description: LocaleObj;
+  id: number;
+  image_path: string;
+  image_url: string;
+  kind: "card_style";
+  name: LocaleObj;
+  price: string;
+};

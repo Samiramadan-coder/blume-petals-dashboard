@@ -937,6 +937,45 @@
           "Required": "Price is required"
         }
       }
+    },
+    "Cards": {
+      "NoCards": "No Cards",
+      "Cards": "Cards",
+      "AddCard": "Add Card",
+      "EditCard": "Edit Card",
+      "AddCardDescription": "Use this form to create a new custom card.",
+      "EditCardDescription": "Use this form to edit the custom card.",
+      "Table": {
+        "Photo": "Photo",
+        "Name": "Name",
+        "Description": "Description",
+        "Price": "Price",
+        "Actions": "Actions"
+      },
+      "Fields": {
+        "Image": {
+          "Label": "Image",
+          "Required": "Image is required",
+          "ImageMaxSize": "Image must be less than 1MB"
+        },
+        "Name": {
+          "Label": "Name",
+          "Placeholder": "Enter name",
+          "Required": "Name is required",
+          "MinLength": "Name must be at least 2 characters"
+        },
+        "Description": {
+          "Label": "Description",
+          "Placeholder": "Enter description",
+          "Required": "Description is required",
+          "MinLength": "Description must be at least 2 characters"
+        },
+        "Price": {
+          "Label": "Price",
+          "Placeholder": "Enter price",
+          "Required": "Price is required"
+        }
+      }
     }
   },
   "Dashboard": {
