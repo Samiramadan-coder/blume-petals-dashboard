@@ -5,7 +5,7 @@ import { Pagination } from "@/types/shared";
 import { Category } from "@/types/categories";
 import { Spinner } from "@/components/ui/spinner";
 import { getTranslations } from "next-intl/server";
-import DataPreview from "@/components/templates/data-preview";
+import DataPreview from "@/components/custom-builder/data-preview";
 
 type SearchParams = { page?: string };
 

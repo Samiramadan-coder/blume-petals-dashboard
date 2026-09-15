@@ -1,15 +1,21 @@
 "use client";
 
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import Variants from "./variants";
-import Input from "../../form/input";
-import Header from "../../form/header";
-import Footer from "../../form/footer";
-import { Button } from "../../ui/button";
 import { Product } from "@/types/products";
-import AddButton from "../../form/add-button";
-import { Separator } from "../../ui/separator";
+import Input from "@/components/form/input";
+import Header from "@/components/form/header";
+import Footer from "@/components/form/footer";
+import { Button } from "@/components/ui/button";
+import AddButton from "@/components/form/add-button";
+import { Separator } from "@/components/ui/separator";
 import { postTemplateAction } from "@/lib/templates";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { availableLocales } from "@/constants/shared";
@@ -17,10 +23,9 @@ import { useLocale, useTranslations } from "next-intl";
 import { useFormLocale } from "@/hooks/use-form-locale";
 import { useEffect, useRef, type ReactNode } from "react";
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
-import LocaleFormSwitcher from "../../reusable/locale-form-switcher";
+import LocaleFormSwitcher from "@/components/reusable/locale-form-switcher";
 import { TemplateFormValues, templateSchema } from "@/types/custom-builder";
 import SingleFormImageUploader from "@/components/form/single-image-uploader";
-import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../../ui/sheet";
 
 // CreateEdit component for adding or editing a product
 export default function CreateEdit({

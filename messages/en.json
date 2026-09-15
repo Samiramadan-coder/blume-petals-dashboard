@@ -838,7 +838,7 @@
   },
   "CustomBuilder": {
     "Title": "Custom Builder",
-    "Description": "Build and manage your custom templates here.",
+    "Description": "Control every option customers see in the builder",
     "Templates": "Templates",
     "NoTemplates": "No templates available",
     "Gallery": "Gallery",
