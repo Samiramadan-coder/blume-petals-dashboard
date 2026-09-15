@@ -14,6 +14,8 @@ async function GetListOfRibbons({
 }: {
   searchParams: Promise<SearchParams>;
 }) {
+  const { page } = await searchParams;
+
   const { data, ok } = await http.get<{
     data: {
       items: Ribbon[];
@@ -25,6 +27,7 @@ async function GetListOfRibbons({
     },
     params: {
       kind: "ribbon",
+      page: page ?? "1",
     },
   });
 
