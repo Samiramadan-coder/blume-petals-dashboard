@@ -584,6 +584,11 @@
     }
   },
   "Customers": {
+    "ShowingCustomers": "Showing {count} customers",
+    "SearchPlaceholder": "Search by name, email, phone",
+    "ExportCSV": "Export CSV",
+    "Title": "Customers",
+
     "Stats": {
       "TotalCustomers": "Total Customers",
       "VipCustomers": "VIP Customers",
@@ -591,9 +596,6 @@
       "NewThisMonth": "New This Month",
       "AverageLifetimeValue": "Avg. Lifetime Value"
     },
-    "SearchPlaceholder": "Search by name, email, phone",
-    "ExportCSV": "Export CSV",
-    "Title": "Customers",
     "Filters": {
       "All": "All",
       "Vip": "VIP",
@@ -614,7 +616,22 @@
       "Joined": "Joined",
       "Actions": "Actions"
     },
-    "ShowingCustomers": "Showing {count} customers"
+    "Details": {
+      "LifetimeValue": "Lifetime Value",
+      "TotalOrders": "Total Orders",
+      "Joined": "Joined",
+      "Addresses": "Addresses",
+      "NoAddresses": "No addresses available",
+      "Contact": "Contact",
+      "SavedDesigns": "Saved Designs & Wishlist",
+      "OrderHistory": "Order History",
+      "NoOrders": "No orders available",
+      "Default": "Default",
+      "SavedDesign": "Saved Designs",
+      "NoSavedDesigns": "No saved designs available",
+      "Wishlist": "Wishlist Items",
+      "NoWishlistItems": "No wishlist items available"
+    }
   },
   "Reviews": {
     "Label": "Reviews",

@@ -46,6 +46,8 @@ async function CustomersPage({ searchParams }: { searchParams: SearchParams }) {
     throw new Error("Failed to fetch customers");
   }
 
+  console.log(data);
+
   return (
     <main className="space-y-6">
       <Statistics summary={data.data.summary} />

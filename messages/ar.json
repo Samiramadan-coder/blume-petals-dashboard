@@ -581,6 +581,10 @@
     }
   },
   "Customers": {
+    "SearchPlaceholder": "ابحث بالاسم أو البريد أو الهاتف",
+    "ExportCSV": "تصدير CSV",
+    "Title": "العملاء",
+    "ShowingCustomers": "عرض {count} عميل",
     "Stats": {
       "TotalCustomers": "إجمالي العملاء",
       "VipCustomers": "عملاء VIP",
@@ -588,9 +592,6 @@
       "NewThisMonth": "الجدد هذا الشهر",
       "AverageLifetimeValue": "متوسط قيمة العميل"
     },
-    "SearchPlaceholder": "ابحث بالاسم أو البريد أو الهاتف",
-    "ExportCSV": "تصدير CSV",
-    "Title": "العملاء",
     "Filters": {
       "All": "الكل",
       "Vip": "VIP",
@@ -611,7 +612,23 @@
       "Joined": "تاريخ الانضمام",
       "Actions": "الإجراءات"
     },
-    "ShowingCustomers": "عرض {count} عميل"
+
+    "Details": {
+      "LifetimeValue": "قيمة عمر العميل",
+      "TotalOrders": "إجمالي الطلبات",
+      "Joined": "تاريخ الانضمام",
+      "Addresses": "العناوين",
+      "NoAddresses": "لا توجد عناوين متاحة",
+      "Contact": "الاتصال",
+      "SavedDesigns": "التصاميم المحفوظة وقائمة الرغبات",
+      "OrderHistory": "تاريخ الطلبات",
+      "NoOrders": "لا توجد طلبات متاحة",
+      "Default": "افتراضي",
+      "SavedDesign": "التصاميم المحفوظة",
+      "NoSavedDesigns": "لا توجد تصاميم محفوظة متاحة",
+      "Wishlist": "عناصر قائمة الرغبات",
+      "NoWishlistItems": "لا توجد عناصر في قائمة الرغبات متاحة"
+    }
   },
   "Reviews": {
     "Label": "التقييمات",
