@@ -87,3 +87,13 @@ export function getProductDefaultValues(
     ],
   };
 }
+
+/**
+ * Canonical public origin for building absolute redirect URLs, if configured.
+ * Intentionally does NOT fall back to a request-derived origin: behind a
+ * reverse proxy the Host header isn't always forwarded, so that can resolve
+ * to an internal/localhost address in production instead of the real domain.
+ */
+export function getAppUrl() {
+  return process.env.APP_URL || null;
+}

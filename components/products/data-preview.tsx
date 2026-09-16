@@ -57,7 +57,7 @@ export default function DataPreview({
   >(undefined);
 
   const handleSort = (column: string) => {
-    console.log("Sorting by column:", column);
+    // console.log("Sorting by column:", column);
     // if (sortBy === column) {
     //   setSortDirection(sortDirection === "asc" ? "desc" : "asc");
     // } else {

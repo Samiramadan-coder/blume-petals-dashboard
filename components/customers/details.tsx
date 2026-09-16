@@ -25,7 +25,6 @@ import { Table, TableBody, TableCell, TableRow } from "../ui/table";
 import ChangeOrderStatus from "../orders/change-order-status";
 
 export default function CustomerDetails({ customer }: { customer: User }) {
-  console.log(customer);
   const locale = useLocale();
   const t = useTranslations("Customers.Details");
   const tCommon = useTranslations("Common");
