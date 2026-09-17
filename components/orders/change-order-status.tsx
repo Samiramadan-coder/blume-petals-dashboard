@@ -6,19 +6,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { toast } from "sonner";
-import { cn } from "@/lib/utils";
-import { Order } from "@/types/orders";
-import { useTranslations } from "next-intl";
-import { changeOrderStatus } from "@/lib/orders-actions";
-import { usePermissions } from "@/providers/permission-providers";
+
 import {
   bulletsClasses,
   labelClasses,
   orderStatuses,
   statusColorClasses,
 } from "@/constants/orders";
+
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 import { Check } from "lucide-react";
+import { Order } from "@/types/orders";
+import { useTranslations } from "next-intl";
+import { changeOrderStatus } from "@/lib/orders-actions";
+import { usePermissions } from "@/providers/permission-providers";
 
 export default function ChangeOrderStatus({
   order,
@@ -30,7 +32,14 @@ export default function ChangeOrderStatus({
   const { can } = usePermissions();
   const t = useTranslations("Orders");
 
-  const statusIndex = orderStatuses(t).findIndex(
+  const finalStatuses =
+    order.fulfillment_method === "pickup"
+      ? orderStatuses(t).filter((status) => status.value !== "shipped")
+      : orderStatuses(t).filter(
+          (status) => status.value !== "ready_for_pickup",
+        );
+
+  const statusIndex = finalStatuses.findIndex(
     (status) => status.value === order.status,
   );
 
@@ -59,19 +68,17 @@ export default function ChangeOrderStatus({
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              {orderStatuses(t)
-                .slice(statusIndex)
-                .map((status) => (
-                  <SelectItem key={status.value} value={status.value}>
-                    {status.label}
-                  </SelectItem>
-                ))}
+              {finalStatuses.slice(statusIndex).map((status) => (
+                <SelectItem key={status.value} value={status.value}>
+                  {status.label}
+                </SelectItem>
+              ))}
             </SelectGroup>
           </SelectContent>
         </Select>
       ) : (
         <div className="flex flex-col gap-2">
-          {orderStatuses(t).map((status, index) => (
+          {finalStatuses.map((status, index) => (
             <div
               key={status.value}
               className={cn(

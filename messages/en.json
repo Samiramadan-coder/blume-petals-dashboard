@@ -380,6 +380,7 @@
     "Pending": "Pending",
     "Processing": "Processing",
     "Shipped": "Shipped",
+    "ReadyForPickup": "Ready for Pickup",
     "Delivered": "Delivered",
     "Cancelled": "Cancelled",
     "SearchPlaceholder": "Order #, Customer...",
@@ -416,6 +417,7 @@
       "Processing": "Processing",
       "ProcessingDescription": "Being prepared",
       "Shipped": "Shipped",
+
       "ShippedDescription": "Out for delivery",
       "Revenue": "Revenue",
       "RevenueDescription": "Excl. cancelled"

@@ -72,6 +72,7 @@ export type Status =
   | "pending"
   | "processing"
   | "shipped"
+  | "ready_for_pickup"
   | "delivered"
   | "cancelled";
 
