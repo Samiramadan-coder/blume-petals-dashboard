@@ -19,6 +19,7 @@ type NormalFormRichTextProps<T extends FieldValues> = {
   required?: boolean;
   control: Control<T>;
   className?: string;
+  labelClassName?: string;
 };
 
 export default function NormalFormRichText<T extends FieldValues>({
@@ -28,6 +29,7 @@ export default function NormalFormRichText<T extends FieldValues>({
   required,
   control,
   className,
+  labelClassName,
 }: NormalFormRichTextProps<T>) {
   return (
     <Controller
@@ -42,6 +44,7 @@ export default function NormalFormRichText<T extends FieldValues>({
                 "text-xs font-semibold",
                 required &&
                   "after:ms-1 after:text-destructive after:content-['*']",
+                labelClassName,
               )}
             >
               {label}

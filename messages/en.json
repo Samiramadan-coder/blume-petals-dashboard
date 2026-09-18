@@ -759,7 +759,11 @@
     "TermsAndConditionsPlaceholder": "Enter Terms & Conditions content",
     "PolicyPlaceholder": "Enter Privacy Policy content",
     "SavedSuccessfully": "Settings saved successfully",
-    "SaveFailed": "Failed to save settings. Please try again."
+    "SaveFailed": "Failed to save settings. Please try again.",
+    "whatsapp": "WhatsApp",
+    "instagram": "Instagram",
+    "contact_email": "Contact Email",
+    "contact_phone": "Contact Phone"
   },
   "Flower": {
     "Flowers": "Flowers",

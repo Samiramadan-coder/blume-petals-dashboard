@@ -36,6 +36,7 @@ type NormalFormInputProps<T extends FieldValues> = {
   description?: ReactNode;
   min?: number;
   max?: number;
+  labelClassName?: string;
 };
 
 export default function NormalFormInput<T extends FieldValues>({
@@ -47,6 +48,7 @@ export default function NormalFormInput<T extends FieldValues>({
   errors,
   className,
   inputClassName,
+  labelClassName,
   type = "text",
   disabled = false,
   prefix,
@@ -74,6 +76,7 @@ export default function NormalFormInput<T extends FieldValues>({
           className={cn(
             "text-xs font-semibold",
             required && "after:ms-1 after:text-destructive after:content-['*']",
+            labelClassName,
           )}
         >
           {label}

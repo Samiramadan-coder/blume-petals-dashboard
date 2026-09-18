@@ -754,7 +754,11 @@
     "TermsAndConditionsPlaceholder": "أدخل نص 'الشروط والأحكام' هنا",
     "PolicyPlaceholder": "أدخل نص 'سياسة الخصوصية' هنا",
     "SavedSuccessfully": "تم حفظ الإعدادات بنجاح",
-    "SaveFailed": "فشل في حفظ الإعدادات. يرجى المحاولة مرة أخرى."
+    "SaveFailed": "فشل في حفظ الإعدادات. يرجى المحاولة مرة أخرى.",
+    "whatsapp": "واتساب",
+    "instagram": "إنستغرام",
+    "contact_email": "البريد الإلكتروني للتواصل",
+    "contact_phone": "رقم الهاتف للتواصل"
   },
   "Flower": {
     "Title": "مخزون الزهور",

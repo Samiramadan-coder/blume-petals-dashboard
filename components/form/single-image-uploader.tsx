@@ -22,6 +22,7 @@ type SingleFormImageUploaderProps<T extends FieldValues> = {
   required?: boolean;
   className?: string;
   accept?: string;
+  labelClassName?: string;
 };
 
 export default function SingleFormImageUploader<T extends FieldValues>({
@@ -31,6 +32,7 @@ export default function SingleFormImageUploader<T extends FieldValues>({
   required,
   className,
   accept = "image/*",
+  labelClassName,
 }: SingleFormImageUploaderProps<T>) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -54,6 +56,7 @@ export default function SingleFormImageUploader<T extends FieldValues>({
               <FieldLabel
                 className={cn(
                   "text-xs font-semibold",
+                  labelClassName,
                   required &&
                     "after:ms-1 after:text-destructive after:content-['*']",
                 )}

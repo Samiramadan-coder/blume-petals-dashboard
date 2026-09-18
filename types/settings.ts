@@ -16,6 +16,10 @@ export const settingsSchema = z.object({
   }),
   logo_url: z.union([z.string(), z.instanceof(Blob)]),
   show_addition: z.boolean(),
+  whatsapp: z.string(),
+  instagram: z.string(),
+  contact_email: z.string(),
+  contact_phone: z.string(),
 });
 
 export type SettingsSchema = z.infer<typeof settingsSchema>;
@@ -26,4 +30,8 @@ export type Settings = {
   policy: LocaleObj;
   logo_url: string;
   show_addition: boolean;
+  whatsapp: string;
+  instagram: string;
+  contact_email: string;
+  contact_phone: string;
 };
