@@ -43,12 +43,38 @@ export const createSlug = (value: string) =>
 /**
  * Formats a date string or Date object into a human-readable format (e.g., "Jan 01, 2024").
  */
-export const formatDate = (date: string | Date) =>
-  new Date(date).toLocaleDateString("en-US", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
+export const formatDate = (date: string | Date): string => {
+  const value = new Date(date);
+
+  if (Number.isNaN(value.getTime())) return "";
+
+  const today = new Date();
+  const yesterday = new Date(today);
+  yesterday.setDate(today.getDate() - 1);
+
+  const isSameDay = (a: Date, b: Date) =>
+    a.getFullYear() === b.getFullYear() &&
+    a.getMonth() === b.getMonth() &&
+    a.getDate() === b.getDate();
+
+  const time = value.toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
   });
+
+  const day = isSameDay(value, today)
+    ? "today"
+    : isSameDay(value, yesterday)
+      ? "yesterday"
+      : value.toLocaleDateString("en-US", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        });
+
+  return `${day}, ${time}`;
+};
 
 /**
  * Get Default Values for Product Form
