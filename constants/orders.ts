@@ -8,6 +8,7 @@ export const columns = (t: T): DataTableColumn[] => [
   { label: t("Table.ItemsCount") },
   { label: t("Table.TotalAmount") },
   { label: t("Table.FulfillmentStatus") },
+  { label: t("Table.PaymentMethod") },
   { label: t("Table.Status") },
   { label: t("Table.OrderDate") },
   { label: t("Table.Actions") },

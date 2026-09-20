@@ -405,6 +405,7 @@
     "InternalNotePlaceholder": "أضف ملاحظات المعالجة أو التعليمات الخاصة أو تذكيرات الفريق…",
     "DownloadPDF": "تحميل PDF",
     "PrintInvoice": "طباعة الفاتورة",
+    "PaymentMethod": "طريقة الدفع",
     "Summary": {
       "TotalOrders": "إجمالي الطلبات",
       "TotalOrdersDescription": "جميع الأوقات في العرض",
@@ -426,7 +427,8 @@
       "Status": "الحالة",
       "OrderDate": "تاريخ الطلب",
       "Actions": "الإجراءات",
-      "Channel": "القناة"
+      "Channel": "القناة",
+      "PaymentMethod": "طريقة الدفع"
     }
   },
   "PromoCodes": {

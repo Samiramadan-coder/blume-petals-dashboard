@@ -409,6 +409,7 @@
     "InternalNotePlaceholder": "Add handling notes, special instructions, or team reminders…",
     "DownloadPDF": "Download PDF",
     "PrintInvoice": "Print Invoice",
+    "PaymentMethod": "Payment Method",
     "Summary": {
       "TotalOrders": "Total Orders",
       "TotalOrdersDescription": "All time in view",
@@ -417,7 +418,6 @@
       "Processing": "Processing",
       "ProcessingDescription": "Being prepared",
       "Shipped": "Shipped",
-
       "ShippedDescription": "Out for delivery",
       "Revenue": "Revenue",
       "RevenueDescription": "Excl. cancelled"
@@ -431,7 +431,8 @@
       "Status": "Status",
       "OrderDate": "Order Date",
       "Actions": "Actions",
-      "Channel": "Channel"
+      "Channel": "Channel",
+      "PaymentMethod": "Payment Method"
     }
   },
   "PromoCodes": {

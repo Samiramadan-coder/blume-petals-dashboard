@@ -62,7 +62,6 @@ export default function OrderDetails({ order }: { order: Order }) {
         showCloseButton={false}
         className="flex h-full flex-col sm:max-w-2xl"
         side={locale === "ar" ? "left" : "right"}
-        // onInteractOutside={(event) => event.preventDefault()}
       >
         <SheetHeader className="pt-2 pb-2">
           <SheetTitle className="flex items-center justify-between border-b border-border px-4 py-3 -mx-4">
@@ -239,6 +238,10 @@ export default function OrderDetails({ order }: { order: Order }) {
               <span>
                 {order.summary.discount_total} {order.currency}
               </span>
+            </div>
+            <div className="text-xs text-muted-foreground flex items-center justify-between px-3 py-2 border-b border-border">
+              <span>{t("PaymentMethod")}</span>
+              <span>{order.payment_method}</span>
             </div>
             <div className="flex items-center justify-between px-3 py-2">
               <span className="font-bold">{t("Total")}</span>

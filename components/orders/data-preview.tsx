@@ -60,7 +60,9 @@ export default function DataPreview({
 
               <TableCell className="px-4 py-3">
                 <p className="h-8 w-8 flex items-center justify-center bg-primary/70 font-semibold rounded-lg">
-                  {order.items.length}
+                  {order.items
+                    .map((item) => item.qty)
+                    .reduce((a, b) => a + b, 0)}
                 </p>
               </TableCell>
 
@@ -85,6 +87,12 @@ export default function DataPreview({
                   )}
                   {order.fulfillment_method}
                 </Badge>
+              </TableCell>
+
+              <TableCell className="px-4 py-3">
+                <p className="font-medium text-muted-foreground">
+                  {order.payment_method}
+                </p>
               </TableCell>
 
               <TableCell className="px-4 py-3">

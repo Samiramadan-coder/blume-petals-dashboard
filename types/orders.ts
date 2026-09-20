@@ -93,6 +93,7 @@ export type Order = {
   id: number;
   items: Item[];
   pickup: Pickup | null;
+  payment_method: string;
 };
 
 export type Summary = {
