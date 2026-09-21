@@ -25,6 +25,8 @@ import { updateAdminNote } from "@/lib/orders-actions";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Eye, Mail, MapPin, Phone, X } from "lucide-react";
 import { AdminNote, AdminNoteSchema, Order } from "@/types/orders";
+import { Badge } from "../ui/badge";
+import CustomBuilderItemDetails from "./custom-builder-item-details";
 
 export default function OrderDetails({ order }: { order: Order }) {
   const locale = useLocale();
@@ -131,6 +133,7 @@ export default function OrderDetails({ order }: { order: Order }) {
                         alt={item.name}
                         width={50}
                         height={50}
+                        className="object-cover max-h-12.5"
                       />
                     ) : (
                       <div className="min-w-10 min-h-10 text-sm text-white flex items-center justify-center bg-primary rounded-full font-bold uppercase">
@@ -140,7 +143,18 @@ export default function OrderDetails({ order }: { order: Order }) {
                   </div>
 
                   <div className="flex flex-col gap-1">
-                    <p className="text-sm font-semibold">{item.name}</p>
+                    <p className="text-sm font-semibold flex items-center gap-1">
+                      {item.name}{" "}
+                      {item.sku.includes("template:") && (
+                        <>
+                          <Badge className="text-[11px] text-primary border-primary/40 bg-primary/10">
+                            {t("CustomBuilder")}
+                          </Badge>
+
+                          <CustomBuilderItemDetails item={item} />
+                        </>
+                      )}
+                    </p>
                     <p className="text-xs text-muted-foreground">
                       {t("Quantity")}: {item.qty}
                     </p>
@@ -257,6 +271,16 @@ export default function OrderDetails({ order }: { order: Order }) {
           <Separator />
           <SectionLabel>{t("UpdateOrderStatus")}</SectionLabel>
           <ChangeOrderStatus order={order} view="button" />
+
+          {order.customer_notes && (
+            <>
+              <Separator />
+              <SectionLabel>{t("CustomerNotes")}</SectionLabel>
+              <p className="text-sm text-muted-foreground">
+                {order.customer_notes}
+              </p>
+            </>
+          )}
 
           <Separator />
           <SectionLabel>{t("InternalNote")}</SectionLabel>

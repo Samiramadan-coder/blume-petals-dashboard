@@ -41,7 +41,7 @@ type OrderSummary = {
   vat_total: string;
 };
 
-type Item = {
+export type Item = {
   id: number;
   image_url: string | null;
   item_type: string;
@@ -56,6 +56,24 @@ type Item = {
   slug: string;
   unit_price: string;
   variant_label: string;
+  gift: null | {
+    ribbon: {
+      color_hex: string;
+      name_ar: string;
+      name_en: string;
+      price: string;
+    };
+    card_style: {
+      name_ar: string;
+      name_en: string;
+      price: string;
+    };
+  };
+  component_snapshot: {
+    name_ar: string;
+    name_en: string;
+    qty: number;
+  }[];
 };
 
 type Pickup = {
