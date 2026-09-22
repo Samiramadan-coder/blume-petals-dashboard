@@ -51,6 +51,8 @@ async function FlowersPage({ searchParams }: { searchParams: SearchParams }) {
     throw new Error("Failed to fetch data");
   }
 
+  console.log(products.data.items);
+
   return (
     <main className="space-y-6">
       <DataPreview

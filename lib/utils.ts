@@ -123,3 +123,18 @@ export function getProductDefaultValues(
 export function getAppUrl() {
   return process.env.APP_URL || null;
 }
+
+/**
+ * Extract CSV data from a string into an array of objects.
+ */
+export function parseCsv(csvString: string, name: string) {
+  const blob = new Blob([csvString], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `${name}.csv`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}

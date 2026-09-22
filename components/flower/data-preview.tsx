@@ -21,7 +21,7 @@ import { Link } from "@/i18n/navigation";
 import { Product } from "@/types/products";
 import EditBtn from "../reusable/edit-btn";
 import { Pagination } from "@/types/shared";
-import { cn, formatDate } from "@/lib/utils";
+import { cn, formatDate, parseCsv } from "@/lib/utils";
 import { columns } from "@/constants/flowers";
 import DeleteBtn from "../reusable/delete-btn";
 import { DataTable } from "../reusable/data-table";
@@ -32,6 +32,7 @@ import { useCallback, useEffect, useState } from "react";
 import { ChevronDown, Download, Images } from "lucide-react";
 import { usePermissions } from "@/providers/permission-providers";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { Spinner } from "../ui/spinner";
 
 export default function DataPreview({
   flowers,
@@ -240,16 +241,7 @@ function StockLog({
       const { data } = await http.get<string>(
         `/api/v1/admin/products/${flowerId}/variants/${variantId}/stock-log/export`,
       );
-
-      const blob = new Blob([data], { type: "text/csv;charset=utf-8;" });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `stock-log-${flowerId}-${variantId}.csv`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
+      parseCsv(data, `stock-log-${flowerId}-${variantId}`);
     } catch (error) {
       console.error("Failed to download stock log:", error);
     } finally {
@@ -268,6 +260,7 @@ function StockLog({
             onClick={downloadStockLog}
             disabled={loadingDownload}
           >
+            {loadingDownload && <Spinner />}
             <Download className="size-3" />
             {t("DownloadStockLog")}
           </Button>

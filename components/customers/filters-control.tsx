@@ -5,46 +5,30 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "../ui/input-group";
-// import { cn } from "@/lib/utils";
-import { Field, FieldLabel } from "../ui/field";
 import { Button } from "../ui/button";
-import { Download, Search } from "lucide-react";
-// import { customersStatuses } from "@/constants/customers";
-// import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useTranslations } from "next-intl";
-import { parseAsString, useQueryState } from "nuqs";
 import { Checkbox } from "../ui/checkbox";
+import { useTranslations } from "next-intl";
+import { Download, Search } from "lucide-react";
+import { Field, FieldLabel } from "../ui/field";
+import { parseAsString, useQueryStates, debounce } from "nuqs";
 
 export default function FiltersControl() {
   const t = useTranslations("Customers");
 
-  const [queryParam, setQueryParam] = useQueryState(
-    "query",
-    parseAsString
+  const [{ query, is_admin, is_blocked }, setFilters] = useQueryStates({
+    query: parseAsString
       .withDefault("")
       .withOptions({ history: "push", shallow: false }),
-  );
-
-  const [isAdmin, setIsAdmin] = useQueryState(
-    "is_admin",
-    parseAsString
+    is_admin: parseAsString
       .withDefault("false")
       .withOptions({ history: "push", shallow: false }),
-  );
-
-  const [isBlocked, setIsBlocked] = useQueryState(
-    "is_blocked",
-    parseAsString
+    is_blocked: parseAsString
       .withDefault("false")
       .withOptions({ history: "push", shallow: false }),
-  );
-
-  // const [statusParam, setStatusParam] = useQueryState(
-  //   "status",
-  //   parseAsString
-  //     .withDefault("all")
-  //     .withOptions({ history: "push", shallow: false }),
-  // );
+    page: parseAsString
+      .withDefault("1")
+      .withOptions({ history: "push", shallow: false }),
+  });
 
   return (
     <div>
@@ -54,8 +38,20 @@ export default function FiltersControl() {
             <InputGroup className="h-10 bg-white">
               <InputGroupInput
                 placeholder={t("SearchPlaceholder")}
-                value={queryParam}
-                onChange={(e) => setQueryParam(e.target.value)}
+                value={query}
+                onChange={(e) => {
+                  const value = e.target.value || null;
+
+                  void setFilters(
+                    {
+                      query: value || null,
+                    },
+                    {
+                      history: "replace",
+                      limitUrlUpdates: value === "" ? undefined : debounce(500),
+                    },
+                  );
+                }}
               />
               <InputGroupAddon align="inline-start">
                 <Search />
@@ -67,9 +63,9 @@ export default function FiltersControl() {
             <Checkbox
               id="is-admin-checkbox"
               name="is-admin-checkbox"
-              checked={isAdmin === "true"}
+              checked={is_admin === "true"}
               onCheckedChange={(checked) =>
-                setIsAdmin(checked ? "true" : "false")
+                setFilters({ is_admin: checked ? "true" : "false", page: "1" })
               }
             />
             <FieldLabel htmlFor="is-admin-checkbox">
@@ -81,9 +77,12 @@ export default function FiltersControl() {
             <Checkbox
               id="is-blocked-checkbox"
               name="is-blocked-checkbox"
-              checked={isBlocked === "true"}
+              checked={is_blocked === "true"}
               onCheckedChange={(checked) =>
-                setIsBlocked(checked ? "true" : "false")
+                setFilters({
+                  is_blocked: checked ? "true" : "false",
+                  page: "1",
+                })
               }
             />
             <FieldLabel htmlFor="is-blocked-checkbox">
@@ -100,25 +99,6 @@ export default function FiltersControl() {
           Export CSV
         </Button>
       </div>
-
-      {/* <Tabs
-        value={statusParam}
-        onValueChange={(value) => setStatusParam(value)}
-      >
-        <TabsList className="h-10! rounded-xl bg-muted-foreground/10 p-2">
-          {customersStatuses(t).map((stat) => (
-            <TabsTrigger
-              key={stat.value}
-              value={stat.value}
-              className={cn(
-                `h-8 rounded-lg px-4 text-sm font-medium text-muted-foreground hover:text-foreground data-[state=active]:bg-white data-[state=active]:shadow-sm cursor-pointer`,
-              )}
-            >
-              {stat.label}
-            </TabsTrigger>
-          ))}
-        </TabsList>
-      </Tabs> */}
     </div>
   );
 }

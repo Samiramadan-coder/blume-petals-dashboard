@@ -21,7 +21,7 @@ import { Search } from "lucide-react";
 import { useLocale } from "next-intl";
 import { useTranslations } from "next-intl";
 import { Category } from "@/types/categories";
-import { parseAsString, useQueryState } from "nuqs";
+import { debounce, parseAsString, useQueryStates } from "nuqs";
 
 export default function FiltersControl({
   categories,
@@ -32,27 +32,38 @@ export default function FiltersControl({
   const t = useTranslations("Products");
   const tCategories = useTranslations("Categories");
 
-  const [queryParam, setQueryParam] = useQueryState(
-    "query",
-    parseAsString
+  const [{ query, category }, setFilters] = useQueryStates({
+    query: parseAsString
       .withDefault("")
       .withOptions({ history: "push", shallow: false }),
-  );
-
-  const [categoryParam, setCategoryParam] = useQueryState(
-    "category",
-    parseAsString
+    category: parseAsString
       .withDefault("")
       .withOptions({ history: "push", shallow: false }),
-  );
+    page: parseAsString
+      .withDefault("1")
+      .withOptions({ history: "push", shallow: false }),
+  });
 
   return (
     <div className="flex items-center flex-wrap sm:flex-nowrap gap-2">
       <Field>
         <InputGroup className="bg-white h-10">
           <InputGroupInput
-            value={queryParam}
-            onChange={(e) => setQueryParam(e.target.value)}
+            value={query}
+            onChange={(e) => {
+              const value = e.target.value || null;
+
+              void setFilters(
+                {
+                  query: value || null,
+                  page: "1",
+                },
+                {
+                  history: "replace",
+                  limitUrlUpdates: value === "" ? undefined : debounce(500),
+                },
+              );
+            }}
             placeholder={t("Filters.SearchPlaceholder")}
             className="min-w-50"
           />
@@ -63,9 +74,9 @@ export default function FiltersControl({
       </Field>
 
       <Select
-        value={categoryParam}
+        value={category}
         onValueChange={(value) => {
-          setCategoryParam(value);
+          void setFilters({ category: value, page: "1" });
         }}
       >
         <SelectTrigger className="h-10 min-h-10 w-full max-w-48 bg-white px-3 py-2.5 leading-none">

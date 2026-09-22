@@ -1,15 +1,14 @@
 import { Suspense } from "react";
 import { http } from "@/lib/http";
-import { Review, Summary } from "@/types/reviews";
 import { Pagination } from "@/types/shared";
+import { Review, Summary } from "@/types/reviews";
 import { Spinner } from "@/components/ui/spinner";
-import DataPreview from "@/components/reviews/data-preview";
-import { cn } from "@/lib/utils";
-import { getLocale, getTranslations } from "next-intl/server";
-import FiltersControl from "@/components/reviews/filters-control";
+import { getTranslations } from "next-intl/server";
 import Statistics from "@/components/reviews/statistics";
-import RatingDistribution from "@/components/reviews/rating-distribution";
+import DataPreview from "@/components/reviews/data-preview";
 import ModuleHeader from "@/components/reusable/module-header";
+import FiltersControl from "@/components/reviews/filters-control";
+import RatingDistribution from "@/components/reviews/rating-distribution";
 
 type SearchParams = {
   page?: string;
@@ -19,7 +18,6 @@ type SearchParams = {
 };
 
 async function ReviewsPage({ searchParams }: { searchParams: SearchParams }) {
-  const locale = await getLocale();
   const t = await getTranslations("Reviews");
 
   // Fetch reviews data from the API
