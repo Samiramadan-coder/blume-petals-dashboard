@@ -21,16 +21,16 @@ export default function CustomBuilderItemDetails({ item }: { item: Item }) {
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-sm ring-0!" showCloseButton={false}>
+      <DialogContent className="sm:max-w-lg ring-0!" showCloseButton={false}>
         <div className="-mx-4 max-h-[60vh] overflow-y-auto px-4">
           {item.image_url && (
-            <div className="mb-2">
+            <div className="relative mb-2 aspect-square w-full">
               <Image
                 src={item.image_url}
                 alt={item.name}
-                width={400}
-                height={400}
-                className="object-cover rounded-md"
+                fill
+                className="rounded-md object-cover"
+                sizes="(max-width: 768px) 100vw, 400px"
               />
             </div>
           )}

@@ -88,10 +88,14 @@ export default function CustomerDetails({ customer }: { customer: User }) {
 
         <div className={cn(`flex-1 overflow-auto px-4 pb-6 pt-2`)}>
           <Accordion
-            type="single"
-            collapsible
-            defaultValue="contact"
+            type="multiple"
             className="max-w-lg"
+            defaultValue={[
+              "contact",
+              "addresses",
+              "order-history",
+              "saved-designs",
+            ]}
           >
             <AccordionItem value="contact">
               <AccordionTrigger className="uppercase text-muted-foreground tracking-widest font-bold text-[10px]">

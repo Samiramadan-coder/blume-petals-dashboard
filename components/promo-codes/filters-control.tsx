@@ -7,26 +7,24 @@ import { cn } from "@/lib/utils";
 import { Field } from "../ui/field";
 import { Search } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { parseAsString, useQueryState } from "nuqs";
 import { promoCodeStatuses } from "@/constants/promo-codes";
+import { parseAsString, useQueryStates, debounce } from "nuqs";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function FiltersControl() {
   const t = useTranslations("PromoCodes");
 
-  const [queryParam, setQueryParam] = useQueryState(
-    "query",
-    parseAsString
+  const [{ query, status }, setFilters] = useQueryStates({
+    query: parseAsString
       .withDefault("")
       .withOptions({ history: "push", shallow: false }),
-  );
-
-  const [status, setStatus] = useQueryState(
-    "status",
-    parseAsString
+    status: parseAsString
       .withDefault("all")
       .withOptions({ history: "push", shallow: false }),
-  );
+    page: parseAsString
+      .withDefault("1")
+      .withOptions({ history: "push", shallow: false }),
+  });
 
   return (
     <div>
@@ -35,8 +33,18 @@ export default function FiltersControl() {
           <Field className="w-auto">
             <InputGroup className="h-10 bg-white">
               <InputGroupInput
-                value={queryParam}
-                onChange={(e) => void setQueryParam(e.target.value || null)}
+                value={query}
+                onChange={(e) => {
+                  const value = e.target.value || "";
+
+                  void setFilters(
+                    { query: value, page: "1" },
+                    {
+                      history: "replace",
+                      limitUrlUpdates: value === "" ? undefined : debounce(500),
+                    },
+                  );
+                }}
                 placeholder={t("SearchPlaceholder")}
               />
               <InputGroupAddon align="inline-start">
@@ -50,7 +58,7 @@ export default function FiltersControl() {
       <Tabs
         value={status}
         onValueChange={(value) => {
-          void setStatus(value);
+          void setFilters({ status: value, page: "1" });
         }}
       >
         <TabsList className="h-auto! rounded-xl bg-muted flex-wrap p-1">
