@@ -1180,14 +1180,15 @@
       "Share": "Share",
       "UsageShare": "Usage Share",
       "TotalStemsUsed": "Total Stems Used",
-      "FastestMovingItems": "Fastest Moving Items",
-      "FastestMovingDescription": "Items with the highest movement during the selected period",
+      "FastestMovingItems": "Restock History",
+      "FastestMovingDescription": "Audit trail of all past restocks",
       "Entries": "{count} entries",
       "Rank": "Rank",
       "Sku": "SKU",
       "Color": "Color",
       "Size": "Size",
-      "UnitsSold": "Units Sold"
+      "UnitsSold": "Units Sold",
+      "ItemsRunningLow": "items are running low or out of stock"
     }
   }
 }

@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import { Card, CardContent } from "@/components/ui/card";
 import { Boxes, Layers3, PackageX, TriangleAlert } from "lucide-react";
 import { InventoryTotals } from "@/types/reports";
+import { Alert, AlertTitle } from "@/components/ui/alert";
 
 export default function InventoryStatsCards({
   totals,
@@ -15,6 +16,17 @@ export default function InventoryStatsCards({
 
   return (
     <>
+      {totals.low_stock + totals.out_of_stock > 0 && (
+        <div className="sm:col-span-2 md:col-span-4">
+          <Alert className="border-destructive/10 text-destructive bg-destructive/5">
+            <TriangleAlert className="size-4" />
+            <AlertTitle>
+              {totals.low_stock + totals.out_of_stock} {t("ItemsRunningLow")}
+            </AlertTitle>
+          </Alert>
+        </div>
+      )}
+
       {/* Total Stock Value */}
       <Card className="h-full border border-primary/30 ring-0!">
         <CardContent>
@@ -41,7 +53,6 @@ export default function InventoryStatsCards({
           </header>
         </CardContent>
       </Card>
-
       {/* Low Stock */}
       <Card className="h-full border border-primary/30 ring-0!">
         <CardContent>
@@ -66,7 +77,6 @@ export default function InventoryStatsCards({
           </header>
         </CardContent>
       </Card>
-
       {/* Out Of Stock */}
       <Card className="h-full border border-primary/30 ring-0!">
         <CardContent>
@@ -91,7 +101,6 @@ export default function InventoryStatsCards({
           </header>
         </CardContent>
       </Card>
-
       {/* Total Units */}
       <Card className="h-full border border-primary/30 ring-0!">
         <CardContent>
