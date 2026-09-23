@@ -36,7 +36,7 @@ export default function DashboardHeader() {
             "font-heading": locale !== "ar",
           })}
         >
-          {t(activeLabel?.label ?? "")}
+          {activeLabel ? t(activeLabel.label) : ""}
         </p>
       </div>
 

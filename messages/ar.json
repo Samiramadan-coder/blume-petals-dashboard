@@ -1190,5 +1190,22 @@
       "UnitsSold": "الوحدات المباعة",
       "ItemsRunningLow": "العناصر منخفضة المخزون أو نفد من المخزون"
     }
+  },
+  "ActiveCustomDesigns": {
+    "Title": "التصاميم المخصصة النشطة",
+    "NoActiveDesigns": "لا توجد تصاميم نشطة",
+    "Design": "تصميم",
+    "Ribbon": "الشريط",
+    "CardStyle": "نمط البطاقة",
+    "Price": "السعر",
+    "Name": "الاسم",
+    "Table": {
+      "Photo": "الصورة",
+      "Client": "العميل",
+      "Components": "المكونات",
+      "RibbonAndCartStyle": "الشريط ونمط البطاقة",
+      "Message": "الرسالة",
+      "SavedAt": "تم الحفظ في"
+    }
   }
 }

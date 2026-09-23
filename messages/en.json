@@ -1190,5 +1190,22 @@
       "UnitsSold": "Units Sold",
       "ItemsRunningLow": "items are running low or out of stock"
     }
+  },
+  "ActiveCustomDesigns": {
+    "Title": "Active Custom Designs",
+    "NoActiveDesigns": "No active designs",
+    "Design": "Design",
+    "Ribbon": "Ribbon",
+    "CardStyle": "Card Style",
+    "Price": "Price",
+    "Name": "Name",
+    "Table": {
+      "Photo": "Photo",
+      "Client": "Client",
+      "Components": "Components",
+      "RibbonAndCartStyle": "Ribbon & Cart Style",
+      "Message": "Message",
+      "SavedAt": "Saved at"
+    }
   }
 }
