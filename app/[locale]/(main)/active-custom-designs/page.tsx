@@ -1,18 +1,33 @@
 import Image from "next/image";
+import { Suspense } from "react";
 import { http } from "@/lib/http";
 import { formatDate } from "@/lib/utils";
 import { Pagination } from "@/types/shared";
+import { Spinner } from "@/components/ui/spinner";
 import { getTranslations } from "next-intl/server";
 import { Design } from "@/types/active-custom-designs";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { DataTable } from "@/components/reusable/data-table";
 
-export default async function Page() {
+type SearchParams = {
+  page?: string;
+};
+
+async function GetListOfActiveCustomDesigns({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  const { page } = await searchParams;
   const t = await getTranslations("ActiveCustomDesigns");
 
   const { data, ok } = await http.get<{
     data: { items: Design[]; pagination: Pagination };
-  }>("/api/v1/admin/designs/active");
+  }>("/api/v1/admin/designs/active", {
+    params: {
+      page: page ?? "1",
+    },
+  });
 
   if (!ok) {
     throw new Error("Failed to fetch active custom designs");
@@ -116,5 +131,17 @@ export default async function Page() {
         ))
       )}
     </DataTable>
+  );
+}
+
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  return (
+    <Suspense fallback={<Spinner className="h-8 w-8 text-primary" />}>
+      <GetListOfActiveCustomDesigns searchParams={searchParams} />
+    </Suspense>
   );
 }
