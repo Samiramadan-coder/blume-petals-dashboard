@@ -662,7 +662,17 @@
     "HighestRating": "Highest Rating",
     "LowestRating": "Lowest Rating",
     "SearchPlaceholder": "Advanced Search.....",
-    "ClearFilters": "Clear Filters"
+    "ClearFilters": "Clear Filters",
+    "ReviewedNeeded": "Reviews Needed",
+    "Delete": "Delete",
+    "Flag": "Flag",
+    "FlagConfirmation": "Are you sure you want to flag this review?",
+    "UnflagConfirmation": "Are you sure you want to unflag this review?",
+    "FlagFailed": "Failed to flag the review",
+    "Flagged": "Flagged",
+    "Unflag": "Unflag",
+    "NotFlagged": "Not Flagged",
+    "ProductsNeedAttention": "Products Need Attention"
   },
   "RolesAndPermissions": {
     "RolesAndPermissions": "Roles & Permissions",

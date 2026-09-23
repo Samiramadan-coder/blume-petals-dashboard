@@ -1,18 +1,22 @@
 "use client";
 
+import { toast } from "sonner";
+import { useState } from "react";
 import { Rating } from "../ui/rating";
+import { Button } from "../ui/button";
+import { Trash2 } from "lucide-react";
+import FlagReview from "./flag-review";
 import { Review } from "@/types/reviews";
 import { formatDate } from "@/lib/utils";
 import { Checkbox } from "../ui/checkbox";
+import { useTranslations } from "next-intl";
 import { Pagination } from "@/types/shared";
 import { Card, CardContent } from "../ui/card";
 import DeleteBtn from "../reusable/delete-btn";
-import PaginationTemplate from "../reusable/pagination-temlate";
-import { useTranslations } from "next-intl";
-import { useState } from "react";
 import { deleteReviewAction } from "@/lib/reviews";
-import { toast } from "sonner";
+import PaginationTemplate from "../reusable/pagination-temlate";
 import { usePermissions } from "@/providers/permission-providers";
+import { Badge } from "../ui/badge";
 
 export default function DataPreview({
   reviews,
@@ -53,9 +57,16 @@ export default function DataPreview({
 
                 <div className="flex items-center gap-2">
                   <Rating rating={review.rating} />
+
                   <span className="text-muted-foreground text-xs">
                     {formatDate(review.created_at)}
                   </span>
+
+                  {review.flagged && (
+                    <Badge className="text-xs bg-red-100 text-red-600">
+                      {t("Flagged")}
+                    </Badge>
+                  )}
                 </div>
 
                 <p className="text-foreground leading-relaxed">
@@ -66,23 +77,38 @@ export default function DataPreview({
                   )}
                 </p>
 
-                {can("reviews.delete") && (
-                  <div className="flex justify-end w-full">
-                    <DeleteBtn
-                      onDelete={async () => {
-                        setLoadingDelete(true);
-                        const result = await deleteReviewAction(review);
-                        setLoadingDelete(false);
-                        if (result.success) {
-                          toast.success(tCommon("DeletedSuccessfully"));
-                          return;
+                <div className="flex items-center gap-4 mt-3">
+                  {can("reviews.delete") && (
+                    <>
+                      <FlagReview
+                        reviewId={review.id}
+                        isFlagged={review.flagged}
+                      />
+
+                      <DeleteBtn
+                        onDelete={async () => {
+                          setLoadingDelete(true);
+                          const result = await deleteReviewAction(review);
+                          setLoadingDelete(false);
+                          if (result.success) {
+                            toast.success(tCommon("DeletedSuccessfully"));
+                            return;
+                          }
+                          toast.error(tCommon("DeleteFailed"));
+                        }}
+                        loading={loadingDelete}
+                        trigger={
+                          <Button
+                            className="flex-1 bg-white border-red-200 text-red-600 text-xs font-normal"
+                            variant="outline"
+                          >
+                            <Trash2 /> {t("Delete")}
+                          </Button>
                         }
-                        toast.error(tCommon("DeleteFailed"));
-                      }}
-                      loading={loadingDelete}
-                    />
-                  </div>
-                )}
+                      />
+                    </>
+                  )}
+                </div>
               </div>
             </CardContent>
           </Card>

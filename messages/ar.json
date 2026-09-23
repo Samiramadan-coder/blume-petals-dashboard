@@ -658,7 +658,17 @@
     "HighestRating": "أعلى تقييم",
     "LowestRating": "أقل تقييم",
     "SearchPlaceholder": "بحث متقدم.....",
-    "ClearFilters": "مسح الفلاتر"
+    "ClearFilters": "مسح الفلاتر",
+    "ReviewedNeeded": "التقييمات المطلوبة",
+    "Delete": "حذف",
+    "Flag": "تمييز",
+    "FlagConfirmation": "هل أنت متأكد أنك تريد تمييز هذا التقييم؟",
+    "UnflagConfirmation": "هل أنت متأكد أنك تريد إلغاء تمييز هذا التقييم؟",
+    "FlagFailed": "فشل في تمييز التقييم",
+    "Flagged": "تم التمييز",
+    "Unflag": "إلغاء التمييز",
+    "NotFlagged": "لم يتم التمييز",
+    "ProductsNeedAttention": "المنتجات التي تحتاج إلى اهتمام"
   },
   "RolesAndPermissions": {
     "RolesAndPermissions": "الأدوار والأذونات",

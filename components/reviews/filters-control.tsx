@@ -2,18 +2,13 @@
 
 import {
   Select,
-  SelectContent,
-  SelectGroup,
   SelectItem,
+  SelectGroup,
   SelectLabel,
-  SelectTrigger,
   SelectValue,
+  SelectTrigger,
+  SelectContent,
 } from "../ui/select";
-import { Search, Star } from "lucide-react";
-import { Card, CardContent } from "../ui/card";
-import { parseAsString, useQueryState } from "nuqs";
-import { useTranslations } from "next-intl";
-import { Field } from "../ui/field";
 import {
   InputGroup,
   InputGroupAddon,
@@ -21,37 +16,50 @@ import {
 } from "../ui/input-group";
 import { Button } from "../ui/button";
 
+import { Field } from "../ui/field";
+import { Search, Star } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { Card, CardContent } from "../ui/card";
+import { parseAsString, useQueryStates, debounce } from "nuqs";
+
 export default function FiltersControl() {
   const t = useTranslations("Reviews");
 
-  const [queryParam, setQueryParam] = useQueryState(
-    "query",
-    parseAsString
+  const [{ query, rating, sort, flagged }, setFilters] = useQueryStates({
+    query: parseAsString
       .withDefault("")
       .withOptions({ history: "push", shallow: false }),
-  );
 
-  const [ratingParam, setRatingParam] = useQueryState(
-    "rating",
-    parseAsString
+    rating: parseAsString
       .withDefault("")
       .withOptions({ history: "push", shallow: false }),
-  );
 
-  const [sortParam, setSortParam] = useQueryState(
-    "sort",
-    parseAsString
+    sort: parseAsString
       .withDefault("newest")
       .withOptions({ history: "push", shallow: false }),
-  );
+
+    flagged: parseAsString
+      .withDefault("false")
+      .withOptions({ history: "push", shallow: false }),
+  });
+
   return (
     <Card className="border border-primary/20" style={{ boxShadow: "none" }}>
       <CardContent className="flex items-center flex-wrap gap-3">
         <Field className="flex-1">
-          <InputGroup className="bg-white h-10 ">
+          <InputGroup className="bg-white h-10">
             <InputGroupInput
-              value={queryParam}
-              onChange={(e) => setQueryParam(e.target.value)}
+              value={query}
+              onChange={(e) =>
+                setFilters(
+                  { query: e.target.value },
+                  {
+                    history: "replace",
+                    limitUrlUpdates:
+                      e.target.value === "" ? undefined : debounce(500),
+                  },
+                )
+              }
               placeholder={t("SearchPlaceholder")}
             />
             <InputGroupAddon align="inline-start">
@@ -61,9 +69,9 @@ export default function FiltersControl() {
         </Field>
 
         <Select
-          value={ratingParam}
+          value={rating}
           onValueChange={(value) => {
-            setRatingParam(value);
+            setFilters({ rating: value });
           }}
         >
           <SelectTrigger className="flex-1 h-10 min-h-10 w-full bg-white px-3 py-2.5 leading-none">
@@ -92,9 +100,9 @@ export default function FiltersControl() {
         </Select>
 
         <Select
-          value={sortParam}
+          value={sort}
           onValueChange={(value) => {
-            setSortParam(value);
+            setFilters({ sort: value });
           }}
         >
           <SelectTrigger className="h-10 flex-1 min-h-10 w-full bg-white px-3 py-2.5 leading-none">
@@ -111,12 +119,33 @@ export default function FiltersControl() {
           </SelectContent>
         </Select>
 
+        <Select
+          value={flagged}
+          onValueChange={(value) => {
+            setFilters({ flagged: value });
+          }}
+        >
+          <SelectTrigger className="h-10 flex-1 min-h-10 w-full bg-white px-3 py-2.5 leading-none">
+            <SelectValue placeholder={t("NotFlagged")} />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>{t("Flagged")}</SelectLabel>
+              <SelectItem value="false">{t("NotFlagged")}</SelectItem>
+              <SelectItem value="true">{t("Flagged")}</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+
         <Button
           className="h-10"
           onClick={() => {
-            setQueryParam("");
-            setRatingParam("");
-            setSortParam("newest");
+            setFilters({
+              query: "",
+              rating: "",
+              sort: "newest",
+              flagged: "",
+            });
           }}
         >
           {t("ClearFilters")}

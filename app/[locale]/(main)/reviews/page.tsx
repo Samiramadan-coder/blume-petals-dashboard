@@ -1,12 +1,12 @@
 import { Suspense } from "react";
 import { http } from "@/lib/http";
 import { Pagination } from "@/types/shared";
-import { Review, Summary } from "@/types/reviews";
 import { Spinner } from "@/components/ui/spinner";
 import { getTranslations } from "next-intl/server";
 import Statistics from "@/components/reviews/statistics";
 import DataPreview from "@/components/reviews/data-preview";
 import ModuleHeader from "@/components/reusable/module-header";
+import { NeedsAttention, Review, Summary } from "@/types/reviews";
 import FiltersControl from "@/components/reviews/filters-control";
 import RatingDistribution from "@/components/reviews/rating-distribution";
 
@@ -15,6 +15,7 @@ type SearchParams = {
   rating?: string;
   sort?: string;
   query?: string;
+  flagged?: string;
 };
 
 async function ReviewsPage({ searchParams }: { searchParams: SearchParams }) {
@@ -28,6 +29,7 @@ async function ReviewsPage({ searchParams }: { searchParams: SearchParams }) {
       items: Review[];
       pagination: Pagination;
       summary: Summary;
+      needs_attention: NeedsAttention[];
     };
   }>("/api/v1/admin/reviews", {
     params: {
@@ -35,7 +37,8 @@ async function ReviewsPage({ searchParams }: { searchParams: SearchParams }) {
       per_page: 10,
       rating: searchParams.rating ?? "",
       sort: searchParams.sort ?? "",
-      q: searchParams.query ?? "",
+      query: searchParams.query ?? "",
+      flagged: searchParams.flagged ?? "",
     },
     next: {
       tags: ["reviews"],
@@ -62,7 +65,10 @@ async function ReviewsPage({ searchParams }: { searchParams: SearchParams }) {
         />
       </div>
 
-      <RatingDistribution summary={data.data.summary} />
+      <RatingDistribution
+        summary={data.data.summary}
+        needsAttention={data.data.needs_attention}
+      />
     </main>
   );
 }

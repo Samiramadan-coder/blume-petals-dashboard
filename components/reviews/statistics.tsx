@@ -1,7 +1,8 @@
-import { Clock, Star } from "lucide-react";
+import { CircleAlert, Clock, Star } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Card, CardContent } from "../ui/card";
 import { Summary } from "@/types/reviews";
+import { Badge } from "../ui/badge";
 
 export default function Statistics({ summary }: { summary: Summary }) {
   const t = useTranslations("Reviews");
@@ -34,10 +35,24 @@ export default function Statistics({ summary }: { summary: Summary }) {
         </div>
       ),
     },
+    {
+      title: t("FlaggedReported"),
+      value: summary.flagged,
+      icon: (
+        <div className="p-2 bg-red-300/20 rounded-sm">
+          <CircleAlert className="text-red-300 size-4" />
+        </div>
+      ),
+      badge: (
+        <Badge className="text-red-600 bg-red-300/20">
+          {t("ReviewedNeeded")}
+        </Badge>
+      ),
+    },
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
       {statisticsData.map((stat, index) => (
         <Card
           key={index}
@@ -51,8 +66,9 @@ export default function Statistics({ summary }: { summary: Summary }) {
               </p>
               {stat.icon}
             </header>
-            <p className="text-2xl font-bold tabular-nums text-foreground">
+            <p className="text-2xl font-bold tabular-nums text-foreground flex items-center gap-2">
               {stat.value}
+              {stat.badge && stat.badge}
             </p>
           </CardContent>
         </Card>

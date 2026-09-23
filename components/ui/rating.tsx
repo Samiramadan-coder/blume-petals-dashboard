@@ -5,9 +5,16 @@ type RatingProps = {
   count?: number;
   max?: number;
   size?: number;
+  className?: string;
 };
 
-export function Rating({ rating, count, max = 5, size = 16 }: RatingProps) {
+export function Rating({
+  rating,
+  count,
+  max = 5,
+  size = 16,
+  className,
+}: RatingProps) {
   return (
     <div className="flex items-center gap-1">
       <div className="flex items-center text-primary gap-0.5">
@@ -17,12 +24,12 @@ export function Rating({ rating, count, max = 5, size = 16 }: RatingProps) {
 
           return (
             <span key={index} className="relative inline-flex">
-              <Star size={size} className="text-primary" />
+              <Star size={size} className={`text-primary ${className ?? ""}`} />
 
               {(filled || half) && (
                 <Star
                   size={size}
-                  className="absolute inset-0 fill-current text-primary"
+                  className={`absolute inset-0 fill-current text-primary ${className ?? ""}`}
                   style={{
                     clipPath: half ? "inset(0 50% 0 0)" : "none",
                   }}
