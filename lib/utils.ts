@@ -103,6 +103,11 @@ export function getProductDefaultValues(
       size: variant.size || "",
       price: variant.price || 0,
       compare_at_price: variant.compare_at_price || undefined,
+      discount: variant.compare_at_price
+        ? ((variant.compare_at_price - variant.price) /
+            variant.compare_at_price) *
+          100
+        : undefined,
       recipe: variant.recipe.length
         ? variant.recipe
         : type === "default"

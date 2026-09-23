@@ -201,7 +201,8 @@
       "ComparePrice": "Compare Price (AED)",
       "Tags": "Tags",
       "Image": "Image",
-      "ETA": "Estimated Delivery"
+      "ETA": "Estimated Delivery",
+      "Discount": "Discount"
     },
     "Placeholders": {
       "Name": "Enter product name",
@@ -216,7 +217,8 @@
       "ComparePrice": "Enter compare price",
       "Tags": "Enter tags",
       "SelectFlower": "Select flower",
-      "ETA": "Enter estimated delivery"
+      "ETA": "Enter estimated delivery",
+      "Discount": "Enter discount"
     },
     "Labels": {
       "BasicInformation": "Basic Information",

@@ -37,6 +37,7 @@ type NormalFormInputProps<T extends FieldValues> = {
   min?: number;
   max?: number;
   labelClassName?: string;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 export default function NormalFormInput<T extends FieldValues>({
@@ -56,6 +57,7 @@ export default function NormalFormInput<T extends FieldValues>({
   description,
   min,
   max,
+  onChange,
 }: NormalFormInputProps<T>) {
   const error = get(errors, name);
 
@@ -109,6 +111,7 @@ export default function NormalFormInput<T extends FieldValues>({
                 disabled={disabled}
                 min={type === "number" ? min : undefined}
                 max={type === "number" ? max : undefined}
+                onChange={onChange}
                 className={cn(
                   "h-full min-w-0 flex-1 rounded-none border-0 bg-transparent shadow-none",
                   "focus-visible:ring-0 focus-visible:ring-offset-0",
@@ -132,6 +135,7 @@ export default function NormalFormInput<T extends FieldValues>({
               disabled={disabled}
               min={type === "number" ? min : undefined}
               max={type === "number" ? max : undefined}
+              onChange={onChange}
               className={cn("h-10 border-border bg-background", inputClassName)}
             />
           )}

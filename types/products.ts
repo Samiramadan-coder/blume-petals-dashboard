@@ -48,6 +48,7 @@ export const productSchema = (t: T) =>
         size: z.string().min(1, t("Errors.SizeIsRequired")),
         price: z.number().min(1, t("Errors.PriceIsRequired")),
         compare_at_price: z.number().nullable().optional(),
+        discount: z.number().optional(),
         recipe: z.array(
           z.object({
             component_variant_id: z
