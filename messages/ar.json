@@ -1016,7 +1016,7 @@
     "TodaysRevenue": "إيرادات اليوم",
     "VsYesterday": "مقابل الأمس",
     "OrdersToday": "الطلبات اليوم",
-    "PendingOrders": "الطلبات المعلقة",
+    "ProcessingOrders": "الطلبات قيد المعالجة",
     "NeedsAttention": "تحتاج إلى اهتمام",
     "ActiveCustomDesign": "تصميم مخصص نشط",
     "SavedNotPurchased": "تم الحفظ ولم يتم الشراء",

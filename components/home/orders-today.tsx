@@ -24,7 +24,7 @@ export default async function OrdersToday({ today }: { today: Today }) {
           </div>
         </header>
 
-        {today.orders_change && +today.orders_change !== 0 && (
+        {today.orders_change && +today.orders_change !== 0 ? (
           <section className="flex items-center justify-between gap-4 mt-5">
             <p
               className={cn(
@@ -41,7 +41,7 @@ export default async function OrdersToday({ today }: { today: Today }) {
             </p>
             <TrendLineIcon color="var(--primary)" />
           </section>
-        )}
+        ) : null}
       </CardContent>
     </Card>
   );

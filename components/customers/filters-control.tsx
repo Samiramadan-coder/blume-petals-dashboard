@@ -8,12 +8,17 @@ import {
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
 import { Download, Search } from "lucide-react";
 import { Field, FieldLabel } from "../ui/field";
 import { parseAsString, useQueryStates, debounce } from "nuqs";
+import { http } from "@/lib/http";
+import { parseCsv } from "@/lib/utils";
+import { Spinner } from "../ui/spinner";
 
 export default function FiltersControl() {
   const t = useTranslations("Customers");
+  const [loading, setLoading] = useState(false);
 
   const [{ query, is_admin, is_blocked }, setFilters] = useQueryStates({
     query: parseAsString
@@ -29,6 +34,24 @@ export default function FiltersControl() {
       .withDefault("1")
       .withOptions({ history: "push", shallow: false }),
   });
+
+  async function exportCustomers() {
+    setLoading(true);
+    try {
+      const { data } = await http.get<string>("/api/v1/admin/users/export", {
+        params: {
+          q: query || "",
+          is_admin: is_admin || "",
+          is_blocked: is_blocked || "",
+        },
+      });
+      parseCsv(data, `users-export`);
+    } catch (error) {
+      console.error("Failed to export users:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <div>
@@ -94,7 +117,10 @@ export default function FiltersControl() {
         <Button
           variant="outline"
           className="h-10 w-30 bg-white text-muted-foreground text-xs"
+          onClick={exportCustomers}
+          disabled={loading}
         >
+          {loading && <Spinner />}
           <Download />
           Export CSV
         </Button>

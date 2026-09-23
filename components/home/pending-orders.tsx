@@ -1,9 +1,7 @@
-import { Badge } from "../ui/badge";
-import { Clock } from "lucide-react";
+import { LoaderCircle } from "lucide-react";
 import { Today } from "@/types/dashboard";
 import { Card, CardContent } from "../ui/card";
 import { getTranslations } from "next-intl/server";
-import TrendLineIcon from "../icons/trend-line-icon";
 
 export default async function PendingOrders({ today }: { today: Today }) {
   const t = await getTranslations("Dashboard");
@@ -14,24 +12,16 @@ export default async function PendingOrders({ today }: { today: Today }) {
         <header className="flex items-center justify-between gap-4">
           <div>
             <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-              {t("PendingOrders")}
+              {t("ProcessingOrders")}
             </p>
             <p className="mt-1.5 text-2xl font-semibold text-foreground tabular-nums">
-              {today.pending_orders}
+              {today.processing_orders}
             </p>
           </div>
-          <div className="w-9 h-9 bg-red-500/20 rounded-md grid place-content-center">
-            <Clock className="size-4 text-red-500" />
+          <div className="w-9 h-9 bg-green-200/20 rounded-md grid place-content-center">
+            <LoaderCircle className="size-4 text-green-500 animate-spin" />
           </div>
         </header>
-
-        <section className="flex items-center justify-between gap-4 mt-5">
-          <Badge className="h-7 w-30" variant="destructive">
-            {t("NeedsAttention")}
-          </Badge>
-
-          <TrendLineIcon color="var(--color-red-500)" />
-        </section>
       </CardContent>
     </Card>
   );

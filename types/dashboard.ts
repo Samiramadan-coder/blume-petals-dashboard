@@ -9,6 +9,9 @@ export type Today = {
   revenue: string;
   revenue_change_pct: number | null;
   revenue_yesterday: string;
+  processing_change: number | null;
+  processing_orders: number;
+  processing_orders_yesterday: number;
 };
 
 export type RevenueSerie = {
