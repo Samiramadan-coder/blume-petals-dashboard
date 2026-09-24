@@ -59,6 +59,8 @@ export default function NotificationsClient({ saveToken }: Props) {
 
         if (!token || disposed) {
           return console.log("Token not available or component disposed");
+        } else {
+          console.log("Token available:", token);
         }
 
         await saveToken(token);
