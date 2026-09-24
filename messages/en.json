@@ -67,7 +67,10 @@
       "NoResults": "No results found.",
       "Customers": "Customers",
       "Orders": "Orders",
-      "Products": "Products"
+      "Products": "Products",
+      "Notifications": "Notifications",
+      "NoNotifications": "No notifications",
+      "ShowDetails": "Show details"
     },
     "sidebar": {
       "brandName": "Blúme Petals",

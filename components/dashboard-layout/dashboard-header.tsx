@@ -1,8 +1,6 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { Bell } from "lucide-react";
-import { Button } from "../ui/button";
 import LiveDateTime from "./live-date-time";
 import { SidebarTrigger } from "../ui/sidebar";
 import { LocaleSwitcher } from "./locale-switcher";
@@ -10,6 +8,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { navigationLabels } from "@/constants/dashboard-layout";
 import { usePathname } from "@/i18n/navigation";
 import GlobalSearch from "./global-search";
+import NotificationsSetup from "./notifications-setup";
 
 export default function DashboardHeader() {
   const locale = useLocale();
@@ -45,18 +44,7 @@ export default function DashboardHeader() {
         <GlobalSearch />
         <LiveDateTime />
         <LocaleSwitcher />
-        <Button variant="ghost" size="sm" className="relative p-0">
-          <Bell />
-          <span
-            className={cn(
-              `absolute top-0.5 flex h-1.5 w-1.5`,
-              locale === "en" ? "-right-1.5" : "-left-1.5",
-            )}
-          >
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75"></span>
-            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary"></span>
-          </span>
-        </Button>
+        <NotificationsSetup />
       </div>
     </header>
   );

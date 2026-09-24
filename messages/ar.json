@@ -67,7 +67,10 @@
       "NoResults": "لم يتم العثور على نتائج.",
       "Customers": "العملاء",
       "Orders": "الطلبات",
-      "Products": "المنتجات"
+      "Products": "المنتجات",
+      "Notifications": "الإشعارات",
+      "NoNotifications": "لا توجد إشعارات",
+      "ShowDetails": "عرض التفاصيل"
     },
     "sidebar": {
       "brandName": "بلوم بيتالز",
