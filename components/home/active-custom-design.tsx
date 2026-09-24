@@ -9,8 +9,8 @@ export default async function ActiveCustomDesign({ today }: { today: Today }) {
   const t = await getTranslations("Dashboard");
 
   return (
-    <Link href="/active-custom-designs">
-      <Card className="ring-0! border border-primary/30">
+    <Card className="ring-0! border border-primary/30 h-full!">
+      <Link href="/active-custom-designs">
         <CardContent>
           <header className="flex items-center justify-between gap-4">
             <div>
@@ -34,7 +34,7 @@ export default async function ActiveCustomDesign({ today }: { today: Today }) {
             <TrendLineIcon color="var(--primary)" />
           </section>
         </CardContent>
-      </Card>
-    </Link>
+      </Link>
+    </Card>
   );
 }
