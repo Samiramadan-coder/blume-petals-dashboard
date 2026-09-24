@@ -56,7 +56,11 @@ export default function NotificationsClient({ saveToken }: Props) {
 
       try {
         const token = await getFcmToken();
-        if (!token || disposed) return;
+
+        if (!token || disposed) {
+          return console.log("Token not available or component disposed");
+        }
+
         await saveToken(token);
       } catch (error) {
         console.error("FCM token sync error:", error);
