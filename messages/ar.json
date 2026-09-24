@@ -60,7 +60,14 @@
   },
   "layout": {
     "header": {
-      "dashboard": "لوحة التحكم"
+      "dashboard": "لوحة التحكم",
+      "SearchPlaceholder": "ابحث في الطلبات والمنتجات…",
+      "Searching": "جارٍ البحث...",
+      "Unable": "غير قادر على تحميل النتائج. يرجى المحاولة مرة أخرى.",
+      "NoResults": "لم يتم العثور على نتائج.",
+      "Customers": "العملاء",
+      "Orders": "الطلبات",
+      "Products": "المنتجات"
     },
     "sidebar": {
       "brandName": "بلوم بيتالز",

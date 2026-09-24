@@ -29,7 +29,7 @@ export default function LiveDateTime() {
     <time
       dateTime={now.toISOString()}
       suppressHydrationWarning
-      className="text-sm font-medium text-muted-foreground hidden sm:inline-flex"
+      className="text-xs font-normal text-muted-foreground hidden sm:inline-flex whitespace-nowrap"
     >
       {date} · {time}
     </time>

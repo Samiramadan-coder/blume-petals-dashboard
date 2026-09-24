@@ -60,7 +60,14 @@
   },
   "layout": {
     "header": {
-      "dashboard": "Dashboard"
+      "dashboard": "Dashboard",
+      "SearchPlaceholder": "Search orders, products…",
+      "Searching": "Searching...",
+      "Unable": "Unable to load results. Please try again.",
+      "NoResults": "No results found.",
+      "Customers": "Customers",
+      "Orders": "Orders",
+      "Products": "Products"
     },
     "sidebar": {
       "brandName": "Blúme Petals",

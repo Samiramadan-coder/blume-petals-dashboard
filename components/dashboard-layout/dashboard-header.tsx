@@ -9,6 +9,7 @@ import { LocaleSwitcher } from "./locale-switcher";
 import { useLocale, useTranslations } from "next-intl";
 import { navigationLabels } from "@/constants/dashboard-layout";
 import { usePathname } from "@/i18n/navigation";
+import GlobalSearch from "./global-search";
 
 export default function DashboardHeader() {
   const locale = useLocale();
@@ -41,6 +42,7 @@ export default function DashboardHeader() {
       </div>
 
       <div className="flex items-center gap-3">
+        <GlobalSearch />
         <LiveDateTime />
         <LocaleSwitcher />
         <Button variant="ghost" size="sm" className="relative p-0">
