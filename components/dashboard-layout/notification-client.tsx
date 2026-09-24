@@ -47,23 +47,44 @@ export default function NotificationsClient({ saveToken }: Props) {
     let disposed = false;
 
     async function syncToken() {
-      if (
-        !("Notification" in window) ||
-        Notification.permission !== "granted"
-      ) {
+      console.log("FCM effect started");
+
+      if (!("Notification" in window)) {
+        console.log("Notification API not supported");
+        return;
+      }
+
+      console.log("Notification permission:", Notification.permission);
+
+      if (Notification.permission !== "granted") {
+        console.log("FCM stopped because permission is not granted");
         return;
       }
 
       try {
+        console.log("Getting FCM token...");
+
         const token = await getFcmToken();
 
-        if (!token || disposed) {
-          return console.log("Token not available or component disposed");
-        } else {
-          console.log("Token available:", token);
+        console.log("getFcmToken result:", token);
+
+        if (!token) {
+          console.log("No FCM token returned");
+          return;
         }
 
+        if (disposed) {
+          console.log("Component already disposed");
+          return;
+        }
+
+        console.log("FCM token available:", token);
+
+        console.log("Sending token to backend...");
+
         await saveToken(token);
+
+        console.log("FCM token saved successfully");
       } catch (error) {
         console.error("FCM token sync error:", error);
       }
