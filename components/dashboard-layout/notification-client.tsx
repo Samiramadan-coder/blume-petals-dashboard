@@ -56,23 +56,16 @@ export default function NotificationsClient({ saveToken }: Props) {
 
       let permission = Notification.permission;
 
-      console.log("Current permission:", permission);
-
       if (permission === "default") {
         permission = await Notification.requestPermission();
-
-        console.log("Permission after request:", permission);
       }
 
       if (permission !== "granted") {
-        console.log("FCM stopped because permission is not granted");
         return;
       }
 
       try {
         const token = await getFcmToken();
-
-        console.log("FCM token:", token);
 
         if (!token || disposed) return;
 
