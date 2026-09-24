@@ -1054,7 +1054,9 @@
     "LowStockAlerts": "Low Stock Alerts",
     "Items": "Items",
     "Left": "Left",
-    "Restock": "Restock"
+    "Restock": "Restock",
+    "Today": "Today",
+    "Yesterday": "Yesterday"
   },
   "Reports": {
     "Sales": "Sales & Revenue",

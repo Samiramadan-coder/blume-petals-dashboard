@@ -8,6 +8,7 @@ import { getTranslations } from "next-intl/server";
 import { Design } from "@/types/active-custom-designs";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { DataTable } from "@/components/reusable/data-table";
+import ModuleHeader from "@/components/reusable/module-header";
 
 type SearchParams = {
   page?: string;
@@ -43,94 +44,173 @@ async function GetListOfActiveCustomDesigns({
   ];
 
   return (
-    <DataTable
-      columns={columns}
-      rowsCount={data.data.items.length}
-      countUnit={t("Design")}
-      pagination={data.data.pagination}
-    >
-      {data.data.items.length === 0 ? (
-        <TableRow className="border-primary/20">
-          <TableCell colSpan={columns.length + 1} className="px-4 py-3">
-            <p className="text-center text-sm text-muted-foreground">
-              {t("NoActiveDesigns")}
-            </p>
-          </TableCell>
-        </TableRow>
-      ) : (
-        data.data.items.map((design, index) => (
-          <TableRow key={index} className="border-primary/20">
-            <TableCell className="px-4 py-3">
-              <Image
-                src={design.image_url}
-                alt={design.bouquet.name}
-                width={40}
-                height={40}
-                className="rounded-lg max-h-10"
-              />
-            </TableCell>
+    <div className="space-y-6">
+      <ModuleHeader title={t("Title")} description={""} />
 
-            <TableCell className="px-4 py-3">
-              <p className="text-sm font-medium">{design.customer.name}</p>
-              <p className="text-xs">{design.customer.email}</p>
-              <p className="text-xs">{design.customer.phone}</p>
-            </TableCell>
-
-            <TableCell className="px-4 py-3">
-              <div>
-                {design.flowers.map((flower) => (
-                  <p
-                    key={flower.variant_id}
-                    className="text-xs mb-1 font-semibold"
-                  >
-                    {flower.qty}x {flower.name}
-                  </p>
-                ))}
-              </div>
-            </TableCell>
-
-            <TableCell className="px-4 py-3">
-              {design.cart.gift.ribbon && (
-                <div className="flex flex-col">
-                  <span>{t("Ribbon")}:</span>
-                  <span>
-                    {t("Price")}: {design.cart.gift.ribbon.price}
-                  </span>
-                  <span
-                    className="inline-block w-3 h-3 rounded-full mr-2"
-                    style={{
-                      backgroundColor: design.cart.gift.ribbon.color_hex || "",
-                    }}
-                  ></span>
-                </div>
-              )}
-
-              {design.cart.gift.card_style && (
-                <div className="flex flex-col">
-                  <span className="font-semibold text-primary">
-                    {t("CardStyle")}:
-                  </span>
-                  <span>
-                    {t("Price")}: {design.cart.gift.card_style.price}
-                  </span>
-                  <span>
-                    {t("Name")}: {design.cart.gift.card_style.name}
-                  </span>
-                </div>
-              )}
-            </TableCell>
-
-            <TableCell className="px-4 py-3">
-              {design.cart.message_text || "-"}
-            </TableCell>
-
-            <TableCell className="px-4 py-3">
-              {formatDate(design.saved_at)}
+      <DataTable
+        columns={columns}
+        rowsCount={data.data.items.length}
+        countUnit={t("Design")}
+        pagination={data.data.pagination}
+      >
+        {data.data.items.length === 0 ? (
+          <TableRow className="border-primary/20">
+            <TableCell colSpan={columns.length + 1} className="px-4 py-10">
+              <p className="text-center text-sm text-muted-foreground">
+                {t("NoActiveDesigns")}
+              </p>
             </TableCell>
           </TableRow>
-        ))
-      )}
-    </DataTable>
+        ) : (
+          data.data.items.map((design, index) => (
+            <TableRow
+              key={index}
+              className="border-primary/15 transition-colors hover:bg-muted/20"
+            >
+              {/* Photo */}
+              <TableCell className="px-4 py-4 align-top">
+                <div className="size-12 overflow-hidden rounded-lg bg-muted">
+                  <Image
+                    src={design.image_url}
+                    alt={design.bouquet.name}
+                    width={48}
+                    height={48}
+                    className="size-full object-cover"
+                  />
+                </div>
+              </TableCell>
+
+              {/* Client */}
+              <TableCell className="px-4 py-4 align-top">
+                <div className="min-w-45 space-y-1">
+                  <p className="text-sm font-semibold text-foreground">
+                    {design.customer.name}
+                  </p>
+
+                  {design.customer.email && (
+                    <p className="max-w-55 truncate text-xs text-muted-foreground">
+                      {design.customer.email}
+                    </p>
+                  )}
+
+                  {design.customer.phone && (
+                    <p className="text-xs text-muted-foreground">
+                      {design.customer.phone}
+                    </p>
+                  )}
+                </div>
+              </TableCell>
+
+              {/* Components */}
+              <TableCell className="px-4 py-4 align-top">
+                <div className="flex max-w-90 flex-wrap gap-1.5">
+                  {design.flowers.map((flower) => (
+                    <div
+                      key={flower.variant_id}
+                      className="inline-flex items-center gap-1 rounded-md border bg-muted/40 px-2 py-1 text-xs"
+                    >
+                      <span className="font-semibold text-primary">
+                        {flower.qty}x
+                      </span>
+
+                      <span>{flower.name}</span>
+                    </div>
+                  ))}
+                </div>
+              </TableCell>
+
+              {/* Ribbon & Card */}
+              <TableCell className="px-4 py-4 align-top">
+                <div className="min-w-45 space-y-2">
+                  {design.cart.gift.ribbon && (
+                    <div className="rounded-lg border bg-muted/20 p-2.5">
+                      <div className="mb-2 flex items-center justify-between gap-2">
+                        <span className="text-xs font-semibold text-primary">
+                          {t("Ribbon")}
+                        </span>
+
+                        <span
+                          className="size-3 rounded-full border"
+                          style={{
+                            backgroundColor:
+                              design.cart.gift.ribbon.color_hex ||
+                              "transparent",
+                          }}
+                        />
+                      </div>
+
+                      <p className="text-xs text-muted-foreground">
+                        {t("Price")}
+                        <span className="ms-1 font-medium text-foreground">
+                          {design.cart.gift.ribbon.price}
+                        </span>
+                      </p>
+                    </div>
+                  )}
+
+                  {design.cart.gift.card_style && (
+                    <div className="rounded-lg border bg-muted/20 p-2.5">
+                      <p className="mb-2 text-xs font-semibold text-primary">
+                        {t("CardStyle")}
+                      </p>
+
+                      <div className="space-y-1 text-xs">
+                        <p>
+                          <span className="text-muted-foreground">
+                            {t("Name")}
+                          </span>
+
+                          <span className="ms-1 font-medium">
+                            {design.cart.gift.card_style.name}
+                          </span>
+                        </p>
+
+                        <p>
+                          <span className="text-muted-foreground">
+                            {t("Price")}
+                          </span>
+
+                          <span className="ms-1 font-medium">
+                            {design.cart.gift.card_style.price}
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  {!design.cart.gift.ribbon && !design.cart.gift.card_style && (
+                    <span className="text-sm text-muted-foreground">—</span>
+                  )}
+                </div>
+              </TableCell>
+
+              {/* Message */}
+              <TableCell className="px-4 py-4 align-top">
+                {design.cart.message_text ? (
+                  <p
+                    className="max-w-55 line-clamp-3 text-sm leading-5 text-muted-foreground"
+                    title={design.cart.message_text}
+                  >
+                    {design.cart.message_text}
+                  </p>
+                ) : (
+                  <span className="text-muted-foreground">—</span>
+                )}
+              </TableCell>
+
+              {/* Saved At */}
+              <TableCell className="px-4 py-4 align-top">
+                <div className="min-w-35">
+                  <p className="text-sm font-medium">
+                    {formatDate(design.saved_at)}
+                  </p>
+                </div>
+              </TableCell>
+            </TableRow>
+          ))
+        )}
+      </DataTable>
+    </div>
   );
 }
 
