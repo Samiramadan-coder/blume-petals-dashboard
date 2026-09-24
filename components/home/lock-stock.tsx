@@ -1,9 +1,11 @@
 import { cn } from "@/lib/utils";
 import { Badge } from "../ui/badge";
-import { AlertTriangle } from "lucide-react";
+import { Button } from "../ui/button";
 import { LowStock } from "@/types/dashboard";
 import { Card, CardContent } from "../ui/card";
 import { getTranslations } from "next-intl/server";
+import { AlertTriangle, RotateCcw } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 
 export default async function LockStock({
   lowStock,
@@ -51,6 +53,15 @@ export default async function LockStock({
             </div>
 
             <div className="flex items-center gap-2">
+              <Link href={`/flowers?q=${stock.name}`}>
+                <Button
+                  variant="outline"
+                  className="text-[#8a6f2a] bg-primary/10 text-xs font-semibold"
+                >
+                  <RotateCcw /> {t("Restock")}
+                </Button>
+              </Link>
+
               <p
                 className={cn("text-sm font-semibold tabular-nums", {
                   "text-red-400": stock.left <= stock.threshold,

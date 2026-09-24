@@ -9,6 +9,7 @@ import DataPreview from "@/components/flower/data-preview";
 
 type SearchParams = {
   page?: string;
+  q?: string;
 };
 
 /**
@@ -44,6 +45,7 @@ async function FlowersPage({ searchParams }: { searchParams: SearchParams }) {
       per_page: 10,
       page: searchParams.page ?? 1,
       show_in_builder: 1,
+      q: searchParams.q ?? "",
     },
   });
 

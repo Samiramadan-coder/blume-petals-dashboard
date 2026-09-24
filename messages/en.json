@@ -1053,7 +1053,8 @@
     "Orders": "Orders",
     "LowStockAlerts": "Low Stock Alerts",
     "Items": "Items",
-    "Left": "Left"
+    "Left": "Left",
+    "Restock": "Restock"
   },
   "Reports": {
     "Sales": "Sales & Revenue",
