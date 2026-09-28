@@ -68,6 +68,11 @@ export default function NormalFormInput<T extends FieldValues>({
         })
       : register(name);
 
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    inputRegister.onChange(event);
+    onChange?.(event);
+  };
+
   const hasAddon = Boolean(prefix || suffix);
 
   return (
@@ -111,7 +116,7 @@ export default function NormalFormInput<T extends FieldValues>({
                 disabled={disabled}
                 min={type === "number" ? min : undefined}
                 max={type === "number" ? max : undefined}
-                onChange={onChange}
+                onChange={handleChange}
                 className={cn(
                   "h-full min-w-0 flex-1 rounded-none border-0 bg-transparent shadow-none",
                   "focus-visible:ring-0 focus-visible:ring-offset-0",
@@ -135,15 +140,17 @@ export default function NormalFormInput<T extends FieldValues>({
               disabled={disabled}
               min={type === "number" ? min : undefined}
               max={type === "number" ? max : undefined}
-              onChange={onChange}
+              onChange={handleChange}
               className={cn("h-10 border-border bg-background", inputClassName)}
             />
           )}
+
           {description && (
             <FieldDescription className="text-xs">
               {description}
             </FieldDescription>
           )}
+
           <FieldError errors={[error]} />
         </div>
       </FieldContent>
