@@ -29,6 +29,7 @@ type NormalFormTextareaProps<T extends FieldValues> = {
   errors?: FieldErrors<T>;
   className?: string;
   textareaClassName?: string;
+  labelClassName?: string;
   disabled?: boolean;
   description?: ReactNode;
   rows?: number;
@@ -36,6 +37,7 @@ type NormalFormTextareaProps<T extends FieldValues> = {
 };
 
 export default function NormalFormTextarea<T extends FieldValues>({
+  labelClassName,
   name,
   label,
   placeholder,
@@ -59,6 +61,7 @@ export default function NormalFormTextarea<T extends FieldValues>({
           className={cn(
             "text-xs font-semibold",
             required && "after:ms-1 after:text-destructive after:content-['*']",
+            labelClassName,
           )}
         >
           {label}

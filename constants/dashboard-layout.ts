@@ -17,6 +17,7 @@ import {
   SlidersVertical,
   ChartNoAxesColumn,
   Bookmark,
+  Home,
 } from "lucide-react";
 import { createElement } from "react";
 import { Permission } from "@/types/role-and-permissions";
@@ -176,6 +177,13 @@ export const navigation = (
     icon: createElement(ShieldCheck, { className: "h-4 w-4" }),
     enabled: permissions.includes("roles.view"),
   },
+  {
+    label: "sidebar.navigation.websiteContent",
+    href: "/website-content",
+    type: "link",
+    icon: createElement(Home, { className: "h-4 w-4" }),
+    enabled: permissions.includes("dashboard.view"),
+  },
   // {
   //   label: "sidebar.navigation.adminAccount",
   //   href: "/admin-account",
@@ -199,6 +207,10 @@ export const navigationLabels = () =>
     {
       label: "sidebar.navigation.categories",
       href: "/categories",
+    },
+    {
+      label: "sidebar.navigation.savedDesigns",
+      href: "/saved-designs",
     },
     {
       label: "sidebar.navigation.flower",
@@ -258,5 +270,9 @@ export const navigationLabels = () =>
     {
       label: "sidebar.navigation.rolesAndPermissions",
       href: "/roles-and-permissions",
+    },
+    {
+      label: "sidebar.navigation.websiteContent",
+      href: "/website-content",
     },
   ] as const;
