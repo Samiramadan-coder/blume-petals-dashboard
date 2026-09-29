@@ -1,14 +1,14 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import GlobalSearch from "./global-search";
 import LiveDateTime from "./live-date-time";
 import { SidebarTrigger } from "../ui/sidebar";
+import { usePathname } from "@/i18n/navigation";
 import { LocaleSwitcher } from "./locale-switcher";
 import { useLocale, useTranslations } from "next-intl";
-import { navigationLabels } from "@/constants/dashboard-layout";
-import { usePathname } from "@/i18n/navigation";
-import GlobalSearch from "./global-search";
 import NotificationsSetup from "./notifications-setup";
+import { navigationLabels } from "@/constants/dashboard-layout";
 
 export default function DashboardHeader() {
   const locale = useLocale();

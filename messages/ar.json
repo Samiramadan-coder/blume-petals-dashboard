@@ -70,7 +70,9 @@
       "Products": "المنتجات",
       "Notifications": "الإشعارات",
       "NoNotifications": "لا توجد إشعارات",
-      "ShowDetails": "عرض التفاصيل"
+      "ShowDetails": "عرض التفاصيل",
+      "MarkAsRead": "وضع علامة مقروء",
+      "New": "جديد"
     },
     "sidebar": {
       "brandName": "بلوم بيتالز",

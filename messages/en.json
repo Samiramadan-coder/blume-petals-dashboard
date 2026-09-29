@@ -70,7 +70,9 @@
       "Products": "Products",
       "Notifications": "Notifications",
       "NoNotifications": "No notifications",
-      "ShowDetails": "Show details"
+      "ShowDetails": "Show details",
+      "MarkAsRead": "Mark as read",
+      "New": "New"
     },
     "sidebar": {
       "brandName": "Blúme Petals",
