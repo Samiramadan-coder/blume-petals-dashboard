@@ -103,7 +103,8 @@
         "adminAccount": "Admin Account",
         "countriesCities": "Countries & Cities",
         "rolesAndPermissions": "Roles & Permissions",
-        "messages": "Messages"
+        "messages": "Messages",
+        "savedDesigns": "Saved Custom Designs"
       }
     }
   },
@@ -1221,6 +1222,23 @@
   "ActiveCustomDesigns": {
     "Title": "Active Custom Designs",
     "NoActiveDesigns": "No active designs",
+    "Design": "Design",
+    "Ribbon": "Ribbon",
+    "CardStyle": "Card Style",
+    "Price": "Price",
+    "Name": "Name",
+    "Table": {
+      "Photo": "Photo",
+      "Client": "Client",
+      "Components": "Components",
+      "RibbonAndCartStyle": "Ribbon & Cart Style",
+      "Message": "Message",
+      "SavedAt": "Saved at"
+    }
+  },
+  "SavedCustomDesigns": {
+    "Title": "Saved Custom Designs",
+    "NoActiveDesigns": "No saved designs",
     "Design": "Design",
     "Ribbon": "Ribbon",
     "CardStyle": "Card Style",

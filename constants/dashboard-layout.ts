@@ -7,7 +7,6 @@ import {
   Store,
   Truck,
   Ticket,
-  // UserCog,
   Flower2,
   LayoutGrid,
   UsersRound,
@@ -17,6 +16,7 @@ import {
   MessageSquare,
   SlidersVertical,
   ChartNoAxesColumn,
+  Bookmark,
 } from "lucide-react";
 import { createElement } from "react";
 import { Permission } from "@/types/role-and-permissions";
@@ -88,6 +88,13 @@ export const navigation = (
     type: "link",
     icon: createElement(UsersRound, { className: "h-4 w-4" }),
     enabled: permissions.includes("users.view"),
+  },
+  {
+    label: "sidebar.navigation.savedDesigns",
+    href: "/saved-designs",
+    type: "link",
+    icon: createElement(Bookmark, { className: "h-4 w-4" }),
+    enabled: permissions.includes("catalog.view"),
   },
   {
     label: "sidebar.navigation.reviews",

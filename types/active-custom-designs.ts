@@ -1,14 +1,12 @@
-export type Design = {
-  id: number;
-  saved_at: string;
+export type SavedDesign = {
   customer: {
     id: number;
     name: string;
     email: string;
     phone: string;
   };
-  image_url: string;
   bouquet: {
+    image_url: string;
     product_id: number;
     variant_id: number;
     sku: string;
@@ -21,7 +19,15 @@ export type Design = {
     color: string | null;
     qty: number;
   }[];
+  id: number;
+  saved_at: string;
+  image_url: string;
   total_stems: number;
+  price: string;
+  available: boolean;
+};
+
+export type Design = SavedDesign & {
   cart: {
     qty: number;
     gift: {
@@ -47,6 +53,4 @@ export type Design = {
     };
     message_text: string;
   };
-  price: string;
-  available: boolean;
 };

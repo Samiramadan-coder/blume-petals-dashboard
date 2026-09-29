@@ -103,7 +103,8 @@
         "adminAccount": "حساب الإدارة",
         "countriesCities": "الدول والمدن",
         "rolesAndPermissions": "الأدوار والأذونات",
-        "messages": "الرسائل"
+        "messages": "الرسائل",
+        "savedDesigns": "التصاميم المخصصة المحفوظة"
       }
     }
   },
@@ -1219,6 +1220,23 @@
   "ActiveCustomDesigns": {
     "Title": "التصاميم المخصصة النشطة",
     "NoActiveDesigns": "لا توجد تصاميم نشطة",
+    "Design": "تصميم",
+    "Ribbon": "الشريط",
+    "CardStyle": "نمط البطاقة",
+    "Price": "السعر",
+    "Name": "الاسم",
+    "Table": {
+      "Photo": "الصورة",
+      "Client": "العميل",
+      "Components": "المكونات",
+      "RibbonAndCartStyle": "الشريط ونمط البطاقة",
+      "Message": "الرسالة",
+      "SavedAt": "تم الحفظ في"
+    }
+  },
+  "SavedCustomDesigns": {
+    "Title": "التصاميم المخصصة المحفوظة",
+    "NoActiveDesigns": "لا توجد تصاميم محفوظة",
     "Design": "تصميم",
     "Ribbon": "الشريط",
     "CardStyle": "نمط البطاقة",
