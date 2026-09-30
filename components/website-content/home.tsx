@@ -386,8 +386,8 @@ export default function Home({ home }: { home: HomePage }) {
 
                                     <NormalFormInput
                                       register={register}
-                                      name={`bouquet_builder.items.${index}.description.${loc}`}
-                                      label={tLive("description")}
+                                      name={`bouquet_builder.items.${index}.subtitle.${loc}`}
+                                      label={tLive("subtitle")}
                                       labelClassName="mb-1"
                                     />
 

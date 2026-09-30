@@ -71,7 +71,7 @@ export const homePageSchema = z.object({
           en: z.union([z.string(), z.null()]),
           ar: z.union([z.string(), z.null()]),
         }),
-        description: z.object({
+        subtitle: z.object({
           en: z.union([z.string(), z.null()]),
           ar: z.union([z.string(), z.null()]),
         }),
