@@ -13,7 +13,7 @@ import { Button } from "../ui/button";
 import { Plus, Trash2 } from "lucide-react";
 import NormalFormInput from "../form/input";
 import { Card, CardContent } from "../ui/card";
-import NormalFormTextarea from "../form/textarea";
+// import NormalFormTextarea from "../form/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { availableLocales } from "@/constants/shared";
 import { postAboutAction } from "@/lib/website-content";
@@ -24,6 +24,7 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { AboutPage, aboutPageSchema } from "@/types/website-content";
 import { Spinner } from "../ui/spinner";
 import { toast } from "sonner";
+import NormalFormRichText from "../form/rich-text";
 
 export default function About({ about }: { about: AboutPage }) {
   const { activeLocale, changeLocale, dir, isArabic, tLive } =
@@ -147,7 +148,18 @@ export default function About({ about }: { about: AboutPage }) {
                       labelClassName="mb-1"
                     />
 
-                    <NormalFormTextarea
+                    <NormalFormRichText
+                      key={loc}
+                      control={control}
+                      label={tLive("description")}
+                      name={`who_we_are.description.${loc}`}
+                      labelClassName="mb-1"
+                      className={
+                        loc === activeLocale ? "block sm:col-span-2" : "hidden"
+                      }
+                    />
+
+                    {/* <NormalFormTextarea
                       register={register}
                       name={`who_we_are.description.${loc}`}
                       className={
@@ -155,7 +167,7 @@ export default function About({ about }: { about: AboutPage }) {
                       }
                       label={tLive("description")}
                       labelClassName="mb-1"
-                    />
+                    /> */}
                   </React.Fragment>
                 ))}
 
