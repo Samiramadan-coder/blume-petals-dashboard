@@ -14,7 +14,14 @@ export const homePageSchema = z.object({
       en: z.union([z.string(), z.null()]),
       ar: z.union([z.string(), z.null()]),
     }),
-    image: z.union([z.url(), z.instanceof(File), z.null()]),
+    image: z.union([
+      z.string(),
+      z.null(),
+      z.object({
+        path: z.string(),
+        url: z.string(),
+      }),
+    ]),
   }),
 
   categories: z.object({
@@ -47,7 +54,11 @@ export const homePageSchema = z.object({
           en: z.union([z.string(), z.null()]),
           ar: z.union([z.string(), z.null()]),
         }),
-        image: z.union([z.url(), z.instanceof(File), z.null()]),
+        image: z.union([
+          z.url(),
+          z.null(),
+          z.object({ path: z.string(), url: z.string() }),
+        ]),
       }),
     ),
   }),
@@ -75,7 +86,11 @@ export const homePageSchema = z.object({
           en: z.union([z.string(), z.null()]),
           ar: z.union([z.string(), z.null()]),
         }),
-        icon: z.union([z.url(), z.instanceof(File), z.null()]),
+        icon: z.union([
+          z.url(),
+          z.null(),
+          z.object({ path: z.string(), url: z.string() }),
+        ]),
       }),
     ),
   }),
@@ -130,7 +145,14 @@ export const aboutPageSchema = z.object({
       en: z.union([z.string(), z.null()]),
       ar: z.union([z.string(), z.null()]),
     }),
-    image: z.union([z.url(), z.instanceof(File), z.null()]),
+    image: z.union([
+      z.url(),
+      z.null(),
+      z.object({
+        path: z.string(),
+        url: z.string(),
+      }),
+    ]),
   }),
 
   who_we_are: z.object({
@@ -146,7 +168,14 @@ export const aboutPageSchema = z.object({
       en: z.union([z.string(), z.null()]),
       ar: z.union([z.string(), z.null()]),
     }),
-    image: z.union([z.url(), z.instanceof(File), z.null()]),
+    image: z.union([
+      z.url(),
+      z.null(),
+      z.object({
+        path: z.string(),
+        url: z.string(),
+      }),
+    ]),
   }),
 
   our_promise: z.object({
@@ -168,7 +197,14 @@ export const aboutPageSchema = z.object({
           en: z.union([z.string(), z.null()]),
           ar: z.union([z.string(), z.null()]),
         }),
-        icon: z.union([z.url(), z.instanceof(File), z.null()]),
+        icon: z.union([
+          z.url(),
+          z.null(),
+          z.object({
+            path: z.string(),
+            url: z.string(),
+          }),
+        ]),
       }),
     ),
   }),

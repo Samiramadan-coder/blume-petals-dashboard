@@ -7,8 +7,11 @@ import {
   AccordionTrigger,
 } from "../ui/accordion";
 import React from "react";
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import ImageFile from "./image-file";
 import { Button } from "../ui/button";
+import { Spinner } from "../ui/spinner";
 import { Plus, Trash2 } from "lucide-react";
 import NormalFormInput from "../form/input";
 import { Card, CardContent } from "../ui/card";
@@ -19,10 +22,7 @@ import { postHomeAction } from "@/lib/website-content";
 import { useFormLocale } from "@/hooks/use-form-locale";
 import LocaleFormSwitcher from "../reusable/locale-form-switcher";
 import { HomePage, homePageSchema } from "@/types/website-content";
-import SingleFormImageUploader from "../form/single-image-uploader";
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { Spinner } from "../ui/spinner";
-import { toast } from "sonner";
+import { useForm, SubmitHandler, Controller, useWatch } from "react-hook-form";
 
 export default function Home({ home }: { home: HomePage }) {
   const { activeLocale, changeLocale, dir, isArabic, tLive } =
@@ -32,14 +32,33 @@ export default function Home({ home }: { home: HomePage }) {
     control,
     register,
     setError,
+    setValue,
     handleSubmit,
-    formState: { isSubmitting },
+    formState: { isSubmitting, errors },
   } = useForm<HomePage>({
     defaultValues: home,
     resolver: zodResolver(homePageSchema),
   });
 
+  const heroImage = useWatch({ control, name: "hero.image" });
+
   const onSubmit: SubmitHandler<HomePage> = async (data) => {
+    if (data.hero.image instanceof Object) {
+      data.hero.image = data.hero.image.path;
+    }
+
+    data.how_it_works.items.forEach((item) => {
+      if (item.image instanceof Object) {
+        item.image = item.image.path;
+      }
+    });
+
+    data.bouquet_builder.items.forEach((item) => {
+      if (item.icon instanceof Object) {
+        item.icon = item.icon.path;
+      }
+    });
+
     const result = await postHomeAction(data);
 
     if (result.success) {
@@ -62,10 +81,20 @@ export default function Home({ home }: { home: HomePage }) {
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(onSubmit, (errors) => {
+        console.log(errors);
+      })}
       className={cn("space-y-4", isArabic && "font-cairo")}
       dir={dir}
     >
+      {errors && Object.keys(errors).length > 0 && (
+        <div className="mb-4 text-red-600">
+          {Object.values(errors).map((error, index) => (
+            <p key={index}>{error.message}</p>
+          ))}
+        </div>
+      )}
+
       <div className="flex">
         <LocaleFormSwitcher
           locale={activeLocale}
@@ -116,12 +145,21 @@ export default function Home({ home }: { home: HomePage }) {
                   </React.Fragment>
                 ))}
 
-                <SingleFormImageUploader
+                <ImageFile
+                  page="home"
+                  type="images"
+                  imageUrl={heroImage instanceof Object ? heroImage.url : ""}
+                  onFileChange={(image) => {
+                    setValue("hero.image", image);
+                  }}
+                />
+
+                {/* <SingleFormImageUploader
                   control={control}
                   name="hero.image"
                   label={tLive("image")}
                   className="sm:col-span-2"
-                />
+                /> */}
               </CardContent>
             </AccordionContent>
           </AccordionItem>
@@ -259,11 +297,19 @@ export default function Home({ home }: { home: HomePage }) {
                                       labelClassName="mb-1"
                                     />
 
-                                    <SingleFormImageUploader
-                                      control={control}
-                                      name={`how_it_works.items.${index}.image`}
-                                      label={tLive("image")}
-                                      className="sm:col-span-2"
+                                    <ImageFile
+                                      page="home"
+                                      type="images"
+                                      imageUrl={
+                                        value[index].image instanceof Object
+                                          ? value[index].image.url
+                                          : ""
+                                      }
+                                      onFileChange={(image) => {
+                                        const newValue = [...value];
+                                        newValue[index].image = image;
+                                        field.onChange(newValue);
+                                      }}
                                     />
                                   </div>
                                 ))}
@@ -391,12 +437,19 @@ export default function Home({ home }: { home: HomePage }) {
                                       labelClassName="mb-1"
                                     />
 
-                                    <SingleFormImageUploader
-                                      control={control}
-                                      name={`bouquet_builder.items.${index}.icon`}
-                                      label={tLive("icon")}
-                                      accept=".svg"
-                                      className="sm:col-span-2"
+                                    <ImageFile
+                                      page="home"
+                                      type="icons"
+                                      imageUrl={
+                                        value[index].icon instanceof Object
+                                          ? value[index].icon.url
+                                          : ""
+                                      }
+                                      onFileChange={(icon) => {
+                                        const newValue = [...value];
+                                        newValue[index].icon = icon;
+                                        field.onChange(newValue);
+                                      }}
                                     />
                                   </div>
                                 ))}

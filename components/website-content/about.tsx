@@ -13,18 +13,17 @@ import { Button } from "../ui/button";
 import { Plus, Trash2 } from "lucide-react";
 import NormalFormInput from "../form/input";
 import { Card, CardContent } from "../ui/card";
-// import NormalFormTextarea from "../form/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { availableLocales } from "@/constants/shared";
 import { postAboutAction } from "@/lib/website-content";
 import { useFormLocale } from "@/hooks/use-form-locale";
 import LocaleFormSwitcher from "../reusable/locale-form-switcher";
-import SingleFormImageUploader from "../form/single-image-uploader";
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { useForm, SubmitHandler, Controller, useWatch } from "react-hook-form";
 import { AboutPage, aboutPageSchema } from "@/types/website-content";
 import { Spinner } from "../ui/spinner";
 import { toast } from "sonner";
 import NormalFormRichText from "../form/rich-text";
+import ImageFile from "./image-file";
 
 export default function About({ about }: { about: AboutPage }) {
   const { activeLocale, changeLocale, dir, isArabic, tLive } =
@@ -35,13 +34,31 @@ export default function About({ about }: { about: AboutPage }) {
     setError,
     register,
     handleSubmit,
+    setValue,
     formState: { isSubmitting },
   } = useForm<AboutPage>({
     defaultValues: about,
     resolver: zodResolver(aboutPageSchema),
   });
 
+  const heroImage = useWatch({ control, name: "hero.image" });
+  const whoWeAreImage = useWatch({ control, name: "who_we_are.image" });
+
   const onSubmit: SubmitHandler<AboutPage> = async (data) => {
+    if (data.hero.image instanceof Object) {
+      data.hero.image = data.hero.image.path;
+    }
+
+    if (data.who_we_are.image instanceof Object) {
+      data.who_we_are.image = data.who_we_are.image.path;
+    }
+
+    data.our_promise.items.forEach((item) => {
+      if (item.icon instanceof Object) {
+        item.icon = item.icon.path;
+      }
+    });
+
     const result = await postAboutAction(data);
 
     if (result.success) {
@@ -108,11 +125,13 @@ export default function About({ about }: { about: AboutPage }) {
                   </React.Fragment>
                 ))}
 
-                <SingleFormImageUploader
-                  control={control}
-                  name="hero.image"
-                  label={tLive("image")}
-                  className="sm:col-span-2"
+                <ImageFile
+                  page="about"
+                  type="images"
+                  imageUrl={heroImage instanceof Object ? heroImage.url : ""}
+                  onFileChange={(image) => {
+                    setValue("hero.image", image);
+                  }}
                 />
               </CardContent>
             </AccordionContent>
@@ -158,24 +177,18 @@ export default function About({ about }: { about: AboutPage }) {
                         loc === activeLocale ? "block sm:col-span-2" : "hidden"
                       }
                     />
-
-                    {/* <NormalFormTextarea
-                      register={register}
-                      name={`who_we_are.description.${loc}`}
-                      className={
-                        loc === activeLocale ? "block sm:col-span-2" : "hidden"
-                      }
-                      label={tLive("description")}
-                      labelClassName="mb-1"
-                    /> */}
                   </React.Fragment>
                 ))}
 
-                <SingleFormImageUploader
-                  control={control}
-                  name="who_we_are.image"
-                  label={tLive("image")}
-                  className="sm:col-span-2"
+                <ImageFile
+                  type="images"
+                  page="about"
+                  imageUrl={
+                    whoWeAreImage instanceof Object ? whoWeAreImage.url : ""
+                  }
+                  onFileChange={(image) => {
+                    setValue("who_we_are.image", image);
+                  }}
                 />
               </CardContent>
             </AccordionContent>
@@ -283,13 +296,28 @@ export default function About({ about }: { about: AboutPage }) {
                                       labelClassName="mb-1"
                                     />
 
-                                    <SingleFormImageUploader
+                                    <ImageFile
+                                      page="about"
+                                      type="icons"
+                                      imageUrl={
+                                        value[index].icon instanceof Object
+                                          ? value[index].icon.url
+                                          : ""
+                                      }
+                                      onFileChange={(icon) => {
+                                        const newValue = [...value];
+                                        newValue[index].icon = icon;
+                                        field.onChange(newValue);
+                                      }}
+                                    />
+
+                                    {/* <SingleFormImageUploader
                                       control={control}
                                       name={`our_promise.items.${index}.icon`}
                                       label={tLive("icon")}
                                       accept=".svg"
                                       className="sm:col-span-2"
-                                    />
+                                    /> */}
                                   </div>
                                 ))}
                               </div>
