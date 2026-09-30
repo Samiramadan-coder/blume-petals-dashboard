@@ -30,8 +30,6 @@ async function GetWebsiteContent() {
     throw new Error("Failed to fetch website content");
   }
 
-  console.log(home);
-
   return (
     <div>
       <Tabs defaultValue="home" className="mb-4">
