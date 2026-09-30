@@ -1255,6 +1255,8 @@
     }
   },
   "WebsiteContent": {
+    "home": "Home",
+    "about": "About",
     "hero": "Hero",
     "title": "Title",
     "subtitle": "Subtitle",
@@ -1267,6 +1269,9 @@
     "icon": "Icon",
     "shopTheMoment": "Shop The Moment",
     "ourSelection": "Our Selection",
-    "realCreations": "Real Creations"
+    "realCreations": "Real Creations",
+    "whoWeAre": "Who We Are",
+    "ourPromise": "Our Promise",
+    "submit": "Submit"
   }
 }

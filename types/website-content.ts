@@ -119,3 +119,59 @@ export const homePageSchema = z.object({
 });
 
 export type HomePage = z.infer<typeof homePageSchema>;
+
+export const aboutPageSchema = z.object({
+  hero: z.object({
+    title: z.object({
+      en: z.union([z.string(), z.null()]),
+      ar: z.union([z.string(), z.null()]),
+    }),
+    subtitle: z.object({
+      en: z.union([z.string(), z.null()]),
+      ar: z.union([z.string(), z.null()]),
+    }),
+    image: z.union([z.url(), z.instanceof(File), z.null()]),
+  }),
+
+  who_we_are: z.object({
+    title: z.object({
+      en: z.union([z.string(), z.null()]),
+      ar: z.union([z.string(), z.null()]),
+    }),
+    subtitle: z.object({
+      en: z.union([z.string(), z.null()]),
+      ar: z.union([z.string(), z.null()]),
+    }),
+    description: z.object({
+      en: z.union([z.string(), z.null()]),
+      ar: z.union([z.string(), z.null()]),
+    }),
+    image: z.union([z.url(), z.instanceof(File), z.null()]),
+  }),
+
+  our_promise: z.object({
+    title: z.object({
+      en: z.union([z.string(), z.null()]),
+      ar: z.union([z.string(), z.null()]),
+    }),
+    subtitle: z.object({
+      en: z.union([z.string(), z.null()]),
+      ar: z.union([z.string(), z.null()]),
+    }),
+    items: z.array(
+      z.object({
+        title: z.object({
+          en: z.union([z.string(), z.null()]),
+          ar: z.union([z.string(), z.null()]),
+        }),
+        description: z.object({
+          en: z.union([z.string(), z.null()]),
+          ar: z.union([z.string(), z.null()]),
+        }),
+        icon: z.union([z.url(), z.instanceof(File), z.null()]),
+      }),
+    ),
+  }),
+});
+
+export type AboutPage = z.infer<typeof aboutPageSchema>;

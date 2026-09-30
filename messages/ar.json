@@ -1253,6 +1253,8 @@
     }
   },
   "WebsiteContent": {
+    "home": "الرئيسية",
+    "about": "حول",
     "hero": "البطل",
     "title": "العنوان",
     "subtitle": "العنوان الفرعي",
@@ -1265,6 +1267,9 @@
     "icon": "الأيقونة",
     "shopTheMoment": "تسوق اللحظة",
     "ourSelection": "اختياراتنا",
-    "realCreations": "الإبداعات الحقيقية"
+    "realCreations": "الإبداعات الحقيقية",
+    "whoWeAre": "من نحن",
+    "ourPromise": "وعدنا",
+    "submit": "إرسال"
   }
 }

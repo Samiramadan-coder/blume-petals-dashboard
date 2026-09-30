@@ -7,15 +7,17 @@ import { useLocale, useTranslations } from "next-intl";
 export default function LocaleFormSwitcher({
   locale,
   onChange,
+  className,
 }: {
   locale: Locale;
   onChange: (locale: Locale) => void;
+  className?: string;
 }) {
   const t = useTranslations("Common");
   const versionLocale = useLocale();
 
   return (
-    <div className="px-4 grid grid-cols-2 gap-2">
+    <div className={cn("px-4 grid grid-cols-2 gap-2", className)}>
       <Button
         variant="outline"
         type="button"

@@ -1,26 +1,28 @@
 "use client";
 
-import React from "react";
-import { cn } from "@/lib/utils";
-import { Button } from "../ui/button";
-import NormalFormInput from "../form/input";
-import NormalFormTextarea from "../form/textarea";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { availableLocales } from "@/constants/shared";
-import { postHomeAction } from "@/lib/website-content";
-import { useFormLocale } from "@/hooks/use-form-locale";
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { Card, CardContent } from "../ui/card";
-import LocaleFormSwitcher from "../reusable/locale-form-switcher";
-import { HomePage, homePageSchema } from "@/types/website-content";
-import SingleFormImageUploader from "../form/single-image-uploader";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "../ui/accordion";
+import React from "react";
+import { cn } from "@/lib/utils";
+import { Button } from "../ui/button";
 import { Plus, Trash2 } from "lucide-react";
+import NormalFormInput from "../form/input";
+import { Card, CardContent } from "../ui/card";
+import NormalFormTextarea from "../form/textarea";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { availableLocales } from "@/constants/shared";
+import { postHomeAction } from "@/lib/website-content";
+import { useFormLocale } from "@/hooks/use-form-locale";
+import LocaleFormSwitcher from "../reusable/locale-form-switcher";
+import { HomePage, homePageSchema } from "@/types/website-content";
+import SingleFormImageUploader from "../form/single-image-uploader";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { Spinner } from "../ui/spinner";
+import { toast } from "sonner";
 
 export default function Home({ home }: { home: HomePage }) {
   const { activeLocale, changeLocale, dir, isArabic, tLive } =
@@ -29,6 +31,7 @@ export default function Home({ home }: { home: HomePage }) {
   const {
     control,
     register,
+    setError,
     handleSubmit,
     formState: { isSubmitting },
   } = useForm<HomePage>({
@@ -39,7 +42,22 @@ export default function Home({ home }: { home: HomePage }) {
   const onSubmit: SubmitHandler<HomePage> = async (data) => {
     const result = await postHomeAction(data);
 
-    console.log(result);
+    if (result.success) {
+      toast.success(result.message);
+      return;
+    }
+
+    if (result.errors) {
+      Object.entries(result.errors).forEach(([field, message]) => {
+        toast.error(message);
+        setError(field as keyof HomePage, {
+          type: "server",
+          message,
+        });
+      });
+
+      return;
+    }
   };
 
   return (
@@ -48,9 +66,10 @@ export default function Home({ home }: { home: HomePage }) {
       className={cn("space-y-4", isArabic && "font-cairo")}
       dir={dir}
     >
-      <div className="max-w-100">
+      <div className="flex">
         <LocaleFormSwitcher
           locale={activeLocale}
+          className="px-0"
           onChange={(locale) => {
             changeLocale(locale);
           }}
@@ -101,8 +120,6 @@ export default function Home({ home }: { home: HomePage }) {
                   control={control}
                   name="hero.image"
                   label={tLive("image")}
-                  accept=".svg"
-                  required
                   className="sm:col-span-2"
                 />
               </CardContent>
@@ -246,7 +263,6 @@ export default function Home({ home }: { home: HomePage }) {
                                       control={control}
                                       name={`how_it_works.items.${index}.image`}
                                       label={tLive("image")}
-                                      accept=".svg"
                                       className="sm:col-span-2"
                                     />
                                   </div>
@@ -513,9 +529,12 @@ export default function Home({ home }: { home: HomePage }) {
         </Accordion>
       </Card>
 
-      <Button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? "Submitting..." : "Submit"}
-      </Button>
+      <div className="flex justify-end">
+        <Button type="submit" className="px-6 py-5" disabled={isSubmitting}>
+          {isSubmitting && <Spinner />}
+          {tLive("submit")}
+        </Button>
+      </div>
     </form>
   );
 }
