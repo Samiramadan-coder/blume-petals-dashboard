@@ -1251,5 +1251,20 @@
       "Message": "الرسالة",
       "SavedAt": "تم الحفظ في"
     }
+  },
+  "WebsiteContent": {
+    "hero": "البطل",
+    "title": "العنوان",
+    "subtitle": "العنوان الفرعي",
+    "description": "الوصف",
+    "image": "الصورة",
+    "categories": "الفئات",
+    "howItWorks": "كيف يعمل",
+    "items": "العناصر",
+    "bouquetBuilder": "منشئ الباقات",
+    "icon": "الأيقونة",
+    "shopTheMoment": "تسوق اللحظة",
+    "ourSelection": "اختياراتنا",
+    "realCreations": "الإبداعات الحقيقية"
   }
 }

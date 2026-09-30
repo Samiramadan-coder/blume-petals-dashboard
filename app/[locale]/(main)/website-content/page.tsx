@@ -17,6 +17,8 @@ async function GetWebsiteContent() {
     throw new Error("Failed to fetch website content");
   }
 
+  console.log(data.data.page);
+
   return (
     <div>
       <Home home={data.data.page.sections} />

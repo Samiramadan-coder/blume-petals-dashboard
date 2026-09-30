@@ -1253,5 +1253,20 @@
       "Message": "Message",
       "SavedAt": "Saved at"
     }
+  },
+  "WebsiteContent": {
+    "hero": "Hero",
+    "title": "Title",
+    "subtitle": "Subtitle",
+    "description": "Description",
+    "image": "Image",
+    "categories": "Categories",
+    "howItWorks": "How It Works",
+    "items": "Items",
+    "bouquetBuilder": "Bouquet Builder",
+    "icon": "Icon",
+    "shopTheMoment": "Shop The Moment",
+    "ourSelection": "Our Selection",
+    "realCreations": "Real Creations"
   }
 }

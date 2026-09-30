@@ -67,7 +67,7 @@ export default function SingleFormImageUploader<T extends FieldValues>({
 
             <FieldContent>
               <div className="space-y-2">
-                <div className="rounded-lg border border-dashed border-border bg-primary/10 p-4">
+                <div className="rounded-lg border border-dashed border-border bg-background p-4">
                   {imageUrl ? (
                     <div className="relative overflow-hidden rounded-lg border border-border">
                       <Image
