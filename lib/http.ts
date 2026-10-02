@@ -255,9 +255,36 @@ function createHttp(baseURL: string) {
 
 const http = createHttp(process.env.NEXT_PUBLIC_API_URL ?? "");
 
+/**
+ * Extract the backend's message from a failed 4xx request, if it sent one.
+ * 5xx messages are skipped on purpose, they are not meant for the user.
+ */
+function getErrorMessage(error: unknown): string | undefined {
+  if (error instanceof ForbiddenError) {
+    return error.message;
+  }
+
+  if (error instanceof ValidationError) {
+    return Object.values(error.errors)[0]?.[0];
+  }
+
+  if (
+    error instanceof HttpError &&
+    error.data !== null &&
+    typeof error.data === "object" &&
+    "message" in error.data &&
+    typeof error.data.message === "string"
+  ) {
+    return error.data.message;
+  }
+
+  return undefined;
+}
+
 export {
   http,
   createHttp,
+  getErrorMessage,
   HttpError,
   ValidationError,
   ForbiddenError,

@@ -47,6 +47,7 @@ export default function DataPreview({
         countUnit={t("Countries")}
         columns={columns((key) => t(key as never))}
         onReorder={async (newCountries) => {
+          const previous = countries;
           setCountries(newCountries);
 
           const result = await reorderCountriesAction(
@@ -58,7 +59,8 @@ export default function DataPreview({
             return;
           }
 
-          toast.error(tCommon("ReorderFailed"));
+          setCountries(previous);
+          toast.error(result.message ?? tCommon("ReorderFailed"));
         }}
         renderCells={(country) => (
           <>
@@ -91,7 +93,7 @@ export default function DataPreview({
                     toast.success(result.message);
                     return;
                   }
-                  toast.error(tCommon("DeleteFailed"));
+                  toast.error(result.message ?? tCommon("DeleteFailed"));
                 }}
                 loading={loadingDelete}
               />
@@ -125,7 +127,7 @@ function VisibilitySwitch({ country }: { country: Country }) {
               toast.success(result.message);
               return;
             }
-            toast.error(tCommon("VisibilityUpdateFailed"));
+            toast.error(result.message ?? tCommon("VisibilityUpdateFailed"));
           }}
         />
       )}

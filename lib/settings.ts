@@ -1,7 +1,7 @@
 "use client";
 
 import { SettingsSchema } from "@/types/settings";
-import { http, ValidationError } from "./http";
+import { getErrorMessage, http, ValidationError } from "./http";
 
 type SaveSettingsResponse =
   | { success: true; message: string }
@@ -34,13 +34,14 @@ export async function saveSettings(
     if (error instanceof ValidationError) {
       const errors = Object.fromEntries(
         Object.entries(error.errors).map(([field, messages]) => [
-          field,
+          // The upload endpoint names the file "logo", the form field is "logo_url"
+          field === "logo" ? "logo_url" : field,
           messages[0] ?? "Invalid value",
         ]),
       ) as Partial<Record<keyof SettingsSchema, string>>;
 
-      return { success: false, errors, message: error.message };
+      return { success: false, errors };
     }
-    return { success: false };
+    return { success: false, message: getErrorMessage(error) };
   }
 }

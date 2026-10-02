@@ -1,7 +1,8 @@
 "use server";
 
 import { updateTag } from "next/cache";
-import { http, ValidationError } from "@/lib/http";
+import { unstable_rethrow } from "next/navigation";
+import { getErrorMessage, http, ValidationError } from "@/lib/http";
 import {
   City,
   CityFormValues,
@@ -14,6 +15,7 @@ type PostAndPutCountryResult =
   | { success: true; message: string }
   | {
       success: false;
+      message?: string;
       errors?: Partial<Record<keyof CountryFormValues, string>>;
     };
 
@@ -31,6 +33,7 @@ export async function postCountryAction(
     updateTag("countries");
     return { success: true, message: data.message };
   } catch (err) {
+    unstable_rethrow(err);
     if (err instanceof ValidationError) {
       const errors = Object.fromEntries(
         Object.entries(err.errors).map(([field, messages]) => [
@@ -41,14 +44,13 @@ export async function postCountryAction(
 
       return { success: false, errors };
     }
-    return { success: false };
+    return { success: false, message: getErrorMessage(err) };
   }
 }
 
 // Update Visibility Action
 type UpdateCountryVisibilityResult =
-  | { success: true; message: string }
-  | { success: false };
+  { success: true; message: string } | { success: false; message?: string };
 
 export async function updateCountryVisibilityAction(
   country: Country,
@@ -64,15 +66,15 @@ export async function updateCountryVisibilityAction(
     updateTag("countries");
     return { success: true, message: data.message };
   } catch (err) {
+    unstable_rethrow(err);
     console.error("Error updating country visibility:", err);
-    return { success: false };
+    return { success: false, message: getErrorMessage(err) };
   }
 }
 
 // Delete Country Action
 type DeleteCountryResult =
-  | { success: true; message: string }
-  | { success: false };
+  { success: true; message: string } | { success: false; message?: string };
 
 export async function deleteCountryAction(
   country: Country,
@@ -84,15 +86,15 @@ export async function deleteCountryAction(
     updateTag("countries");
     return { success: true, message: data.message };
   } catch (err) {
+    unstable_rethrow(err);
     console.error("Error deleting country:", err);
-    return { success: false };
+    return { success: false, message: getErrorMessage(err) };
   }
 }
 
 // Reorder Countries Action
 type ReorderCountriesResult =
-  | { success: true; message: string }
-  | { success: false };
+  { success: true; message: string } | { success: false; message?: string };
 
 export async function reorderCountriesAction(
   ids: number[],
@@ -107,8 +109,9 @@ export async function reorderCountriesAction(
     updateTag("countries");
     return { success: true, message: data.message };
   } catch (err) {
+    unstable_rethrow(err);
     console.error("Error reordering countries:", err);
-    return { success: false };
+    return { success: false, message: getErrorMessage(err) };
   }
 }
 
@@ -117,6 +120,7 @@ type PostAndPutCityResult =
   | { success: true; message: string }
   | {
       success: false;
+      message?: string;
       errors?: Partial<Record<keyof CityFormValues, string>>;
     };
 
@@ -134,6 +138,7 @@ export async function postCityAction(
     updateTag("cities");
     return { success: true, message: data.message };
   } catch (err) {
+    unstable_rethrow(err);
     if (err instanceof ValidationError) {
       const errors = Object.fromEntries(
         Object.entries(err.errors).map(([field, messages]) => [
@@ -144,14 +149,13 @@ export async function postCityAction(
 
       return { success: false, errors };
     }
-    return { success: false };
+    return { success: false, message: getErrorMessage(err) };
   }
 }
 
 // Reorder Countries Action
 type ReorderCitiesResult =
-  | { success: true; message: string }
-  | { success: false };
+  { success: true; message: string } | { success: false; message?: string };
 
 export async function reorderCitiesAction(
   ids: number[],
@@ -166,13 +170,15 @@ export async function reorderCitiesAction(
     updateTag("cities");
     return { success: true, message: data.message };
   } catch (err) {
+    unstable_rethrow(err);
     console.error("Error reordering cities:", err);
-    return { success: false };
+    return { success: false, message: getErrorMessage(err) };
   }
 }
 
 // Delete Country Action
-type DeleteCityResult = { success: true; message: string } | { success: false };
+type DeleteCityResult =
+  { success: true; message: string } | { success: false; message?: string };
 
 export async function deleteCityAction(city: City): Promise<DeleteCityResult> {
   try {
@@ -182,15 +188,15 @@ export async function deleteCityAction(city: City): Promise<DeleteCityResult> {
     updateTag("cities");
     return { success: true, message: data.message };
   } catch (err) {
+    unstable_rethrow(err);
     console.error("Error deleting city:", err);
-    return { success: false };
+    return { success: false, message: getErrorMessage(err) };
   }
 }
 
 // Update Visibility Action
 type UpdateCityVisibilityResult =
-  | { success: true; message: string }
-  | { success: false };
+  { success: true; message: string } | { success: false; message?: string };
 
 export async function updateCityVisibilityAction(
   city: City,
@@ -206,7 +212,8 @@ export async function updateCityVisibilityAction(
     updateTag("cities");
     return { success: true, message: data.message };
   } catch (err) {
+    unstable_rethrow(err);
     console.error("Error updating city visibility:", err);
-    return { success: false };
+    return { success: false, message: getErrorMessage(err) };
   }
 }

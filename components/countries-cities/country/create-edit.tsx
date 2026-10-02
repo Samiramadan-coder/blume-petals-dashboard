@@ -32,6 +32,18 @@ import { postCountryAction } from "@/lib/countries-cities";
 import SectionLabel from "@/components/form/section-label";
 import LocaleFormSwitcher from "@/components/reusable/locale-form-switcher";
 
+function getDefaultValues(
+  country: Country | undefined,
+  totalCreatedItems: number,
+): CountryFormValues {
+  return {
+    name: country?.name || { en: "", ar: "" },
+    code: country?.code || "",
+    is_active: country?.is_active ?? true,
+    sort_order: country?.sort_order || totalCreatedItems + 1,
+  };
+}
+
 type CreateEditProps = {
   country?: Country;
   trigger?: React.ReactNode;
@@ -54,17 +66,13 @@ export default function CreateEdit({
   const {
     control,
     register,
+    reset,
     setError,
     trigger: triggerValidation,
     handleSubmit,
     formState: { errors, isSubmitting, isSubmitted },
   } = useForm<CountryFormValues>({
-    defaultValues: {
-      name: country?.name || { en: "", ar: "" },
-      code: country?.code || "",
-      is_active: country?.is_active ?? true,
-      sort_order: country?.sort_order || totalCreatedItems + 1,
-    },
+    defaultValues: getDefaultValues(country, totalCreatedItems),
     resolver: zodResolver(countrySchema((key) => tLive(key as never))),
   });
 
@@ -80,7 +88,6 @@ export default function CreateEdit({
 
     if (result.success) {
       toast.success(result.message);
-      form.current?.reset();
       closeBtn.current?.click();
       return;
     }
@@ -96,11 +103,19 @@ export default function CreateEdit({
       return;
     }
 
-    toast.error(country ? tCommon("CreationFailed") : tCommon("UpdateFailed"));
+    toast.error(
+      result.message ??
+        (country ? tCommon("UpdateFailed") : tCommon("CreationFailed")),
+    );
   };
 
   return (
-    <Sheet>
+    <Sheet
+      onOpenChange={(open) => {
+        // Start from the latest saved values every time the sheet opens
+        if (open) reset(getDefaultValues(country, totalCreatedItems));
+      }}
+    >
       {trigger ? (
         <SheetTrigger asChild>{trigger}</SheetTrigger>
       ) : (
@@ -111,13 +126,14 @@ export default function CreateEdit({
         showCloseButton={false}
         className="flex h-full flex-col sm:max-w-2xl"
         side={locale === "ar" ? "left" : "right"}
+        aria-describedby={undefined}
         // onInteractOutside={(event) => event.preventDefault()}
       >
         <SheetClose asChild>
           <Button ref={closeBtn} className="hidden"></Button>
         </SheetClose>
 
-        <Header title={t("AddCountry")} />
+        <Header title={country ? t("EditCountry") : t("AddCountry")} />
 
         <LocaleFormSwitcher
           locale={activeLocale}
@@ -136,6 +152,11 @@ export default function CreateEdit({
           <form
             ref={form}
             onSubmit={(e) => {
+              if (isSubmitting) {
+                e.preventDefault();
+                return;
+              }
+
               void handleSubmit(onSubmit, (errors) => {
                 // Check if current locale is English and there are Arabic field errors
                 if (activeLocale === "en") {

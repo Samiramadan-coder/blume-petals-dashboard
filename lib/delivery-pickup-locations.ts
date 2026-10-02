@@ -1,7 +1,8 @@
 "use server";
 
 import { updateTag } from "next/cache";
-import { http, ValidationError } from "@/lib/http";
+import { unstable_rethrow } from "next/navigation";
+import { getErrorMessage, http, ValidationError } from "@/lib/http";
 import {
   DeliveryPickupLocation,
   DeliveryPickupLocationFormValues,
@@ -12,6 +13,7 @@ type PostAndPutCountryResult =
   | { success: true; message: string }
   | {
       success: false;
+      message?: string;
       errors?: Partial<Record<keyof DeliveryPickupLocationFormValues, string>>;
     };
 
@@ -29,6 +31,7 @@ export async function postDeliveryPickupLocationAction(
     updateTag("delivery-pickup-locations");
     return { success: true, message: data.message };
   } catch (err) {
+    unstable_rethrow(err);
     if (err instanceof ValidationError) {
       const errors = Object.fromEntries(
         Object.entries(err.errors).map(([field, messages]) => [
@@ -38,14 +41,13 @@ export async function postDeliveryPickupLocationAction(
       ) as Partial<Record<keyof DeliveryPickupLocationFormValues, string>>;
       return { success: false, errors };
     }
-    return { success: false };
+    return { success: false, message: getErrorMessage(err) };
   }
 }
 
 // Update Visibility Action
 type UpdateLocationVisibilityResult =
-  | { success: true; message: string }
-  | { success: false };
+  { success: true; message: string } | { success: false; message?: string };
 
 export async function updateLocationVisibilityAction(
   location: DeliveryPickupLocation,
@@ -61,15 +63,15 @@ export async function updateLocationVisibilityAction(
     updateTag("delivery-pickup-locations");
     return { success: true, message: data.message };
   } catch (err) {
+    unstable_rethrow(err);
     console.error("Error updating location visibility:", err);
-    return { success: false };
+    return { success: false, message: getErrorMessage(err) };
   }
 }
 
 // Delete Country Action
 type DeleteDeliveryPickupLocationResult =
-  | { success: true; message: string }
-  | { success: false };
+  { success: true; message: string } | { success: false; message?: string };
 
 export async function deleteDeliveryPickupLocationAction(
   location: DeliveryPickupLocation,
@@ -82,15 +84,15 @@ export async function deleteDeliveryPickupLocationAction(
     updateTag("delivery-pickup-locations");
     return { success: true, message: data.message };
   } catch (err) {
+    unstable_rethrow(err);
     console.error("Error deleting location:", err);
-    return { success: false };
+    return { success: false, message: getErrorMessage(err) };
   }
 }
 
 // Reorder Countries Action
 type ReorderDeliveryPickupLocationsResult =
-  | { success: true; message: string }
-  | { success: false };
+  { success: true; message: string } | { success: false; message?: string };
 
 export async function reorderDeliveryPickupLocationsAction(
   ids: number[],
@@ -105,7 +107,8 @@ export async function reorderDeliveryPickupLocationsAction(
     updateTag("delivery-pickup-locations");
     return { success: true, message: data.message };
   } catch (err) {
+    unstable_rethrow(err);
     console.error("Error reordering delivery pickup locations:", err);
-    return { success: false };
+    return { success: false, message: getErrorMessage(err) };
   }
 }

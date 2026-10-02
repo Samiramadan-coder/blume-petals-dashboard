@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { http } from "@/lib/http";
-import { Spinner } from "@/components/ui/spinner";
+import { WebsiteContentSkeleton } from "@/components/reusable/page-skeletons";
 import { getTranslations } from "next-intl/server";
 import Home from "@/components/website-content/home";
 import About from "@/components/website-content/about";
@@ -48,13 +48,22 @@ async function GetWebsiteContent() {
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="home">
+        {/* Both forms stay mounted so unsaved edits survive switching tabs */}
+        <TabsContent
+          value="home"
+          forceMount
+          className="data-[state=inactive]:hidden"
+        >
           <div className="py-5">
             <Home home={home.data.page.sections} />
           </div>
         </TabsContent>
 
-        <TabsContent value="about">
+        <TabsContent
+          value="about"
+          forceMount
+          className="data-[state=inactive]:hidden"
+        >
           <div className="py-5">
             <About about={about.data.page.sections} />
           </div>
@@ -66,7 +75,7 @@ async function GetWebsiteContent() {
 
 export default async function Page() {
   return (
-    <Suspense fallback={<Spinner className="h-8 w-8 text-primary" />}>
+    <Suspense fallback={<WebsiteContentSkeleton />}>
       <GetWebsiteContent />
     </Suspense>
   );

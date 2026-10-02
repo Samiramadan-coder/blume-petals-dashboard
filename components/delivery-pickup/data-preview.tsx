@@ -52,6 +52,7 @@ export default function DataPreview({
         countUnit={t("Locations")}
         columns={columns((key) => t(key as never))}
         onReorder={async (newLocations) => {
+          const previous = initialLocations;
           setInitialLocations(newLocations);
 
           const result = await reorderDeliveryPickupLocationsAction(
@@ -63,7 +64,8 @@ export default function DataPreview({
             return;
           }
 
-          toast.error(tCommon("ReorderFailed"));
+          setInitialLocations(previous);
+          toast.error(result.message ?? tCommon("ReorderFailed"));
         }}
         renderCells={(location) => (
           <>
@@ -72,9 +74,9 @@ export default function DataPreview({
             </TableCell>
 
             <TableCell className="px-4 py-3">
-              <div
-                dangerouslySetInnerHTML={{ __html: location.address[locale] }}
-              ></div>
+              <p className="min-w-40 max-w-xs whitespace-pre-line wrap-break-word">
+                {location.address[locale]}
+              </p>
             </TableCell>
 
             <TableCell className="px-4 py-3">
@@ -109,7 +111,7 @@ export default function DataPreview({
                     toast.success(result.message);
                     return;
                   }
-                  toast.error(tCommon("DeleteFailed"));
+                  toast.error(result.message ?? tCommon("DeleteFailed"));
                 }}
                 loading={loadingDelete}
               />
@@ -143,7 +145,7 @@ function VisibilitySwitch({ location }: { location: DeliveryPickupLocation }) {
               toast.success(result.message);
               return;
             }
-            toast.error(tCommon("VisibilityUpdateFailed"));
+            toast.error(result.message ?? tCommon("VisibilityUpdateFailed"));
           }}
         />
       )}

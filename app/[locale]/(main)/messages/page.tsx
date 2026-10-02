@@ -2,10 +2,14 @@ import { Suspense } from "react";
 import { http } from "@/lib/http";
 import { Message } from "@/types/messages";
 import { Pagination } from "@/types/shared";
-import { Spinner } from "@/components/ui/spinner";
+import { MessagesSkeleton } from "@/components/reusable/page-skeletons";
 import DataPreview from "@/components/messages/data-preview";
 
-async function Messages() {
+type SearchParams = {
+  page?: string;
+};
+
+async function Messages({ searchParams }: { searchParams: SearchParams }) {
   const { data, ok } = await http.get<{
     data: {
       items: Message[];
@@ -14,6 +18,7 @@ async function Messages() {
   }>("/api/v1/admin/contact-messages", {
     params: {
       per_page: 10,
+      page: searchParams.page || 1,
     },
     next: {
       tags: ["messages"],
@@ -35,10 +40,14 @@ async function Messages() {
   );
 }
 
-export default async function MessagesPage() {
+export default async function MessagesPage({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
   return (
-    <Suspense fallback={<Spinner className="h-8 w-8 text-primary" />}>
-      <Messages />
+    <Suspense fallback={<MessagesSkeleton />}>
+      <Messages searchParams={await searchParams} />
     </Suspense>
   );
 }

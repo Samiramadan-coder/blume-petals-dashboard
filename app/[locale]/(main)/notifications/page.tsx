@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { http } from "@/lib/http";
 import { Pagination } from "@/types/shared";
-import { Spinner } from "@/components/ui/spinner";
+import { NotificationsSkeleton } from "@/components/reusable/page-skeletons";
 import { Notification } from "@/types/notifications";
 import DataPreview from "@/components/notifications/data-preview";
 
@@ -10,11 +10,19 @@ type SearchParams = {
   type?: string;
 };
 
+const notificationTypes = ["order", "promo", "system"];
+
 async function NotificationsList({
   searchParams,
 }: {
   searchParams: SearchParams;
 }) {
+  // Anything else (missing, "all", hand-typed values) means no type filter
+  const type =
+    searchParams?.type && notificationTypes.includes(searchParams.type)
+      ? searchParams.type
+      : "";
+
   const { data, ok } = await http.get<{
     data: {
       items: Notification[];
@@ -23,8 +31,8 @@ async function NotificationsList({
   }>("/api/v1/admin/notifications", {
     params: {
       per_page: 6,
-      page: searchParams?.page ?? 1,
-      type: searchParams?.type ?? "",
+      page: searchParams?.page || 1,
+      type,
     },
   });
 
@@ -48,7 +56,7 @@ export default async function NotificationsPage({
   searchParams: Promise<SearchParams>;
 }) {
   return (
-    <Suspense fallback={<Spinner className="h-8 w-8 text-primary" />}>
+    <Suspense fallback={<NotificationsSkeleton />}>
       <NotificationsList searchParams={await searchParams} />
     </Suspense>
   );

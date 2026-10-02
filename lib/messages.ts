@@ -1,12 +1,12 @@
 "use server";
 
 import { updateTag } from "next/cache";
-import { http } from "./http";
+import { unstable_rethrow } from "next/navigation";
+import { getErrorMessage, http } from "./http";
 
 // Delete Message
 type DeleteMessageResponse =
-  | { success: true; message: string }
-  | { success: false };
+  { success: true; message: string } | { success: false; message?: string };
 
 export async function deleteMessage(
   messageId: number,
@@ -18,15 +18,15 @@ export async function deleteMessage(
     updateTag("messages");
     return { success: true, message: data.message };
   } catch (error) {
+    unstable_rethrow(error);
     console.error("Error deleting message:", error);
-    return { success: false };
+    return { success: false, message: getErrorMessage(error) };
   }
 }
 
 // Mark Message as Read
 type MarkMessageAsReadResponse =
-  | { success: true; message: string }
-  | { success: false };
+  { success: true; message: string } | { success: false; message?: string };
 
 export async function markMessageAsRead(
   messageId: number,
@@ -38,7 +38,8 @@ export async function markMessageAsRead(
     updateTag("messages");
     return { success: true, message: data.message };
   } catch (error) {
+    unstable_rethrow(error);
     console.error("Error marking message as read:", error);
-    return { success: false };
+    return { success: false, message: getErrorMessage(error) };
   }
 }

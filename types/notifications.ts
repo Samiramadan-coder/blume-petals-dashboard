@@ -6,10 +6,12 @@ export const notificationSchema = (t: T) =>
     title: z.object({
       en: z
         .string()
+        .trim()
         .min(1, t("Fields.Title.Required"))
         .min(2, t("Fields.Title.Min")),
       ar: z
         .string()
+        .trim()
         .min(1, t("Fields.Title.Required"))
         .min(2, t("Fields.Title.Min")),
     }),
@@ -17,15 +19,17 @@ export const notificationSchema = (t: T) =>
     body: z.object({
       en: z
         .string()
+        .trim()
         .min(1, t("Fields.Body.Required"))
         .min(2, t("Fields.Body.Min")),
       ar: z
         .string()
+        .trim()
         .min(1, t("Fields.Body.Required"))
         .min(2, t("Fields.Body.Min")),
     }),
 
-    link: z.string(),
+    link: z.string().trim(),
 
     type: z.enum(["promo", "system"], t("Fields.Type.Required")),
   });

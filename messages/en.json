@@ -72,7 +72,9 @@
       "NoNotifications": "No notifications",
       "ShowDetails": "Show details",
       "MarkAsRead": "Mark as read",
-      "New": "New"
+      "New": "New",
+      "LoadMore": "Load more",
+      "Loading": "Loading..."
     },
     "sidebar": {
       "brandName": "Blúme Petals",
@@ -354,6 +356,7 @@
     "AddCountry": "Add Country",
     "AddCity": "Add City",
     "EditCountry": "Edit Country",
+    "EditCity": "Edit City",
     "AED": "AED",
     "Table": {
       "Name": "Name",
@@ -746,6 +749,7 @@
     "Description": "Manage notifications sent to customers and control what appears on the storefront.",
     "CreateNotification": "Create Notification",
     "CreateNotificationDescription": "Fill in notification details below",
+    "Empty": "No notifications found.",
     "Filters": {
       "All": "All",
       "Order": "Orders",
@@ -781,7 +785,8 @@
   "Messages": {
     "Title": "Messages",
     "Description": "Manage Messages Received from Customers.",
-    "MarkAsRead": "Mark as Read"
+    "MarkAsRead": "Mark as Read",
+    "Empty": "No messages yet."
   },
   "Settings": {
     "Title": "Settings",
@@ -1272,6 +1277,11 @@
     "realCreations": "Real Creations",
     "whoWeAre": "Who We Are",
     "ourPromise": "Our Promise",
-    "submit": "Submit"
+    "submit": "Submit",
+    "chooseImage": "Choose image",
+    "imagePreview": "Image preview",
+    "uploadFailed": "Failed to upload the image. Please try again.",
+    "addItem": "Add item",
+    "removeItem": "Remove item"
   }
 }

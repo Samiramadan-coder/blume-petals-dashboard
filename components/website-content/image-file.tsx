@@ -1,11 +1,14 @@
 "use client";
 
 import Image from "next/image";
+import { toast } from "sonner";
 import { useRef, useState } from "react";
 import { ImagePlus } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { http } from "@/lib/http";
+import { getErrorMessage, http } from "@/lib/http";
 
 type ImageUploadProps = {
   imageUrl?: string | null;
@@ -20,11 +23,16 @@ export default function ImageUpload({
   page,
   type,
 }: ImageUploadProps) {
+  const t = useTranslations("WebsiteContent");
   const inputRef = useRef<HTMLInputElement>(null);
   const [open, setOpen] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] ?? null;
+
+    // Allow picking the same file again after a failed upload
+    e.target.value = "";
 
     if (!file) return;
 
@@ -36,16 +44,23 @@ export default function ImageUpload({
       formData.append("image", file);
     }
 
-    const { data } = await http.post<{
-      data: {
-        path: string;
-        url: string;
-      };
-    }>(`/api/v1/admin/pages/${page}/${type}`, formData);
+    setUploading(true);
 
-    console.log(data);
+    try {
+      const { data } = await http.post<{
+        data: {
+          path: string;
+          url: string;
+        };
+      }>(`/api/v1/admin/pages/${page}/${type}`, formData);
 
-    onFileChange?.(data.data);
+      onFileChange?.(data.data);
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      toast.error(getErrorMessage(error) ?? t("uploadFailed"));
+    } finally {
+      setUploading(false);
+    }
   };
 
   return (
@@ -62,21 +77,27 @@ export default function ImageUpload({
         <Button
           type="button"
           variant="outline"
+          disabled={uploading}
           onClick={() => inputRef.current?.click()}
         >
-          <ImagePlus className="me-2 size-4" />
-          Choose image
+          {uploading ? (
+            <Spinner className="me-2 size-4" />
+          ) : (
+            <ImagePlus className="me-2 size-4" />
+          )}
+          {t("chooseImage")}
         </Button>
 
         {imageUrl && (
           <button
             type="button"
+            aria-label={t("imagePreview")}
             onClick={() => setOpen(true)}
             className="relative size-14 overflow-hidden rounded-md border"
           >
             <Image
               src={imageUrl}
-              alt="Uploaded image"
+              alt=""
               fill
               sizes="56px"
               className="object-cover"
@@ -86,14 +107,14 @@ export default function ImageUpload({
       </div>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-5xl">
-          <DialogTitle className="sr-only">Image preview</DialogTitle>
+        <DialogContent className="max-w-5xl" aria-describedby={undefined}>
+          <DialogTitle className="sr-only">{t("imagePreview")}</DialogTitle>
 
           {imageUrl && (
             <div className="relative h-[80vh] w-full">
               <Image
                 src={imageUrl}
-                alt="Uploaded image"
+                alt={t("imagePreview")}
                 fill
                 sizes="90vw"
                 className="object-contain"

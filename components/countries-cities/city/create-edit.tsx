@@ -34,6 +34,21 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import SectionLabel from "@/components/form/section-label";
 import LocaleFormSwitcher from "@/components/reusable/locale-form-switcher";
 
+function getDefaultValues(
+  city: City | undefined,
+  totalCreatedItems: number,
+): CityFormValues {
+  return {
+    name: city?.name || { en: "", ar: "" },
+    country_id: city?.country_id || 0,
+    delivery_fee: city?.delivery_fee
+      ? parseFloat(city.delivery_fee.toString())
+      : 0,
+    is_active: city?.is_active ?? true,
+    sort_order: city?.sort_order || totalCreatedItems + 1,
+  };
+}
+
 type CreateEditProps = {
   city?: City;
   trigger?: React.ReactNode;
@@ -58,20 +73,13 @@ export default function CreateEdit({
   const {
     control,
     register,
+    reset,
     setError,
     trigger: triggerValidation,
     handleSubmit,
     formState: { errors, isSubmitting, isSubmitted },
   } = useForm<CityFormValues>({
-    defaultValues: {
-      name: city?.name || { en: "", ar: "" },
-      country_id: city?.country_id || 0,
-      delivery_fee: city?.delivery_fee
-        ? parseFloat(city.delivery_fee.toString())
-        : 0,
-      is_active: city?.is_active ?? true,
-      sort_order: city?.sort_order || totalCreatedItems + 1,
-    },
+    defaultValues: getDefaultValues(city, totalCreatedItems),
     resolver: zodResolver(citySchema((key) => tLive(key as never))),
   });
 
@@ -87,7 +95,6 @@ export default function CreateEdit({
 
     if (result.success) {
       toast.success(result.message);
-      form.current?.reset();
       closeBtn.current?.click();
       return;
     }
@@ -103,11 +110,19 @@ export default function CreateEdit({
       return;
     }
 
-    toast.error(city ? tCommon("UpdateFailed") : tCommon("CreationFailed"));
+    toast.error(
+      result.message ??
+        (city ? tCommon("UpdateFailed") : tCommon("CreationFailed")),
+    );
   };
 
   return (
-    <Sheet>
+    <Sheet
+      onOpenChange={(open) => {
+        // Start from the latest saved values every time the sheet opens
+        if (open) reset(getDefaultValues(city, totalCreatedItems));
+      }}
+    >
       {trigger ? (
         <SheetTrigger asChild>{trigger}</SheetTrigger>
       ) : (
@@ -118,13 +133,14 @@ export default function CreateEdit({
         showCloseButton={false}
         className="flex h-full flex-col sm:max-w-2xl"
         side={locale === "ar" ? "left" : "right"}
+        aria-describedby={undefined}
         // onInteractOutside={(event) => event.preventDefault()}
       >
         <SheetClose asChild>
           <Button ref={closeBtn} className="hidden"></Button>
         </SheetClose>
 
-        <Header title={t("AddCity")} />
+        <Header title={city ? t("EditCity") : t("AddCity")} />
 
         <LocaleFormSwitcher
           locale={activeLocale}
@@ -143,6 +159,11 @@ export default function CreateEdit({
           <form
             ref={form}
             onSubmit={(e) => {
+              if (isSubmitting) {
+                e.preventDefault();
+                return;
+              }
+
               void handleSubmit(onSubmit, (errors) => {
                 // Check if current locale is English and there are Arabic field errors
                 if (activeLocale === "en") {
@@ -198,6 +219,7 @@ export default function CreateEdit({
               placeholder={tLive("Placeholders.DeliveryFee")}
               name="delivery_fee"
               type="number"
+              step="any"
               register={register}
               errors={errors}
               required

@@ -72,7 +72,9 @@
       "NoNotifications": "لا توجد إشعارات",
       "ShowDetails": "عرض التفاصيل",
       "MarkAsRead": "وضع علامة مقروء",
-      "New": "جديد"
+      "New": "جديد",
+      "LoadMore": "تحميل المزيد",
+      "Loading": "جارٍ التحميل..."
     },
     "sidebar": {
       "brandName": "بلوم بيتالز",
@@ -351,12 +353,15 @@
     "AddCountry": "إضافة دولة",
     "AddCity": "إضافة مدينة",
     "EditCountry": "تحرير الدولة",
+    "EditCity": "تحرير المدينة",
     "AED": "درهم",
     "Table": {
       "Name": "الاسم",
       "Actions": "الإجراءات",
       "Status": "الحالة",
-      "CountryCode": "الرمز"
+      "CountryCode": "الرمز",
+      "CountryName": "اسم الدولة",
+      "DeliveryFee": "رسوم التوصيل"
     },
     "Errors": {
       "Required": "هذا الحقل مطلوب",
@@ -740,6 +745,7 @@
     "Description": "إدارة الإشعارات المرسلة إلى العملاء والتحكم فيما يظهر على واجهة المتجر.",
     "CreateNotification": "إنشاء إشعار",
     "CreateNotificationDescription": "املأ تفاصيل الإشعار أدناه",
+    "Empty": "لا توجد إشعارات.",
     "Filters": {
       "All": "الكل",
       "Order": "الطلبات",
@@ -775,7 +781,8 @@
   "Messages": {
     "Title": "الرسائل",
     "Description": "إدارة الرسائل الواردة من العملاء.",
-    "MarkAsRead": "وضع علامة كمقروء"
+    "MarkAsRead": "وضع علامة كمقروء",
+    "Empty": "لا توجد رسائل بعد."
   },
   "Settings": {
     "Title": "إعدادات المتجر",
@@ -1270,6 +1277,11 @@
     "realCreations": "الإبداعات الحقيقية",
     "whoWeAre": "من نحن",
     "ourPromise": "وعدنا",
-    "submit": "إرسال"
+    "submit": "إرسال",
+    "chooseImage": "اختر صورة",
+    "imagePreview": "معاينة الصورة",
+    "uploadFailed": "فشل رفع الصورة. يرجى المحاولة مرة أخرى.",
+    "addItem": "إضافة عنصر",
+    "removeItem": "حذف العنصر"
   }
 }

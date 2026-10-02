@@ -52,6 +52,7 @@ export default function DataPreview({
         countUnit={t("Cities")}
         columns={cityColumns((key) => t(key as never))}
         onReorder={async (newCities) => {
+          const previous = cities;
           setCities(newCities);
 
           const result = await reorderCitiesAction(
@@ -63,7 +64,8 @@ export default function DataPreview({
             return;
           }
 
-          toast.error(tCommon("ReorderFailed"));
+          setCities(previous);
+          toast.error(result.message ?? tCommon("ReorderFailed"));
         }}
         renderCells={(city) => (
           <>
@@ -105,7 +107,7 @@ export default function DataPreview({
                     return;
                   }
 
-                  toast.error(tCommon("DeleteFailed"));
+                  toast.error(result.message ?? tCommon("DeleteFailed"));
                 }}
                 loading={loadingDelete}
               />
@@ -141,7 +143,7 @@ function VisibilitySwitch({ city }: { city: City }) {
               return;
             }
 
-            toast.error(tCommon("VisibilityUpdateFailed"));
+            toast.error(result.message ?? tCommon("VisibilityUpdateFailed"));
           }}
         />
       )}

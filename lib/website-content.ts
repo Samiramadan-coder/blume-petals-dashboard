@@ -1,11 +1,12 @@
 import { AboutPage, HomePage } from "@/types/website-content";
-import { http, ValidationError } from "./http";
+import { getErrorMessage, http, ValidationError } from "./http";
 
 // Home Page Actions
 type HomeResponse =
   | { success: true; message: string }
   | {
       success: false;
+      message?: string;
       errors?: Partial<Record<keyof HomePage, string>>;
     };
 
@@ -29,7 +30,7 @@ export async function postHomeAction(data: HomePage): Promise<HomeResponse> {
 
       return { success: false, errors };
     }
-    return { success: false };
+    return { success: false, message: getErrorMessage(error) };
   }
 }
 
@@ -38,6 +39,7 @@ type AboutResponse =
   | { success: true; message: string }
   | {
       success: false;
+      message?: string;
       errors?: Partial<Record<keyof AboutPage, string>>;
     };
 
@@ -61,6 +63,6 @@ export async function postAboutAction(data: AboutPage): Promise<AboutResponse> {
 
       return { success: false, errors };
     }
-    return { success: false };
+    return { success: false, message: getErrorMessage(error) };
   }
 }

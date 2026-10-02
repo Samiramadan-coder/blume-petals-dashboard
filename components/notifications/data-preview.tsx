@@ -31,6 +31,12 @@ export default function DataPreview({
       <FiltersControl />
 
       <div className="mb-6">
+        {notifications.length === 0 && (
+          <p className="rounded-lg border border-primary/30 bg-white px-4 py-10 text-center text-sm text-muted-foreground">
+            {t("Empty")}
+          </p>
+        )}
+
         {notifications.map((notification) => (
           <Card
             key={notification.id}
@@ -38,21 +44,29 @@ export default function DataPreview({
             style={{ boxShadow: "none" }}
           >
             <CardContent>
-              <div className="flex items-center justify-between">
-                <div className="space-y-1">
-                  <h3 className="text-sm font-semibold">
+              <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+                <div className="min-w-0 space-y-1">
+                  <h3 className="text-sm font-semibold wrap-break-word">
                     {notification.title[locale]}
                   </h3>
-                  <p>{notification.body[locale]}</p>
-                  <p className="underline italic text-primary font-semibold">
-                    {notification.user.email}
+                  <p className="whitespace-pre-line wrap-break-word">
+                    {notification.body[locale]}
                   </p>
-                  <p className="font-semibold text-primary">
-                    {notification.user.name}
-                  </p>
+                  {notification.user?.email && (
+                    <p className="underline italic text-primary font-semibold break-all">
+                      {notification.user.email}
+                    </p>
+                  )}
+                  {notification.user?.name && (
+                    <p className="font-semibold text-primary">
+                      {notification.user.name}
+                    </p>
+                  )}
                 </div>
 
-                <div>{formatDate(notification.created_at)}</div>
+                <div className="shrink-0">
+                  {formatDate(notification.created_at)}
+                </div>
               </div>
             </CardContent>
           </Card>

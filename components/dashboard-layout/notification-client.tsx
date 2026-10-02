@@ -92,19 +92,12 @@ export default function NotificationsClient({ saveToken }: Props) {
           return;
         }
 
-        unsubscribe = onMessage(messaging, (payload) => {
-          const notification: NotificationItem = {
-            id: payload.messageId,
-            title: payload.notification?.title || "",
-            body: payload.notification?.body || "",
-            created_at: new Date(),
-            order_number: Number(payload.data?.order_number || 0),
-            read: false,
-          };
-
+        unsubscribe = onMessage(messaging, () => {
+          // Reload from the API instead of building an item from the push
+          // payload: the payload has no alert id, so it could not be marked as
+          // read and would shift the pages loaded by "load more".
           void getCountUnreadNotifications();
-
-          setNotifications((prev) => [notification, ...prev]);
+          void fetchNotifications(1);
         });
       } catch (error) {
         console.error("FCM listener error:", error);
@@ -151,7 +144,13 @@ export default function NotificationsClient({ saveToken }: Props) {
       });
 
       if (append) {
-        setNotifications((prev) => [...prev, ...data.data.items]);
+        // New alerts push older ones onto the next page, skip what is loaded
+        setNotifications((prev) => [
+          ...prev,
+          ...data.data.items.filter(
+            (item) => !prev.some((loaded) => loaded.id === item.id),
+          ),
+        ]);
       } else {
         setNotifications(data.data.items);
       }
@@ -194,7 +193,6 @@ export default function NotificationsClient({ saveToken }: Props) {
   }
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     void fetchNotifications(1);
   }, []);
 
@@ -243,7 +241,7 @@ export default function NotificationsClient({ saveToken }: Props) {
           ) : (
             <div className="flex max-h-[60vh] flex-col">
               <div className="flex-1 overflow-y-auto">
-                {notifications.map((notification, index) => (
+                {notifications.map((notification) => (
                   <div
                     key={notification.id}
                     className={cn(
@@ -311,15 +309,25 @@ export default function NotificationsClient({ saveToken }: Props) {
                         {!notification.read && (
                           <Button
                             onClick={async () => {
-                              await http.post(
-                                `/api/v1/admin/alerts/${notification.id}/read`,
-                              );
+                              try {
+                                await http.post(
+                                  `/api/v1/admin/alerts/${notification.id}/read`,
+                                );
+                              } catch (error) {
+                                console.error(
+                                  "Failed to mark notification as read:",
+                                  error,
+                                );
+                                return;
+                              }
 
-                              getCountUnreadNotifications();
+                              void getCountUnreadNotifications();
 
                               setNotifications((prev) =>
-                                prev.map((n, i) =>
-                                  i === index ? { ...n, read: true } : n,
+                                prev.map((n) =>
+                                  n.id === notification.id
+                                    ? { ...n, read: true }
+                                    : n,
                                 ),
                               );
                             }}
@@ -344,7 +352,7 @@ export default function NotificationsClient({ saveToken }: Props) {
                     disabled={isLoadingMore}
                     onClick={handleLoadMore}
                   >
-                    {isLoadingMore ? "Loading..." : "Load more"}
+                    {isLoadingMore ? t("Loading") : t("LoadMore")}
                   </Button>
                 </div>
               )}

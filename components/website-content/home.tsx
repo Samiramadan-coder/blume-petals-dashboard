@@ -22,11 +22,24 @@ import { postHomeAction } from "@/lib/website-content";
 import { useFormLocale } from "@/hooks/use-form-locale";
 import LocaleFormSwitcher from "../reusable/locale-form-switcher";
 import { HomePage, homePageSchema } from "@/types/website-content";
-import { useForm, SubmitHandler, Controller, useWatch } from "react-hook-form";
+import { useTranslations } from "next-intl";
+import {
+  useForm,
+  SubmitHandler,
+  useFieldArray,
+  useWatch,
+} from "react-hook-form";
+
+type UploadedImage = string | null | { path: string; url: string } | undefined;
+
+function getImageUrl(image: UploadedImage) {
+  return image instanceof Object ? image.url : "";
+}
 
 export default function Home({ home }: { home: HomePage }) {
   const { activeLocale, changeLocale, dir, isArabic, tLive } =
     useFormLocale("WebsiteContent");
+  const tCommon = useTranslations("Common");
 
   const {
     control,
@@ -34,13 +47,27 @@ export default function Home({ home }: { home: HomePage }) {
     setError,
     setValue,
     handleSubmit,
-    formState: { isSubmitting, errors },
+    formState: { isSubmitting },
   } = useForm<HomePage>({
     defaultValues: home,
     resolver: zodResolver(homePageSchema),
   });
 
+  const howItWorksItems = useFieldArray({
+    control,
+    name: "how_it_works.items",
+  });
+  const bouquetBuilderItems = useFieldArray({
+    control,
+    name: "bouquet_builder.items",
+  });
+
   const heroImage = useWatch({ control, name: "hero.image" });
+  const howItWorksValues = useWatch({ control, name: "how_it_works.items" });
+  const bouquetBuilderValues = useWatch({
+    control,
+    name: "bouquet_builder.items",
+  });
 
   const onSubmit: SubmitHandler<HomePage> = async (data) => {
     if (data.hero.image instanceof Object) {
@@ -77,24 +104,19 @@ export default function Home({ home }: { home: HomePage }) {
 
       return;
     }
+
+    toast.error(result.message ?? tCommon("UpdateFailed"));
   };
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit, (errors) => {
-        console.log(errors);
+        console.error("Home page form is invalid:", errors);
+        toast.error(tCommon("UpdateFailed"));
       })}
       className={cn("space-y-4", isArabic && "font-cairo")}
       dir={dir}
     >
-      {errors && Object.keys(errors).length > 0 && (
-        <div className="mb-4 text-red-600">
-          {Object.values(errors).map((error, index) => (
-            <p key={index}>{error.message}</p>
-          ))}
-        </div>
-      )}
-
       <div className="flex">
         <LocaleFormSwitcher
           locale={activeLocale}
@@ -148,9 +170,9 @@ export default function Home({ home }: { home: HomePage }) {
                 <ImageFile
                   page="home"
                   type="images"
-                  imageUrl={heroImage instanceof Object ? heroImage.url : ""}
+                  imageUrl={getImageUrl(heroImage)}
                   onFileChange={(image) => {
-                    setValue("hero.image", image);
+                    setValue("hero.image", image, { shouldDirty: true });
                   }}
                 />
 
@@ -228,99 +250,94 @@ export default function Home({ home }: { home: HomePage }) {
                       label={tLive("subtitle")}
                       labelClassName="mb-1"
                     />
-
-                    <div className={loc === activeLocale ? "block" : "hidden"}>
-                      <Controller
-                        control={control}
-                        name="how_it_works.items"
-                        render={({ field }) => {
-                          const value = field.value || [];
-
-                          return (
-                            <div>
-                              <div className="flex items-center justify-between mb-4">
-                                <span className="text-secondary font-bold">
-                                  {tLive("items")}
-                                </span>
-                                {value.length < 4 && (
-                                  <Button
-                                    type="button"
-                                    size="icon"
-                                    onClick={() => {
-                                      field.onChange([
-                                        ...value,
-                                        {
-                                          title: { [loc]: "" },
-                                          description: { [loc]: "" },
-                                          image: null,
-                                        },
-                                      ]);
-                                    }}
-                                  >
-                                    <Plus />
-                                  </Button>
-                                )}
-                              </div>
-
-                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                {value.map((item, index) => (
-                                  <div
-                                    key={index}
-                                    className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 border border-primary/20 mb-4 rounded-sm"
-                                  >
-                                    <div className="flex justify-end sm:col-span-2">
-                                      <Button
-                                        variant="ghost"
-                                        type="button"
-                                        size="icon"
-                                        onClick={() => {
-                                          const newValue = [...value];
-                                          newValue.splice(index, 1);
-                                          field.onChange(newValue);
-                                        }}
-                                      >
-                                        <Trash2 className="text-destructive" />
-                                      </Button>
-                                    </div>
-
-                                    <NormalFormInput
-                                      register={register}
-                                      name={`how_it_works.items.${index}.title.${loc}`}
-                                      label={tLive("title")}
-                                      labelClassName="mb-1"
-                                    />
-
-                                    <NormalFormInput
-                                      register={register}
-                                      name={`how_it_works.items.${index}.description.${loc}`}
-                                      label={tLive("description")}
-                                      labelClassName="mb-1"
-                                    />
-
-                                    <ImageFile
-                                      page="home"
-                                      type="images"
-                                      imageUrl={
-                                        value[index].image instanceof Object
-                                          ? value[index].image.url
-                                          : ""
-                                      }
-                                      onFileChange={(image) => {
-                                        const newValue = [...value];
-                                        newValue[index].image = image;
-                                        field.onChange(newValue);
-                                      }}
-                                    />
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-                          );
-                        }}
-                      />
-                    </div>
                   </React.Fragment>
                 ))}
+
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-secondary font-bold">
+                      {tLive("items")}
+                    </span>
+                    {howItWorksItems.fields.length < 4 && (
+                      <Button
+                        type="button"
+                        size="icon"
+                        aria-label={tLive("addItem")}
+                        onClick={() => {
+                          howItWorksItems.append({
+                            title: { en: "", ar: "" },
+                            description: { en: "", ar: "" },
+                            image: null,
+                          });
+                        }}
+                      >
+                        <Plus />
+                      </Button>
+                    )}
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {howItWorksItems.fields.map((item, index) => (
+                      <div
+                        key={item.id}
+                        className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 border border-primary/20 mb-4 rounded-sm"
+                      >
+                        <div className="flex justify-end sm:col-span-2">
+                          <Button
+                            variant="ghost"
+                            type="button"
+                            size="icon"
+                            aria-label={tLive("removeItem")}
+                            onClick={() => howItWorksItems.remove(index)}
+                          >
+                            <Trash2 className="text-destructive" />
+                          </Button>
+                        </div>
+
+                        {availableLocales.map((loc) => (
+                          <React.Fragment key={loc}>
+                            <NormalFormInput
+                              register={register}
+                              name={`how_it_works.items.${index}.title.${loc}`}
+                              className={
+                                loc === activeLocale ? "block" : "hidden"
+                              }
+                              label={tLive("title")}
+                              labelClassName="mb-1"
+                            />
+
+                            <NormalFormInput
+                              register={register}
+                              name={`how_it_works.items.${index}.description.${loc}`}
+                              className={
+                                loc === activeLocale ? "block" : "hidden"
+                              }
+                              label={tLive("description")}
+                              labelClassName="mb-1"
+                            />
+                          </React.Fragment>
+                        ))}
+
+                        <ImageFile
+                          page="home"
+                          type="images"
+                          imageUrl={getImageUrl(
+                            howItWorksValues?.[index]?.image,
+                          )}
+                          onFileChange={(image) => {
+                            setValue(
+                              `how_it_works.items.${index}.image`,
+                              image,
+                              {
+                                shouldDirty: true,
+                              },
+                            );
+                          }}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </CardContent>
             </AccordionContent>
           </AccordionItem>
@@ -364,103 +381,94 @@ export default function Home({ home }: { home: HomePage }) {
                       label={tLive("description")}
                       labelClassName="mb-1"
                     />
-
-                    <div
-                      className={
-                        loc === activeLocale ? "block sm:col-span-2" : "hidden"
-                      }
-                    >
-                      <Controller
-                        control={control}
-                        name="bouquet_builder.items"
-                        render={({ field }) => {
-                          const value = field.value || [];
-
-                          return (
-                            <div>
-                              <div className="flex items-center justify-between mb-4">
-                                <span className="text-secondary font-bold">
-                                  {tLive("items")}
-                                </span>
-                                {value.length < 4 && (
-                                  <Button
-                                    type="button"
-                                    size="icon"
-                                    onClick={() => {
-                                      field.onChange([
-                                        ...value,
-                                        {
-                                          title: { [loc]: "" },
-                                          description: { [loc]: "" },
-                                          icon: null,
-                                        },
-                                      ]);
-                                    }}
-                                  >
-                                    <Plus />
-                                  </Button>
-                                )}
-                              </div>
-
-                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                {value.map((item, index) => (
-                                  <div
-                                    key={index}
-                                    className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 border border-primary/20 mb-4 rounded-sm"
-                                  >
-                                    <div className="flex justify-end sm:col-span-2">
-                                      <Button
-                                        variant="ghost"
-                                        type="button"
-                                        size="icon"
-                                        onClick={() => {
-                                          const newValue = [...value];
-                                          newValue.splice(index, 1);
-                                          field.onChange(newValue);
-                                        }}
-                                      >
-                                        <Trash2 className="text-destructive" />
-                                      </Button>
-                                    </div>
-
-                                    <NormalFormInput
-                                      register={register}
-                                      name={`bouquet_builder.items.${index}.title.${loc}`}
-                                      label={tLive("title")}
-                                      labelClassName="mb-1"
-                                    />
-
-                                    <NormalFormInput
-                                      register={register}
-                                      name={`bouquet_builder.items.${index}.subtitle.${loc}`}
-                                      label={tLive("subtitle")}
-                                      labelClassName="mb-1"
-                                    />
-
-                                    <ImageFile
-                                      page="home"
-                                      type="icons"
-                                      imageUrl={
-                                        value[index].icon instanceof Object
-                                          ? value[index].icon.url
-                                          : ""
-                                      }
-                                      onFileChange={(icon) => {
-                                        const newValue = [...value];
-                                        newValue[index].icon = icon;
-                                        field.onChange(newValue);
-                                      }}
-                                    />
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-                          );
-                        }}
-                      />
-                    </div>
                   </React.Fragment>
                 ))}
+
+                <div className="sm:col-span-2">
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-secondary font-bold">
+                      {tLive("items")}
+                    </span>
+                    {bouquetBuilderItems.fields.length < 4 && (
+                      <Button
+                        type="button"
+                        size="icon"
+                        aria-label={tLive("addItem")}
+                        onClick={() => {
+                          bouquetBuilderItems.append({
+                            title: { en: "", ar: "" },
+                            subtitle: { en: "", ar: "" },
+                            icon: null,
+                          });
+                        }}
+                      >
+                        <Plus />
+                      </Button>
+                    )}
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {bouquetBuilderItems.fields.map((item, index) => (
+                      <div
+                        key={item.id}
+                        className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 border border-primary/20 mb-4 rounded-sm"
+                      >
+                        <div className="flex justify-end sm:col-span-2">
+                          <Button
+                            variant="ghost"
+                            type="button"
+                            size="icon"
+                            aria-label={tLive("removeItem")}
+                            onClick={() => bouquetBuilderItems.remove(index)}
+                          >
+                            <Trash2 className="text-destructive" />
+                          </Button>
+                        </div>
+
+                        {availableLocales.map((loc) => (
+                          <React.Fragment key={loc}>
+                            <NormalFormInput
+                              register={register}
+                              name={`bouquet_builder.items.${index}.title.${loc}`}
+                              className={
+                                loc === activeLocale ? "block" : "hidden"
+                              }
+                              label={tLive("title")}
+                              labelClassName="mb-1"
+                            />
+
+                            <NormalFormInput
+                              register={register}
+                              name={`bouquet_builder.items.${index}.subtitle.${loc}`}
+                              className={
+                                loc === activeLocale ? "block" : "hidden"
+                              }
+                              label={tLive("subtitle")}
+                              labelClassName="mb-1"
+                            />
+                          </React.Fragment>
+                        ))}
+
+                        <ImageFile
+                          page="home"
+                          type="icons"
+                          imageUrl={getImageUrl(
+                            bouquetBuilderValues?.[index]?.icon,
+                          )}
+                          onFileChange={(icon) => {
+                            setValue(
+                              `bouquet_builder.items.${index}.icon`,
+                              icon,
+                              {
+                                shouldDirty: true,
+                              },
+                            );
+                          }}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </CardContent>
             </AccordionContent>
           </AccordionItem>

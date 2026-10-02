@@ -62,6 +62,7 @@ export default function CreateEdit({
   const {
     register,
     control,
+    reset,
     setValue,
     handleSubmit,
     trigger: triggerValidation,
@@ -92,7 +93,6 @@ export default function CreateEdit({
 
     if (result.success) {
       toast.success(result.message);
-      form.current?.reset();
       closeBtn.current?.click();
       return;
     }
@@ -109,15 +109,23 @@ export default function CreateEdit({
       return;
     }
 
-    toast.error(location ? tCommon("UpdateFailed") : tCommon("CreationFailed"));
+    toast.error(
+      result.message ??
+        (location ? tCommon("UpdateFailed") : tCommon("CreationFailed")),
+    );
   };
 
   return (
-    <Sheet>
+    <Sheet
+      onOpenChange={(open) => {
+        // Start from the latest saved values every time the sheet opens
+        if (open) reset(getDefaultValues(location));
+      }}
+    >
       {trigger ? (
         <SheetTrigger asChild>{trigger}</SheetTrigger>
       ) : (
-        <AddButton label={true ? t("AddLocation") : t("EditLocation")} />
+        <AddButton label={t("AddLocation")} />
       )}
 
       <SheetContent
@@ -131,8 +139,8 @@ export default function CreateEdit({
         </SheetClose>
 
         <FormHeader
-          title={true ? t("AddLocation") : t("EditLocation")}
-          description={true ? t("Description") : t("Description")}
+          title={location ? t("EditLocation") : t("AddLocation")}
+          description={t("Description")}
         />
 
         <LocaleFormSwitcher
@@ -152,6 +160,11 @@ export default function CreateEdit({
           <form
             ref={form}
             onSubmit={(e) => {
+              if (isSubmitting) {
+                e.preventDefault();
+                return;
+              }
+
               void handleSubmit(onSubmit, (errors) => {
                 // Check if current locale is English and there are Arabic field errors
                 if (activeLocale === "en") {

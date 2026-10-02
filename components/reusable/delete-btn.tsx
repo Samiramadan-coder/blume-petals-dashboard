@@ -44,7 +44,7 @@ export default function DeleteBtn({
             {trigger ? (
               trigger
             ) : (
-              <Button variant="ghost" className="px-0">
+              <Button variant="ghost" className="px-0" aria-label={t("Delete")}>
                 <Trash2 className="text-destructive/70" />
               </Button>
             )}
@@ -78,6 +78,7 @@ export default function DeleteBtn({
             className="rounded-sm text-xs py-4 px-4"
             variant="destructive"
             onClick={handleDelete}
+            disabled={loading}
           >
             {loading ? <Spinner /> : t("Confirmation")}
           </Button>

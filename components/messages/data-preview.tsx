@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { Button } from "../ui/button";
+import { Spinner } from "../ui/spinner";
 import { CircleCheck } from "lucide-react";
 import { Message } from "@/types/messages";
 import { Pagination } from "@/types/shared";
@@ -27,12 +28,19 @@ export default function DataPreview({
   const t = useTranslations("Messages");
   const tCommon = useTranslations("Common");
   const [loadingDelete, setLoadingDelete] = useState(false);
+  const [markingAsReadId, setMarkingAsReadId] = useState<number | null>(null);
 
   return (
     <>
       <ModuleHeader title={t("Title")} description={t("Description")} />
 
       <div className="space-y-4">
+        {messages.length === 0 && (
+          <p className="rounded-lg border border-primary/30 bg-white px-4 py-10 text-center text-sm text-muted-foreground">
+            {t("Empty")}
+          </p>
+        )}
+
         {messages.map((message) => (
           <Card
             key={message.id}
@@ -42,26 +50,44 @@ export default function DataPreview({
             style={{ boxShadow: "none" }}
           >
             <CardContent className="space-y-2">
-              <p className="text-sm font-semibold">{message.email}</p>
+              <p className="text-sm font-semibold break-all">{message.email}</p>
               <p className="text-sm">{message.phone}</p>
-              <p className="text-sm text-muted-foreground">{message.message}</p>
+              <p className="text-sm text-muted-foreground whitespace-pre-line wrap-break-word">
+                {message.message}
+              </p>
               <div className="flex justify-end">
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      onClick={async () => {
-                        await markMessageAsRead(message.id);
-                      }}
-                    >
-                      <CircleCheck className="text-green-500" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>{t("MarkAsRead")}</p>
-                  </TooltipContent>
-                </Tooltip>
+                {!message.read && (
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        aria-label={t("MarkAsRead")}
+                        disabled={markingAsReadId !== null}
+                        onClick={async () => {
+                          setMarkingAsReadId(message.id);
+                          const result = await markMessageAsRead(message.id);
+                          setMarkingAsReadId(null);
+
+                          if (!result.success) {
+                            toast.error(
+                              result.message ?? tCommon("UpdateFailed"),
+                            );
+                          }
+                        }}
+                      >
+                        {markingAsReadId === message.id ? (
+                          <Spinner />
+                        ) : (
+                          <CircleCheck className="text-green-500" />
+                        )}
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>{t("MarkAsRead")}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                )}
 
                 {can("contact.delete") && (
                   <DeleteBtn
@@ -77,7 +103,7 @@ export default function DataPreview({
                         return;
                       }
 
-                      toast.error(tCommon("DeleteFailed"));
+                      toast.error(result.message ?? tCommon("DeleteFailed"));
                     }}
                   />
                 )}

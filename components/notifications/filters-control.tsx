@@ -21,10 +21,17 @@ export default function FiltersControl() {
       .withOptions({ history: "push", shallow: false }),
   );
 
+  const [, setPage] = useQueryState(
+    "page",
+    parseAsString.withOptions({ history: "push", shallow: false }),
+  );
+
   return (
     <Tabs
       value={type}
       onValueChange={(value) => {
+        // A page number from the previous filter may not exist in the new one
+        void setPage(null);
         void setType(value);
       }}
     >

@@ -22,6 +22,8 @@ import {
 
 type NormalFormInputProps<T extends FieldValues> = {
   name: Path<T>;
+  /** Defaults to `name`. Set it when two mounted forms share a field name. */
+  id?: string;
   label?: string;
   placeholder?: string;
   required?: boolean;
@@ -36,12 +38,14 @@ type NormalFormInputProps<T extends FieldValues> = {
   description?: ReactNode;
   min?: number;
   max?: number;
+  step?: number | "any";
   labelClassName?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 export default function NormalFormInput<T extends FieldValues>({
   name,
+  id,
   label,
   placeholder,
   required,
@@ -57,8 +61,10 @@ export default function NormalFormInput<T extends FieldValues>({
   description,
   min,
   max,
+  step,
   onChange,
 }: NormalFormInputProps<T>) {
+  const inputId = id ?? name;
   const error = get(errors, name);
 
   const inputRegister =
@@ -79,7 +85,7 @@ export default function NormalFormInput<T extends FieldValues>({
     <Field className={className} data-invalid={!!error}>
       {label && (
         <FieldLabel
-          htmlFor={name}
+          htmlFor={inputId}
           className={cn(
             "text-xs font-semibold",
             required && "after:ms-1 after:text-destructive after:content-['*']",
@@ -109,13 +115,14 @@ export default function NormalFormInput<T extends FieldValues>({
 
               <Input
                 {...inputRegister}
-                id={name}
+                id={inputId}
                 type={type}
                 placeholder={placeholder}
                 aria-invalid={!!error}
                 disabled={disabled}
                 min={type === "number" ? min : undefined}
                 max={type === "number" ? max : undefined}
+                step={type === "number" ? step : undefined}
                 onChange={handleChange}
                 className={cn(
                   "h-full min-w-0 flex-1 rounded-none border-0 bg-transparent shadow-none",
@@ -133,13 +140,14 @@ export default function NormalFormInput<T extends FieldValues>({
           ) : (
             <Input
               {...inputRegister}
-              id={name}
+              id={inputId}
               type={type}
               placeholder={placeholder}
               aria-invalid={!!error}
               disabled={disabled}
               min={type === "number" ? min : undefined}
               max={type === "number" ? max : undefined}
+              step={type === "number" ? step : undefined}
               onChange={handleChange}
               className={cn("h-10 border-border bg-background", inputClassName)}
             />

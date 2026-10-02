@@ -94,13 +94,15 @@ export default function SingleFormImageUploader<T extends FieldValues>({
                       </Button>
                     </div>
                   ) : (
-                    <div
-                      className="flex h-35 cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-border p-3 text-muted-foreground transition duration-150 hover:border-2 hover:border-primary"
+                    <button
+                      type="button"
+                      aria-label={label}
+                      className="flex h-35 w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-border p-3 text-muted-foreground transition duration-150 hover:border-2 hover:border-primary"
                       onClick={() => fileInputRef.current?.click()}
                     >
                       <ImageIcon className="size-6" />
                       <Plus className="size-4" />
-                    </div>
+                    </button>
                   )}
 
                   <input

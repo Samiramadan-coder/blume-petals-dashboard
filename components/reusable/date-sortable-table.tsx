@@ -171,6 +171,17 @@ export function ReorderableDataTable<T>({
           </TableHeader>
 
           <TableBody className="bg-white">
+            {data.length === 0 && (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length + 1}
+                  className="px-4 py-8 text-center text-muted-foreground"
+                >
+                  {t("NotFound")}
+                </TableCell>
+              </TableRow>
+            )}
+
             <SortableContext
               items={rowIds}
               strategy={verticalListSortingStrategy}
@@ -193,8 +204,8 @@ export function ReorderableDataTable<T>({
         </Table>
       </DndContext>
 
-      <div className="p-4 bg-white flex items-center justify-between border-t border-border">
-        <div className="text-xs text-muted-foreground white-space-nowrap">
+      <div className="p-4 bg-white flex flex-wrap items-center justify-between gap-3 border-t border-border">
+        <div className="text-xs text-muted-foreground whitespace-nowrap">
           {!pagination ? (
             <p>
               {t("Showing")}{" "}

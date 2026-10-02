@@ -7,7 +7,7 @@ import { City, Country } from "@/types/countries-cities";
 import { Pagination } from "@/types/shared";
 import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
-import { Spinner } from "@/components/ui/spinner";
+import { CountriesCitiesSkeleton } from "@/components/reusable/page-skeletons";
 
 export async function generateMetadata() {
   const t = await getTranslations("CountriesCities");
@@ -27,44 +27,43 @@ async function CountriesCitiesPage({
   searchParams: SearchParams;
 }) {
   const params = await searchParams;
-  const activeTab = params.type || "countries";
+  const activeTab = params.type === "cities" ? "cities" : "countries";
   const t = await getTranslations("CountriesCities");
 
-  // Fetch countries
-  const { data: countriesData, ok: okCountries } = await http.get<{
-    data: {
-      items: Country[];
-      pagination: Pagination;
-    };
-  }>("/api/v1/admin/countries", {
-    next: {
-      tags: ["countries"],
-    },
-    params: {
-      per_page: 10,
-      page: params.page || 1,
-    },
-  });
-
-  // Fetch cities
-  const { data: citiesData, ok: okCities } = await http.get<{
-    data: {
-      items: City[];
-      pagination: Pagination;
-    };
-  }>("/api/v1/admin/cities", {
-    next: {
-      tags: ["cities"],
-    },
-    params: {
-      per_page: 10,
-      page: params.page || 1,
-    },
-  });
-
-  if (!okCountries || !okCities) {
-    throw new Error("Failed to fetch countries or cities");
-  }
+  // The `page` param belongs to the active tab only. On the cities tab the
+  // countries are just the options of the country select, so load them all.
+  const [{ data: countriesData }, citiesResponse] = await Promise.all([
+    http.get<{
+      data: {
+        items: Country[];
+        pagination: Pagination;
+      };
+    }>("/api/v1/admin/countries", {
+      next: {
+        tags: ["countries"],
+      },
+      params:
+        activeTab === "countries"
+          ? { per_page: 10, page: params.page || 1 }
+          : { per_page: 1000 },
+    }),
+    activeTab === "cities"
+      ? http.get<{
+          data: {
+            items: City[];
+            pagination: Pagination;
+          };
+        }>("/api/v1/admin/cities", {
+          next: {
+            tags: ["cities"],
+          },
+          params: {
+            per_page: 10,
+            page: params.page || 1,
+          },
+        })
+      : null,
+  ]);
 
   return (
     <main className="space-y-6">
@@ -87,18 +86,18 @@ async function CountriesCitiesPage({
         </Link>
       </div>
 
-      {activeTab === "countries" ? (
+      {citiesResponse ? (
+        <DataPreviewCity
+          key={JSON.stringify(citiesResponse.data.data.items)}
+          initialCities={citiesResponse.data.data.items}
+          pagination={citiesResponse.data.data.pagination}
+          countries={countriesData.data.items}
+        />
+      ) : (
         <DataPreview
           key={JSON.stringify(countriesData.data.items)}
           initialCountries={countriesData.data.items}
           pagination={countriesData.data.pagination}
-        />
-      ) : (
-        <DataPreviewCity
-          key={JSON.stringify(citiesData.data.items)}
-          initialCities={citiesData.data.items}
-          pagination={citiesData.data.pagination}
-          countries={countriesData.data.items}
         />
       )}
     </main>
@@ -111,7 +110,7 @@ export default async function Page({
   searchParams: Promise<SearchParams>;
 }) {
   return (
-    <Suspense fallback={<Spinner className="h-8 w-8 text-primary" />}>
+    <Suspense fallback={<CountriesCitiesSkeleton />}>
       <CountriesCitiesPage searchParams={await searchParams} />
     </Suspense>
   );

@@ -1,11 +1,12 @@
 import { NotificationFormData } from "@/types/notifications";
-import { http, ValidationError } from "./http";
+import { getErrorMessage, http, ValidationError } from "./http";
 
 // Create Notifications
 type NotificationResponse =
   | { success: true; message: string }
   | {
       success: false;
+      message?: string;
       errors?: Partial<Record<keyof NotificationFormData, string>>;
     };
 
@@ -31,6 +32,6 @@ export async function postNotificationAction(
 
       return { success: false, errors };
     }
-    return { success: false };
+    return { success: false, message: getErrorMessage(error) };
   }
 }

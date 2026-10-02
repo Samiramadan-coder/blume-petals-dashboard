@@ -44,10 +44,6 @@ export default function DataPreview({ settings }: { settings: Settings }) {
       return;
     }
 
-    if (result.message) {
-      toast.error(result.message);
-    }
-
     if (result.errors) {
       Object.entries(result.errors).forEach(([field, message]) => {
         toast.error(message);
@@ -59,7 +55,7 @@ export default function DataPreview({ settings }: { settings: Settings }) {
       return;
     }
 
-    toast.error(t("SaveFailed"));
+    toast.error(result.message ?? t("SaveFailed"));
   };
 
   return (
@@ -162,6 +158,7 @@ export default function DataPreview({ settings }: { settings: Settings }) {
             register={register}
             errors={errors}
             name="contact_email"
+            type="email"
             label={tLive("contact_email")}
             labelClassName="text-sm"
             inputClassName="bg-white"
@@ -171,6 +168,7 @@ export default function DataPreview({ settings }: { settings: Settings }) {
             register={register}
             errors={errors}
             name="contact_phone"
+            type="tel"
             label={tLive("contact_phone")}
             labelClassName="text-sm"
             inputClassName="bg-white"
@@ -208,7 +206,7 @@ export default function DataPreview({ settings }: { settings: Settings }) {
 
         {can("settings.edit") && (
           <div className="flex justify-end">
-            <Button type="submit" className="h-10 w-20">
+            <Button type="submit" className="h-10 w-20" disabled={isSubmitting}>
               {isSubmitting ? <Spinner /> : tCommon("Save")}
             </Button>
           </div>

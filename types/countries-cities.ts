@@ -9,15 +9,18 @@ export const countrySchema = (t: T) =>
     name: z.object({
       en: z
         .string()
+        .trim()
         .min(1, t("Errors.Required"))
         .min(2, t("Errors.NameMinLength")),
       ar: z
         .string()
+        .trim()
         .min(1, t("Errors.Required"))
         .min(2, t("Errors.NameMinLength")),
     }),
     code: z
       .string()
+      .trim()
       .min(1, t("Errors.Required"))
       .min(2, t("Errors.CodeMinLength")),
     is_active: z.boolean(),
@@ -43,15 +46,19 @@ export const citySchema = (t: T) =>
     name: z.object({
       en: z
         .string()
+        .trim()
         .min(1, t("Errors.Required"))
         .min(2, t("Errors.NameMinLength")),
       ar: z
         .string()
+        .trim()
         .min(1, t("Errors.Required"))
         .min(2, t("Errors.NameMinLength")),
     }),
     country_id: z.number().min(1, t("Errors.Required")),
-    delivery_fee: z.number().min(1, t("Errors.DeliveryFeeMinValue")),
+    delivery_fee: z
+      .number(t("Errors.Required"))
+      .min(1, t("Errors.DeliveryFeeMinValue")),
     is_active: z.boolean(),
     sort_order: z.number(),
   });

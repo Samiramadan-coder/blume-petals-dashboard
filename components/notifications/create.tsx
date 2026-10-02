@@ -11,6 +11,7 @@ import AddButton from "../form/add-button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { availableLocales } from "@/constants/shared";
 import { useLocale, useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
 import { useFormLocale } from "@/hooks/use-form-locale";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Sheet, SheetClose, SheetContent } from "../ui/sheet";
@@ -25,6 +26,7 @@ import NormalFormSelect from "../form/select";
 
 export default function Create() {
   const locale = useLocale();
+  const router = useRouter();
   const t = useTranslations("Notifications");
   const tCommon = useTranslations("Common");
   const form = useRef<HTMLFormElement>(null);
@@ -35,6 +37,7 @@ export default function Create() {
   const {
     control,
     register,
+    reset,
     setError,
     trigger: triggerValidation,
     handleSubmit,
@@ -60,8 +63,9 @@ export default function Create() {
 
     if (result.success) {
       toast.success(result.message);
-      form.current?.reset();
       closeBtn.current?.click();
+      // The list is rendered on the server, pull the new notification in
+      router.refresh();
       return;
     }
 
@@ -76,11 +80,16 @@ export default function Create() {
       return;
     }
 
-    toast.error(tCommon("CreationFailed"));
+    toast.error(result.message ?? tCommon("CreationFailed"));
   };
 
   return (
-    <Sheet>
+    <Sheet
+      onOpenChange={(open) => {
+        // Never reopen with the previously sent notification still filled in
+        if (open) reset();
+      }}
+    >
       <AddButton label={t("CreateNotification")} />
 
       <SheetContent
@@ -115,6 +124,11 @@ export default function Create() {
           <form
             ref={form}
             onSubmit={(e) => {
+              if (isSubmitting) {
+                e.preventDefault();
+                return;
+              }
+
               void handleSubmit(onSubmit, (errors) => {
                 // Check if current locale is English and there are Arabic field errors
                 if (activeLocale === "en") {
@@ -182,6 +196,7 @@ export default function Create() {
 
             <NormalFormSelect<NotificationFormData>
               label={tLive("Fields.Type.Label")}
+              placeholder={tLive("Fields.Type.Placeholder")}
               name="type"
               control={control}
               required

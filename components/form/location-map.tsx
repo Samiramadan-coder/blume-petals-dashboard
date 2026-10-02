@@ -52,9 +52,12 @@ function RecenterMap({ value }: { value: LocationValue }) {
 function LocationMarker({ value, onChange }: LocationMapProps) {
   useMapEvents({
     click(e) {
+      // Panning across the antimeridian yields longitudes outside ±180
+      const { lat, lng } = e.latlng.wrap();
+
       onChange({
-        latitude: e.latlng.lat,
-        longitude: e.latlng.lng,
+        latitude: lat,
+        longitude: lng,
       });
     },
   });
