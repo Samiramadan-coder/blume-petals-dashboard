@@ -205,7 +205,7 @@ export function ReorderableDataTable<T>({
       </DndContext>
 
       <div className="p-4 bg-white flex flex-wrap items-center justify-between gap-3 border-t border-border">
-        <div className="text-xs text-muted-foreground whitespace-nowrap">
+        <div className="text-xs text-muted-foreground whitespace-nowrap hidden sm:block">
           {!pagination ? (
             <p>
               {t("Showing")}{" "}

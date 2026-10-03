@@ -115,7 +115,7 @@ export function DataTable({
       </Table>
 
       <div className="flex gap-4 items-center justify-between border-t border-primary/20 bg-white p-4">
-        <div className="whitespace-nowrap text-xs text-muted-foreground">
+        <div className="whitespace-nowrap text-xs text-muted-foreground hidden sm:block">
           {!pagination ? (
             <p>
               {t("Showing")} <span>{rowsCount}</span> {countUnit}
