@@ -1,8 +1,8 @@
-"use server";
+// "use server";
 
 import { Product, ProductFormValues, Variant } from "@/types/products";
-import { updateTag } from "next/cache";
-import { unstable_rethrow } from "next/navigation";
+// import { updateTag } from "next/cache";
+// import { unstable_rethrow } from "next/navigation";
 import { getErrorMessage, http, ValidationError } from "@/lib/http";
 
 // Post And Put Category Actions
@@ -42,7 +42,7 @@ export async function postProductAction(
 
     saved = data;
   } catch (err) {
-    unstable_rethrow(err);
+    // unstable_rethrow(err);
     console.error("Product create/update request failed", err);
     if (err instanceof ValidationError) {
       const errors = Object.fromEntries(
@@ -59,7 +59,7 @@ export async function postProductAction(
 
   // The product itself is saved at this point, so the list must refresh even
   // if an image or a size below fails.
-  updateTag("products");
+  // updateTag("products");
 
   const product = saved.data.product;
 
@@ -76,7 +76,7 @@ export async function postProductAction(
       );
     }
   } catch (err) {
-    unstable_rethrow(err);
+    // unstable_rethrow(err);
     console.error("Product image upload failed", err);
     return { success: false, message: getErrorMessage(err) };
   }
@@ -105,7 +105,8 @@ export async function postProductAction(
 
 // Update Visibility Action
 type UpdateProductStatusResult =
-  { success: true; message: string } | { success: false; message?: string };
+  | { success: true; message: string }
+  | { success: false; message?: string };
 
 export async function updateProductStatusAction(
   product: Product,
@@ -118,10 +119,10 @@ export async function updateProductStatusAction(
       },
     );
 
-    updateTag("products");
+    // updateTag("products");
     return { success: true, message: data.message };
   } catch (err) {
-    unstable_rethrow(err);
+    // unstable_rethrow(err);
     console.error("Error updating product status:", err);
     return { success: false, message: getErrorMessage(err) };
   }
@@ -129,7 +130,8 @@ export async function updateProductStatusAction(
 
 // Delete Product Action
 type DeleteProductResult =
-  { success: true; message: string } | { success: false; message?: string };
+  | { success: true; message: string }
+  | { success: false; message?: string };
 
 export async function deleteProductAction(
   product: Product,
@@ -138,10 +140,10 @@ export async function deleteProductAction(
     const { data } = await http.delete<{ message: string }>(
       `/api/v1/admin/products/${product.id}`,
     );
-    updateTag("products");
+    // updateTag("products");
     return { success: true, message: data.message };
   } catch (err) {
-    unstable_rethrow(err);
+    // unstable_rethrow(err);
     console.error("Error deleting product:", err);
     return { success: false, message: getErrorMessage(err) };
   }
@@ -149,7 +151,8 @@ export async function deleteProductAction(
 
 // Add Image Action
 type AddImageResult =
-  { success: true; message: string } | { success: false; message?: string };
+  | { success: true; message: string }
+  | { success: false; message?: string };
 
 export async function addImageAction(
   productId: number,
@@ -164,11 +167,11 @@ export async function addImageAction(
       formData,
     );
 
-    updateTag("products");
-    updateTag(`product-${productId}`);
+    // updateTag("products");
+    // updateTag(`product-${productId}`);
     return { success: true, message: data.message };
   } catch (err) {
-    unstable_rethrow(err);
+    // unstable_rethrow(err);
     console.error("Error adding image:", err);
     return { success: false, message: getErrorMessage(err) };
   }
@@ -176,7 +179,8 @@ export async function addImageAction(
 
 // Set As Main Image Action
 type SetAsMainImageResult =
-  { success: true; message: string } | { success: false; message?: string };
+  | { success: true; message: string }
+  | { success: false; message?: string };
 
 export async function setAsMainImageAction(
   productId: number,
@@ -187,11 +191,11 @@ export async function setAsMainImageAction(
       `/api/v1/admin/products/${productId}/images/${imageId}/primary`,
     );
 
-    updateTag("products");
-    updateTag(`product-${productId}`);
+    // updateTag("products");
+    // updateTag(`product-${productId}`);
     return { success: true, message: data.message };
   } catch (err) {
-    unstable_rethrow(err);
+    // unstable_rethrow(err);
     console.error("Error setting image as main:", err);
     return { success: false, message: getErrorMessage(err) };
   }
@@ -199,7 +203,8 @@ export async function setAsMainImageAction(
 
 // Delete Image Action
 type DeleteImageResult =
-  { success: true; message: string } | { success: false; message?: string };
+  | { success: true; message: string }
+  | { success: false; message?: string };
 
 export async function deleteImageAction(
   productId: number,
@@ -209,11 +214,11 @@ export async function deleteImageAction(
     const { data } = await http.delete<{ message: string }>(
       `/api/v1/admin/products/${productId}/images/${imageId}`,
     );
-    updateTag("products");
-    updateTag(`product-${productId}`);
+    // updateTag("products");
+    // updateTag(`product-${productId}`);
     return { success: true, message: data.message };
   } catch (err) {
-    unstable_rethrow(err);
+    // unstable_rethrow(err);
     console.error("Error deleting image:", err);
     return { success: false, message: getErrorMessage(err) };
   }
@@ -248,7 +253,7 @@ export async function addVariantAction(
       variantData.recipe,
     );
 
-    updateTag("products");
+    // updateTag("products");
 
     // The size is saved, but its flower recipe is not. Add-ons have no recipe,
     // so an empty one being rejected is not a failure.
@@ -258,7 +263,7 @@ export async function addVariantAction(
 
     return { success: true };
   } catch (err) {
-    unstable_rethrow(err);
+    // unstable_rethrow(err);
     console.error("Error adding variant:", err);
     if (err instanceof ValidationError) {
       const errors = Object.fromEntries(
@@ -275,7 +280,8 @@ export async function addVariantAction(
 
 // Delete Variant Action
 type DeleteVariantResult =
-  { success: true; message: string } | { success: false; message?: string };
+  | { success: true; message: string }
+  | { success: false; message?: string };
 
 export async function deleteVariantAction(
   productId: number,
@@ -287,7 +293,7 @@ export async function deleteVariantAction(
     );
     return { success: true, message: data.message };
   } catch (err) {
-    unstable_rethrow(err);
+    // unstable_rethrow(err);
     console.error("Error deleting variant:", err);
     return { success: false, message: getErrorMessage(err) };
   }
@@ -309,7 +315,7 @@ export async function updateComponentsAction(
 
     return { success: true };
   } catch (err) {
-    unstable_rethrow(err);
+    // unstable_rethrow(err);
     console.error("Error updating components:", err);
     return { success: false, message: getErrorMessage(err) };
   }
