@@ -47,6 +47,23 @@ function getVisiblePages(currentPage: number, totalPages: number) {
   ] as const;
 }
 
+// Compact variant for small screens: first page, current page and last page only
+function getMobileVisiblePages(currentPage: number, totalPages: number) {
+  if (totalPages <= 5) {
+    return Array.from({ length: totalPages }, (_, index) => index + 1);
+  }
+
+  const pages: (number | "ellipsis-start" | "ellipsis-end")[] = [1];
+
+  if (currentPage > 2) pages.push("ellipsis-start");
+  if (currentPage !== 1 && currentPage !== totalPages) pages.push(currentPage);
+  if (currentPage < totalPages - 1) pages.push("ellipsis-end");
+
+  pages.push(totalPages);
+
+  return pages;
+}
+
 export default function PaginationTemplate({
   currentPage,
   totalPages,
@@ -59,6 +76,11 @@ export default function PaginationTemplate({
   const visiblePages =
     currentPage && totalPages ? getVisiblePages(currentPage, totalPages) : [];
 
+  const mobileVisiblePages =
+    currentPage && totalPages
+      ? getMobileVisiblePages(currentPage, totalPages)
+      : [];
+
   const [, setPageParam] = useQueryState(
     "page",
     parseAsString
@@ -66,9 +88,36 @@ export default function PaginationTemplate({
       .withOptions({ history: "push", shallow: false }),
   );
 
+  const renderPages = (
+    pages: readonly (number | string)[],
+    itemClassName: string,
+  ) =>
+    pages.map((item) =>
+      typeof item === "number" ? (
+        <PaginationItem key={item} className={itemClassName}>
+          <PaginationLink
+            href="#"
+            isActive={item === currentPage}
+            aria-label={`${t("Showing")} ${item}`}
+            onClick={(event) => {
+              event.preventDefault();
+              setPageParam(item.toString());
+            }}
+            className="cursor-pointer"
+          >
+            {item}
+          </PaginationLink>
+        </PaginationItem>
+      ) : (
+        <PaginationItem key={item} className={itemClassName}>
+          <PaginationEllipsis />
+        </PaginationItem>
+      ),
+    );
+
   return (
-    <Pagination className="justify-end">
-      <PaginationContent>
+    <Pagination className="justify-center sm:justify-end">
+      <PaginationContent className="gap-1 sm:gap-2">
         <PaginationItem>
           <PaginationPrevious
             href="#"
@@ -89,28 +138,8 @@ export default function PaginationTemplate({
           />
         </PaginationItem>
 
-        {visiblePages.map((item) =>
-          typeof item === "number" ? (
-            <PaginationItem key={item}>
-              <PaginationLink
-                href="#"
-                isActive={item === currentPage}
-                aria-label={`${t("Showing")} ${item}`}
-                onClick={(event) => {
-                  event.preventDefault();
-                  setPageParam(item.toString());
-                }}
-                className="cursor-pointer"
-              >
-                {item}
-              </PaginationLink>
-            </PaginationItem>
-          ) : (
-            <PaginationItem key={item}>
-              <PaginationEllipsis />
-            </PaginationItem>
-          ),
-        )}
+        {renderPages(mobileVisiblePages, "lg:hidden")}
+        {renderPages(visiblePages, "hidden lg:block")}
 
         <PaginationItem>
           <PaginationNext

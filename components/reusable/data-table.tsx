@@ -114,7 +114,7 @@ export function DataTable({
         <TableBody className="bg-white">{children}</TableBody>
       </Table>
 
-      <div className="flex items-center justify-between border-t border-primary/20 bg-white p-4">
+      <div className="flex gap-4 items-center justify-between border-t border-primary/20 bg-white p-4">
         <div className="whitespace-nowrap text-xs text-muted-foreground">
           {!pagination ? (
             <p>
