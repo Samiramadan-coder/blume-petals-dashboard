@@ -26,7 +26,7 @@ import { useFormLocale } from "@/hooks/use-form-locale";
 import LocaleFormSwitcher from "../reusable/locale-form-switcher";
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../ui/sheet";
 import { useForm, SubmitHandler, Controller, useWatch } from "react-hook-form";
-import { postDeliveryPickupLocationAction } from "@/lib/delivery-pickup-locations";
+import { postDeliveryPickupLocationAction } from "@/lib/delivery-pickup";
 
 function getDefaultValues(location?: DeliveryPickupLocation) {
   return {

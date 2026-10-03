@@ -21,7 +21,7 @@ import LocationPicker from "../form/location-picker";
 import ChangeOrderStatus from "./change-order-status";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocale, useTranslations } from "next-intl";
-import { updateAdminNote } from "@/lib/orders-actions";
+import { updateAdminNote } from "@/lib/orders";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Eye, Mail, MapPin, Phone, X } from "lucide-react";
 import { AdminNote, AdminNoteSchema, Order } from "@/types/orders";

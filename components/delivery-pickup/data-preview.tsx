@@ -4,7 +4,7 @@ import {
   deleteDeliveryPickupLocationAction,
   reorderDeliveryPickupLocationsAction,
   updateLocationVisibilityAction,
-} from "@/lib/delivery-pickup-locations";
+} from "@/lib/delivery-pickup";
 
 import { toast } from "sonner";
 import { useState } from "react";

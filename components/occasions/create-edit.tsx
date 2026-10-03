@@ -25,7 +25,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { availableLocales } from "@/constants/shared";
 import { useLocale, useTranslations } from "next-intl";
 import { useFormLocale } from "@/hooks/use-form-locale";
-import { postOccasionAction } from "@/lib/occasion-actions";
+import { postOccasionAction } from "@/lib/occasion";
 import LocaleFormSwitcher from "../reusable/locale-form-switcher";
 import SingleFormImageUploader from "../form/single-image-uploader";
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../ui/sheet";

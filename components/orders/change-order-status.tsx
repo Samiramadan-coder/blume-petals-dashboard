@@ -21,7 +21,7 @@ import { Check } from "lucide-react";
 import { Order } from "@/types/orders";
 import { Spinner } from "../ui/spinner";
 import { useTranslations } from "next-intl";
-import { changeOrderStatus } from "@/lib/orders-actions";
+import { changeOrderStatus } from "@/lib/orders";
 import { usePermissions } from "@/providers/permission-providers";
 
 export default function ChangeOrderStatus({

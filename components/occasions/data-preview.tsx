@@ -4,7 +4,7 @@ import {
   deleteOccasionAction,
   reorderOccasionsAction,
   updateOccasionVisibilityAction,
-} from "@/lib/occasion-actions";
+} from "@/lib/occasion";
 import { toast } from "sonner";
 import { useState } from "react";
 import { formatDate } from "@/lib/utils";
