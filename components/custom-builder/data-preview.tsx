@@ -16,7 +16,7 @@ import DeleteBtn from "../reusable/delete-btn";
 import { TableCell, TableRow } from "../ui/table";
 import { DataTable } from "../reusable/data-table";
 import { columns } from "@/constants/custom-builder";
-import { deleteProductAction } from "@/lib/products";
+import { deleteProductAction } from "@/lib/products-server";
 import { useLocale, useTranslations } from "next-intl";
 import { usePermissions } from "@/providers/permission-providers";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";

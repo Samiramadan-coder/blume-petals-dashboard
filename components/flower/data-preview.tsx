@@ -26,7 +26,7 @@ import { columns } from "@/constants/flowers";
 import DeleteBtn from "../reusable/delete-btn";
 import { DataTable } from "../reusable/data-table";
 import ModuleHeader from "../reusable/module-header";
-import { deleteProductAction } from "@/lib/products";
+import { deleteProductAction } from "@/lib/products-server";
 import { useLocale, useTranslations } from "next-intl";
 import { useCallback, useEffect, useState } from "react";
 import { ChevronDown, Download, Images } from "lucide-react";

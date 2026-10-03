@@ -6,7 +6,7 @@ import { Button } from "../ui/button";
 import { Spinner } from "../ui/spinner";
 import { useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { addImageAction } from "@/lib/products";
+import { addImageAction } from "@/lib/products-server";
 
 // Same limit the product, flower and template forms apply to their photos
 const MAX_IMAGE_SIZE = 1024 * 1024;
