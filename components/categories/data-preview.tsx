@@ -4,7 +4,7 @@ import {
   deleteCategoryAction,
   reorderCategoriesAction,
   updateCategoryVisibilityAction,
-} from "@/lib/categories-actions";
+} from "@/lib/categories-server";
 import { toast } from "sonner";
 import { useState } from "react";
 import { Badge } from "../ui/badge";

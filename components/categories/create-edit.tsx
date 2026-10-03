@@ -12,24 +12,23 @@ import Switch from "../form/switch";
 import Footer from "../form/footer";
 import Header from "../form/header";
 import { Button } from "../ui/button";
-// import { FieldError } from "../ui/field";
+import { Flower2 } from "lucide-react";
 import { useEffect, useRef } from "react";
 import AddButton from "../form/add-button";
 import { Separator } from "../ui/separator";
 import { cn, createSlug } from "@/lib/utils";
-import { Check, Flower2 } from "lucide-react";
+import { useRouter } from "@/i18n/navigation";
 import { Card, CardContent } from "../ui/card";
-// import { colors } from "@/constants/categories";
 import SectionLabel from "../form/section-label";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { availableLocales } from "@/constants/shared";
 import { useLocale, useTranslations } from "next-intl";
 import { useFormLocale } from "@/hooks/use-form-locale";
-import { postCategoryAction } from "@/lib/categories-actions";
+import { postCategoryAction } from "@/lib/categories";
 import LocaleFormSwitcher from "../reusable/locale-form-switcher";
+import { useForm, useWatch, SubmitHandler } from "react-hook-form";
 import SingleFormImageUploader from "../form/single-image-uploader";
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../ui/sheet";
-import { Controller, useForm, useWatch, SubmitHandler } from "react-hook-form";
 
 // Generate default values for the form based on the provided category or return empty values if no category is provided
 function generateDefaultValues(
@@ -41,18 +40,12 @@ function generateDefaultValues(
     name: category?.name || { en: "", ar: "" },
     slug: category?.slug || "",
     type: type,
-    // color: category?.color || "",
     is_visible: category?.is_visible ?? false,
     icon: category?.icon_url || "",
     banner: category?.banner_url || "",
     sort_order: category?.sort_order || sortOrder || 0,
   };
 }
-
-// Get a list of colors, including the category's color if it's not already in the predefined list
-// function getListOfColors(color?: string): string[] {
-//   return [...colors, ...(color && !colors.includes(color) ? [color] : [])];
-// }
 
 type CreateEditProps = {
   category?: Category;
@@ -67,6 +60,7 @@ export default function CreateEdit({
   totalCreatedItems,
   type,
 }: CreateEditProps) {
+  const router = useRouter();
   const locale = useLocale();
   const t = useTranslations("Categories");
   const tCommon = useTranslations("Common");
@@ -101,7 +95,6 @@ export default function CreateEdit({
   // Watch the name and slug fields to handle automatic slug generation and manual edits
   const watchName = useWatch({ control, name: "name" });
   const watchSlug = useWatch({ control, name: "slug" });
-  // const watchColor = useWatch({ control, name: "color" });
 
   // Effect to automatically generate slug based on the name field when it changes, unless the slug has been manually edited
   useEffect(() => {
@@ -149,6 +142,7 @@ export default function CreateEdit({
 
     if (result.success) {
       toast.success(result.message);
+      router.refresh();
       closeBtn.current?.click();
       return;
     }
@@ -301,18 +295,6 @@ export default function CreateEdit({
               description={tLive("SlugHint")}
             />
 
-            {/* <Select<CategoryFormValues>
-              control={control}
-              name="type"
-              label={tLive("Type")}
-              options={categoryTypes((key) => tLive(key as never))}
-              required
-              placeholder={tLive("SelectType")}
-              dir={dir}
-              disabled
-            /> */}
-
-            {/* <div className="grid grid-cols-2 gap-6"> */}
             <SingleFormImageUploader
               control={control}
               name="icon"
@@ -327,70 +309,6 @@ export default function CreateEdit({
               label={tLive("Banner")}
               required
             />
-            {/* </div> */}
-
-            {/* <Separator className="bg-border" />
-            <SectionLabel>{tLive("Color")}</SectionLabel>
-            <Controller
-              name="color"
-              control={control}
-              render={({ field }) => {
-                const selectedColors = field.value ?? "";
-
-                return (
-                  <div className="space-y-1.5">
-                    <div className="flex flex-wrap gap-2">
-                      {getListOfColors(category?.color || watchColor).map(
-                        (color) => {
-                          const isSelected = selectedColors === color;
-
-                          return (
-                            <Button
-                              key={color}
-                              type="button"
-                              variant="outline"
-                              aria-label={color}
-                              aria-pressed={isSelected}
-                              style={{ backgroundColor: color }}
-                              className={cn(
-                                "h-8 w-8 rounded-full border border-border",
-                                { "border-2 border-primary": isSelected },
-                              )}
-                              onClick={() => {
-                                const nextColors = isSelected ? "" : color;
-                                field.onChange(nextColors);
-                              }}
-                            >
-                              {isSelected && <Check />}
-                            </Button>
-                          );
-                        },
-                      )}
-
-                      <div className="relative h-8 w-8">
-                        <Button
-                          type="button"
-                          variant="outline"
-                          tabIndex={-1}
-                          aria-hidden
-                          className="w-8 h-8 rounded-full border-2 border-dashed bg-white cursor-pointer"
-                        ></Button>
-                        <input
-                          type="color"
-                          aria-label={tLive("Color")}
-                          className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
-                          onChange={(event) => {
-                            field.onChange(event.target.value);
-                          }}
-                        />
-                      </div>
-                    </div>
-
-                    <FieldError errors={[errors.color]} />
-                  </div>
-                );
-              }}
-            /> */}
 
             <Separator className="bg-border" />
             <SectionLabel>{tLive("Visibility")}</SectionLabel>
