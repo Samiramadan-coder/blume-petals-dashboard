@@ -823,6 +823,7 @@
     "contact_phone": "Contact Phone"
   },
   "Flower": {
+    "StockLogFailed": "Failed to load the stock log. Please try again.",
     "Flowers": "Flowers",
     "Title": "Flower Inventory",
     "Description": "Manage raw flower stock that bouquets draw from when sold.",

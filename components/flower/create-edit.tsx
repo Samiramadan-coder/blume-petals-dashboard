@@ -21,6 +21,37 @@ import LocaleFormSwitcher from "../reusable/locale-form-switcher";
 import SingleFormImageUploader from "../form/single-image-uploader";
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../ui/sheet";
 
+function getDefaultValues(
+  firstCategoryId: number,
+  flower?: Product,
+): FlowerFormValues {
+  const variant = flower?.variants?.[0];
+
+  return {
+    name: flower?.name || { en: "", ar: "" },
+    description: flower?.description || { en: "", ar: "" },
+    // An empty slot, so a missing photo is reported on the uploader itself
+    images: flower?.images?.length
+      ? flower.images.map((image) => image.url)
+      : [""],
+    category_id: flower?.category_id || firstCategoryId,
+    status: flower?.status || "published",
+    show_in_builder: true,
+    is_purchasable: false,
+    sku: flower?.sku || "",
+    variants: [
+      {
+        id: variant?.id,
+        // Left empty on a new flower so the placeholders show
+        price: variant?.price as number,
+        stock: variant?.stock as number,
+        sku: variant?.sku ?? "",
+        cost_price: variant?.cost_price || undefined,
+      },
+    ],
+  };
+}
+
 export default function CreateEdit({
   trigger,
   flower,
@@ -41,31 +72,16 @@ export default function CreateEdit({
   const {
     register,
     control,
+    reset,
     handleSubmit,
     setError,
     trigger: triggerValidation,
     formState: { errors, isSubmitting, isSubmitted },
   } = useForm<FlowerFormValues>({
-    resolver: zodResolver(flowerSchema((key) => tLive(key as never))),
-    defaultValues: {
-      name: flower?.name || { en: "", ar: "" },
-      description: flower?.description || { en: "", ar: "" },
-      images: flower?.images.map((image) => image.url) || [],
-      category_id: flower?.category_id || firstCategoryId,
-      status: "published",
-      show_in_builder: true,
-      is_purchasable: false,
-      sku: flower?.sku || "",
-      variants: [
-        {
-          id: flower?.variants[0]?.id,
-          price: flower ? flower.variants[0].price : undefined,
-          stock: flower ? flower.variants[0].stock : undefined,
-          sku: flower ? flower.variants[0].sku : "",
-          cost_price: flower?.variants[0]?.cost_price || undefined,
-        },
-      ],
-    },
+    resolver: zodResolver(
+      flowerSchema((key) => tLive(key as never), Boolean(flower)),
+    ),
+    defaultValues: getDefaultValues(firstCategoryId, flower),
   });
 
   // Use Effect to Trigger Validation on Locale Change
@@ -83,11 +99,23 @@ export default function CreateEdit({
       sku: values.name.en.split(" ").join("-"),
     }));
 
-    const result = await postFlowerAction({ ...values, variants }, flower?.id);
+    const failedMessage = flower
+      ? tCommon("UpdateFailed")
+      : tCommon("CreationFailed");
+
+    let result: Awaited<ReturnType<typeof postFlowerAction>>;
+
+    try {
+      result = await postFlowerAction({ ...values, variants }, flower?.id);
+    } catch (error) {
+      // The request itself failed (offline, upload too large for the server)
+      console.error("Error submitting flower:", error);
+      toast.error(failedMessage);
+      return;
+    }
 
     if (result.success) {
       toast.success(result.message);
-      form.current?.reset();
       closeBtn.current?.click();
       return;
     }
@@ -103,11 +131,16 @@ export default function CreateEdit({
       return;
     }
 
-    toast.error(flower ? tCommon("UpdateFailed") : tCommon("CreationFailed"));
+    toast.error(result.message ?? failedMessage);
   };
 
   return (
-    <Sheet>
+    <Sheet
+      onOpenChange={(open) => {
+        // Start from the latest saved values every time the sheet opens
+        if (open) reset(getDefaultValues(firstCategoryId, flower));
+      }}
+    >
       {trigger ? (
         <SheetTrigger asChild>{trigger}</SheetTrigger>
       ) : (
@@ -148,6 +181,11 @@ export default function CreateEdit({
           <form
             ref={form}
             onSubmit={(e) => {
+              if (isSubmitting) {
+                e.preventDefault();
+                return;
+              }
+
               void handleSubmit(onSubmit, (errors) => {
                 if (activeLocale === "en") {
                   const hasArErrors = errors.name?.ar || errors.description?.ar;
@@ -206,6 +244,7 @@ export default function CreateEdit({
                 label={tLive("Fields.InitialQuantity.Label")}
                 name={`variants.0.stock`}
                 type="number"
+                min={0}
                 register={register}
                 errors={errors}
                 required
@@ -217,7 +256,10 @@ export default function CreateEdit({
               label={tLive("Fields.CostPrice.Label")}
               name={`variants.0.cost_price`}
               type="number"
+              min={0}
+              step="any"
               register={register}
+              errors={errors}
               placeholder={tLive("Fields.CostPrice.Placeholder")}
             />
 
@@ -225,6 +267,7 @@ export default function CreateEdit({
               label={tLive("Fields.UnitCost.Label")}
               name={`variants.0.price`}
               type="number"
+              step="any"
               register={register}
               errors={errors}
               required

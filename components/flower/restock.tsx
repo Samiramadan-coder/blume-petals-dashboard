@@ -23,6 +23,7 @@ export default function Restock({ flower }: { flower: Product }) {
 
   const {
     register,
+    reset,
     handleSubmit,
     setError,
     formState: { errors, isSubmitting },
@@ -40,11 +41,19 @@ export default function Restock({ flower }: { flower: Product }) {
       return;
     }
 
-    const result = await restockFlowerAction(
-      values,
-      flower?.id,
-      flower?.variants[0].id,
-    );
+    let result: Awaited<ReturnType<typeof restockFlowerAction>>;
+
+    try {
+      result = await restockFlowerAction(
+        values,
+        flower?.id,
+        flower?.variants[0].id,
+      );
+    } catch (error) {
+      console.error("Error restocking flower:", error);
+      toast.error(t("Restock.UpdateFailed"));
+      return;
+    }
 
     if (result.success) {
       toast.success(result.message);
@@ -63,11 +72,16 @@ export default function Restock({ flower }: { flower: Product }) {
       return;
     }
 
-    toast.error(t("Restock.UpdateFailed"));
+    toast.error(result.message ?? t("Restock.UpdateFailed"));
   };
 
   return (
-    <Sheet>
+    <Sheet
+      onOpenChange={(open) => {
+        // Never reopen with the previously added quantity still filled in
+        if (open) reset();
+      }}
+    >
       <SheetTrigger asChild>
         <Button
           variant="outline"
@@ -94,13 +108,21 @@ export default function Restock({ flower }: { flower: Product }) {
         <div className="flex-1 overflow-auto px-4 pb-6 pt-2 relative">
           <form
             ref={form}
-            onSubmit={(e) => handleSubmit(onSubmit)(e)}
+            onSubmit={(e) => {
+              if (isSubmitting) {
+                e.preventDefault();
+                return;
+              }
+
+              void handleSubmit(onSubmit)(e);
+            }}
             className="space-y-6 relative"
           >
             <Input<RestockFormValues>
               label={t("Restock.AddStems")}
               name={`value`}
               type="number"
+              min={1}
               register={register}
               errors={errors}
               required

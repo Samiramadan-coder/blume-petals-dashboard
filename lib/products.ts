@@ -2,7 +2,8 @@
 
 import { Product, ProductFormValues, Variant } from "@/types/products";
 import { updateTag } from "next/cache";
-import { http, ValidationError } from "@/lib/http";
+import { unstable_rethrow } from "next/navigation";
+import { getErrorMessage, http, ValidationError } from "@/lib/http";
 
 // Post And Put Category Actions
 type PostAndPutProductResult =
@@ -12,6 +13,7 @@ type PostAndPutProductResult =
     }
   | {
       success: false;
+      message?: string;
       errors?: Partial<Record<keyof ProductFormValues, string>>;
     };
 
@@ -30,47 +32,17 @@ export async function postProductAction(
 
   delete dataWithoutFiles.images;
 
+  let saved: { data: { product: Product }; message: string };
+
   try {
     const { data } = await http[method]<{
       data: { product: Product };
       message: string;
     }>(url, dataWithoutFiles);
 
-    // Post Or Update Images
-    for (const [index, image] of formData.images.entries()) {
-      if (!(image instanceof Blob)) continue;
-      const imageFormData = new FormData();
-      imageFormData.append("image", image);
-      imageFormData.append("is_primary", index === 0 ? "1" : "0");
-      await http.post(
-        `/api/v1/admin/products/${data.data.product.id}/images`,
-        imageFormData,
-      );
-    }
-
-    // because the product is created first, we need to update the variant ids if they exist
-    const preparedVariants = formData.variants.map((variant) => {
-      const existingVariant = data.data.product.variants.find(
-        (v) => v.sku === variant.sku,
-      );
-      return {
-        ...variant,
-        id: existingVariant?.id,
-      };
-    });
-
-    // Post Or Update Variants
-    preparedVariants.forEach(async (variant) => {
-      if (variant.id) {
-        await addVariantAction(data.data.product.id, variant, variant.id);
-      } else {
-        await addVariantAction(data.data.product.id, variant);
-      }
-    });
-
-    updateTag("products");
-    return { success: true, message: data.message };
+    saved = data;
   } catch (err) {
+    unstable_rethrow(err);
     console.error("Product create/update request failed", err);
     if (err instanceof ValidationError) {
       const errors = Object.fromEntries(
@@ -82,14 +54,58 @@ export async function postProductAction(
 
       return { success: false, errors };
     }
-    return { success: false };
+    return { success: false, message: getErrorMessage(err) };
   }
+
+  // The product itself is saved at this point, so the list must refresh even
+  // if an image or a size below fails.
+  updateTag("products");
+
+  const product = saved.data.product;
+
+  try {
+    // Post Or Update Images
+    for (const [index, image] of formData.images.entries()) {
+      if (!(image instanceof Blob)) continue;
+      const imageFormData = new FormData();
+      imageFormData.append("image", image);
+      imageFormData.append("is_primary", index === 0 ? "1" : "0");
+      await http.post(
+        `/api/v1/admin/products/${product.id}/images`,
+        imageFormData,
+      );
+    }
+  } catch (err) {
+    unstable_rethrow(err);
+    console.error("Product image upload failed", err);
+    return { success: false, message: getErrorMessage(err) };
+  }
+
+  // Post Or Update Variants, one at a time so a failure is reported.
+  // The product is created first, so match existing variants by their sku.
+  for (const variant of formData.variants) {
+    const existingVariant = product.variants.find((v) => v.sku === variant.sku);
+
+    const result = await addVariantAction(
+      product.id,
+      { ...variant, id: existingVariant?.id },
+      existingVariant?.id,
+    );
+
+    if (!result.success) {
+      return {
+        success: false,
+        message: Object.values(result.errors ?? {})[0] ?? result.message,
+      };
+    }
+  }
+
+  return { success: true, message: saved.message };
 }
 
 // Update Visibility Action
 type UpdateProductStatusResult =
-  | { success: true; message: string }
-  | { success: false };
+  { success: true; message: string } | { success: false; message?: string };
 
 export async function updateProductStatusAction(
   product: Product,
@@ -105,15 +121,15 @@ export async function updateProductStatusAction(
     updateTag("products");
     return { success: true, message: data.message };
   } catch (err) {
+    unstable_rethrow(err);
     console.error("Error updating product status:", err);
-    return { success: false };
+    return { success: false, message: getErrorMessage(err) };
   }
 }
 
 // Delete Product Action
 type DeleteProductResult =
-  | { success: true; message: string }
-  | { success: false };
+  { success: true; message: string } | { success: false; message?: string };
 
 export async function deleteProductAction(
   product: Product,
@@ -125,13 +141,15 @@ export async function deleteProductAction(
     updateTag("products");
     return { success: true, message: data.message };
   } catch (err) {
+    unstable_rethrow(err);
     console.error("Error deleting product:", err);
-    return { success: false };
+    return { success: false, message: getErrorMessage(err) };
   }
 }
 
 // Add Image Action
-type AddImageResult = { success: true; message: string } | { success: false };
+type AddImageResult =
+  { success: true; message: string } | { success: false; message?: string };
 
 export async function addImageAction(
   productId: number,
@@ -150,15 +168,15 @@ export async function addImageAction(
     updateTag(`product-${productId}`);
     return { success: true, message: data.message };
   } catch (err) {
+    unstable_rethrow(err);
     console.error("Error adding image:", err);
-    return { success: false };
+    return { success: false, message: getErrorMessage(err) };
   }
 }
 
 // Set As Main Image Action
 type SetAsMainImageResult =
-  | { success: true; message: string }
-  | { success: false };
+  { success: true; message: string } | { success: false; message?: string };
 
 export async function setAsMainImageAction(
   productId: number,
@@ -173,15 +191,15 @@ export async function setAsMainImageAction(
     updateTag(`product-${productId}`);
     return { success: true, message: data.message };
   } catch (err) {
+    unstable_rethrow(err);
     console.error("Error setting image as main:", err);
-    return { success: false };
+    return { success: false, message: getErrorMessage(err) };
   }
 }
 
 // Delete Image Action
 type DeleteImageResult =
-  | { success: true; message: string }
-  | { success: false };
+  { success: true; message: string } | { success: false; message?: string };
 
 export async function deleteImageAction(
   productId: number,
@@ -195,14 +213,16 @@ export async function deleteImageAction(
     updateTag(`product-${productId}`);
     return { success: true, message: data.message };
   } catch (err) {
+    unstable_rethrow(err);
     console.error("Error deleting image:", err);
-    return { success: false };
+    return { success: false, message: getErrorMessage(err) };
   }
 }
 
 // Add Variant Action
 type AddVariantResult = {
   success: boolean;
+  message?: string;
   errors?: Partial<Record<keyof ProductFormValues["variants"][number], string>>;
 };
 
@@ -222,15 +242,23 @@ export async function addVariantAction(
       variantData,
     );
 
-    await updateComponentsAction(
+    const components = await updateComponentsAction(
       productId,
       data.data.variant.id!,
       variantData.recipe,
     );
 
     updateTag("products");
+
+    // The size is saved, but its flower recipe is not. Add-ons have no recipe,
+    // so an empty one being rejected is not a failure.
+    if (!components.success && variantData.recipe.length > 0) {
+      return { success: false, message: components.message };
+    }
+
     return { success: true };
   } catch (err) {
+    unstable_rethrow(err);
     console.error("Error adding variant:", err);
     if (err instanceof ValidationError) {
       const errors = Object.fromEntries(
@@ -241,14 +269,13 @@ export async function addVariantAction(
       ) as Partial<Record<keyof ProductFormValues["variants"][number], string>>;
       return { success: false, errors };
     }
-    return { success: false };
+    return { success: false, message: getErrorMessage(err) };
   }
 }
 
 // Delete Variant Action
 type DeleteVariantResult =
-  | { success: true; message: string }
-  | { success: false };
+  { success: true; message: string } | { success: false; message?: string };
 
 export async function deleteVariantAction(
   productId: number,
@@ -260,13 +287,14 @@ export async function deleteVariantAction(
     );
     return { success: true, message: data.message };
   } catch (err) {
+    unstable_rethrow(err);
     console.error("Error deleting variant:", err);
-    return { success: false };
+    return { success: false, message: getErrorMessage(err) };
   }
 }
 
 // Update Components Action
-type UpdateComponentsResult = { success: boolean };
+type UpdateComponentsResult = { success: boolean; message?: string };
 
 export async function updateComponentsAction(
   productId: number,
@@ -281,7 +309,8 @@ export async function updateComponentsAction(
 
     return { success: true };
   } catch (err) {
+    unstable_rethrow(err);
     console.error("Error updating components:", err);
-    return { success: false };
+    return { success: false, message: getErrorMessage(err) };
   }
 }

@@ -95,7 +95,7 @@ export function getProductDefaultValues(
     status: product?.status || "published",
     is_purchasable: true,
     show_in_builder: false,
-    images: product?.images.map((image) => image.url) || [],
+    images: product?.images?.map((image) => image.url) || [],
     is_new: product?.is_new || false,
     variants: product?.variants.map((variant) => ({
       id: variant.id || undefined,
@@ -104,11 +104,13 @@ export function getProductDefaultValues(
       price: variant.price || 0,
       compare_at_price: variant.compare_at_price || undefined,
       discount: variant.compare_at_price
-        ? ((variant.compare_at_price - variant.price) /
-            variant.compare_at_price) *
-          100
+        ? Math.round(
+            ((variant.compare_at_price - variant.price) /
+              variant.compare_at_price) *
+              10000,
+          ) / 100
         : undefined,
-      recipe: variant.recipe.length
+      recipe: variant.recipe?.length
         ? variant.recipe
         : type === "default"
           ? [initialFlower]

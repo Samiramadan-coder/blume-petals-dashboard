@@ -51,20 +51,7 @@ export default function DataPreview({
   const tCommon = useTranslations("Common");
   const [loadingDelete, setLoadingDelete] = useState(false);
   const [checkedIds, setCheckedIds] = useState<number[]>([]);
-  const [sortBy, setSortBy] = useState<string | undefined>(undefined);
-  const [sortDirection, setSortDirection] = useState<
-    "asc" | "desc" | undefined
-  >(undefined);
-
-  const handleSort = (column: string) => {
-    // console.log("Sorting by column:", column);
-    // if (sortBy === column) {
-    //   setSortDirection(sortDirection === "asc" ? "desc" : "asc");
-    // } else {
-    //   setSortBy(column);
-    //   setSortDirection("asc");
-    // }
-  };
+  const canDelete = can("catalog.delete");
 
   return (
     <>
@@ -107,29 +94,31 @@ export default function DataPreview({
         rowsCount={products.length}
         countUnit={t("Products")}
         pagination={pagination}
-        isCheckbox={checkedIds.length === products.length}
+        isCheckbox={
+          products.length > 0 && checkedIds.length === products.length
+        }
         onCheckboxChange={
-          can("catalog.delete")
+          canDelete
             ? (checked) =>
                 setCheckedIds(checked ? products.map((p) => p.id) : [])
             : undefined
         }
-        sortBy={sortBy}
-        sortDirection={sortDirection}
-        onSort={handleSort}
       >
         {products.length === 0 ? (
           <TableRow className="border-primary/20">
-            <TableCell colSpan={columns(t).length + 1} className="px-4 py-3">
+            <TableCell
+              colSpan={columns(t).length + (canDelete ? 1 : 0)}
+              className="px-4 py-3"
+            >
               <p className="text-center text-sm text-muted-foreground">
                 {t("NoProducts")}
               </p>
             </TableCell>
           </TableRow>
         ) : (
-          products.map((product, index) => (
-            <TableRow key={index} className="border-primary/20">
-              {can("catalog.delete") && (
+          products.map((product) => (
+            <TableRow key={product.id} className="border-primary/20">
+              {canDelete && (
                 <TableCell className="px-4 py-3">
                   <Checkbox
                     checked={checkedIds.includes(product.id)}
@@ -147,13 +136,7 @@ export default function DataPreview({
               )}
 
               <TableCell className="px-4 py-3">
-                <Image
-                  src={product.images.find((img) => img.is_primary)?.url || ""}
-                  alt={product.name[locale]}
-                  width={40}
-                  height={40}
-                  className="rounded-lg max-h-10"
-                />
+                <ProductPhoto product={product} alt={product.name[locale]} />
               </TableCell>
 
               <TableCell className="px-4 py-3">
@@ -182,7 +165,7 @@ export default function DataPreview({
 
               <TableCell className="px-4 py-3">
                 <div className="space-y-1">
-                  {product.variants.map((variant) => (
+                  {(product.variants ?? []).map((variant) => (
                     <div key={variant.id}>
                       <span className="text-xs">
                         <span className="text-muted-foreground">
@@ -197,7 +180,7 @@ export default function DataPreview({
 
               <TableCell className="px-4 py-3">
                 <div className="space-y-1.5">
-                  {product.variants.map((variant) => (
+                  {(product.variants ?? []).map((variant) => (
                     <div key={variant.id} className="space-x-1.5">
                       <Badge
                         className={cn(
@@ -261,16 +244,20 @@ export default function DataPreview({
 
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Link href={`/products/${product.id}`} locale={locale}>
-                      <Button variant="ghost">
+                    <Button variant="ghost" asChild>
+                      <Link
+                        href={`/products/${product.id}`}
+                        locale={locale}
+                        aria-label={t("Labels.Gallery")}
+                      >
                         <Images className="size-4 text-muted-foreground" />
-                      </Button>
-                    </Link>
+                      </Link>
+                    </Button>
                   </TooltipTrigger>
                   <TooltipContent>{t("Labels.Gallery")}</TooltipContent>
                 </Tooltip>
 
-                {can("catalog.delete") && (
+                {canDelete && (
                   <DeleteBtn
                     itemName={product.name[locale]}
                     onDelete={async () => {
@@ -281,7 +268,7 @@ export default function DataPreview({
                         toast.success(result.message);
                         return;
                       }
-                      toast.error(tCommon("DeleteFailed"));
+                      toast.error(result.message ?? tCommon("DeleteFailed"));
                     }}
                     loading={loadingDelete}
                   />
@@ -327,7 +314,7 @@ function VisibilitySwitch({
               return;
             }
 
-            toast.error(tCommon("VisibilityUpdateFailed"));
+            toast.error(result.message ?? tCommon("VisibilityUpdateFailed"));
           }}
         />
       )}
@@ -337,5 +324,28 @@ function VisibilitySwitch({
           : tProducts("Labels.Draft")}
       </span>
     </div>
+  );
+}
+
+/**
+ * The primary photo, any photo if none is primary, or an empty box when there
+ * are no photos at all.
+ */
+function ProductPhoto({ product, alt }: { product: Product; alt: string }) {
+  const images = product.images ?? [];
+  const url = (images.find((img) => img.is_primary) ?? images[0])?.url;
+
+  if (!url) {
+    return <div className="size-10 rounded-lg bg-muted" />;
+  }
+
+  return (
+    <Image
+      src={url}
+      alt={alt}
+      width={40}
+      height={40}
+      className="rounded-lg max-h-10"
+    />
   );
 }

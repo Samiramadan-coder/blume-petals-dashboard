@@ -22,7 +22,7 @@ export default function Occasions({
     <>
       <Separator className="bg-border" />
       <Field>
-        <FieldLabel htmlFor="occasions" className="text-xs font-semibold">
+        <FieldLabel id="product-occasions" className="text-xs font-semibold">
           {tLive("Fields.OccasionTags")}
         </FieldLabel>
 
@@ -34,13 +34,18 @@ export default function Occasions({
               const selectedOccasions = field.value ?? [];
 
               return (
-                <div className="flex flex-wrap gap-1.5">
+                <div
+                  role="group"
+                  aria-labelledby="product-occasions"
+                  className="flex flex-wrap gap-1.5"
+                >
                   {occasions.map((occasion) => {
                     const isSelected = selectedOccasions.includes(occasion.id);
 
                     return (
                       <Badge
                         key={occasion.id}
+                        asChild
                         variant="outline"
                         className={cn(
                           `h-7 text-xs text-muted-foreground px-2.5 cursor-pointer`,
@@ -48,14 +53,21 @@ export default function Occasions({
                             "bg-primary/20 border": isSelected,
                           },
                         )}
-                        onClick={() => {
-                          const nextOccasions = isSelected
-                            ? selectedOccasions.filter((i) => i !== occasion.id)
-                            : [...selectedOccasions, occasion.id];
-                          field.onChange(nextOccasions);
-                        }}
                       >
-                        {occasion.name_translations[activeLocale]}
+                        <button
+                          type="button"
+                          aria-pressed={isSelected}
+                          onClick={() => {
+                            const nextOccasions = isSelected
+                              ? selectedOccasions.filter(
+                                  (i) => i !== occasion.id,
+                                )
+                              : [...selectedOccasions, occasion.id];
+                            field.onChange(nextOccasions);
+                          }}
+                        >
+                          {occasion.name_translations[activeLocale]}
+                        </button>
                       </Badge>
                     );
                   })}

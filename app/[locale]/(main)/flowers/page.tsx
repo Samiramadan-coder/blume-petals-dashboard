@@ -3,7 +3,7 @@ import { http } from "@/lib/http";
 import { Product } from "@/types/products";
 import { Pagination } from "@/types/shared";
 import { Category } from "@/types/categories";
-import { Spinner } from "@/components/ui/spinner";
+import { FlowersSkeleton } from "@/components/reusable/page-skeletons";
 import { getTranslations } from "next-intl/server";
 import DataPreview from "@/components/flower/data-preview";
 
@@ -25,29 +25,34 @@ export async function generateMetadata() {
 }
 
 async function FlowersPage({ searchParams }: { searchParams: SearchParams }) {
-  const { data: categories, ok: ok1 } = await http.get<{
-    data: {
-      items: Category[];
-    };
-  }>("/api/v1/admin/categories");
+  // The two requests are independent, so run them together
+  const [{ data: categories, ok: ok1 }, { data: products, ok: ok2 }] =
+    await Promise.all([
+      // Fetch categories
+      http.get<{
+        data: {
+          items: Category[];
+        };
+      }>("/api/v1/admin/categories"),
 
-  // Fetch products
-  const { data: products, ok: ok2 } = await http.get<{
-    data: {
-      items: Product[];
-      pagination: Pagination;
-    };
-  }>("/api/v1/admin/products", {
-    next: {
-      tags: ["flowers"],
-    },
-    params: {
-      per_page: 10,
-      page: searchParams.page ?? 1,
-      show_in_builder: 1,
-      q: searchParams.q ?? "",
-    },
-  });
+      // Fetch products
+      http.get<{
+        data: {
+          items: Product[];
+          pagination: Pagination;
+        };
+      }>("/api/v1/admin/products", {
+        next: {
+          tags: ["flowers"],
+        },
+        params: {
+          per_page: 10,
+          page: searchParams.page ?? 1,
+          show_in_builder: 1,
+          q: searchParams.q ?? "",
+        },
+      }),
+    ]);
 
   if (!ok1 || !ok2) {
     throw new Error("Failed to fetch data");
@@ -71,7 +76,7 @@ export default async function Page({
   searchParams: Promise<SearchParams>;
 }) {
   return (
-    <Suspense fallback={<Spinner className="h-8 w-8 text-primary" />}>
+    <Suspense fallback={<FlowersSkeleton />}>
       <FlowersPage searchParams={await searchParams} />
     </Suspense>
   );

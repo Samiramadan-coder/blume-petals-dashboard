@@ -11,7 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { Product } from "@/types/products";
 import type { AppLocale } from "@/i18n/routing";
-import { Spinner } from "@/components/ui/spinner";
+import { ProductGallerySkeleton } from "@/components/reusable/page-skeletons";
 import { getTranslations } from "next-intl/server";
 import DeleteImage from "@/components/products/delete-image";
 import AddImageBtn from "@/components/products/add-image-btn";
@@ -42,19 +42,20 @@ async function ProductDetails({ params }: { params: Params }) {
   }
 
   const product = data.data.product;
+  const images = product.images ?? [];
 
   return (
     <main className="mx-auto w-full max-w-7xl space-y-6 p-4 md:p-6">
       <div className="flex items-center justify-between gap-4">
         <h1 className="text-2xl font-semibold">
-          {t("Labels.Gallery")} ({product.images.length})
+          {t("Labels.Gallery")} ({images.length})
         </h1>
 
         <AddImageBtn productId={product.id} />
       </div>
 
       <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-        {product.images.map((image) => (
+        {images.map((image) => (
           <div
             key={image.id}
             className="group relative aspect-square w-full overflow-hidden rounded-xl border bg-muted"
@@ -108,7 +109,7 @@ export default async function ProductDetailsPage({
   params: Promise<Params>;
 }) {
   return (
-    <Suspense fallback={<Spinner className="h-8 w-8 text-primary" />}>
+    <Suspense fallback={<ProductGallerySkeleton />}>
       <ProductDetails params={await params} />
     </Suspense>
   );

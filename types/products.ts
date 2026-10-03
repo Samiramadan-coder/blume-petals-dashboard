@@ -17,10 +17,12 @@ export const productSchema = (t: T) =>
     name: z.object({
       en: z
         .string()
+        .trim()
         .min(1, t("Errors.NameIsRequired"))
         .min(2, t("Errors.NameMinLength")),
       ar: z
         .string()
+        .trim()
         .min(1, t("Errors.NameIsRequired"))
         .min(2, t("Errors.NameMinLength")),
     }),
@@ -39,14 +41,17 @@ export const productSchema = (t: T) =>
     show_in_builder: z.boolean(),
     sku: z
       .string()
+      .trim()
       .min(1, t("Errors.SKUIsRequired"))
       .min(2, t("Errors.SKUMinLength")),
     variants: z.array(
       z.object({
         id: z.number().optional(),
-        sku: z.string().min(1, t("Errors.SKUIsRequired")),
-        size: z.string().min(1, t("Errors.SizeIsRequired")),
-        price: z.number().min(1, t("Errors.PriceIsRequired")),
+        sku: z.string().trim().min(1, t("Errors.SKUIsRequired")),
+        size: z.string().trim().min(1, t("Errors.SizeIsRequired")),
+        price: z
+          .number(t("Errors.PriceIsRequired"))
+          .min(1, t("Errors.PriceIsRequired")),
         compare_at_price: z.number().nullable().optional(),
         discount: z.number().optional(),
         recipe: z.array(
@@ -54,7 +59,9 @@ export const productSchema = (t: T) =>
             component_variant_id: z
               .number()
               .min(1, t("Errors.ComponentVariantIsRequired")),
-            qty: z.number().min(1, t("Errors.QuantityIsRequired")),
+            qty: z
+              .number(t("Errors.QuantityIsRequired"))
+              .min(1, t("Errors.QuantityIsRequired")),
           }),
         ),
       }),

@@ -2,25 +2,36 @@ import z from "zod";
 import { T } from "./shared";
 
 const imageSchema = (t: T) =>
-  z.union([z.string(), z.instanceof(Blob)]).refine(
-    (image) => {
-      if (typeof image === "string") return true;
-      return image.size <= 1024 * 1024;
-    },
-    {
-      message: t("Fields.Photo.FileLessThan1MB"),
-    },
-  );
+  z
+    .union([
+      z.string().min(1, t("Fields.Photo.AtLeastOneImageIsRequired")),
+      z.instanceof(Blob, {
+        message: t("Fields.Photo.AtLeastOneImageIsRequired"),
+      }),
+    ])
+    .refine(
+      (image) => {
+        if (typeof image === "string") return true;
+        return image.size <= 1024 * 1024;
+      },
+      {
+        message: t("Fields.Photo.FileLessThan1MB"),
+      },
+    );
 
-export const flowerSchema = (t: T) =>
+// The initial quantity is only asked for (and required) when creating a flower.
+// On edit the field is hidden, so an out-of-stock flower must stay editable.
+export const flowerSchema = (t: T, isEdit = false) =>
   z.object({
     name: z.object({
       en: z
         .string()
+        .trim()
         .min(1, t("Fields.Name.Required"))
         .min(2, t("Fields.Name.MinLength")),
       ar: z
         .string()
+        .trim()
         .min(1, t("Fields.Name.Required"))
         .min(2, t("Fields.Name.MinLength")),
     }),
@@ -34,13 +45,18 @@ export const flowerSchema = (t: T) =>
     status: z.string(),
     sku: z
       .string()
+      .trim()
       .min(1, t("Fields.FlowerSku.Required"))
       .min(2, t("Fields.FlowerSku.MinLength")),
     variants: z.array(
       z.object({
         id: z.number().optional(),
-        price: z.number().min(1, t("Fields.UnitCost.MinValue")),
-        stock: z.number().min(1, t("Fields.InitialQuantity.MinValue")),
+        price: z
+          .number(t("Fields.UnitCost.MinValue"))
+          .min(1, t("Fields.UnitCost.MinValue")),
+        stock: z
+          .number(t("Fields.InitialQuantity.MinValue"))
+          .min(isEdit ? 0 : 1, t("Fields.InitialQuantity.MinValue")),
         sku: z.string(),
         cost_price: z.number().optional(),
       }),
@@ -55,7 +71,7 @@ export type FlowerFormValues = z.infer<ReturnType<typeof flowerSchema>>;
 export const restockSchema = (t: T) =>
   z.object({
     mode: z.enum(["increment"]),
-    value: z.number().min(1, t("Restock.Required")),
+    value: z.number(t("Restock.Required")).min(1, t("Restock.Required")),
   });
 
 export type RestockFormValues = z.infer<ReturnType<typeof restockSchema>>;

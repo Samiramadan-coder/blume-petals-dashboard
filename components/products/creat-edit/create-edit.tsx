@@ -58,6 +58,7 @@ export default function CreateEdit({
   const {
     register,
     control,
+    reset,
     handleSubmit,
     setError,
     setValue,
@@ -80,11 +81,23 @@ export default function CreateEdit({
   // Handle form submission for creating or updating a product
   // The onSubmit function sends the form data to the server and handles success or error responses
   const onSubmit: SubmitHandler<ProductFormValues> = async (values) => {
-    const result = await postProductAction(values, product?.id);
+    const failedMessage = product
+      ? tCommon("UpdateFailed")
+      : tCommon("CreationFailed");
+
+    let result: Awaited<ReturnType<typeof postProductAction>>;
+
+    try {
+      result = await postProductAction(values, product?.id);
+    } catch (error) {
+      // The request itself failed (offline, upload too large for the server)
+      console.error("Error submitting product:", error);
+      toast.error(failedMessage);
+      return;
+    }
 
     if (result.success) {
       toast.success(result.message);
-      form.current?.reset();
       closeBtn.current?.click();
       return;
     }
@@ -101,11 +114,16 @@ export default function CreateEdit({
       return;
     }
 
-    toast.error(product ? tCommon("UpdateFailed") : tCommon("CreationFailed"));
+    toast.error(result.message ?? failedMessage);
   };
 
   return (
-    <Sheet>
+    <Sheet
+      onOpenChange={(open) => {
+        // Start from the latest saved values every time the sheet opens
+        if (open) reset(getProductDefaultValues(type, product));
+      }}
+    >
       {trigger ? (
         <SheetTrigger asChild>{trigger}</SheetTrigger>
       ) : (
@@ -116,7 +134,7 @@ export default function CreateEdit({
 
       <SheetContent
         showCloseButton={false}
-        className="flex h-full flex-col sm:max-w-4xl"
+        className="flex h-full flex-col data-[side=left]:sm:max-w-5xl data-[side=right]:sm:max-w-5xl"
         onInteractOutside={(event) => event.preventDefault()}
         side={locale === "ar" ? "left" : "right"}
       >
@@ -159,6 +177,11 @@ export default function CreateEdit({
           <form
             ref={form}
             onSubmit={(e) => {
+              if (isSubmitting) {
+                e.preventDefault();
+                return;
+              }
+
               void handleSubmit(onSubmit, (errors) => {
                 if (activeLocale === "en") {
                   const hasArErrors = errors.name?.ar || errors.description?.ar;

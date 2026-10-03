@@ -66,9 +66,9 @@ export default function DataPreview({
             </TableCell>
           </TableRow>
         ) : (
-          flowers.map((flower, index) => (
+          flowers.map((flower) => (
             <FlowerRow
-              key={index}
+              key={flower.id}
               flower={flower}
               firstCategoryId={firstCategoryId}
             />
@@ -93,6 +93,8 @@ function FlowerRow({
   const tCommon = useTranslations("Common");
   const [loadingDelete, setLoadingDelete] = useState(false);
   const [showStockLog, setShowStockLog] = useState(false);
+  // A flower is expected to have exactly one variant, but may come without it
+  const variant = flower.variants?.[0];
 
   return (
     <>
@@ -101,20 +103,21 @@ function FlowerRow({
           <Button
             size="icon"
             variant="ghost"
+            aria-label={t("StockLog")}
+            aria-expanded={showStockLog}
             onClick={() => setShowStockLog(!showStockLog)}
           >
-            <ChevronDown className="text-muted-foreground size-4" />
+            <ChevronDown
+              className={cn(
+                "text-muted-foreground size-4 transition-transform",
+                showStockLog && "rotate-180",
+              )}
+            />
           </Button>
         </TableCell>
 
         <TableCell className="px-4 py-3">
-          <Image
-            src={flower.images.find((img) => img.is_primary)?.url || ""}
-            alt={flower.name[locale]}
-            width={40}
-            height={40}
-            className="rounded-lg max-h-10"
-          />
+          <FlowerPhoto product={flower} alt={flower.name[locale]} />
         </TableCell>
 
         <TableCell className="px-4 py-3">
@@ -125,7 +128,7 @@ function FlowerRow({
         </TableCell>
 
         <TableCell className="px-4 py-3 font-bold">
-          {flower.variants[0].available_stock}
+          {variant?.available_stock ?? 0}
         </TableCell>
 
         <TableCell className="px-4 py-3 text-muted-foreground text-xs">
@@ -136,7 +139,7 @@ function FlowerRow({
           <Badge
             className={cn(
               "h-5 px-4",
-              flower.variants[0].in_stock
+              variant?.in_stock
                 ? "text-secondary bg-secondary/10"
                 : "text-[#b83a30] bg-destructive/10",
             )}
@@ -144,10 +147,10 @@ function FlowerRow({
             <span
               className={cn(
                 "size-1.5 rounded-full",
-                flower.variants[0].in_stock ? "bg-secondary" : "bg-[#b83a30]",
+                variant?.in_stock ? "bg-secondary" : "bg-[#b83a30]",
               )}
             ></span>
-            {flower.variants[0].in_stock ? t("InStock") : t("OutOfStock")}
+            {variant?.in_stock ? t("InStock") : t("OutOfStock")}
           </Badge>
         </TableCell>
 
@@ -164,11 +167,15 @@ function FlowerRow({
 
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Link href={`/products/${flower.id}`} locale={locale}>
-                    <Button variant="ghost">
+                  <Button variant="ghost" asChild>
+                    <Link
+                      href={`/products/${flower.id}`}
+                      locale={locale}
+                      aria-label={t("Gallery")}
+                    >
                       <Images className="size-4 text-muted-foreground" />
-                    </Button>
-                  </Link>
+                    </Link>
+                  </Button>
                 </TooltipTrigger>
                 <TooltipContent>{t("Gallery")}</TooltipContent>
               </Tooltip>
@@ -186,7 +193,7 @@ function FlowerRow({
                   toast.success(result.message);
                   return;
                 }
-                toast.error(tCommon("DeleteFailed"));
+                toast.error(result.message ?? tCommon("DeleteFailed"));
               }}
               loading={loadingDelete}
             />
@@ -194,8 +201,8 @@ function FlowerRow({
         </TableCell>
       </TableRow>
 
-      {showStockLog && flower.variants[0].id && (
-        <StockLog flowerId={flower.id} variantId={flower.variants[0].id} />
+      {showStockLog && variant?.id && (
+        <StockLog flowerId={flower.id} variantId={variant.id} />
       )}
     </>
   );
@@ -211,6 +218,9 @@ function StockLog({
 }) {
   const t = useTranslations("Flower");
   const [stockLog, setStockLog] = useState<LogItem[]>([]);
+  const [status, setStatus] = useState<"loading" | "ready" | "failed">(
+    "loading",
+  );
   const [loadingDownload, setLoadingDownload] = useState(false);
 
   // Function to fetch the stock log for the given flower variant.
@@ -224,8 +234,10 @@ function StockLog({
       }>(`/api/v1/admin/products/${flowerId}/variants/${variantId}/stock-log`);
 
       setStockLog(data.data.items);
+      setStatus("ready");
     } catch (error) {
       console.error("Failed to fetch stock log:", error);
+      setStatus("failed");
     }
   }, [flowerId, variantId]);
 
@@ -244,6 +256,7 @@ function StockLog({
       parseCsv(data, `stock-log-${flowerId}-${variantId}`);
     } catch (error) {
       console.error("Failed to download stock log:", error);
+      toast.error(t("StockLogFailed"));
     } finally {
       setLoadingDownload(false);
     }
@@ -285,12 +298,29 @@ function StockLog({
               </TableRow>
             </TableHeader>
             <TableBody>
+              {(status !== "ready" || stockLog.length === 0) && (
+                <TableRow className="hover:bg-transparent">
+                  <TableCell
+                    colSpan={4}
+                    className="px-3 py-4 text-center text-xs text-muted-foreground"
+                  >
+                    {status === "loading" ? (
+                      <Spinner className="mx-auto text-primary" />
+                    ) : status === "failed" ? (
+                      t("StockLogFailed")
+                    ) : (
+                      t("DetailsTable.NoStockLog")
+                    )}
+                  </TableCell>
+                </TableRow>
+              )}
+
               {stockLog.map((logItem) => (
                 <TableRow key={logItem.id} className="hover:bg-transparent">
-                  <TableCell className="px-x py-2 text-xs text-muted-foreground">
+                  <TableCell className="px-3 py-2 text-xs text-muted-foreground">
                     {formatDate(logItem.date)}
                   </TableCell>
-                  <TableCell className="px-x py-2">
+                  <TableCell className="px-3 py-2">
                     <Badge
                       className={cn(
                         `text-xs`,
@@ -304,13 +334,13 @@ function StockLog({
                   </TableCell>
                   <TableCell
                     className={cn(
-                      `px-x py-2 text-xs font-semibold text-muted-foreground`,
+                      `px-3 py-2 text-xs font-semibold text-muted-foreground`,
                       logItem.change < 0 && "text-red-500",
                     )}
                   >
                     {logItem.change}
                   </TableCell>
-                  <TableCell className="px-x py-2 text-xs font-semibold">
+                  <TableCell className="px-3 py-2 text-xs font-semibold">
                     {logItem.balance}
                   </TableCell>
                 </TableRow>
@@ -320,5 +350,28 @@ function StockLog({
         </div>
       </TableCell>
     </TableRow>
+  );
+}
+
+/**
+ * The primary photo, any photo if none is primary, or an empty box when there
+ * are no photos at all.
+ */
+function FlowerPhoto({ product, alt }: { product: Product; alt: string }) {
+  const images = product.images ?? [];
+  const url = (images.find((img) => img.is_primary) ?? images[0])?.url;
+
+  if (!url) {
+    return <div className="size-10 rounded-lg bg-muted" />;
+  }
+
+  return (
+    <Image
+      src={url}
+      alt={alt}
+      width={40}
+      height={40}
+      className="rounded-lg max-h-10"
+    />
   );
 }

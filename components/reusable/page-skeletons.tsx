@@ -393,3 +393,55 @@ export function TemplatesSkeleton({ columns }: { columns: number }) {
     </div>
   );
 }
+
+export function FlowersSkeleton() {
+  return (
+    <main className="space-y-6" aria-busy="true">
+      <ModuleHeaderSkeleton action />
+      <TableSkeleton columns={6} rows={10} />
+    </main>
+  );
+}
+
+export function ProductsSkeleton() {
+  return (
+    <main className="space-y-6" aria-busy="true">
+      <div className="flex gap-2 items-center">
+        <Skeleton className="h-11 w-28 rounded-lg" />
+        <Skeleton className="h-11 w-40 rounded-lg" />
+      </div>
+
+      {/* Search, category filter and the add button */}
+      <div className="flex items-center justify-between flex-wrap gap-4">
+        <div className="flex items-center gap-2">
+          <Skeleton className="h-10 w-56" />
+          <Skeleton className="h-10 w-48" />
+        </div>
+        <Skeleton className="h-10 w-36" />
+      </div>
+
+      <StatCardsSkeleton cards={4} className="md:grid-cols-2 lg:grid-cols-4" />
+      <TableSkeleton columns={8} rows={10} />
+    </main>
+  );
+}
+
+export function ProductGallerySkeleton() {
+  return (
+    <main
+      className="mx-auto w-full max-w-7xl space-y-6 p-4 md:p-6"
+      aria-busy="true"
+    >
+      <div className="flex items-center justify-between gap-4">
+        <Skeleton className="h-8 w-40" />
+        <Skeleton className="size-9" />
+      </div>
+
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+        {Array.from({ length: 6 }, (_, index) => (
+          <Skeleton key={index} className="aspect-square w-full rounded-xl" />
+        ))}
+      </div>
+    </main>
+  );
+}

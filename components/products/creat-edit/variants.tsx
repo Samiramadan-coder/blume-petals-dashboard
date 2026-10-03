@@ -19,6 +19,7 @@ import {
 
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 import { useState } from "react";
 import { Plus, X } from "lucide-react";
 import Input from "@/components/form/input";
@@ -161,9 +162,14 @@ export function VariantItem({
 
   const sellingPrice = Number(variant.price) || 0;
 
+  // const margin =
+  //   sellingPrice > 0
+  //     ? ((sellingPrice - estimatedCost) / sellingPrice) * 100
+  //     : 0;
+
   const margin =
-    sellingPrice > 0
-      ? ((sellingPrice - estimatedCost) / sellingPrice) * 100
+    estimatedCost > 0
+      ? ((sellingPrice - estimatedCost) / estimatedCost) * 100
       : 0;
 
   async function deleteVariant() {
@@ -171,7 +177,13 @@ export function VariantItem({
 
     try {
       if (variant.id && productId) {
-        await deleteVariantAction(productId, variant.id);
+        const result = await deleteVariantAction(productId, variant.id);
+
+        // Keep the size in the form when the server still has it
+        if (!result.success) {
+          toast.error(result.message ?? tLiveCommon("DeleteFailed"));
+          return;
+        }
       }
 
       const updatedVariants = getValues("variants").filter(
@@ -232,6 +244,7 @@ export function VariantItem({
         label={tLive("Fields.Price")}
         name={`variants.${index}.price`}
         type="number"
+        step="any"
         register={register}
         errors={errors}
         required
@@ -253,10 +266,11 @@ export function VariantItem({
           });
 
           if (variant.compare_at_price) {
-            const discount =
+            const discount = roundTo2(
               ((variant.compare_at_price - newPrice) /
                 variant.compare_at_price) *
-              100;
+                100,
+            );
 
             setValue(`variants.${index}.discount`, discount, {
               shouldDirty: true,
@@ -282,6 +296,7 @@ export function VariantItem({
         label={tLive("Fields.Discount")}
         name={`variants.${index}.discount`}
         type="number"
+        step="any"
         register={register}
         placeholder={tLive("Placeholders.Discount")}
         errors={errors}
@@ -292,7 +307,9 @@ export function VariantItem({
         onChange={(event) => {
           const newDiscount = parseFloat(event.target.value) || 0;
 
-          const newPrice = startPrice - (startPrice * newDiscount) / 100;
+          const newPrice = roundTo2(
+            startPrice - (startPrice * newDiscount) / 100,
+          );
 
           setValue(`variants.${index}.discount`, newDiscount, {
             shouldDirty: true,
@@ -361,6 +378,7 @@ export function VariantItem({
                       >
                         <SelectTrigger
                           ref={field.ref}
+                          aria-label={tLive("Placeholders.SelectFlower")}
                           onBlur={field.onBlur}
                           dir={dir}
                           className="h-10! w-full border-border bg-background"
@@ -463,7 +481,7 @@ export function VariantItem({
 
                 <div className="flex items-center justify-between gap-1">
                   <p className="text-xs text-muted-foreground">
-                    {itemCost} {tLiveCommon("AED")}
+                    {roundTo2(itemCost)} {tLiveCommon("AED")}
                   </p>
 
                   {recipeIndex > 0 && (
@@ -493,7 +511,7 @@ export function VariantItem({
                   </span>
 
                   <span className="text-xs font-semibold">
-                    {estimatedCost} {tLiveCommon("AED")}
+                    {roundTo2(estimatedCost)} {tLiveCommon("AED")}
                   </span>
                 </p>
 
@@ -527,6 +545,11 @@ export function VariantItem({
       )}
     </div>
   );
+}
+
+// Money and percentages are shown and stored with at most two decimals
+function roundTo2(value: number) {
+  return Math.round(value * 100) / 100;
 }
 
 function DeleteButton({ onClick }: { onClick: () => void }) {

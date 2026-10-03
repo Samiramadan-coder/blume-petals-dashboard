@@ -30,6 +30,7 @@ export default function StatusSelector({
                   onClick={() => field.onChange(status.value)}
                   type="button"
                   variant="outline"
+                  aria-pressed={selectedStatus === status.value}
                   key={status.value}
                 >
                   {status.label}

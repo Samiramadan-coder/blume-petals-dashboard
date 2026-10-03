@@ -55,16 +55,17 @@ export default function FiltersControl({
 
               void setFilters(
                 {
-                  query: value || null,
+                  query: value,
                   page: "1",
                 },
                 {
                   history: "replace",
-                  limitUrlUpdates: value === "" ? undefined : debounce(500),
+                  limitUrlUpdates: value === null ? undefined : debounce(500),
                 },
               );
             }}
             placeholder={t("Filters.SearchPlaceholder")}
+            aria-label={t("Filters.SearchPlaceholder")}
             className="min-w-50"
           />
           <InputGroupAddon align="inline-start">
@@ -79,7 +80,10 @@ export default function FiltersControl({
           void setFilters({ category: value, page: "1" });
         }}
       >
-        <SelectTrigger className="h-10 min-h-10 w-full max-w-48 bg-white px-3 py-2.5 leading-none">
+        <SelectTrigger
+          aria-label={t("Filters.AllCategories")}
+          className="h-10 min-h-10 w-full max-w-48 bg-white px-3 py-2.5 leading-none"
+        >
           <SelectValue placeholder={t("Filters.AllCategories")} />
         </SelectTrigger>
         <SelectContent>

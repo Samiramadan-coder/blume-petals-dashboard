@@ -20,7 +20,10 @@ export default function SetPrimaryImage({
 
       if (result.success) {
         toast.success(result.message);
+        return;
       }
+
+      toast.error(result.message ?? t("SetAsMainFailed"));
     } catch (err) {
       console.error("Error setting image as main:", err);
       toast.error(t("SetAsMainFailed"));

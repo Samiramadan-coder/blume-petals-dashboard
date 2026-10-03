@@ -20,7 +20,10 @@ export default function DeleteImage({
 
       if (result.success) {
         toast.success(result.message);
+        return;
       }
+
+      toast.error(result.message ?? tCommon("DeleteFailed"));
     } catch (err) {
       console.error("Error deleting image:", err);
       toast.error(tCommon("DeleteFailed"));
