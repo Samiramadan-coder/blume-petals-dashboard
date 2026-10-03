@@ -1,4 +1,4 @@
-"use server";
+// "use server";
 
 import { updateTag } from "next/cache";
 import { unstable_rethrow } from "next/navigation";
@@ -57,7 +57,7 @@ export async function postCategoryAction(
 
   // The category itself is saved at this point, so the list must refresh even
   // if an image upload below fails.
-  updateTag("categories");
+  // updateTag("categories");
 
   // Post Or Update Icon And Banner
   for (const kind of ["icon", "banner"] as const) {
