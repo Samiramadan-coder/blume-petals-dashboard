@@ -3,7 +3,7 @@
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { DropdownMenuItem } from "../ui/dropdown-menu";
-import { setAsMainImageAction } from "@/lib/products";
+import { setAsMainImageAction } from "@/lib/products-server";
 
 export default function SetPrimaryImage({
   imageId,

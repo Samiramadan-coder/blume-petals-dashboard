@@ -1,8 +1,4 @@
-// "use server";
-
 import { Product, ProductFormValues, Variant } from "@/types/products";
-// import { updateTag } from "next/cache";
-// import { unstable_rethrow } from "next/navigation";
 import { getErrorMessage, http, ValidationError } from "@/lib/http";
 
 // Post And Put Category Actions
@@ -42,7 +38,6 @@ export async function postProductAction(
 
     saved = data;
   } catch (err) {
-    // unstable_rethrow(err);
     console.error("Product create/update request failed", err);
     if (err instanceof ValidationError) {
       const errors = Object.fromEntries(
@@ -59,7 +54,6 @@ export async function postProductAction(
 
   // The product itself is saved at this point, so the list must refresh even
   // if an image or a size below fails.
-  // updateTag("products");
 
   const product = saved.data.product;
 
@@ -76,7 +70,6 @@ export async function postProductAction(
       );
     }
   } catch (err) {
-    // unstable_rethrow(err);
     console.error("Product image upload failed", err);
     return { success: false, message: getErrorMessage(err) };
   }
@@ -103,128 +96,7 @@ export async function postProductAction(
   return { success: true, message: saved.message };
 }
 
-// Update Visibility Action
-type UpdateProductStatusResult =
-  | { success: true; message: string }
-  | { success: false; message?: string };
-
-export async function updateProductStatusAction(
-  product: Product,
-): Promise<UpdateProductStatusResult> {
-  try {
-    const { data } = await http.patch<{ message: string }>(
-      `/api/v1/admin/products/${product.id}/status`,
-      {
-        status: product.status === "published" ? "draft" : "published",
-      },
-    );
-
-    // updateTag("products");
-    return { success: true, message: data.message };
-  } catch (err) {
-    // unstable_rethrow(err);
-    console.error("Error updating product status:", err);
-    return { success: false, message: getErrorMessage(err) };
-  }
-}
-
-// Delete Product Action
-type DeleteProductResult =
-  | { success: true; message: string }
-  | { success: false; message?: string };
-
-export async function deleteProductAction(
-  product: Product,
-): Promise<DeleteProductResult> {
-  try {
-    const { data } = await http.delete<{ message: string }>(
-      `/api/v1/admin/products/${product.id}`,
-    );
-    // updateTag("products");
-    return { success: true, message: data.message };
-  } catch (err) {
-    // unstable_rethrow(err);
-    console.error("Error deleting product:", err);
-    return { success: false, message: getErrorMessage(err) };
-  }
-}
-
-// Add Image Action
-type AddImageResult =
-  | { success: true; message: string }
-  | { success: false; message?: string };
-
-export async function addImageAction(
-  productId: number,
-  image: Blob,
-): Promise<AddImageResult> {
-  try {
-    const formData = new FormData();
-    formData.append("image", image);
-    formData.append("is_primary", "0");
-    const { data } = await http.post<{ message: string }>(
-      `/api/v1/admin/products/${productId}/images`,
-      formData,
-    );
-
-    // updateTag("products");
-    // updateTag(`product-${productId}`);
-    return { success: true, message: data.message };
-  } catch (err) {
-    // unstable_rethrow(err);
-    console.error("Error adding image:", err);
-    return { success: false, message: getErrorMessage(err) };
-  }
-}
-
-// Set As Main Image Action
-type SetAsMainImageResult =
-  | { success: true; message: string }
-  | { success: false; message?: string };
-
-export async function setAsMainImageAction(
-  productId: number,
-  imageId: number,
-): Promise<SetAsMainImageResult> {
-  try {
-    const { data } = await http.patch<{ message: string }>(
-      `/api/v1/admin/products/${productId}/images/${imageId}/primary`,
-    );
-
-    // updateTag("products");
-    // updateTag(`product-${productId}`);
-    return { success: true, message: data.message };
-  } catch (err) {
-    // unstable_rethrow(err);
-    console.error("Error setting image as main:", err);
-    return { success: false, message: getErrorMessage(err) };
-  }
-}
-
-// Delete Image Action
-type DeleteImageResult =
-  | { success: true; message: string }
-  | { success: false; message?: string };
-
-export async function deleteImageAction(
-  productId: number,
-  imageId: number,
-): Promise<DeleteImageResult> {
-  try {
-    const { data } = await http.delete<{ message: string }>(
-      `/api/v1/admin/products/${productId}/images/${imageId}`,
-    );
-    // updateTag("products");
-    // updateTag(`product-${productId}`);
-    return { success: true, message: data.message };
-  } catch (err) {
-    // unstable_rethrow(err);
-    console.error("Error deleting image:", err);
-    return { success: false, message: getErrorMessage(err) };
-  }
-}
-
-// Add Variant Action
+// // Add Variant Action
 type AddVariantResult = {
   success: boolean;
   message?: string;

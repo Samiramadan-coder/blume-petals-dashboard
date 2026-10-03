@@ -25,8 +25,11 @@ import { Product, Summary } from "@/types/products";
 import { useLocale, useTranslations } from "next-intl";
 import { usePermissions } from "@/providers/permission-providers";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import { deleteProductAction, updateProductStatusAction } from "@/lib/products";
 import Image from "next/image";
+import {
+  deleteProductAction,
+  updateProductStatusAction,
+} from "@/lib/products-server";
 
 export default function DataPreview({
   products,
