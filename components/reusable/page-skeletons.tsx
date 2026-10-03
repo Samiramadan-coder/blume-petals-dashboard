@@ -445,3 +445,80 @@ export function ProductGallerySkeleton() {
     </main>
   );
 }
+
+/**
+ * Placeholder for a chart or list card of a given height.
+ */
+function PanelSkeleton({ className }: { className?: string }) {
+  return (
+    <div
+      className={cn(
+        "space-y-4 rounded-xl border border-primary/30 bg-white p-4",
+        className,
+      )}
+    >
+      <Skeleton className="h-4 w-40" />
+      <Skeleton className="h-full min-h-40 w-full" />
+    </div>
+  );
+}
+
+export function HomeSkeleton() {
+  return (
+    <main
+      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"
+      aria-busy="true"
+    >
+      {Array.from({ length: 4 }, (_, index) => (
+        <div
+          key={index}
+          className="space-y-4 rounded-xl border border-primary/30 bg-white p-4"
+        >
+          <div className="flex items-center justify-between gap-4">
+            <div className="space-y-2">
+              <Skeleton className="h-3 w-28" />
+              <Skeleton className="h-7 w-24" />
+            </div>
+            <Skeleton className="size-9 shrink-0" />
+          </div>
+          <Skeleton className="h-4 w-32" />
+        </div>
+      ))}
+
+      <PanelSkeleton className="h-80 md:col-span-2 lg:col-span-3" />
+      <PanelSkeleton className="h-80 md:col-span-2 lg:col-span-1" />
+      <PanelSkeleton className="h-72 md:col-span-2 lg:col-span-3" />
+      <PanelSkeleton className="h-72 md:col-span-2 lg:col-span-1" />
+      <PanelSkeleton className="h-56 md:col-span-2 lg:col-span-4" />
+    </main>
+  );
+}
+
+/**
+ * Shared by the four report tabs. The tabs and filters stay on screen, only
+ * the report body is replaced.
+ */
+export function ReportsSkeleton() {
+  return (
+    <div
+      className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4"
+      aria-busy="true"
+    >
+      {Array.from({ length: 4 }, (_, index) => (
+        <div
+          key={index}
+          className="space-y-3 rounded-xl border border-primary/30 bg-white p-4"
+        >
+          <Skeleton className="h-3 w-28" />
+          <Skeleton className="h-7 w-24" />
+          <Skeleton className="h-4 w-32" />
+        </div>
+      ))}
+
+      <PanelSkeleton className="h-80 sm:col-span-2 md:col-span-4" />
+      <PanelSkeleton className="h-80 sm:col-span-2" />
+      <PanelSkeleton className="h-80 sm:col-span-2" />
+      <PanelSkeleton className="h-64 sm:col-span-2 md:col-span-4" />
+    </div>
+  );
+}

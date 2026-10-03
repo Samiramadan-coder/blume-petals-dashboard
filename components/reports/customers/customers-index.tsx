@@ -52,23 +52,25 @@ export default async function CustomersIndex({
       <CustomerTotals totals={data.data.totals} />
 
       <div className="sm:col-span-2 md:col-span-4">
-        <CustomerGrowth customerGrowths={data.data.growth} />
+        <CustomerGrowth customerGrowths={data.data.growth ?? []} />
       </div>
 
       <div className="sm:col-span-2">
-        <NewVsReturningCustomers newVsReturning={data.data.new_vs_returning} />
+        <NewVsReturningCustomers
+          newVsReturning={data.data.new_vs_returning ?? []}
+        />
       </div>
 
       <div className="sm:col-span-2">
-        <CustomersByEmirate customersByEmirate={data.data.by_emirate} />
+        <CustomersByEmirate customersByEmirate={data.data.by_emirate ?? []} />
       </div>
 
       <div className="sm:col-span-2">
-        <TopCustomers customers={data.data.top} />
+        <TopCustomers customers={data.data.top ?? []} />
       </div>
 
       <div className="sm:col-span-2">
-        <NewCustomerAcquisitionChannel byChannel={data.data.by_channel} />
+        <NewCustomerAcquisitionChannel byChannel={data.data.by_channel ?? []} />
       </div>
     </div>
   );

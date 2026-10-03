@@ -55,29 +55,29 @@ export default async function SalesRevenueIndex({
       <Totals totals={data.data.totals} />
 
       <div className="sm:col-span-2 md:col-span-4">
-        <RevenueOverTime revenueOverTime={data.data.revenue_series} />
+        <RevenueOverTime revenueOverTime={data.data.revenue_series ?? []} />
       </div>
 
       <div className="sm:col-span-2">
-        <RevenueByChannel revenueByChannel={data.data.by_channel} />
+        <RevenueByChannel revenueByChannel={data.data.by_channel ?? []} />
       </div>
 
       <div className="sm:col-span-2">
-        <RevenueByCategory revenueByCategory={data.data.by_category} />
+        <RevenueByCategory revenueByCategory={data.data.by_category ?? []} />
       </div>
 
       <div className="sm:col-span-2 md:col-span-4">
-        <RevenueTopProducts topProducts={data.data.top_products} />
+        <RevenueTopProducts topProducts={data.data.top_products ?? []} />
       </div>
 
       <div className="sm:col-span-2 md:col-span-4">
         <RevenueByDeliveryMethod
-          revenueByFulfillment={data.data.by_fulfillment}
+          revenueByFulfillment={data.data.by_fulfillment ?? []}
         />
       </div>
 
       <div className="sm:col-span-2 md:col-span-4">
-        <RevenueByEmirate revenueByEmirate={data.data.by_emirate} />
+        <RevenueByEmirate revenueByEmirate={data.data.by_emirate ?? []} />
       </div>
     </div>
   );

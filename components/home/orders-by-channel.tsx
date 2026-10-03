@@ -33,37 +33,35 @@ export default function OrdersByChannel({
   ordersByChannel: OrdersByChannelType;
 }) {
   const t = useTranslations("Dashboard");
+  const tOrders = useTranslations("Orders");
+  const channels = ordersByChannel?.channels ?? [];
 
   const data: DonutChartItem[] = [
     {
-      label: "Mobile App",
-      value: Number(
-        ordersByChannel.channels.find((c) => c.channel === "mobile_app")
-          ?.percent ?? 0,
-      ),
+      label: tOrders("MobileApp"),
+      value:
+        Number(channels.find((c) => c.channel === "mobile_app")?.percent) || 0,
       color: "#cbb682",
       icon: <Smartphone size={12} />,
     },
     {
-      label: "Website",
-      value: Number(
-        ordersByChannel.channels.find((c) => c.channel === "website")
-          ?.percent ?? 0,
-      ),
+      label: tOrders("Website"),
+      value:
+        Number(channels.find((c) => c.channel === "website")?.percent) || 0,
       color: "#7f967b",
       icon: <Globe size={12} />,
     },
   ];
 
   return (
-    <Card className="ring-0! border border-primary/30">
+    <Card className="h-full ring-0! border border-primary/30">
       <CardContent>
         <div>
           <p className="uppercase text-muted-foreground text-sm">
             {t("OrdersByChannel")}
           </p>
           <p className="font-semibold text-foreground">
-            {ordersByChannel.total}
+            {ordersByChannel?.total ?? 0}
           </p>
           <p className="text-xs text-muted-foreground">{t("ThisMonth")}</p>
         </div>

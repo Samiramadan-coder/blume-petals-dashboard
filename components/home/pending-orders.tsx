@@ -8,11 +8,12 @@ import { LoaderCircle, TrendingDown, TrendingUp } from "lucide-react";
 export default async function PendingOrders({ today }: { today: Today }) {
   const t = await getTranslations("Dashboard");
 
-  const percentageChange = today.processing_change
-    ? ((today.processing_change - today.processing_orders_yesterday) /
-        today.processing_orders_yesterday) *
-      100
-    : 0;
+  const percentageChange =
+    today.processing_change && today.processing_orders_yesterday
+      ? ((today.processing_change - today.processing_orders_yesterday) /
+          today.processing_orders_yesterday) *
+        100
+      : 0;
 
   return (
     <Card className="h-full ring-0! border border-primary/30">
@@ -31,11 +32,11 @@ export default async function PendingOrders({ today }: { today: Today }) {
           </div>
         </header>
 
-        <div className="flex items-center gap-2 mt-1">
+        <div className="flex flex-wrap items-center gap-x-2 mt-1">
           <span>
             {t("Today")}:{" "}
             <span className="font-semibold text-primary">
-              {today.processing_change}
+              {today.processing_change ?? 0}
             </span>
           </span>
           <span>
@@ -59,7 +60,7 @@ export default async function PendingOrders({ today }: { today: Today }) {
               ) : (
                 <TrendingDown className="size-4" />
               )}{" "}
-              {percentageChange.toFixed(2)}%{t("VsYesterday")}
+              {percentageChange.toFixed(2)}% {t("VsYesterday")}
             </p>
             <TrendLineIcon color="var(--primary)" />
           </section>

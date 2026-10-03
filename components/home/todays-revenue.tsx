@@ -26,26 +26,26 @@ export default async function TodaysRevenue({ today }: { today: Today }) {
           </div>
         </header>
 
-        {today.revenue_change_pct && +today.revenue_change_pct !== 0 && (
+        {Number(today.revenue_change_pct) ? (
           <section className="flex items-center justify-between gap-4 mt-5">
             <p
               className={cn(
                 "flex items-center gap-1 text-xs font-medium",
-                +today.revenue_change_pct > 0
+                Number(today.revenue_change_pct) > 0
                   ? "text-green-500"
                   : "text-red-500",
               )}
             >
-              {+today.revenue_change_pct > 0 ? (
+              {Number(today.revenue_change_pct) > 0 ? (
                 <TrendingUp className="size-4" />
               ) : (
                 <TrendingDown className="size-4" />
               )}{" "}
-              {today.revenue_change_pct}%{t("VsYesterday")}
+              {today.revenue_change_pct}% {t("VsYesterday")}
             </p>
             <TrendLineIcon color="var(--primary)" />
           </section>
-        )}
+        ) : null}
       </CardContent>
     </Card>
   );

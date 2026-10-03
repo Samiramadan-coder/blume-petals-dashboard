@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { ArrowUpDown } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { TopProduct } from "@/types/reports";
@@ -106,11 +106,14 @@ export default function RevenueTopProducts({
                       avatarClasses[index % avatarClasses.length]
                     }`}
                   >
-                    {product[`name_${locale}`].slice(0, 2)}
+                    {(product[`name_${locale}`] || product.name_en || "").slice(
+                      0,
+                      2,
+                    )}
                   </div>
 
                   <span className="text-sm font-medium text-foreground">
-                    {product[`name_${locale}`]}
+                    {product[`name_${locale}`] || product.name_en}
                   </span>
                 </div>
               </TableCell>

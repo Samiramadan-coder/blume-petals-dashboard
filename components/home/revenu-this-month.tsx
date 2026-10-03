@@ -13,6 +13,7 @@ import { Badge } from "../ui/badge";
 import { useTranslations } from "next-intl";
 import { Card, CardContent } from "../ui/card";
 import { RevenueSerie } from "@/types/dashboard";
+import { formatCompactNumber, getSpreadTicks } from "@/lib/utils";
 
 export default function RevenueThisMonth({
   revenueThisMonth = [],
@@ -29,7 +30,7 @@ export default function RevenueThisMonth({
   return (
     <Card className="h-full ring-0! border border-primary/30">
       <CardContent>
-        <div className="mb-4 flex items-start justify-between">
+        <div className="mb-4 flex items-start justify-between gap-2">
           <div>
             <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
               {t("RevenueThisMonth")}
@@ -40,7 +41,7 @@ export default function RevenueThisMonth({
             </h3>
           </div>
 
-          <Badge className="text-primary bg-primary/10 h-7 w-25">
+          <Badge className="text-primary bg-primary/10 h-7 shrink-0">
             {t("Last30Days")}
           </Badge>
         </div>
@@ -52,13 +53,13 @@ export default function RevenueThisMonth({
               margin={{
                 top: 4,
                 right: 4,
-                left: -18,
+                left: 0,
                 bottom: 0,
               }}
             >
               <defs>
                 <linearGradient
-                  id="revenueGradient"
+                  id="homeRevenueGradient"
                   x1="0"
                   y1="0"
                   x2="0"
@@ -77,17 +78,9 @@ export default function RevenueThisMonth({
 
               <XAxis
                 dataKey="date"
-                ticks={[
-                  revenueThisMonth[2]?.date,
-                  revenueThisMonth[Math.floor(revenueThisMonth.length / 4)]
-                    ?.date,
-                  revenueThisMonth[Math.floor(revenueThisMonth.length / 2)]
-                    ?.date,
-                  revenueThisMonth[
-                    Math.floor((3 * revenueThisMonth.length) / 4)
-                  ]?.date,
-                  revenueThisMonth[revenueThisMonth.length - 1]?.date,
-                ]}
+                ticks={getSpreadTicks(
+                  revenueThisMonth.map((item) => item.date),
+                )}
                 axisLine={false}
                 tickLine={false}
                 tickMargin={10}
@@ -98,12 +91,12 @@ export default function RevenueThisMonth({
               />
 
               <YAxis
-                domain={[0, 6000]}
-                ticks={[0, 2000, 3000, 4000, 5000, 6000]}
+                domain={[0, "auto"]}
+                width={48}
                 axisLine={false}
                 tickLine={false}
                 tickMargin={8}
-                tickFormatter={(value) => `${Number(value) / 1000}k`}
+                tickFormatter={(value) => formatCompactNumber(Number(value))}
                 tick={{
                   fontSize: 11,
                   fill: "#7f746d",
@@ -123,8 +116,8 @@ export default function RevenueThisMonth({
                   fontSize: 12,
                 }}
                 formatter={(value) => [
-                  `AED ${Number(value).toLocaleString()}`,
-                  "Revenue",
+                  `${tCommon("AED")} ${Number(value).toLocaleString()}`,
+                  t("Revenue"),
                 ]}
                 labelStyle={{
                   color: "#111",
@@ -137,7 +130,7 @@ export default function RevenueThisMonth({
                 dataKey="revenue"
                 stroke="#cbb682"
                 strokeWidth={2}
-                fill="url(#revenueGradient)"
+                fill="url(#homeRevenueGradient)"
                 fillOpacity={1}
                 dot={false}
                 activeDot={{

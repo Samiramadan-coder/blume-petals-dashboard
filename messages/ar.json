@@ -1067,6 +1067,8 @@
     }
   },
   "Dashboard": {
+    "Revenue": "الإيرادات",
+    "NoLowStock": "كل الأصناف متوفرة.",
     "TodaysRevenue": "إيرادات اليوم",
     "VsYesterday": "مقابل الأمس",
     "OrdersToday": "الطلبات اليوم",
@@ -1096,6 +1098,7 @@
     "Analytics": "تحليلات منشئ القوالب المخصصة",
     "Customers": "العملاء",
     "Filters": {
+      "ClearDates": "مسح نطاق التاريخ",
       "Today": "اليوم",
       "Last7Days": "آخر 7 أيام",
       "Last30Days": "آخر 30 يومًا",

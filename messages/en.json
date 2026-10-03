@@ -1061,6 +1061,8 @@
     }
   },
   "Dashboard": {
+    "Revenue": "Revenue",
+    "NoLowStock": "Everything is in stock.",
     "TodaysRevenue": "Today's Revenue",
     "VsYesterday": "vs yesterday",
     "OrdersToday": "Orders Today",
@@ -1090,6 +1092,7 @@
     "Analytics": "Custom Builder Analytics",
     "Customers": "Customers",
     "Filters": {
+      "ClearDates": "Clear date range",
       "Today": "Today",
       "Last7Days": "Last 7 Days",
       "Last30Days": "Last 30 Days",

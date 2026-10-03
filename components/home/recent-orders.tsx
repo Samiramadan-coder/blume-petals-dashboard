@@ -13,7 +13,7 @@ import { Link } from "@/i18n/navigation";
 import { Order } from "@/types/dashboard";
 import { Card, CardContent } from "../ui/card";
 import { getTranslations } from "next-intl/server";
-import { statusColorClasses } from "@/constants/orders";
+import { orderStatuses, statusColorClasses } from "@/constants/orders";
 import { ArrowRight, TabletSmartphone, GlobeCheck } from "lucide-react";
 
 export default async function RecentOrders({
@@ -24,6 +24,7 @@ export default async function RecentOrders({
   const t = await getTranslations("Dashboard");
   const tCommon = await getTranslations("Common");
   const tOrders = await getTranslations("Orders");
+  const statuses = orderStatuses((key) => tOrders(key as never));
 
   return (
     <Card className="p-0 h-full ring-0! border border-primary/30">
@@ -33,15 +34,16 @@ export default async function RecentOrders({
             {t("RecentOrders")}
           </p>
 
-          <Link href="/orders">
-            <Button
-              variant="ghost"
-              className="text-xs hover:bg-transparent hover:text-primary text-primary"
-            >
+          <Button
+            asChild
+            variant="ghost"
+            className="text-xs hover:bg-transparent hover:text-primary text-primary"
+          >
+            <Link href="/orders">
               {t("ViewAll")}
-              <ArrowRight />
-            </Button>
-          </Link>
+              <ArrowRight className="rtl:rotate-180" />
+            </Link>
+          </Button>
         </div>
 
         <Table>
@@ -69,14 +71,25 @@ export default async function RecentOrders({
           </TableHeader>
 
           <TableBody>
-            {recentOrders.map((order, index) => (
-              <TableRow key={index} className="border-primary/30">
+            {recentOrders.length === 0 && (
+              <TableRow className="border-primary/30">
+                <TableCell
+                  colSpan={6}
+                  className="py-8 text-center text-sm text-muted-foreground"
+                >
+                  {tOrders("NoOrders")}
+                </TableCell>
+              </TableRow>
+            )}
+
+            {recentOrders.map((order) => (
+              <TableRow key={order.id} className="border-primary/30">
                 <TableCell className="py-4 ps-6 text-xs">
                   {order.order_number}
                 </TableCell>
                 <TableCell className="text-sm">{order.customer}</TableCell>
                 <TableCell className="text-xs text-muted-foreground">
-                  {order.items.map((item, idx) => (
+                  {(order.items ?? []).map((item, idx) => (
                     <p key={idx}>
                       {item.name} × {item.qty}
                     </p>
@@ -92,7 +105,8 @@ export default async function RecentOrders({
                       statusColorClasses[order.status],
                     )}
                   >
-                    {order.status}
+                    {statuses.find((status) => status.value === order.status)
+                      ?.label ?? order.status}
                   </Badge>
                 </TableCell>
                 <TableCell className="text-sm">

@@ -63,7 +63,7 @@ export default function DataPreview({ settings }: { settings: Settings }) {
       <ModuleHeader title={t("Title")} description={t("Description")} />
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="max-w-xl mb-6">
+        <div className="mb-6">
           <LocaleFormSwitcher
             locale={activeLocale}
             onChange={(locale) => {

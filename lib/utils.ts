@@ -145,3 +145,31 @@ export function parseCsv(csvString: string, name: string) {
   document.body.removeChild(link);
   URL.revokeObjectURL(url);
 }
+
+/**
+ * Pick up to five evenly spread labels for a chart's X axis.
+ * Short series would otherwise produce missing or repeated ticks.
+ */
+export function getSpreadTicks(labels: string[]): string[] {
+  if (labels.length <= 5) return [...new Set(labels)];
+
+  const last = labels.length - 1;
+  const picked = [0, 0.25, 0.5, 0.75, 1].map(
+    (ratio) => labels[Math.round(last * ratio)],
+  );
+
+  return [...new Set(picked)];
+}
+
+/**
+ * Short axis label for a money or count value: 950, 1.2k, 3.4M.
+ */
+export function formatCompactNumber(value: number): string {
+  const abs = Math.abs(value);
+  const trim = (n: number) => String(Math.round(n * 10) / 10);
+
+  if (abs >= 1_000_000) return `${trim(value / 1_000_000)}M`;
+  if (abs >= 1_000) return `${trim(value / 1_000)}k`;
+
+  return trim(value);
+}

@@ -50,7 +50,7 @@ export default async function CustomBuilderAnalyticsIndex({
   });
 
   if (!ok) {
-    throw new Error("Failed to fetch customer stats data");
+    throw new Error("Failed to fetch custom builder analytics data");
   }
 
   return (
@@ -58,19 +58,19 @@ export default async function CustomBuilderAnalyticsIndex({
       <AnalyticsCards funnel={data.data.funnel} />
 
       <div className="sm:col-span-2">
-        <MostChosenTemplate templates={data.data.templates} />
+        <MostChosenTemplate templates={data.data.templates ?? []} />
       </div>
 
       <div className="sm:col-span-2">
-        <MostChosenSize sizes={data.data.sizes} />
+        <MostChosenSize sizes={data.data.sizes ?? []} />
       </div>
 
       <div className="sm:col-span-2">
-        <MostChosenFlowers flowers={data.data.flowers.items} />
+        <MostChosenFlowers flowers={data.data.flowers?.items ?? []} />
       </div>
 
       <div className="sm:col-span-2">
-        <MostChosenColors colors={data.data.colors} />
+        <MostChosenColors colors={data.data.colors ?? []} />
       </div>
 
       <div className="sm:col-span-2 md:col-span-4">

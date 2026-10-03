@@ -25,14 +25,20 @@ export default async function LockStock({
             </p>
           </div>
 
-          <Badge variant="destructive" className="h-7 w-15">
+          <Badge variant="destructive" className="h-7 shrink-0">
             {lowStock.length} {t("Items")}
           </Badge>
         </div>
 
+        {lowStock.length === 0 && (
+          <p className="p-6 text-center text-sm text-muted-foreground">
+            {t("NoLowStock")}
+          </p>
+        )}
+
         {lowStock.map((stock, index) => (
           <div
-            key={index}
+            key={stock.variant_id ?? index}
             className={cn("flex items-center justify-between gap-4 p-4", {
               "border-b border-border": index !== lowStock.length - 1,
             })}
@@ -53,20 +59,24 @@ export default async function LockStock({
             </div>
 
             <div className="flex items-center gap-2">
-              <Link href={`/flowers?q=${stock.name}`}>
-                <Button
-                  variant="outline"
-                  className="text-[#8a6f2a] bg-primary/10 text-xs font-semibold"
-                >
+              <Button
+                asChild
+                variant="outline"
+                className="text-[#8a6f2a] bg-primary/10 text-xs font-semibold"
+              >
+                <Link href={`/flowers?q=${encodeURIComponent(stock.name)}`}>
                   <RotateCcw /> {t("Restock")}
-                </Button>
-              </Link>
+                </Link>
+              </Button>
 
               <p
-                className={cn("text-sm font-semibold tabular-nums", {
-                  "text-red-400": stock.left <= stock.threshold,
-                  "text-primary": stock.left > stock.threshold,
-                })}
+                className={cn(
+                  "text-sm font-semibold tabular-nums whitespace-nowrap",
+                  {
+                    "text-red-400": stock.left <= stock.threshold,
+                    "text-primary": stock.left > stock.threshold,
+                  },
+                )}
               >
                 {stock.left} {t("Left")}
               </p>

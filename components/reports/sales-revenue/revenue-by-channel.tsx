@@ -21,6 +21,10 @@ type DonutChartItem = {
   percent: number;
 };
 
+function formatMoney(value: number) {
+  return value.toLocaleString(undefined, { maximumFractionDigits: 2 });
+}
+
 function DonutSlice(props: PieSectorShapeProps) {
   const item = props.payload as DonutChartItem;
 
@@ -36,6 +40,7 @@ export default function RevenueByChannel({
 }) {
   const t = useTranslations("Reports.SalesRevenue");
   const tCommon = useTranslations("Common");
+  const tOrders = useTranslations("Orders");
 
   const totalRevenue = revenueByChannel.reduce(
     (sum, channel) => sum + Number(channel.revenue),
@@ -44,7 +49,7 @@ export default function RevenueByChannel({
 
   const data: DonutChartItem[] = [
     {
-      label: "Mobile App",
+      label: tOrders("MobileApp"),
       value: Number(
         revenueByChannel.find((c) => c.channel === "mobile_app")?.revenue ?? 0,
       ),
@@ -56,7 +61,7 @@ export default function RevenueByChannel({
       ),
     },
     {
-      label: "Website",
+      label: tOrders("Website"),
       value: Number(
         revenueByChannel.find((c) => c.channel === "website")?.revenue ?? 0,
       ),
@@ -69,7 +74,7 @@ export default function RevenueByChannel({
   ];
 
   return (
-    <Card className="ring-0! border border-primary/30">
+    <Card className="h-full ring-0! border border-primary/30">
       <CardContent>
         <div>
           <p className="uppercase text-muted-foreground text-sm">
@@ -77,7 +82,7 @@ export default function RevenueByChannel({
           </p>
 
           <p className="font-semibold text-foreground">
-            {tCommon("AED")} {totalRevenue}
+            {tCommon("AED")} {formatMoney(totalRevenue)}
           </p>
         </div>
 
@@ -159,7 +164,7 @@ export default function RevenueByChannel({
               </p>
 
               <p className="text-base font-semibold text-foreground tabular-nums">
-                {totalRevenue}
+                {formatMoney(totalRevenue)}
               </p>
             </div>
           </div>
@@ -184,7 +189,7 @@ export default function RevenueByChannel({
               </div>
 
               <span className="text-xs font-semibold">
-                {tCommon("AED")} {item.value}{" "}
+                {tCommon("AED")} {formatMoney(item.value)}{" "}
                 <span className="text-muted-foreground">{item.percent}%</span>
               </span>
             </div>

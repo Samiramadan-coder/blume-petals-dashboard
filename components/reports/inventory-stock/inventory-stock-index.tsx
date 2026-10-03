@@ -46,7 +46,7 @@ export default async function InventoryStockIndex({
       <InventoryStatsCards totals={data.data.totals} />
 
       <div className="sm:col-span-2 md:col-span-4">
-        <StockLevels levels={data.data.levels} />
+        <StockLevels levels={data.data.levels ?? []} />
       </div>
 
       <div className="sm:col-span-2 md:col-span-4">
@@ -54,7 +54,9 @@ export default async function InventoryStockIndex({
       </div>
 
       <div className="sm:col-span-2 md:col-span-4">
-        <FastestMovingItems fastestMoving={data.data.fastest_moving.items} />
+        <FastestMovingItems
+          fastestMoving={data.data.fastest_moving?.items ?? []}
+        />
       </div>
     </div>
   );

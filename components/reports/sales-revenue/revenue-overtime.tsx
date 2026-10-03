@@ -12,6 +12,7 @@ import {
 import { useTranslations } from "next-intl";
 import { Card, CardContent } from "@/components/ui/card";
 import { RevenueOverTimeSerie } from "@/types/reports";
+import { formatCompactNumber, getSpreadTicks } from "@/lib/utils";
 
 export default function RevenueOverTime({
   revenueOverTime = [],
@@ -46,13 +47,13 @@ export default function RevenueOverTime({
               margin={{
                 top: 4,
                 right: 4,
-                left: -18,
+                left: 0,
                 bottom: 0,
               }}
             >
               <defs>
                 <linearGradient
-                  id="revenueGradient"
+                  id="reportRevenueGradient"
                   x1="0"
                   y1="0"
                   x2="0"
@@ -71,14 +72,7 @@ export default function RevenueOverTime({
 
               <XAxis
                 dataKey="date"
-                ticks={[
-                  revenueOverTime[2]?.date,
-                  revenueOverTime[Math.floor(revenueOverTime.length / 4)]?.date,
-                  revenueOverTime[Math.floor(revenueOverTime.length / 2)]?.date,
-                  revenueOverTime[Math.floor((3 * revenueOverTime.length) / 4)]
-                    ?.date,
-                  revenueOverTime[revenueOverTime.length - 1]?.date,
-                ]}
+                ticks={getSpreadTicks(revenueOverTime.map((item) => item.date))}
                 axisLine={false}
                 tickLine={false}
                 tickMargin={10}
@@ -89,12 +83,12 @@ export default function RevenueOverTime({
               />
 
               <YAxis
-                domain={[0, 6000]}
-                ticks={[0, 2000, 3000, 4000, 5000, 6000]}
+                domain={[0, "auto"]}
+                width={48}
                 axisLine={false}
                 tickLine={false}
                 tickMargin={8}
-                tickFormatter={(value) => `${Number(value) / 1000}k`}
+                tickFormatter={(value) => formatCompactNumber(Number(value))}
                 tick={{
                   fontSize: 11,
                   fill: "#7f746d",
@@ -114,8 +108,8 @@ export default function RevenueOverTime({
                   fontSize: 12,
                 }}
                 formatter={(value) => [
-                  `AED ${Number(value).toLocaleString()}`,
-                  "Revenue",
+                  `${tCommon("AED")} ${Number(value).toLocaleString()}`,
+                  t("Revenue"),
                 ]}
                 labelStyle={{
                   color: "#111",
@@ -128,7 +122,7 @@ export default function RevenueOverTime({
                 dataKey="revenue"
                 stroke="#cbb682"
                 strokeWidth={2}
-                fill="url(#revenueGradient)"
+                fill="url(#reportRevenueGradient)"
                 fillOpacity={1}
                 dot={false}
                 activeDot={{

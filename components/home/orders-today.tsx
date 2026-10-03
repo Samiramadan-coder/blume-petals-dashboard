@@ -37,7 +37,7 @@ export default async function OrdersToday({ today }: { today: Today }) {
               ) : (
                 <TrendingDown className="size-4" />
               )}{" "}
-              {today.orders_change}%{t("VsYesterday")}
+              {today.orders_change}% {t("VsYesterday")}
             </p>
             <TrendLineIcon color="var(--primary)" />
           </section>

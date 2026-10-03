@@ -75,7 +75,7 @@ export default function TopCustomers({
                         avatarStyles[index % avatarStyles.length],
                       )}
                     >
-                      {customer.name.slice(0, 2).toUpperCase()}
+                      {(customer.name || "—").slice(0, 2).toUpperCase()}
                     </div>
                     <div className="min-w-0">
                       <p className="truncate text-sm font-medium text-foreground">

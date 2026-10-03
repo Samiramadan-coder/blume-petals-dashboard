@@ -11,6 +11,7 @@ import {
 } from "recharts";
 import { useTranslations } from "next-intl";
 import { CustomerGrowthSerie } from "@/types/reports";
+import { formatCompactNumber, getSpreadTicks } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 
 export default function CustomerGrowth({
@@ -38,13 +39,13 @@ export default function CustomerGrowth({
               margin={{
                 top: 4,
                 right: 4,
-                left: -18,
+                left: 0,
                 bottom: 0,
               }}
             >
               <defs>
                 <linearGradient
-                  id="revenueGradient"
+                  id="customerGrowthGradient"
                   x1="0"
                   y1="0"
                   x2="0"
@@ -63,14 +64,7 @@ export default function CustomerGrowth({
 
               <XAxis
                 dataKey="date"
-                ticks={[
-                  customerGrowths[2]?.date,
-                  customerGrowths[Math.floor(customerGrowths.length / 4)]?.date,
-                  customerGrowths[Math.floor(customerGrowths.length / 2)]?.date,
-                  customerGrowths[Math.floor((3 * customerGrowths.length) / 4)]
-                    ?.date,
-                  customerGrowths[customerGrowths.length - 1]?.date,
-                ]}
+                ticks={getSpreadTicks(customerGrowths.map((item) => item.date))}
                 axisLine={false}
                 tickLine={false}
                 tickMargin={10}
@@ -81,12 +75,13 @@ export default function CustomerGrowth({
               />
 
               <YAxis
-                domain={[0, 6000]}
-                ticks={[0, 2000, 3000, 4000, 5000, 6000]}
+                domain={[0, "auto"]}
+                allowDecimals={false}
+                width={48}
                 axisLine={false}
                 tickLine={false}
                 tickMargin={8}
-                tickFormatter={(value) => `${Number(value) / 1000}k`}
+                tickFormatter={(value) => formatCompactNumber(Number(value))}
                 tick={{
                   fontSize: 11,
                   fill: "#7f746d",
@@ -107,7 +102,7 @@ export default function CustomerGrowth({
                 }}
                 formatter={(value) => [
                   `${Number(value).toLocaleString()}`,
-                  "New Customers",
+                  t("NewCustomers"),
                 ]}
                 labelStyle={{
                   color: "#111",
@@ -120,7 +115,7 @@ export default function CustomerGrowth({
                 dataKey="new_customers"
                 stroke="#cbb682"
                 strokeWidth={2}
-                fill="url(#revenueGradient)"
+                fill="url(#customerGrowthGradient)"
                 fillOpacity={1}
                 dot={false}
                 activeDot={{

@@ -34,22 +34,22 @@ export default async function Totals({ totals }: { totals: TotalType }) {
             </div>
           </header>
 
-          {totals.revenue_change_pct && +totals.revenue_change_pct !== 0 && (
+          {Boolean(Number(totals.revenue_change_pct)) && (
             <section className="flex items-center justify-between gap-4 mt-5">
               <p
                 className={cn(
                   "flex items-center gap-1 text-xs font-medium",
-                  +totals.revenue_change_pct > 0
+                  Number(totals.revenue_change_pct) > 0
                     ? "text-green-500"
                     : "text-red-500",
                 )}
               >
-                {+totals.revenue_change_pct > 0 ? (
+                {Number(totals.revenue_change_pct) > 0 ? (
                   <TrendingUp className="size-4" />
                 ) : (
                   <TrendingDown className="size-4" />
                 )}{" "}
-                {totals.revenue_change_pct}%{t("VsPrevPeriod")}
+                {totals.revenue_change_pct}% {t("VsPrevPeriod")}
               </p>
               <TrendLineIcon color="var(--primary)" />
             </section>
@@ -75,22 +75,22 @@ export default async function Totals({ totals }: { totals: TotalType }) {
             </div>
           </header>
 
-          {totals.orders_change_pct && +totals.orders_change_pct !== 0 && (
+          {Boolean(Number(totals.orders_change_pct)) && (
             <section className="flex items-center justify-between gap-4 mt-5">
               <p
                 className={cn(
                   "flex items-center gap-1 text-xs font-medium",
-                  +totals.orders_change_pct > 0
+                  Number(totals.orders_change_pct) > 0
                     ? "text-green-500"
                     : "text-red-500",
                 )}
               >
-                {+totals.orders_change_pct > 0 ? (
+                {Number(totals.orders_change_pct) > 0 ? (
                   <TrendingUp className="size-4" />
                 ) : (
                   <TrendingDown className="size-4" />
                 )}{" "}
-                {+totals.orders_change_pct > 0 && "+"}
+                {Number(totals.orders_change_pct) > 0 && "+"}
                 {totals.orders_change_pct}% {t("VsPrevPeriod")}
               </p>
 
@@ -119,28 +119,27 @@ export default async function Totals({ totals }: { totals: TotalType }) {
             </div>
           </header>
 
-          {totals.average_order_change_pct &&
-            +totals.average_order_change_pct !== 0 && (
-              <section className="flex items-center justify-between gap-4 mt-5">
-                <p
-                  className={cn(
-                    "flex items-center gap-1 text-xs font-medium",
-                    +totals.average_order_change_pct > 0
-                      ? "text-green-500"
-                      : "text-red-500",
-                  )}
-                >
-                  {+totals.average_order_change_pct > 0 ? (
-                    <TrendingUp className="size-4" />
-                  ) : (
-                    <TrendingDown className="size-4" />
-                  )}
-                  {totals.average_order_change_pct}% {t("VsPrevPeriod")}
-                </p>
+          {Boolean(Number(totals.average_order_change_pct)) && (
+            <section className="flex items-center justify-between gap-4 mt-5">
+              <p
+                className={cn(
+                  "flex items-center gap-1 text-xs font-medium",
+                  Number(totals.average_order_change_pct) > 0
+                    ? "text-green-500"
+                    : "text-red-500",
+                )}
+              >
+                {Number(totals.average_order_change_pct) > 0 ? (
+                  <TrendingUp className="size-4" />
+                ) : (
+                  <TrendingDown className="size-4" />
+                )}
+                {totals.average_order_change_pct}% {t("VsPrevPeriod")}
+              </p>
 
-                <TrendLineIcon color="var(--primary)" />
-              </section>
-            )}
+              <TrendLineIcon color="var(--primary)" />
+            </section>
+          )}
         </CardContent>
       </Card>
 
@@ -167,28 +166,27 @@ export default async function Totals({ totals }: { totals: TotalType }) {
             </div>
           </header>
 
-          {totals.returning_revenue_change_pct &&
-            +totals.returning_revenue_change_pct !== 0 && (
-              <section className="flex items-center justify-between gap-4 mt-5">
-                <p
-                  className={cn(
-                    "flex items-center gap-1 text-xs font-medium",
-                    +totals.returning_revenue_change_pct > 0
-                      ? "text-red-400"
-                      : "text-green-500",
-                  )}
-                >
-                  {+totals.returning_revenue_change_pct > 0 ? (
-                    <TrendingUp className="size-4" />
-                  ) : (
-                    <TrendingDown className="size-4" />
-                  )}
-                  {totals.returning_revenue_change_pct}% {t("VsPrevPeriod")}
-                </p>
+          {Boolean(Number(totals.returning_revenue_change_pct)) && (
+            <section className="flex items-center justify-between gap-4 mt-5">
+              <p
+                className={cn(
+                  "flex items-center gap-1 text-xs font-medium",
+                  Number(totals.returning_revenue_change_pct) > 0
+                    ? "text-red-400"
+                    : "text-green-500",
+                )}
+              >
+                {Number(totals.returning_revenue_change_pct) > 0 ? (
+                  <TrendingUp className="size-4" />
+                ) : (
+                  <TrendingDown className="size-4" />
+                )}
+                {totals.returning_revenue_change_pct}% {t("VsPrevPeriod")}
+              </p>
 
-                <TrendLineIcon color="#fb7185" />
-              </section>
-            )}
+              <TrendLineIcon color="#fb7185" />
+            </section>
+          )}
         </CardContent>
       </Card>
     </>
