@@ -10,10 +10,12 @@ export const occasionCollectionSchema = (t: T) =>
       name: z.object({
         en: z
           .string()
+          .trim()
           .min(1, t("Errors.OccasionCollectionNameRequired"))
           .min(2, t("Errors.OccasionCollectionNameMinLength")),
         ar: z
           .string()
+          .trim()
           .min(1, t("Errors.OccasionCollectionNameRequired"))
           .min(2, t("Errors.OccasionCollectionNameMinLength")),
       }),
@@ -23,6 +25,7 @@ export const occasionCollectionSchema = (t: T) =>
       }),
       slug: z
         .string()
+        .trim()
         .min(1, t("Errors.OccasionCollectionSlugRequired"))
         .min(2, t("Errors.OccasionCollectionSlugMinLength")),
       type: z.string().min(1, t("Errors.OccasionCollectionTypeRequired")),
@@ -66,7 +69,7 @@ export const occasionCollectionSchema = (t: T) =>
         });
       }
 
-      if (data.starts_at > data.ends_at) {
+      if (data.starts_at && data.ends_at && data.starts_at > data.ends_at) {
         ctx.addIssue({
           code: "custom",
           path: ["ends_at"],

@@ -6,7 +6,7 @@ import Summary from "@/components/promo-codes/summary";
 import DataPreview from "@/components/promo-codes/data-preview";
 import { Coupon, PromoCodesSummary } from "@/types/promo-codes";
 import { getTranslations } from "next-intl/server";
-import { Spinner } from "@/components/ui/spinner";
+import { PromoCodesSkeleton } from "@/components/reusable/page-skeletons";
 
 export async function generateMetadata() {
   const t = await getTranslations("PromoCodes");
@@ -22,11 +22,19 @@ type SearchParams = {
   page?: string;
 };
 
+const couponStatuses = ["active", "scheduled", "expired", "inactive"];
+
 async function PromoCodesPage({
   searchParams,
 }: {
   searchParams: SearchParams;
 }) {
+  // Anything else (missing, "all", hand-typed values) means no status filter
+  const status =
+    searchParams.status && couponStatuses.includes(searchParams.status)
+      ? searchParams.status
+      : "";
+
   // Fetch promo codes data
   const { data: promoCodesData, ok: ok1 } = await http.get<{
     data: {
@@ -37,7 +45,7 @@ async function PromoCodesPage({
   }>("/api/v1/admin/coupons", {
     params: {
       q: searchParams.query || "",
-      status: searchParams.status || "",
+      status,
       page: searchParams.page || 1,
     },
     next: {
@@ -78,7 +86,7 @@ export default async function Page({
   searchParams: Promise<SearchParams>;
 }) {
   return (
-    <Suspense fallback={<Spinner className="h-8 w-8 text-primary" />}>
+    <Suspense fallback={<PromoCodesSkeleton />}>
       <PromoCodesPage searchParams={await searchParams} />
     </Suspense>
   );

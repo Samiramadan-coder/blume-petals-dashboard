@@ -1,7 +1,8 @@
 "use server";
 
 import { updateTag } from "next/cache";
-import { http, ValidationError } from "@/lib/http";
+import { unstable_rethrow } from "next/navigation";
+import { getErrorMessage, http, ValidationError } from "@/lib/http";
 import { Coupon, PromoCodeFormValues } from "@/types/promo-codes";
 
 // Post And Put Category Actions
@@ -11,6 +12,7 @@ type PostAndPutPromoCodeResult =
   | { success: true; message: string }
   | {
       success: false;
+      message?: string;
       errors?: PromoCodesActionErrors;
     };
 
@@ -29,6 +31,7 @@ export async function postPromoCodeAction(
     updateTag("promo-codes");
     return { success: true, message: data.message };
   } catch (err) {
+    unstable_rethrow(err);
     console.error("Promo code create/update request failed", err);
     if (err instanceof ValidationError) {
       const errors = Object.fromEntries(
@@ -39,14 +42,13 @@ export async function postPromoCodeAction(
       ) as Partial<Record<keyof PromoCodeFormValues, string>>;
       return { success: false, errors };
     }
-    return { success: false };
+    return { success: false, message: getErrorMessage(err) };
   }
 }
 
 // Update Visibility Action
 type UpdateCouponStatusResult =
-  | { success: true; message: string }
-  | { success: false };
+  { success: true; message: string } | { success: false; message?: string };
 
 export async function updateCouponStatusAction(
   coupon: Coupon,
@@ -62,15 +64,15 @@ export async function updateCouponStatusAction(
     updateTag("promo-codes");
     return { success: true, message: data.message };
   } catch (err) {
+    unstable_rethrow(err);
     console.error("Error updating coupon status:", err);
-    return { success: false };
+    return { success: false, message: getErrorMessage(err) };
   }
 }
 
 // Delete Coupon Action
 type DeleteCouponResult =
-  | { success: true; message: string }
-  | { success: false };
+  { success: true; message: string } | { success: false; message?: string };
 
 export async function deleteCouponAction(
   coupon: Coupon,
@@ -82,7 +84,8 @@ export async function deleteCouponAction(
     updateTag("promo-codes");
     return { success: true, message: data.message };
   } catch (err) {
+    unstable_rethrow(err);
     console.error("Error deleting coupon:", err);
-    return { success: false };
+    return { success: false, message: getErrorMessage(err) };
   }
 }

@@ -46,6 +46,7 @@ export default function FiltersControl() {
                   );
                 }}
                 placeholder={t("SearchPlaceholder")}
+                aria-label={t("SearchPlaceholder")}
               />
               <InputGroupAddon align="inline-start">
                 <Search />

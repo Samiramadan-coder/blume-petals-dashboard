@@ -6,10 +6,13 @@ export const promoCodeSchema = (t: T) =>
     .object({
       code: z
         .string()
+        .trim()
         .min(1, t("Fields.Code.Required"))
         .min(3, t("Fields.Code.MinLength")),
       type: z.enum(["percentage", "fixed"], t("Fields.Type.Required")),
-      value: z.number().min(1, t("Fields.Value.Required")),
+      value: z
+        .number(t("Fields.Value.Required"))
+        .min(1, t("Fields.Value.Required")),
       min_order_total: z.number().optional().catch(undefined),
       usage_limit: z.number().optional().catch(undefined),
       per_customer_limit: z.number().optional().catch(undefined),
@@ -28,6 +31,14 @@ export const promoCodeSchema = (t: T) =>
           code: "custom",
           path: ["category_ids"],
           message: t("Fields.Category.Required"),
+        });
+      }
+
+      if (data.type === "percentage" && data.value > 100) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["value"],
+          message: t("Fields.Value.MaxPercentage"),
         });
       }
 

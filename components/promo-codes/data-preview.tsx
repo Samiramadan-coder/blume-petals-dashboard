@@ -36,6 +36,7 @@ export default function DataPreview({
   categories: Category[];
 }) {
   const { can } = usePermissions();
+  const canDelete = can("coupons.delete");
   const t = useTranslations("PromoCodes");
   const tCommon = useTranslations("Common");
   const [loadingDelete, setLoadingDelete] = useState(false);
@@ -73,16 +74,30 @@ export default function DataPreview({
         rowsCount={coupons.length}
         countUnit={t("Title")}
         pagination={pagination}
-        isCheckbox={checkedIds.length === coupons.length}
-        onCheckboxChange={(checked) =>
-          can("coupons.delete")
-            ? setCheckedIds(checked ? coupons.map((c) => c.id) : [])
+        isCheckbox={coupons.length > 0 && checkedIds.length === coupons.length}
+        onCheckboxChange={
+          canDelete
+            ? (checked) =>
+                setCheckedIds(checked ? coupons.map((c) => c.id) : [])
             : undefined
         }
       >
-        {coupons.map((coupon, index) => (
-          <TableRow key={index} className="border-primary/20">
-            {can("contact.delete") && (
+        {coupons.length === 0 && (
+          <TableRow className="border-primary/20">
+            <TableCell
+              colSpan={columns(t).length + (canDelete ? 1 : 0)}
+              className="px-4 py-8"
+            >
+              <p className="text-center text-sm text-muted-foreground">
+                {t("Empty")}
+              </p>
+            </TableCell>
+          </TableRow>
+        )}
+
+        {coupons.map((coupon) => (
+          <TableRow key={coupon.id} className="border-primary/20">
+            {canDelete && (
               <TableCell className="px-4 py-3">
                 <Checkbox
                   checked={checkedIds.includes(coupon.id)}
@@ -119,7 +134,7 @@ export default function DataPreview({
                 </p>
                 {coupon.min_order_total && (
                   <p className="text-[10px] mt-1 text-muted-foreground">
-                    Min: {coupon.min_order_total} {tCommon("AED")}
+                    {t("Min")}: {coupon.min_order_total} {tCommon("AED")}
                   </p>
                 )}
                 {coupon.per_customer_limit && (
@@ -151,6 +166,10 @@ export default function DataPreview({
                 <p className="text-muted-foreground text-xs">
                   {t("From")}: {formatDate(coupon.starts_at)}
                 </p>
+              ) : coupon.expires_at ? (
+                <p className="text-muted-foreground text-xs">
+                  {t("Until")}: {formatDate(coupon.expires_at)}
+                </p>
               ) : (
                 <p className="text-muted-foreground text-xs">
                   {t("UnlimitedDate")}
@@ -171,7 +190,7 @@ export default function DataPreview({
                 />
               )}
 
-              {can("coupons.delete") && (
+              {canDelete && (
                 <DeleteBtn
                   itemName={coupon.code}
                   onDelete={async () => {
@@ -184,7 +203,7 @@ export default function DataPreview({
                       return;
                     }
 
-                    toast.error(tCommon("DeleteFailed"));
+                    toast.error(result.message ?? tCommon("DeleteFailed"));
                   }}
                   loading={loadingDelete}
                 />
@@ -228,7 +247,7 @@ function ActiveSwitch({
               return;
             }
 
-            toast.error(tCommon("VisibilityUpdateFailed"));
+            toast.error(result.message ?? tCommon("VisibilityUpdateFailed"));
           }}
         />
       )}

@@ -482,6 +482,8 @@
     "PerCustomerLimit": "Per Customer",
     "UnlimitedDate": "Unlimited Date",
     "From": "From",
+    "Until": "Until",
+    "Empty": "No promo codes found.",
     "AllProducts": "All Products",
     "SpecificCategory": "Specific Category",
     "Fields": {
@@ -501,7 +503,8 @@
       "Value": {
         "Label": "Discount Value",
         "Placeholder": "Enter value",
-        "Required": "Value is required"
+        "Required": "Value is required",
+        "MaxPercentage": "Percentage discount cannot exceed 100"
       },
       "Scope": {
         "Label": "Applies To",

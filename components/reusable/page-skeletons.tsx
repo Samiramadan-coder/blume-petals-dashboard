@@ -203,3 +203,46 @@ export function WebsiteContentSkeleton() {
     </div>
   );
 }
+
+export function OccasionsSkeleton() {
+  return (
+    <main className="space-y-6" aria-busy="true">
+      <ModuleHeaderSkeleton action />
+      <TableSkeleton columns={7} />
+    </main>
+  );
+}
+
+export function PromoCodesSkeleton() {
+  return (
+    <main className="space-y-6" aria-busy="true">
+      {/* Summary cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {Array.from({ length: 4 }, (_, index) => (
+          <div
+            key={index}
+            className="flex items-center gap-4 rounded-xl border border-primary/20 bg-white p-4"
+          >
+            <Skeleton className="size-11 shrink-0 rounded-xl" />
+            <div className="space-y-2">
+              <Skeleton className="h-7 w-12" />
+              <Skeleton className="h-3 w-24" />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Search and status filters */}
+      <div className="space-y-4">
+        <Skeleton className="h-10 w-56 max-w-full" />
+        <Skeleton className="h-10 w-96 max-w-full rounded-xl" />
+      </div>
+
+      <div className="flex justify-end">
+        <Skeleton className="h-10 w-44" />
+      </div>
+
+      <TableSkeleton columns={6} />
+    </main>
+  );
+}

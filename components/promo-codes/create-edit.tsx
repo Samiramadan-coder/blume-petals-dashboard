@@ -37,9 +37,11 @@ function getDefaultValues(coupon?: Coupon): PromoCodeFormValues {
       : undefined,
     usage_limit: coupon?.usage_limit || undefined,
     per_customer_limit: coupon?.per_customer_limit || undefined,
-    starts_at: coupon?.starts_at || "",
-    expires_at: coupon?.expires_at || "",
+    // Date inputs only accept YYYY-MM-DD
+    starts_at: coupon?.starts_at?.split("T")[0] || "",
+    expires_at: coupon?.expires_at?.split("T")[0] || "",
     scope: coupon?.scope || "all",
+    category_ids: coupon?.category_ids || [],
     is_active: coupon?.is_active || false,
   };
 }
@@ -64,6 +66,7 @@ export default function CreateEdit({
   const {
     register,
     control,
+    reset,
     setError,
     setValue,
     handleSubmit,
@@ -87,11 +90,23 @@ export default function CreateEdit({
   // Handle form submission
   // This function will be called when the form is submitted
   const onSubmit: SubmitHandler<PromoCodeFormValues> = async (data) => {
-    const result = await postPromoCodeAction(data, coupon?.id);
+    const failedMessage = coupon
+      ? tCommon("UpdateFailed")
+      : tCommon("CreationFailed");
+
+    let result: Awaited<ReturnType<typeof postPromoCodeAction>>;
+
+    try {
+      result = await postPromoCodeAction(data, coupon?.id);
+    } catch (error) {
+      // The request itself failed (e.g. offline)
+      console.error("Error submitting promo code:", error);
+      toast.error(failedMessage);
+      return;
+    }
 
     if (result.success) {
       toast.success(result.message);
-      form.current?.reset();
       closeBtn.current?.click();
       return;
     }
@@ -108,11 +123,16 @@ export default function CreateEdit({
       return;
     }
 
-    toast.error(coupon ? tCommon("UpdateFailed") : tCommon("CreationFailed"));
+    toast.error(result.message ?? failedMessage);
   };
 
   return (
-    <Sheet>
+    <Sheet
+      onOpenChange={(open) => {
+        // Start from the latest saved values every time the sheet opens
+        if (open) reset(getDefaultValues(coupon));
+      }}
+    >
       {trigger ? (
         <SheetTrigger asChild>{trigger}</SheetTrigger>
       ) : (
@@ -138,7 +158,14 @@ export default function CreateEdit({
           <form
             ref={form}
             className="relative grid grid-cols-1 sm:grid-cols-2 gap-6"
-            onSubmit={(e) => handleSubmit(onSubmit)(e)}
+            onSubmit={(e) => {
+              if (isSubmitting) {
+                e.preventDefault();
+                return;
+              }
+
+              void handleSubmit(onSubmit)(e);
+            }}
           >
             <Input<PromoCodeFormValues>
               required
@@ -167,6 +194,7 @@ export default function CreateEdit({
               required
               name="value"
               type="number"
+              step="any"
               errors={errors}
               register={register}
               label={`${t("Fields.Value.Label")} (${type === "percentage" ? "%" : tCommon("AED")})`}
@@ -180,6 +208,9 @@ export default function CreateEdit({
             <Input<PromoCodeFormValues>
               name="min_order_total"
               type="number"
+              min={0}
+              step="any"
+              errors={errors}
               register={register}
               label={t("Fields.MinOrderTotal.Label")}
               placeholder={t("Fields.MinOrderTotal.Placeholder")}
@@ -190,6 +221,8 @@ export default function CreateEdit({
             <Input<PromoCodeFormValues>
               name="usage_limit"
               type="number"
+              min={0}
+              errors={errors}
               register={register}
               label={t("Fields.UsageLimit.Label")}
               placeholder={t("Fields.UsageLimit.Placeholder")}
@@ -198,6 +231,8 @@ export default function CreateEdit({
             <Input<PromoCodeFormValues>
               name="per_customer_limit"
               type="number"
+              min={0}
+              errors={errors}
               register={register}
               label={t("Fields.PerCustomerLimit.Label")}
               placeholder={t("Fields.PerCustomerLimit.Placeholder")}
@@ -240,7 +275,7 @@ export default function CreateEdit({
               <div className="sm:col-span-2">
                 <Field>
                   <FieldLabel
-                    htmlFor="occasions"
+                    id="promo-code-categories"
                     className="text-sm font-semibold"
                   >
                     {t("Fields.Category.Label")}
@@ -256,7 +291,11 @@ export default function CreateEdit({
                         return (
                           <>
                             <div className="space-y-1.5">
-                              <div className="flex flex-wrap gap-2">
+                              <div
+                                role="group"
+                                aria-labelledby="promo-code-categories"
+                                className="flex flex-wrap gap-2"
+                              >
                                 {categories.map((category) => {
                                   const isSelected =
                                     selectedCategories.includes(category.id);
@@ -264,24 +303,30 @@ export default function CreateEdit({
                                   return (
                                     <Badge
                                       key={category.id}
+                                      asChild
                                       variant="outline"
                                       className={cn(
                                         `h-6 text-xs px-4 cursor-pointer`,
                                         { "bg-primary/20 border": isSelected },
                                       )}
-                                      onClick={() => {
-                                        const nextCategories = isSelected
-                                          ? selectedCategories.filter(
-                                              (i) => i !== category.id,
-                                            )
-                                          : [
-                                              ...selectedCategories,
-                                              category.id,
-                                            ];
-                                        field.onChange(nextCategories);
-                                      }}
                                     >
-                                      {category.name[locale]}
+                                      <button
+                                        type="button"
+                                        aria-pressed={isSelected}
+                                        onClick={() => {
+                                          const nextCategories = isSelected
+                                            ? selectedCategories.filter(
+                                                (i) => i !== category.id,
+                                              )
+                                            : [
+                                                ...selectedCategories,
+                                                category.id,
+                                              ];
+                                          field.onChange(nextCategories);
+                                        }}
+                                      >
+                                        {category.name[locale]}
+                                      </button>
                                     </Badge>
                                   );
                                 })}

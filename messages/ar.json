@@ -478,6 +478,8 @@
     "PerCustomerLimit": "لكل عميل",
     "UnlimitedDate": "بدون تاريخ انتهاء",
     "From": "من",
+    "Until": "حتى",
+    "Empty": "لا توجد أكواد خصم.",
     "AllProducts": "جميع المنتجات",
     "SpecificCategory": "تصنيف محدد",
     "Fields": {
@@ -497,7 +499,8 @@
       "Value": {
         "Label": "قيمة الخصم",
         "Placeholder": "أدخل القيمة",
-        "Required": "قيمة الخصم مطلوبة"
+        "Required": "قيمة الخصم مطلوبة",
+        "MaxPercentage": "لا يمكن أن تتجاوز نسبة الخصم 100"
       },
       "Scope": {
         "Label": "يُطبق على",
