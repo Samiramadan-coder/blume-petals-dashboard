@@ -30,15 +30,37 @@ export async function postCategoryAction(
   delete dataWithoutFiles.icon;
   delete dataWithoutFiles.banner;
 
-  let saved: { data: { category: Category }; message: string };
-
   try {
-    const { data } = await http[method]<{
+    const { data: saved } = await http[method]<{
       data: { category: Category };
       message: string;
     }>(url, dataWithoutFiles);
 
-    saved = data;
+    // The category itself is saved at this point, so the list must refresh even
+    // if an image upload below fails.
+
+    // Post Or Update Icon And Banner
+    for (const kind of ["icon", "banner"] as const) {
+      const file = formData[kind];
+      if (!(file instanceof Blob)) continue;
+
+      const imageFormData = new FormData();
+      imageFormData.append("kind", kind);
+      imageFormData.append(
+        "image",
+        file,
+        file instanceof File ? file.name : kind === "icon" ? "Icon" : "Banner",
+      );
+
+      await http.post(
+        `/api/v1/admin/categories/${saved.data.category.id}/image`,
+        imageFormData,
+      );
+    }
+
+    updateTag("categories");
+
+    return { success: true, message: saved.message };
   } catch (err) {
     unstable_rethrow(err);
     console.error("Error posting category:", err);
@@ -54,42 +76,12 @@ export async function postCategoryAction(
     }
     return { success: false, message: getErrorMessage(err) };
   }
-
-  // The category itself is saved at this point, so the list must refresh even
-  // if an image upload below fails.
-  updateTag("categories");
-
-  // Post Or Update Icon And Banner
-  for (const kind of ["icon", "banner"] as const) {
-    const file = formData[kind];
-    if (!(file instanceof Blob)) continue;
-
-    const imageFormData = new FormData();
-    imageFormData.append("kind", kind);
-    imageFormData.append(
-      "image",
-      file,
-      file instanceof File ? file.name : kind === "icon" ? "Icon" : "Banner",
-    );
-
-    try {
-      await http.post(
-        `/api/v1/admin/categories/${saved.data.category.id}/image`,
-        imageFormData,
-      );
-    } catch (err) {
-      unstable_rethrow(err);
-      console.error(`Error uploading category ${kind}:`, err);
-      return { success: false, message: getErrorMessage(err) };
-    }
-  }
-
-  return { success: true, message: saved.message };
 }
 
 // Update Visibility Action
 type UpdateCategoryVisibilityResult =
-  { success: true; message: string } | { success: false; message?: string };
+  | { success: true; message: string }
+  | { success: false; message?: string };
 
 export async function updateCategoryVisibilityAction(
   category: Category,
@@ -113,7 +105,8 @@ export async function updateCategoryVisibilityAction(
 
 // Delete Category Action
 type DeleteCategoryResult =
-  { success: true; message: string } | { success: false; message?: string };
+  | { success: true; message: string }
+  | { success: false; message?: string };
 
 export async function deleteCategoryAction(
   category: Category,
@@ -133,7 +126,8 @@ export async function deleteCategoryAction(
 
 // Reorder Categories Action
 type ReorderCategoriesResult =
-  { success: true; message: string } | { success: false; message?: string };
+  | { success: true; message: string }
+  | { success: false; message?: string };
 
 export async function reorderCategoriesAction(
   ids: number[],
