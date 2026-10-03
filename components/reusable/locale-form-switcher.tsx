@@ -1,7 +1,7 @@
-import { Locale } from "@/types/shared";
-import { Button } from "../ui/button";
-import { Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Globe } from "lucide-react";
+import { Button } from "../ui/button";
+import { Locale } from "@/types/shared";
 import { useLocale, useTranslations } from "next-intl";
 
 export default function LocaleFormSwitcher({
@@ -17,31 +17,32 @@ export default function LocaleFormSwitcher({
   const versionLocale = useLocale();
 
   return (
-    <div className={cn("px-4 grid grid-cols-2 gap-2", className)}>
+    <div className={cn("px-4 space-x-2 flex justify-end", className)}>
       <Button
         variant="outline"
         type="button"
         onClick={() => onChange("en")}
         className={cn(
-          "h-10 hover:bg-primary hover:text-primary-foreground order-2",
-          locale === "en" ? "bg-primary text-primary-foreground" : "",
+          "h-10 hover:bg-secondary hover:text-primary-foreground order-2",
+          locale === "en" ? "bg-secondary text-primary-foreground" : "",
           versionLocale === "ar" ? "order-2" : "order-1",
         )}
       >
-        <Globe className="mr-2 h-4 w-4" />
+        <Globe className="size-4" />
         {t("English")}
       </Button>
+
       <Button
         variant="outline"
         type="button"
         onClick={() => onChange("ar")}
         className={cn(
-          "h-10 hover:bg-primary hover:text-primary-foreground order-1",
-          locale === "ar" ? "bg-primary text-primary-foreground" : "",
+          "h-10 hover:bg-secondary hover:text-primary-foreground order-1",
+          locale === "ar" ? "bg-secondary text-primary-foreground" : "",
           versionLocale === "en" ? "order-2" : "order-1",
         )}
       >
-        <Globe className="mr-2 h-4 w-4" />
+        <Globe className="size-4" />
         {t("Arabic")}
       </Button>
     </div>
