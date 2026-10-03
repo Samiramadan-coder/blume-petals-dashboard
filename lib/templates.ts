@@ -1,16 +1,12 @@
 "use server";
 
-import { Product } from "@/types/products";
-import { getErrorMessage, http, ValidationError } from "./http";
-import { updateTag } from "next/cache";
-import { unstable_rethrow } from "next/navigation";
 import {
   Card,
   CardFormValues,
-  Ribbon,
-  RibbonFormValues,
   TemplateFormValues,
 } from "@/types/custom-builder";
+import { Product } from "@/types/products";
+import { getErrorMessage, http, ValidationError } from "./http";
 
 // Post And Put Category Actions
 type PostAndPutProductResult =
@@ -49,7 +45,6 @@ export async function postTemplateAction(
 
     saved = data;
   } catch (err) {
-    unstable_rethrow(err);
     console.error("Product create/update request failed", err);
     if (err instanceof ValidationError) {
       const errors = Object.fromEntries(
@@ -66,7 +61,7 @@ export async function postTemplateAction(
 
   // The template itself is saved at this point, so the list must refresh even
   // if an image or a shape below fails.
-  updateTag("templates");
+  // updateTag("templates");
 
   const product = saved.data.product;
 
@@ -83,7 +78,6 @@ export async function postTemplateAction(
       );
     }
   } catch (err) {
-    unstable_rethrow(err);
     console.error("Template image upload failed", err);
     return { success: false, message: getErrorMessage(err) };
   }
@@ -132,10 +126,8 @@ export async function addVariantAction(
   try {
     await http[method](url, variantData);
 
-    updateTag("templates");
     return { success: true };
   } catch (err) {
-    unstable_rethrow(err);
     console.error("Error adding variant:", err);
     if (err instanceof ValidationError) {
       const errors = Object.fromEntries(
@@ -148,66 +140,6 @@ export async function addVariantAction(
       >;
       return { success: false, errors };
     }
-    return { success: false, message: getErrorMessage(err) };
-  }
-}
-
-// Edit Create Ribbon
-type PostAndPutRibbonResult =
-  | { success: true; message: string }
-  | {
-      success: false;
-      message?: string;
-      errors?: Partial<Record<keyof RibbonFormValues, string>>;
-    };
-
-export async function postRibbonAction(
-  formData: RibbonFormValues,
-  ribbonId?: number,
-): Promise<PostAndPutRibbonResult> {
-  const method = ribbonId ? "put" : "post";
-  const url = ribbonId
-    ? `/api/v1/admin/gift-options/${ribbonId}`
-    : "/api/v1/admin/gift-options";
-
-  try {
-    const { data } = await http[method]<{ message: string }>(url, formData);
-
-    updateTag("ribbons");
-    return { success: true, message: data.message };
-  } catch (err) {
-    unstable_rethrow(err);
-    console.error("Post Ribbon Action Error:", err);
-    if (err instanceof ValidationError) {
-      const errors = Object.fromEntries(
-        Object.entries(err.errors).map(([field, messages]) => [
-          field,
-          messages[0] ?? "Invalid value",
-        ]),
-      ) as Partial<Record<keyof RibbonFormValues, string>>;
-
-      return { success: false, errors };
-    }
-    return { success: false, message: getErrorMessage(err) };
-  }
-}
-
-// Delete Ribbon Action
-type DeleteRibbonResult =
-  { success: true; message: string } | { success: false; message?: string };
-
-export async function deleteRibbonAction(
-  ribbon: Ribbon,
-): Promise<DeleteRibbonResult> {
-  try {
-    const { data } = await http.delete<{ message: string }>(
-      `/api/v1/admin/gift-options/${ribbon.id}`,
-    );
-    updateTag("ribbons");
-    return { success: true, message: data.message };
-  } catch (err) {
-    unstable_rethrow(err);
-    console.error("Error deleting ribbon:", err);
     return { success: false, message: getErrorMessage(err) };
   }
 }
@@ -247,7 +179,6 @@ export async function postCardAction(
 
     saved = data;
   } catch (err) {
-    unstable_rethrow(err);
     console.error("Post Card Action Error:", err);
     if (err instanceof ValidationError) {
       const errors = Object.fromEntries(
@@ -264,7 +195,6 @@ export async function postCardAction(
 
   // The card itself is saved at this point, so the list must refresh even if
   // the image upload below fails.
-  updateTag("cards");
 
   // Post Or Update Banner
   if (formData.image instanceof Blob) {
@@ -282,29 +212,10 @@ export async function postCardAction(
         imageFormData,
       );
     } catch (err) {
-      unstable_rethrow(err);
       console.error("Card image upload failed", err);
       return { success: false, message: getErrorMessage(err) };
     }
   }
 
   return { success: true, message: saved.message };
-}
-
-// Delete Card Action
-type DeleteCardResult =
-  { success: true; message: string } | { success: false; message?: string };
-
-export async function deleteCardAction(card: Card): Promise<DeleteCardResult> {
-  try {
-    const { data } = await http.delete<{ message: string }>(
-      `/api/v1/admin/gift-options/${card.id}`,
-    );
-    updateTag("cards");
-    return { success: true, message: data.message };
-  } catch (err) {
-    unstable_rethrow(err);
-    console.error("Error deleting card:", err);
-    return { success: false, message: getErrorMessage(err) };
-  }
 }

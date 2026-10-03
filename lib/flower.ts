@@ -1,10 +1,6 @@
-"use server";
-
-import { FlowerFormValues, RestockFormValues } from "@/types/flower";
+import { FlowerFormValues } from "@/types/flower";
 import { Product } from "@/types/products";
 import { getErrorMessage, http, ValidationError } from "./http";
-import { updateTag } from "next/cache";
-import { unstable_rethrow } from "next/navigation";
 
 // Post And Put Category Actions
 type PostAndPutFlowerResult =
@@ -43,7 +39,6 @@ export async function postFlowerAction(
 
     saved = data;
   } catch (err) {
-    unstable_rethrow(err);
     console.error("Product create/update request failed", err);
     if (err instanceof ValidationError) {
       const errors = Object.fromEntries(
@@ -60,10 +55,8 @@ export async function postFlowerAction(
 
   // The flower itself is saved at this point, so the list must refresh even
   // if the photo upload below fails.
-  updateTag("flowers");
 
   try {
-    // Post Or Update Images
     for (const [index, image] of formData.images.entries()) {
       if (!(image instanceof Blob)) continue;
       const imageFormData = new FormData();
@@ -75,51 +68,9 @@ export async function postFlowerAction(
       );
     }
   } catch (err) {
-    unstable_rethrow(err);
     console.error("Flower photo upload failed", err);
     return { success: false, message: getErrorMessage(err) };
   }
 
   return { success: true, message: saved.message };
-}
-
-// Restock Flower Action
-type RestockFlowerResult =
-  | {
-      success: true;
-      message: string;
-    }
-  | {
-      success: false;
-      message?: string;
-      errors?: Partial<Record<keyof RestockFormValues, string>>;
-    };
-
-export async function restockFlowerAction(
-  formData: RestockFormValues,
-  productId: number,
-  variantId: number,
-): Promise<RestockFlowerResult> {
-  try {
-    const { data } = await http.patch<{ message: string }>(
-      `/api/v1/admin/products/${productId}/variants/${variantId}/stock`,
-      formData,
-    );
-    updateTag("flowers");
-    return { success: true, message: data.message };
-  } catch (err) {
-    unstable_rethrow(err);
-    console.error("Restock request failed", err);
-    if (err instanceof ValidationError) {
-      const errors = Object.fromEntries(
-        Object.entries(err.errors).map(([field, messages]) => [
-          field,
-          messages[0] ?? "Invalid value",
-        ]),
-      ) as Partial<Record<keyof RestockFormValues, string>>;
-
-      return { success: false, errors };
-    }
-    return { success: false, message: getErrorMessage(err) };
-  }
 }

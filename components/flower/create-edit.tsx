@@ -20,6 +20,7 @@ import { FlowerFormValues, flowerSchema } from "@/types/flower";
 import LocaleFormSwitcher from "../reusable/locale-form-switcher";
 import SingleFormImageUploader from "../form/single-image-uploader";
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../ui/sheet";
+import { useRouter } from "@/i18n/navigation";
 
 function getDefaultValues(
   firstCategoryId: number,
@@ -61,6 +62,7 @@ export default function CreateEdit({
   flower?: Product;
   firstCategoryId: number;
 }) {
+  const router = useRouter();
   const locale = useLocale();
   const t = useTranslations("Flower");
   const tCommon = useTranslations("Common");
@@ -116,6 +118,7 @@ export default function CreateEdit({
 
     if (result.success) {
       toast.success(result.message);
+      router.refresh();
       closeBtn.current?.click();
       return;
     }

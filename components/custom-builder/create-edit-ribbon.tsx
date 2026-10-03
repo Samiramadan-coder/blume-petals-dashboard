@@ -8,7 +8,7 @@ import Header from "../form/header";
 import { Button } from "../ui/button";
 import { useEffect, useRef } from "react";
 import AddButton from "../form/add-button";
-import { postRibbonAction } from "@/lib/templates";
+import { postRibbonAction } from "@/lib/templates-server";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { availableLocales } from "@/constants/shared";
 import { useLocale, useTranslations } from "next-intl";

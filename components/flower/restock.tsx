@@ -8,7 +8,7 @@ import Footer from "../form/footer";
 import { Plus } from "lucide-react";
 import { Button } from "../ui/button";
 import { Product } from "@/types/products";
-import { restockFlowerAction } from "@/lib/flower";
+import { restockFlowerAction } from "@/lib/flower-server";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocale, useTranslations } from "next-intl";
 import { SubmitHandler, useForm } from "react-hook-form";

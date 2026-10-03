@@ -19,6 +19,7 @@ import LocaleFormSwitcher from "../reusable/locale-form-switcher";
 import SingleFormImageUploader from "../form/single-image-uploader";
 import { Card, CardFormValues, cardSchema } from "@/types/custom-builder";
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../ui/sheet";
+import { useRouter } from "@/i18n/navigation";
 
 export default function CreateEditCard({
   card,
@@ -27,6 +28,7 @@ export default function CreateEditCard({
   card?: Card;
   trigger?: React.ReactNode;
 }) {
+  const router = useRouter();
   const locale = useLocale();
   const t = useTranslations("CustomBuilder.Cards");
   const tCommon = useTranslations("Common");
@@ -78,6 +80,7 @@ export default function CreateEditCard({
 
     if (result.success) {
       toast.success(result.message);
+      router.refresh();
       closeBtn.current?.click();
       return;
     }

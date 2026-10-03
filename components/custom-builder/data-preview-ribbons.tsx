@@ -9,7 +9,7 @@ import { Ribbon } from "@/types/custom-builder";
 import { TableCell, TableRow } from "../ui/table";
 import { DataTable } from "../reusable/data-table";
 import CreateEditRibbon from "./create-edit-ribbon";
-import { deleteRibbonAction } from "@/lib/templates";
+import { deleteRibbonAction } from "@/lib/templates-server";
 import { useLocale, useTranslations } from "next-intl";
 import { ribbonsColumns } from "@/constants/custom-builder";
 import { usePermissions } from "@/providers/permission-providers";

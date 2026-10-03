@@ -10,7 +10,7 @@ import DeleteBtn from "../reusable/delete-btn";
 import CreateEditCard from "./create-edit-card";
 import { TableCell, TableRow } from "../ui/table";
 import { DataTable } from "../reusable/data-table";
-import { deleteCardAction } from "@/lib/templates";
+import { deleteCardAction } from "@/lib/templates-server";
 import { useLocale, useTranslations } from "next-intl";
 import { cardsColumns } from "@/constants/custom-builder";
 import { usePermissions } from "@/providers/permission-providers";

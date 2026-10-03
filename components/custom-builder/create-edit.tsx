@@ -26,6 +26,7 @@ import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import LocaleFormSwitcher from "@/components/reusable/locale-form-switcher";
 import { TemplateFormValues, templateSchema } from "@/types/custom-builder";
 import SingleFormImageUploader from "@/components/form/single-image-uploader";
+import { useRouter } from "@/i18n/navigation";
 
 // Keep what the template already has, new templates get the defaults
 function getDefaultValues(
@@ -75,6 +76,7 @@ export default function CreateEdit({
   template?: Product;
   firstCategoryId: number;
 }) {
+  const router = useRouter();
   const locale = useLocale();
   const t = useTranslations("CustomBuilder");
   const tCommon = useTranslations("Common");
@@ -134,6 +136,7 @@ export default function CreateEdit({
 
     if (result.success) {
       toast.success(result.message);
+      router.refresh();
       closeBtn.current?.click();
       return;
     }
