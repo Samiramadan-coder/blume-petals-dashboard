@@ -2,6 +2,12 @@
   "name": "blume-petals",
   "version": "0.1.0",
   "private": true,
+  "imports": {
+    "#request-context": {
+      "react-server": "./lib/request-context.ts",
+      "default": "./lib/request-context.browser.ts"
+    }
+  },
   "scripts": {
     "dev": "next dev --experimental-https",
     "build": "next build",

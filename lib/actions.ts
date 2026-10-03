@@ -16,24 +16,8 @@ export async function saveToken(token: string) {
 }
 
 /**
- * Return Token
- */
-export async function getTokenHeaders() {
-  const token = (await cookies()).get("token")?.value || null;
-  return token ? { Authorization: `Bearer ${token}` } : { Authorization: "" };
-}
-
-/**
  * Delete token from HTTP-only cookie for logout.
  */
 export async function deleteToken() {
   (await cookies()).delete("token");
-}
-
-/**
- * Get Language
- */
-export async function getServerLanguage() {
-  const locale = (await cookies()).get("NEXT_LOCALE")?.value || null;
-  return locale;
 }

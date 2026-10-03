@@ -1,5 +1,7 @@
 import { redirect } from "next/navigation";
-import { getServerLanguage, getTokenHeaders } from "./actions";
+// Resolves to the cookie reader on the server and to a stub in the browser
+// bundle, see "imports" in package.json.
+import { getRequestContext } from "#request-context";
 
 type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
@@ -16,12 +18,22 @@ interface HttpResponse<T = unknown> {
 class HttpError extends Error {
   status: number;
   data: unknown;
+  method: HttpMethod;
+  url: string;
 
-  constructor(message: string, status: number, data: unknown) {
+  constructor(
+    message: string,
+    status: number,
+    data: unknown,
+    method: HttpMethod,
+    url: string,
+  ) {
     super(message);
     this.name = "HttpError";
     this.status = status;
     this.data = data;
+    this.method = method;
+    this.url = url;
   }
 }
 
@@ -92,6 +104,9 @@ class ServerError extends Error {
   }
 }
 
+/** Route that forwards browser requests to the API, see app/api/proxy. */
+const API_PROXY_PREFIX = "/api/proxy";
+
 function buildUrl(
   baseURL: string,
   path: string,
@@ -143,7 +158,14 @@ function createHttp(baseURL: string) {
   ): Promise<HttpResponse<T>> {
     const { params, headers: extraHeaders, ...restConfig } = config;
 
-    const url = buildUrl(baseURL, path, params);
+    // The token is in an HTTP-only cookie, so the browser cannot call the API
+    // itself: it goes through the same-origin proxy route, which adds the
+    // Authorization and Accept-Language headers on the server.
+    const isBrowser = typeof window !== "undefined";
+
+    const url = isBrowser
+      ? buildUrl(window.location.origin, API_PROXY_PREFIX + path, params)
+      : buildUrl(baseURL, path, params);
 
     const headers = new Headers();
     Object.entries(defaultHeaders).forEach(([key, value]) => {
@@ -156,15 +178,15 @@ function createHttp(baseURL: string) {
       });
     }
 
-    const tokenHeaders = await getTokenHeaders();
-    const language = await getServerLanguage();
+    // In the browser the proxy route attaches these from the cookies.
+    if (!isBrowser) {
+      const { authorization, language } = await getRequestContext();
 
-    Object.entries(tokenHeaders).forEach(([key, value]) => {
-      headers.set(key, value);
-    });
+      headers.set("Authorization", authorization);
 
-    if (language) {
-      headers.set("Accept-Language", language);
+      if (language) {
+        headers.set("Accept-Language", language);
+      }
     }
 
     let requestBody: BodyInit | undefined;
@@ -217,9 +239,11 @@ function createHttp(baseURL: string) {
       }
 
       throw new HttpError(
-        `Request failed with status ${response.status}`,
+        `${method} ${url} failed with status ${response.status}`,
         response.status,
         data,
+        method,
+        url,
       );
     }
 
@@ -283,6 +307,7 @@ function getErrorMessage(error: unknown): string | undefined {
 
 export {
   http,
+  API_PROXY_PREFIX,
   createHttp,
   getErrorMessage,
   HttpError,
