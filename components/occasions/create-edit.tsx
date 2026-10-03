@@ -11,25 +11,24 @@ import Footer from "../form/footer";
 import Header from "../form/header";
 import Switch from "../form/switch";
 import { Button } from "../ui/button";
-// import { FieldError } from "../ui/field";
+import { Flower2 } from "lucide-react";
 import { useEffect, useRef } from "react";
 import AddButton from "../form/add-button";
 import { Separator } from "../ui/separator";
 import { cn, createSlug } from "@/lib/utils";
-import { Check, Flower2 } from "lucide-react";
+import { useRouter } from "@/i18n/navigation";
 import { Card, CardContent } from "../ui/card";
-// import { colors } from "@/constants/occasions";
 import SectionLabel from "../form/section-label";
 import NormalFormRichText from "../form/rich-text";
+import { postOccasionAction } from "@/lib/occasion";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { availableLocales } from "@/constants/shared";
 import { useLocale, useTranslations } from "next-intl";
 import { useFormLocale } from "@/hooks/use-form-locale";
-import { postOccasionAction } from "@/lib/occasion";
 import LocaleFormSwitcher from "../reusable/locale-form-switcher";
+import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import SingleFormImageUploader from "../form/single-image-uploader";
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../ui/sheet";
-import { Controller, SubmitHandler, useForm, useWatch } from "react-hook-form";
 
 // Get default values for the form based on the occasion collection data
 function getDefaultValues(sortOrder: number, occasion?: Occasion) {
@@ -39,18 +38,12 @@ function getDefaultValues(sortOrder: number, occasion?: Occasion) {
     slug: occasion?.slug || "",
     is_visible: occasion?.is_visible ?? true,
     type: occasion?.type || "bouquet",
-    // color: occasion?.color || "",
     sort_order: occasion?.sort_order || sortOrder || 0,
     banner: occasion?.banner_url || "",
     starts_at: occasion?.starts_at?.split("T")[0] || "",
     ends_at: occasion?.ends_at?.split("T")[0] || "",
   };
 }
-
-// Get a list of colors, including the occasion's color if it's not already in the predefined list
-// function getListOfColors(color?: string): string[] {
-//   return [...colors, ...(color && !colors.includes(color) ? [color] : [])];
-// }
 
 export default function CreateEdit({
   occasion,
@@ -61,6 +54,7 @@ export default function CreateEdit({
   trigger?: React.ReactNode;
   totalOccasionItems: number;
 }) {
+  const router = useRouter();
   const locale = useLocale();
   const t = useTranslations("Occasions");
   const tCommon = useTranslations("Common");
@@ -95,7 +89,6 @@ export default function CreateEdit({
   }, [triggerValidation, isSubmitted, activeLocale]);
 
   // Watch the color, name, and slug fields for changes
-  // const watchColor = useWatch({ control, name: "color" });
   const watchName = useWatch({ control, name: "name" });
   const watchSlug = useWatch({ control, name: "slug" });
 
@@ -144,6 +137,7 @@ export default function CreateEdit({
 
     if (result.success) {
       toast.success(result.message);
+      router.refresh();
       closeBtn.current?.click();
       return;
     }
@@ -184,7 +178,6 @@ export default function CreateEdit({
         showCloseButton={false}
         className="flex h-full flex-col sm:max-w-2xl"
         side={locale === "ar" ? "left" : "right"}
-        // onInteractOutside={(event) => event.preventDefault()}
       >
         <SheetClose asChild>
           <Button ref={closeBtn} className="hidden"></Button>
@@ -334,76 +327,6 @@ export default function CreateEdit({
                 />
               </div>
             </div>
-
-            {/* <Separator className="bg-border" />
-            <SectionLabel>{tLive("Labels.Color")}</SectionLabel>
-            <div className="space-y-3">
-              <p className="text-xs text-muted-foreground">
-                {tLive("Labels.ColorDescription")}
-              </p>
-              <Controller
-                name="color"
-                control={control}
-                render={({ field }) => {
-                  const selectedColors = field.value ?? "";
-
-                  return (
-                    <div className="space-y-1.5">
-                      <div className="flex flex-wrap gap-2">
-                        {getListOfColors(occasion?.color || watchColor).map(
-                          (color) => {
-                            const isSelected = selectedColors === color;
-
-                            return (
-                              <Button
-                                key={color}
-                                type="button"
-                                variant="outline"
-                                aria-label={color}
-                                aria-pressed={isSelected}
-                                className={cn(
-                                  "h-8 w-8 rounded-full border border-border",
-                                  {
-                                    "border-2 border-primary": isSelected,
-                                  },
-                                )}
-                                style={{ backgroundColor: color }}
-                                onClick={() => {
-                                  const nextColors = isSelected ? "" : color;
-                                  field.onChange(nextColors);
-                                }}
-                              >
-                                {isSelected && <Check />}
-                              </Button>
-                            );
-                          },
-                        )}
-
-                        <div className="relative h-8 w-8">
-                          <Button
-                            type="button"
-                            variant="outline"
-                            tabIndex={-1}
-                            aria-hidden
-                            className="w-8 h-8 rounded-full border-2 border-dashed bg-white cursor-pointer"
-                          ></Button>
-                          <input
-                            type="color"
-                            aria-label={tLive("Labels.Color")}
-                            className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
-                            onChange={(event) => {
-                              field.onChange(event.target.value);
-                            }}
-                          />
-                        </div>
-                      </div>
-
-                      <FieldError errors={[errors.color]} />
-                    </div>
-                  );
-                }}
-              />
-            </div> */}
 
             <Separator className="bg-border" />
             <SectionLabel>{tLive("Labels.Visibility")}</SectionLabel>
