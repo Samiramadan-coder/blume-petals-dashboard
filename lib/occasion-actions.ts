@@ -1,4 +1,4 @@
-// "use server";
+"use server";
 
 import { updateTag } from "next/cache";
 import { unstable_rethrow } from "next/navigation";
@@ -36,7 +36,7 @@ export async function postOccasionAction(
 
     saved = data;
   } catch (err) {
-    // unstable_rethrow(err);
+    unstable_rethrow(err);
     console.error("Error posting occasion:", err);
     if (err instanceof ValidationError) {
       const errors = Object.fromEntries(
@@ -52,7 +52,7 @@ export async function postOccasionAction(
 
   // The occasion itself is saved at this point, so the list must refresh even
   // if the banner upload below fails.
-  // updateTag("occasions");
+  updateTag("occasions");
 
   // Post Or Update Icon
   if (formData.banner instanceof Blob) {
@@ -70,7 +70,7 @@ export async function postOccasionAction(
         bannerFormData,
       );
     } catch (err) {
-      // unstable_rethrow(err);
+      unstable_rethrow(err);
       console.error("Error uploading occasion banner:", err);
       return { success: false, message: getErrorMessage(err) };
     }
