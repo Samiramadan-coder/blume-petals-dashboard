@@ -39,7 +39,7 @@ export default async function RatingDistribution({
                   <Star className="size-3 fill-primary text-primary" />
                 </div>
                 <Progress
-                  value={(count / totalReviews) * 100}
+                  value={totalReviews ? (count / totalReviews) * 100 : 0}
                   className="w-full h-2"
                 />
                 <span>{count}</span>
@@ -56,11 +56,11 @@ export default async function RatingDistribution({
             </h3>
 
             {needsAttention.map((item) => (
-              <Link href={`/products?query=${item.name}`} key={item.product_id}>
-                <div
-                  key={item.product_id}
-                  className="border border-destructive/10 bg-destructive/5 py-2 px-3 rounded-lg mb-2"
-                >
+              <Link
+                href={`/products?query=${encodeURIComponent(item.name)}`}
+                key={item.product_id}
+              >
+                <div className="border border-destructive/10 bg-destructive/5 py-2 px-3 rounded-lg mb-2">
                   <p className="text-xs font-semibold">{item.name}</p>
                   <div className="flex items-center gap-1 mt-1">
                     <Rating

@@ -5,12 +5,24 @@ export const categorySchema = (t: T) =>
   z
     .object({
       name: z.object({
-        en: z.string().min(1, t("NameIsRequired")).min(3, t("NameMinLength")),
-        ar: z.string().min(1, t("NameIsRequired")).min(3, t("NameMinLength")),
+        en: z
+          .string()
+          .trim()
+          .min(1, t("NameIsRequired"))
+          .min(3, t("NameMinLength")),
+        ar: z
+          .string()
+          .trim()
+          .min(1, t("NameIsRequired"))
+          .min(3, t("NameMinLength")),
       }),
-      slug: z.string().min(1, t("SlugIsRequired")).min(3, t("SlugMinLength")),
+      slug: z
+        .string()
+        .trim()
+        .min(1, t("SlugIsRequired"))
+        .min(3, t("SlugMinLength")),
       type: z.enum(["bouquet", "addon"], t("SelectType")),
-      color: z.string().min(1, t("SelectColor")),
+      // color: z.string().min(1, t("SelectColor")),
       is_visible: z.boolean(),
       sort_order: z.number(),
       icon: z.union([

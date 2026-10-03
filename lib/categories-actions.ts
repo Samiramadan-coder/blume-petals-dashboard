@@ -1,7 +1,8 @@
 "use server";
 
 import { updateTag } from "next/cache";
-import { http, ValidationError } from "@/lib/http";
+import { unstable_rethrow } from "next/navigation";
+import { getErrorMessage, http, ValidationError } from "@/lib/http";
 import { Category, CategoryFormValues } from "@/types/categories";
 
 // Post And Put Category Actions
@@ -12,6 +13,7 @@ type PostAndPutCategoryResult =
     }
   | {
       success: false;
+      message?: string;
       errors?: Partial<Record<keyof CategoryFormValues, string>>;
     };
 
@@ -28,45 +30,18 @@ export async function postCategoryAction(
   delete dataWithoutFiles.icon;
   delete dataWithoutFiles.banner;
 
+  let saved: { data: { category: Category }; message: string };
+
   try {
     const { data } = await http[method]<{
       data: { category: Category };
       message: string;
     }>(url, dataWithoutFiles);
 
-    // Post Or Update Icon
-    if (formData.icon instanceof Blob) {
-      const iconFormData = new FormData();
-      iconFormData.append("kind", "icon");
-      iconFormData.append(
-        "image",
-        formData.icon,
-        formData.icon instanceof File ? formData.icon.name : "Icon",
-      );
-      await http.post(
-        `/api/v1/admin/categories/${data.data.category.id}/image`,
-        iconFormData,
-      );
-    }
-
-    // Post Or Update Banner
-    if (formData.banner instanceof Blob) {
-      const bannerFormData = new FormData();
-      bannerFormData.append("kind", "banner");
-      bannerFormData.append(
-        "image",
-        formData.banner,
-        formData.banner instanceof File ? formData.banner.name : "Banner",
-      );
-      await http.post(
-        `/api/v1/admin/categories/${data.data.category.id}/image`,
-        bannerFormData,
-      );
-    }
-
-    updateTag("categories");
-    return { success: true, message: data.message };
+    saved = data;
   } catch (err) {
+    unstable_rethrow(err);
+    console.error("Error posting category:", err);
     if (err instanceof ValidationError) {
       const errors = Object.fromEntries(
         Object.entries(err.errors).map(([field, messages]) => [
@@ -77,14 +52,44 @@ export async function postCategoryAction(
 
       return { success: false, errors };
     }
-    return { success: false };
+    return { success: false, message: getErrorMessage(err) };
   }
+
+  // The category itself is saved at this point, so the list must refresh even
+  // if an image upload below fails.
+  updateTag("categories");
+
+  // Post Or Update Icon And Banner
+  for (const kind of ["icon", "banner"] as const) {
+    const file = formData[kind];
+    if (!(file instanceof Blob)) continue;
+
+    const imageFormData = new FormData();
+    imageFormData.append("kind", kind);
+    imageFormData.append(
+      "image",
+      file,
+      file instanceof File ? file.name : kind === "icon" ? "Icon" : "Banner",
+    );
+
+    try {
+      await http.post(
+        `/api/v1/admin/categories/${saved.data.category.id}/image`,
+        imageFormData,
+      );
+    } catch (err) {
+      unstable_rethrow(err);
+      console.error(`Error uploading category ${kind}:`, err);
+      return { success: false, message: getErrorMessage(err) };
+    }
+  }
+
+  return { success: true, message: saved.message };
 }
 
 // Update Visibility Action
 type UpdateCategoryVisibilityResult =
-  | { success: true; message: string }
-  | { success: false };
+  { success: true; message: string } | { success: false; message?: string };
 
 export async function updateCategoryVisibilityAction(
   category: Category,
@@ -100,15 +105,15 @@ export async function updateCategoryVisibilityAction(
     updateTag("categories");
     return { success: true, message: data.message };
   } catch (err) {
+    unstable_rethrow(err);
     console.error("Error updating category visibility:", err);
-    return { success: false };
+    return { success: false, message: getErrorMessage(err) };
   }
 }
 
 // Delete Category Action
 type DeleteCategoryResult =
-  | { success: true; message: string }
-  | { success: false };
+  { success: true; message: string } | { success: false; message?: string };
 
 export async function deleteCategoryAction(
   category: Category,
@@ -120,15 +125,15 @@ export async function deleteCategoryAction(
     updateTag("categories");
     return { success: true, message: data.message };
   } catch (err) {
+    unstable_rethrow(err);
     console.error("Error deleting category:", err);
-    return { success: false };
+    return { success: false, message: getErrorMessage(err) };
   }
 }
 
 // Reorder Categories Action
 type ReorderCategoriesResult =
-  | { success: true; message: string }
-  | { success: false };
+  { success: true; message: string } | { success: false; message?: string };
 
 export async function reorderCategoriesAction(
   ids: number[],
@@ -142,7 +147,8 @@ export async function reorderCategoriesAction(
     updateTag("categories");
     return { success: true, message: data.message };
   } catch (err) {
+    unstable_rethrow(err);
     console.error("Error reordering categories:", err);
-    return { success: false };
+    return { success: false, message: getErrorMessage(err) };
   }
 }

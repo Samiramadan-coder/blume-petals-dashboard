@@ -246,3 +246,150 @@ export function PromoCodesSkeleton() {
     </main>
   );
 }
+
+/**
+ * Placeholder for a row of summary/statistics cards.
+ */
+export function StatCardsSkeleton({
+  cards,
+  className,
+}: {
+  cards: number;
+  className: string;
+}) {
+  return (
+    <div className={cn("grid grid-cols-1 gap-4", className)}>
+      {Array.from({ length: cards }, (_, index) => (
+        <div
+          key={index}
+          className="space-y-3 rounded-xl border border-primary/20 bg-white p-4"
+        >
+          <div className="flex items-center justify-between gap-2">
+            <Skeleton className="h-3 w-24" />
+            <Skeleton className="size-7 shrink-0" />
+          </div>
+          <Skeleton className="h-7 w-20" />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function OrdersSkeleton() {
+  return (
+    <main className="space-y-6" aria-busy="true">
+      <StatCardsSkeleton
+        cards={5}
+        className="md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5"
+      />
+
+      {/* Status tabs, then search and filters */}
+      <div className="space-y-4">
+        <Skeleton className="h-10 w-full max-w-2xl rounded-xl" />
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="flex flex-wrap items-center gap-2">
+            <Skeleton className="h-10 w-48" />
+            <Skeleton className="h-10 w-40" />
+            <Skeleton className="h-10 w-36" />
+            <Skeleton className="h-10 w-36" />
+          </div>
+          <Skeleton className="h-10 w-30" />
+        </div>
+      </div>
+
+      <TableSkeleton columns={9} rows={8} />
+    </main>
+  );
+}
+
+export function CustomersSkeleton() {
+  return (
+    <main className="space-y-6" aria-busy="true">
+      <StatCardsSkeleton cards={4} className="md:grid-cols-2 lg:grid-cols-4" />
+
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <div className="flex flex-wrap items-center gap-4">
+          <Skeleton className="h-10 w-56" />
+          <Skeleton className="h-5 w-24" />
+          <Skeleton className="h-5 w-24" />
+        </div>
+        <Skeleton className="h-10 w-30" />
+      </div>
+
+      <TableSkeleton columns={8} rows={10} />
+    </main>
+  );
+}
+
+export function SavedDesignsSkeleton() {
+  return (
+    <div className="space-y-6" aria-busy="true">
+      <ModuleHeaderSkeleton description={false} />
+      <TableSkeleton columns={4} />
+    </div>
+  );
+}
+
+export function ReviewsSkeleton() {
+  return (
+    <main
+      className="grid items-start grid-cols-1 md:grid-cols-3 gap-4"
+      aria-busy="true"
+    >
+      <div className="md:col-span-3 space-y-4">
+        <ModuleHeaderSkeleton />
+        <StatCardsSkeleton
+          cards={4}
+          className="md:grid-cols-2 lg:grid-cols-4"
+        />
+      </div>
+
+      <div className="md:col-span-2 space-y-4">
+        <Skeleton className="h-20 w-full rounded-xl" />
+        <CardListSkeleton cards={4} className="space-y-3" />
+      </div>
+
+      {/* Rating distribution */}
+      <div className="space-y-4 rounded-xl border border-primary/20 bg-white p-8">
+        <Skeleton className="h-6 w-40" />
+        {Array.from({ length: 5 }, (_, index) => (
+          <div key={index} className="flex items-center gap-4">
+            <Skeleton className="h-4 w-6" />
+            <Skeleton className="h-2 flex-1" />
+            <Skeleton className="h-4 w-6" />
+          </div>
+        ))}
+      </div>
+    </main>
+  );
+}
+
+export function CategoriesSkeleton() {
+  return (
+    <main className="space-y-6" aria-busy="true">
+      <div className="flex gap-2 items-center">
+        <Skeleton className="h-11 w-28 rounded-lg" />
+        <Skeleton className="h-11 w-40 rounded-lg" />
+      </div>
+
+      <ModuleHeaderSkeleton action />
+      <TableSkeleton columns={6} rows={10} />
+    </main>
+  );
+}
+
+/**
+ * Shared by the templates, ribbons and cards tabs. The page title and the tabs
+ * come from the layout, so only the add button and the table are replaced.
+ */
+export function TemplatesSkeleton({ columns }: { columns: number }) {
+  return (
+    <div className="space-y-4" aria-busy="true">
+      <div className="flex justify-end">
+        <Skeleton className="h-10 w-36" />
+      </div>
+
+      <TableSkeleton columns={columns} />
+    </div>
+  );
+}

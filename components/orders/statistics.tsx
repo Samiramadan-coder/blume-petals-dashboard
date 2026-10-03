@@ -57,7 +57,7 @@ export default function Statistics({ summary }: { summary: Summary }) {
     {
       title: t("Revenue"),
       subtitle: t("RevenueDescription"),
-      value: parseFloat(summary.revenue),
+      value: parseFloat(summary.revenue) || 0,
       currency: tCommon("AED"),
       icon: (
         <div className="p-1 bg-primary/20 rounded-sm">

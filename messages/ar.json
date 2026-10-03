@@ -112,6 +112,8 @@
     }
   },
   "Categories": {
+    "EditCategory": "تعديل الفئة",
+    "EditAddOnsCategory": "تعديل فئة الإضافات",
     "Categories": "الفئات",
     "AddOnsCategories": "فئات الإضافات",
     "default": "افتراضي",
@@ -385,6 +387,13 @@
     }
   },
   "Orders": {
+    "ReadyForPickup": "جاهز للاستلام",
+    "NoOrders": "لا توجد طلبات.",
+    "ExportFailed": "فشل تصدير الطلبات. يرجى المحاولة مرة أخرى.",
+    "ViewDetails": "عرض التفاصيل",
+    "DateFrom": "من تاريخ",
+    "DateTo": "إلى تاريخ",
+    "Vat": "ضريبة القيمة المضافة",
     "Label": "الطلبات",
     "ChangeStatus": "تغيير الحالة",
     "Status": "الحالة",
@@ -614,6 +623,9 @@
     }
   },
   "Customers": {
+    "ExportFailed": "فشل تصدير العملاء. يرجى المحاولة مرة أخرى.",
+    "NoCustomers": "لا يوجد عملاء.",
+    "ViewDetails": "عرض التفاصيل",
     "SearchPlaceholder": "ابحث بالاسم أو البريد أو الهاتف",
     "ExportCSV": "تصدير CSV",
     "Title": "العملاء",
@@ -664,6 +676,8 @@
     }
   },
   "Reviews": {
+    "AllReviews": "كل التقييمات",
+    "NoReviews": "لا توجد تقييمات.",
     "Label": "التقييمات",
     "Description": "إدارة تقييمات العملاء والرد على الملاحظات",
     "Rating": "التقييم",
@@ -1023,6 +1037,7 @@
       },
       "Fields": {
         "Image": {
+          "ImageMaxSize": "يجب أن يكون حجم الصورة أقل من 1 ميجابايت",
           "Label": "الصورة",
           "Required": "الصورة مطلوبة"
         },

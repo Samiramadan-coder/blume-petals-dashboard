@@ -11,14 +11,14 @@ import Footer from "../form/footer";
 import Header from "../form/header";
 import Switch from "../form/switch";
 import { Button } from "../ui/button";
-import { FieldError } from "../ui/field";
+// import { FieldError } from "../ui/field";
 import { useEffect, useRef } from "react";
 import AddButton from "../form/add-button";
 import { Separator } from "../ui/separator";
 import { cn, createSlug } from "@/lib/utils";
 import { Check, Flower2 } from "lucide-react";
 import { Card, CardContent } from "../ui/card";
-import { colors } from "@/constants/occasions";
+// import { colors } from "@/constants/occasions";
 import SectionLabel from "../form/section-label";
 import NormalFormRichText from "../form/rich-text";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -39,7 +39,7 @@ function getDefaultValues(sortOrder: number, occasion?: Occasion) {
     slug: occasion?.slug || "",
     is_visible: occasion?.is_visible ?? true,
     type: occasion?.type || "bouquet",
-    color: occasion?.color || "",
+    // color: occasion?.color || "",
     sort_order: occasion?.sort_order || sortOrder || 0,
     banner: occasion?.banner_url || "",
     starts_at: occasion?.starts_at?.split("T")[0] || "",
@@ -48,9 +48,9 @@ function getDefaultValues(sortOrder: number, occasion?: Occasion) {
 }
 
 // Get a list of colors, including the occasion's color if it's not already in the predefined list
-function getListOfColors(color?: string): string[] {
-  return [...colors, ...(color && !colors.includes(color) ? [color] : [])];
-}
+// function getListOfColors(color?: string): string[] {
+//   return [...colors, ...(color && !colors.includes(color) ? [color] : [])];
+// }
 
 export default function CreateEdit({
   occasion,
@@ -95,7 +95,7 @@ export default function CreateEdit({
   }, [triggerValidation, isSubmitted, activeLocale]);
 
   // Watch the color, name, and slug fields for changes
-  const watchColor = useWatch({ control, name: "color" });
+  // const watchColor = useWatch({ control, name: "color" });
   const watchName = useWatch({ control, name: "name" });
   const watchSlug = useWatch({ control, name: "slug" });
 
@@ -335,7 +335,7 @@ export default function CreateEdit({
               </div>
             </div>
 
-            <Separator className="bg-border" />
+            {/* <Separator className="bg-border" />
             <SectionLabel>{tLive("Labels.Color")}</SectionLabel>
             <div className="space-y-3">
               <p className="text-xs text-muted-foreground">
@@ -403,7 +403,7 @@ export default function CreateEdit({
                   );
                 }}
               />
-            </div>
+            </div> */}
 
             <Separator className="bg-border" />
             <SectionLabel>{tLive("Labels.Visibility")}</SectionLabel>

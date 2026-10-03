@@ -27,12 +27,24 @@ import ChangeOrderStatus from "../orders/change-order-status";
 export default function CustomerDetails({ customer }: { customer: User }) {
   const locale = useLocale();
   const t = useTranslations("Customers.Details");
+  const tCustomers = useTranslations("Customers");
   const tCommon = useTranslations("Common");
+
+  // The detail lists are optional in the API response
+  const name = customer.name || "—";
+  const addresses = customer.addresses ?? [];
+  const orders = customer.orders ?? [];
+  const designs = customer.designs ?? [];
+  const wishlist = customer.wishlist ?? [];
 
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon">
+        <Button
+          variant="ghost"
+          size="icon"
+          aria-label={tCustomers("ViewDetails")}
+        >
           <Eye />
         </Button>
       </SheetTrigger>
@@ -40,12 +52,13 @@ export default function CustomerDetails({ customer }: { customer: User }) {
       <SheetContent
         className="flex h-full flex-col sm:max-w-2xl"
         side={locale === "ar" ? "left" : "right"}
+        aria-describedby={undefined}
       >
         <SheetHeader className="space-y-4 border-b border-primary/20 px-6 pb-4 pt-4">
           <div className="flex items-center gap-3">
             <div className="relative shrink-0">
               <div className="flex size-12 items-center justify-center rounded-full bg-[#d4bd7c] text-sm font-bold text-white">
-                {customer.name.slice(0, 1)}
+                {name.slice(0, 1)}
               </div>
               <div className="absolute -bottom-0.5 -right-0.5 flex size-5 items-center justify-center rounded-full bg-[#8c7839] text-white ring-2 ring-background">
                 <Star className="size-2.5 fill-current" />
@@ -53,7 +66,7 @@ export default function CustomerDetails({ customer }: { customer: User }) {
             </div>
             <div className="min-w-0">
               <SheetTitle className="truncate text-lg font-semibold">
-                {customer.name}
+                {name}
               </SheetTitle>
             </div>
           </div>
@@ -75,7 +88,7 @@ export default function CustomerDetails({ customer }: { customer: User }) {
                 {customer.orders_count}
               </p>
             </div>
-            <div className="text-right">
+            <div className="text-end">
               <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
                 {t("Joined")}
               </p>
@@ -120,7 +133,7 @@ export default function CustomerDetails({ customer }: { customer: User }) {
                       <Mail className="size-4" />
                     </ItemMedia>
                     <ItemContent>
-                      <ItemTitle className="text-muted-foreground">
+                      <ItemTitle className="text-muted-foreground break-all">
                         {customer.email}
                       </ItemTitle>
                     </ItemContent>
@@ -134,8 +147,8 @@ export default function CustomerDetails({ customer }: { customer: User }) {
                 {t("Addresses")} ({customer.addresses_count})
               </AccordionTrigger>
               <AccordionContent className="space-y-4 p-2">
-                {customer.addresses.length ? (
-                  customer.addresses.map((address) => (
+                {addresses.length ? (
+                  addresses.map((address) => (
                     <Card
                       key={address.id}
                       className="flex-row items-start gap-3 ring-0! rounded-2xl border border-primary/30 p-3 shadow-none"
@@ -160,7 +173,9 @@ export default function CustomerDetails({ customer }: { customer: User }) {
                         <p className="mt-0.5 text-xs leading-5 text-muted-foreground">
                           {address.apartment} {address.street}
                           <br />
-                          {address.city.name}, {address.country.name}
+                          {[address.city?.name, address.country?.name]
+                            .filter(Boolean)
+                            .join(", ")}
                         </p>
                       </div>
                     </Card>
@@ -176,11 +191,11 @@ export default function CustomerDetails({ customer }: { customer: User }) {
                 {t("OrderHistory")} ({customer.orders_count})
               </AccordionTrigger>
               <AccordionContent>
-                {customer.orders.length > 0 ? (
+                {orders.length > 0 ? (
                   <div className="overflow-hidden rounded-2xl ring-0! border border-primary/30 bg-white px-4">
                     <Table>
                       <TableBody>
-                        {customer.orders.map((order) => (
+                        {orders.map((order) => (
                           <TableRow
                             key={order.id}
                             className="border-none hover:bg-transparent"
@@ -253,8 +268,8 @@ export default function CustomerDetails({ customer }: { customer: User }) {
                       {t("SavedDesign")}
                     </p>
 
-                    {customer.designs.length > 0 ? (
-                      customer.designs.map((design) => (
+                    {designs.length > 0 ? (
+                      designs.map((design) => (
                         <Card
                           key={design.id}
                           className="flex-row items-center gap-3 rounded-xl p-2.5 shadow-none"
@@ -262,7 +277,7 @@ export default function CustomerDetails({ customer }: { customer: User }) {
                           <div className="size-9 shrink-0 rounded-xl bg-rose-300" />
                           <div className="min-w-0">
                             <p className="truncate text-[11px] font-bold mb-1!">
-                              {design.bouquet.name}
+                              {design.bouquet?.name}
                             </p>
                             <p className="text-[10px] text-muted-foreground">
                               {formatDate(design.created_at)}
@@ -282,8 +297,8 @@ export default function CustomerDetails({ customer }: { customer: User }) {
                       {t("Wishlist")}
                     </p>
 
-                    {customer.wishlist.length > 0 ? (
-                      customer.wishlist.map((item) => (
+                    {wishlist.length > 0 ? (
+                      wishlist.map((item) => (
                         <Card
                           key={item.id}
                           className="flex-row items-center gap-3 rounded-xl p-2.5 shadow-none"

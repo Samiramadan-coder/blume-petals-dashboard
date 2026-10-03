@@ -33,6 +33,12 @@ export default function DataPreview({
   return (
     <>
       <div className="space-y-3 mb-6">
+        {reviews.length === 0 && (
+          <p className="rounded-lg border border-primary/20 bg-white px-4 py-10 text-center text-sm text-muted-foreground">
+            {t("NoReviews")}
+          </p>
+        )}
+
         {reviews.map((review) => (
           <Card
             key={review.id}
@@ -42,20 +48,22 @@ export default function DataPreview({
             <CardContent className="flex gap-4 items-start">
               <Checkbox />
 
-              <div className="space-y-2 flex-1">
+              <div className="space-y-2 flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-primary text-white font-semibold flex items-center justify-center">
-                    {review.user.name.charAt(0)}
+                  <div className="w-8 h-8 shrink-0 rounded-full bg-primary text-white font-semibold flex items-center justify-center">
+                    {(review.user?.name || "—").charAt(0)}
                   </div>
-                  <div className="space-y-1">
-                    <p className="text-sm font-medium">{review.user.name}</p>
+                  <div className="space-y-1 min-w-0">
+                    <p className="text-sm font-medium">
+                      {review.user?.name || "—"}
+                    </p>
                     <p className="text-xs text-muted-foreground">
                       {review.product?.name}
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <Rating rating={review.rating} />
 
                   <span className="text-muted-foreground text-xs">
@@ -69,7 +77,7 @@ export default function DataPreview({
                   )}
                 </div>
 
-                <p className="text-foreground leading-relaxed">
+                <p className="text-foreground leading-relaxed whitespace-pre-line wrap-break-word">
                   {review.comment || (
                     <span className="underline text-muted-foreground">
                       {t("NoCommentProvided")}
@@ -94,7 +102,9 @@ export default function DataPreview({
                             toast.success(tCommon("DeletedSuccessfully"));
                             return;
                           }
-                          toast.error(tCommon("DeleteFailed"));
+                          toast.error(
+                            result.message ?? tCommon("DeleteFailed"),
+                          );
                         }}
                         loading={loadingDelete}
                         trigger={

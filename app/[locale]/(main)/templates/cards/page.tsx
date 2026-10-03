@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { http } from "@/lib/http";
 import { Pagination } from "@/types/shared";
 import { Card } from "@/types/custom-builder";
-import { Spinner } from "@/components/ui/spinner";
+import { TemplatesSkeleton } from "@/components/reusable/page-skeletons";
 import DataPreviewCards from "@/components/custom-builder/data-preview-cards";
 
 type SearchParams = {
@@ -49,7 +49,7 @@ export default async function Page({
   searchParams: Promise<SearchParams>;
 }) {
   return (
-    <Suspense fallback={<Spinner className="h-8 w-8 text-primary" />}>
+    <Suspense fallback={<TemplatesSkeleton columns={5} />}>
       <GetListOfCards searchParams={searchParams} />
     </Suspense>
   );

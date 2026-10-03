@@ -1,11 +1,12 @@
 "use server";
 
-import { http } from "./http";
+import { getErrorMessage, http } from "./http";
 import { updateTag } from "next/cache";
+import { unstable_rethrow } from "next/navigation";
 import { Review } from "@/types/reviews";
 
 // Delete Review Action
-type DeleteReviewResult = { success: boolean };
+type DeleteReviewResult = { success: boolean; message?: string };
 
 export async function deleteReviewAction(
   review: Review,
@@ -15,13 +16,15 @@ export async function deleteReviewAction(
     updateTag("reviews");
     return { success: true };
   } catch (err) {
+    unstable_rethrow(err);
     console.error("Error deleting review:", err);
-    return { success: false };
+    return { success: false, message: getErrorMessage(err) };
   }
 }
 
 // Flag Review Action
-type FlagReviewResult = { success: true; message: string } | { success: false };
+type FlagReviewResult =
+  { success: true; message: string } | { success: false; message?: string };
 
 export async function flagReviewAction(
   reviewId: number,
@@ -33,15 +36,15 @@ export async function flagReviewAction(
     updateTag("reviews");
     return { success: true, message: data.message };
   } catch (err) {
+    unstable_rethrow(err);
     console.error("Error flagging review:", err);
-    return { success: false };
+    return { success: false, message: getErrorMessage(err) };
   }
 }
 
 // Flag Review Action
 type DeleteFlagReviewResult =
-  | { success: true; message: string }
-  | { success: false };
+  { success: true; message: string } | { success: false; message?: string };
 
 export async function deleteFlagReviewAction(
   reviewId: number,
@@ -53,7 +56,8 @@ export async function deleteFlagReviewAction(
     updateTag("reviews");
     return { success: true, message: data.message };
   } catch (err) {
+    unstable_rethrow(err);
     console.error("Error deleting flag from review:", err);
-    return { success: false };
+    return { success: false, message: getErrorMessage(err) };
   }
 }

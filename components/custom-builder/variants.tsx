@@ -5,7 +5,9 @@ import {
   UseFormSetValue,
 } from "react-hook-form";
 
+import { toast } from "sonner";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Plus } from "lucide-react";
 import Input from "@/components/form/input";
 import { Button } from "@/components/ui/button";
@@ -33,6 +35,7 @@ export default function Variants({
   tLive: ReturnType<typeof useFormLocale>["tLive"];
   templateId?: number;
 }) {
+  const tCommon = useTranslations("Common");
   const [loadingDelete, setLoadingDelete] = useState(false);
 
   return (
@@ -74,8 +77,17 @@ export default function Variants({
                 onDelete={async () => {
                   if (variant.id && templateId) {
                     setLoadingDelete(true);
-                    await deleteVariantAction(templateId, variant.id);
+                    const result = await deleteVariantAction(
+                      templateId,
+                      variant.id,
+                    );
                     setLoadingDelete(false);
+
+                    // Keep the shape in the form when the server still has it
+                    if (!result.success) {
+                      toast.error(tCommon("DeleteFailed"));
+                      return;
+                    }
                   }
 
                   const updatedVariants = variants.filter(
@@ -102,6 +114,7 @@ export default function Variants({
             label={tLive("Fields.ShapePrice.Label")}
             name={`variants.${index}.price`}
             type="number"
+            step="any"
             register={register}
             errors={errors}
             required

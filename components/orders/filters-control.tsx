@@ -13,6 +13,7 @@ import {
   SelectValue,
 } from "../ui/select";
 
+import { toast } from "sonner";
 import { useState } from "react";
 import { http } from "@/lib/http";
 import { Field } from "../ui/field";
@@ -56,17 +57,19 @@ export default function FiltersControl() {
     setLoading(true);
     try {
       const { data } = await http.get<string>("/api/v1/admin/orders/export", {
+        // Same filter names the orders list request uses
         params: {
-          query: query || "",
-          status: status || "",
+          q: query || "",
+          status: status === "all" ? "" : status,
           channel: channel || "",
-          dateTo: dateTo || "",
-          dateFrom: dateFrom || "",
+          date_to: dateTo || "",
+          date_from: dateFrom || "",
         },
       });
       parseCsv(data, `orders-export`);
     } catch (error) {
       console.error("Failed to export orders:", error);
+      toast.error(t("ExportFailed"));
     } finally {
       setLoading(false);
     }
@@ -108,15 +111,18 @@ export default function FiltersControl() {
 
                   void setFilters(
                     {
-                      query: value || null,
+                      query: value,
+                      page: "1",
                     },
                     {
                       history: "replace",
-                      limitUrlUpdates: value === "" ? undefined : debounce(500),
+                      limitUrlUpdates:
+                        value === null ? undefined : debounce(500),
                     },
                   );
                 }}
                 placeholder={t("SearchPlaceholder")}
+                aria-label={t("SearchPlaceholder")}
               />
               <InputGroupAddon align="inline-start">
                 <Search />
@@ -126,17 +132,23 @@ export default function FiltersControl() {
 
           <div className="flex items-center flex-wrap gap-2">
             <Select
-              value={channel}
+              value={channel || "all"}
               onValueChange={(value) =>
-                void setFilters({ channel: value, page: "1" })
+                void setFilters({
+                  channel: value === "all" ? null : value,
+                  page: "1",
+                })
               }
             >
-              <SelectTrigger className="h-10 min-h-10 w-40 bg-white px-3 py-2.5 leading-none">
+              <SelectTrigger
+                aria-label={t("AllChannels")}
+                className="h-10 min-h-10 w-40 bg-white px-3 py-2.5 leading-none"
+              >
                 <SelectValue placeholder={t("AllChannels")} />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectItem value="">{t("AllChannels")}</SelectItem>
+                  <SelectItem value="all">{t("AllChannels")}</SelectItem>
                   <SelectItem value="website">{t("Website")}</SelectItem>
                   <SelectItem value="mobile_app">{t("MobileApp")}</SelectItem>
                 </SelectGroup>
@@ -146,6 +158,8 @@ export default function FiltersControl() {
             <Field className="w-auto">
               <Input
                 type="date"
+                aria-label={t("DateFrom")}
+                max={dateTo || undefined}
                 value={dateFrom}
                 onChange={(event) => {
                   void setFilters({
@@ -160,6 +174,8 @@ export default function FiltersControl() {
             <Field className="w-auto">
               <Input
                 type="date"
+                aria-label={t("DateTo")}
+                min={dateFrom || undefined}
                 value={dateTo}
                 onChange={(event) => {
                   void setFilters({

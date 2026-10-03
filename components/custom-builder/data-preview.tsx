@@ -32,6 +32,7 @@ export default function DataPreview({
 }) {
   const locale = useLocale();
   const { can } = usePermissions();
+  const canDelete = can("catalog.delete");
   const t = useTranslations("CustomBuilder");
   const tCommon = useTranslations("Common");
   const [loadingDelete, setLoadingDelete] = useState(false);
@@ -70,27 +71,33 @@ export default function DataPreview({
           rowsCount={templates.length}
           countUnit={t("Templates")}
           pagination={pagination}
-          isCheckbox={checkedIds.length === templates.length}
-          onCheckboxChange={(checked) =>
-            can("catalog.delete")
-              ? checked
-                ? setCheckedIds(templates.map((template) => template.id))
-                : setCheckedIds([])
+          isCheckbox={
+            templates.length > 0 && checkedIds.length === templates.length
+          }
+          onCheckboxChange={
+            canDelete
+              ? (checked) =>
+                  setCheckedIds(
+                    checked ? templates.map((template) => template.id) : [],
+                  )
               : undefined
           }
         >
           {templates.length === 0 ? (
             <TableRow className="border-primary/20">
-              <TableCell colSpan={columns(t).length + 1} className="px-4 py-3">
+              <TableCell
+                colSpan={columns(t).length + (canDelete ? 1 : 0)}
+                className="px-4 py-3"
+              >
                 <p className="text-center text-sm text-muted-foreground">
                   {t("NoTemplates")}
                 </p>
               </TableCell>
             </TableRow>
           ) : (
-            templates.map((template, index) => (
-              <TableRow key={index} className="border-primary/20">
-                {can("catalog.delete") && (
+            templates.map((template) => (
+              <TableRow key={template.id} className="border-primary/20">
+                {canDelete && (
                   <TableCell className="px-4 py-3">
                     <Checkbox
                       checked={checkedIds.includes(template.id)}
@@ -108,14 +115,9 @@ export default function DataPreview({
                 )}
 
                 <TableCell className="px-4 py-3">
-                  <Image
-                    src={
-                      template.images.find((img) => img.is_primary)?.url || ""
-                    }
+                  <TemplatePhoto
+                    template={template}
                     alt={template.name[locale]}
-                    width={40}
-                    height={40}
-                    className="rounded-lg"
                   />
                 </TableCell>
 
@@ -152,16 +154,20 @@ export default function DataPreview({
 
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <Link href={`/products/${template.id}`} locale={locale}>
-                        <Button variant="ghost">
+                      <Button variant="ghost" asChild>
+                        <Link
+                          href={`/products/${template.id}`}
+                          locale={locale}
+                          aria-label={t("Gallery")}
+                        >
                           <Images className="size-4 text-muted-foreground" />
-                        </Button>
-                      </Link>
+                        </Link>
+                      </Button>
                     </TooltipTrigger>
                     <TooltipContent>{t("Gallery")}</TooltipContent>
                   </Tooltip>
 
-                  {can("catalog.delete") && (
+                  {canDelete && (
                     <DeleteBtn
                       itemName={template.name[locale]}
                       onDelete={async () => {
@@ -184,5 +190,22 @@ export default function DataPreview({
         </DataTable>
       </div>
     </>
+  );
+}
+
+/**
+ * The primary photo of a template, any photo if none is primary, or an empty
+ * box when the template has no photos at all.
+ */
+function TemplatePhoto({ template, alt }: { template: Product; alt: string }) {
+  const images = template.images ?? [];
+  const url = (images.find((img) => img.is_primary) ?? images[0])?.url;
+
+  if (!url) {
+    return <div className="size-10 rounded-lg bg-muted" />;
+  }
+
+  return (
+    <Image src={url} alt={alt} width={40} height={40} className="rounded-lg" />
   );
 }

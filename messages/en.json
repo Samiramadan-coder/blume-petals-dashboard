@@ -112,6 +112,8 @@
     }
   },
   "Categories": {
+    "EditCategory": "Edit Category",
+    "EditAddOnsCategory": "Edit Add-Ons Category",
     "Categories": "Categories",
     "AddOnsCategories": "Add-Ons Categories",
     "default": "Default",
@@ -388,6 +390,12 @@
     }
   },
   "Orders": {
+    "NoOrders": "No orders found.",
+    "ExportFailed": "Failed to export orders. Please try again.",
+    "ViewDetails": "View details",
+    "DateFrom": "From date",
+    "DateTo": "To date",
+    "Vat": "VAT",
     "Label": "Orders",
     "ChangeStatus": "Change Status",
     "Status": "Status",
@@ -618,6 +626,9 @@
     }
   },
   "Customers": {
+    "ExportFailed": "Failed to export customers. Please try again.",
+    "NoCustomers": "No customers found.",
+    "ViewDetails": "View details",
     "ShowingCustomers": "Showing {count} customers",
     "SearchPlaceholder": "Search by name, email, phone",
     "ExportCSV": "Export CSV",
@@ -668,6 +679,8 @@
     }
   },
   "Reviews": {
+    "AllReviews": "All Reviews",
+    "NoReviews": "No reviews found.",
     "Label": "Reviews",
     "Description": "Manage customer reviews and respond to feedback",
     "Rating": "Rating",

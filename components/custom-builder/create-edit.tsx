@@ -27,6 +27,44 @@ import LocaleFormSwitcher from "@/components/reusable/locale-form-switcher";
 import { TemplateFormValues, templateSchema } from "@/types/custom-builder";
 import SingleFormImageUploader from "@/components/form/single-image-uploader";
 
+// Keep what the template already has, new templates get the defaults
+function getDefaultValues(
+  firstCategoryId: number,
+  template?: Product,
+): TemplateFormValues {
+  return {
+    name: template?.name ?? { en: "", ar: "" },
+    sku: template?.sku ?? "",
+    status: template?.status ?? "published",
+    is_purchasable: template?.is_purchasable ?? true,
+    show_in_builder: template?.show_in_builder ?? false,
+    category_id: template?.category_id ?? firstCategoryId,
+    tags: template?.tags ?? [],
+    // An empty slot, so a missing photo is reported on the uploader itself
+    images: template?.images.length
+      ? template.images.map((image) => image.url)
+      : [""],
+    variants: template?.variants.length
+      ? template.variants.map((variant) => ({
+          id: variant.id,
+          sku: variant.sku || "",
+          price: variant.price || 0,
+          size: variant.size || "",
+          min_stems: variant.min_stems || 0,
+          max_stems: variant.max_stems || 0,
+        }))
+      : [
+          {
+            sku: "",
+            price: 0,
+            size: "",
+            min_stems: 0,
+            max_stems: 0,
+          },
+        ],
+  };
+}
+
 // CreateEdit component for adding or editing a product
 export default function CreateEdit({
   trigger,
@@ -48,6 +86,7 @@ export default function CreateEdit({
   const {
     register,
     control,
+    reset,
     handleSubmit,
     setError,
     setValue,
@@ -56,34 +95,7 @@ export default function CreateEdit({
     formState: { errors, isSubmitting, isSubmitted },
   } = useForm<TemplateFormValues>({
     resolver: zodResolver(templateSchema((key) => tLive(key as never))),
-    defaultValues: {
-      name: template?.name ?? { en: "", ar: "" },
-      sku: template?.sku ?? "",
-      status: "published",
-      is_purchasable: true,
-      show_in_builder: false,
-      category_id: firstCategoryId,
-      tags: template?.tags ?? [],
-      images: template?.images.map((image) => image.url) ?? [],
-      variants: template?.variants.length
-        ? template?.variants.map((variant) => ({
-            id: variant.id,
-            sku: variant.sku || "",
-            price: variant.price || 0,
-            size: variant.size || "",
-            min_stems: variant.min_stems || 0,
-            max_stems: variant.max_stems || 0,
-          }))
-        : [
-            {
-              sku: "",
-              price: 0,
-              size: "",
-              min_stems: 0,
-              max_stems: 0,
-            },
-          ],
-    },
+    defaultValues: getDefaultValues(firstCategoryId, template),
   });
 
   // Trigger validation when the active locale changes, if the form has been submitted
@@ -105,11 +117,23 @@ export default function CreateEdit({
       })),
     };
 
-    const result = await postTemplateAction(preparedValues, template?.id);
+    const failedMessage = template
+      ? tCommon("UpdateFailed")
+      : tCommon("CreationFailed");
+
+    let result: Awaited<ReturnType<typeof postTemplateAction>>;
+
+    try {
+      result = await postTemplateAction(preparedValues, template?.id);
+    } catch (error) {
+      // The request itself failed (offline, upload too large for the server)
+      console.error("Error submitting template:", error);
+      toast.error(failedMessage);
+      return;
+    }
 
     if (result.success) {
       toast.success(result.message);
-      form.current?.reset();
       closeBtn.current?.click();
       return;
     }
@@ -125,11 +149,16 @@ export default function CreateEdit({
       return;
     }
 
-    toast.error(template ? tCommon("UpdateFailed") : tCommon("CreationFailed"));
+    toast.error(result.message ?? failedMessage);
   };
 
   return (
-    <Sheet>
+    <Sheet
+      onOpenChange={(open) => {
+        // Start from the latest saved values every time the sheet opens
+        if (open) reset(getDefaultValues(firstCategoryId, template));
+      }}
+    >
       {trigger ? (
         <SheetTrigger asChild>{trigger}</SheetTrigger>
       ) : (
@@ -168,6 +197,11 @@ export default function CreateEdit({
           <form
             ref={form}
             onSubmit={(e) => {
+              if (isSubmitting) {
+                e.preventDefault();
+                return;
+              }
+
               void handleSubmit(onSubmit, (errors) => {
                 if (activeLocale === "en") {
                   const hasArErrors = errors.name?.ar;

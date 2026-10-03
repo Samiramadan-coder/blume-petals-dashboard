@@ -30,25 +30,35 @@ export default function DataPreview({
         countUnit={t("Title")}
         pagination={pagination}
       >
-        {initialCustomers.map((customer, index) => (
-          <TableRow key={index} className="border-primary/20">
+        {initialCustomers.length === 0 && (
+          <TableRow className="border-primary/20">
+            <TableCell colSpan={columns(t).length} className="px-4 py-8">
+              <p className="text-center text-sm text-muted-foreground">
+                {t("NoCustomers")}
+              </p>
+            </TableCell>
+          </TableRow>
+        )}
+
+        {initialCustomers.map((customer) => (
+          <TableRow key={customer.id} className="border-primary/20">
             <TableCell className="px-4 py-3">
               <div className="flex items-center gap-4">
                 {customer.photo_url ? (
                   <Image
                     src={customer.photo_url}
-                    alt={customer.name}
+                    alt={customer.name || ""}
                     width={32}
                     height={32}
                     className="w-8 h-8 rounded-full object-cover"
                   />
                 ) : (
-                  <div className="w-8 h-8 flex items-center justify-center bg-primary/30 rounded-full">
-                    {customer.name.slice(0, 1)}
+                  <div className="w-8 h-8 shrink-0 flex items-center justify-center bg-primary/30 rounded-full">
+                    {(customer.name || "—").slice(0, 1)}
                   </div>
                 )}
 
-                <p className="font-medium">{customer.name}</p>
+                <p className="font-medium">{customer.name || "—"}</p>
               </div>
             </TableCell>
 

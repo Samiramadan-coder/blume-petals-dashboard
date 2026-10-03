@@ -38,6 +38,7 @@ export default function CreateEditCard({
   const {
     control,
     register,
+    reset,
     setError,
     trigger: triggerValidation,
     handleSubmit,
@@ -60,11 +61,23 @@ export default function CreateEditCard({
   }, [isSubmitted, triggerValidation, activeLocale]);
 
   const onSubmit: SubmitHandler<CardFormValues> = async (data) => {
-    const result = await postCardAction(data, card?.id);
+    const failedMessage = card
+      ? tCommon("UpdateFailed")
+      : tCommon("CreationFailed");
+
+    let result: Awaited<ReturnType<typeof postCardAction>>;
+
+    try {
+      result = await postCardAction(data, card?.id);
+    } catch (error) {
+      // The request itself failed (offline, upload too large for the server)
+      console.error("Error submitting card:", error);
+      toast.error(failedMessage);
+      return;
+    }
 
     if (result.success) {
       toast.success(result.message);
-      form.current?.reset();
       closeBtn.current?.click();
       return;
     }
@@ -80,11 +93,16 @@ export default function CreateEditCard({
       return;
     }
 
-    toast.error(card ? tCommon("CreationFailed") : tCommon("UpdateFailed"));
+    toast.error(result.message ?? failedMessage);
   };
 
   return (
-    <Sheet>
+    <Sheet
+      onOpenChange={(open) => {
+        // Start from the latest saved values every time the sheet opens
+        if (open) reset();
+      }}
+    >
       {trigger ? (
         <SheetTrigger asChild>{trigger}</SheetTrigger>
       ) : (
@@ -124,9 +142,14 @@ export default function CreateEditCard({
           <form
             ref={form}
             onSubmit={(e) => {
+              if (isSubmitting) {
+                e.preventDefault();
+                return;
+              }
+
               void handleSubmit(onSubmit, (errors) => {
                 if (activeLocale === "en") {
-                  const hasArErrors = errors.name?.ar;
+                  const hasArErrors = errors.name?.ar || errors.description?.ar;
                   if (hasArErrors) {
                     changeLocale("ar");
                     return;
@@ -134,7 +157,7 @@ export default function CreateEditCard({
                 }
 
                 if (activeLocale === "ar") {
-                  const hasEnErrors = errors.name?.en;
+                  const hasEnErrors = errors.name?.en || errors.description?.en;
                   if (hasEnErrors) {
                     changeLocale("en");
                     return;
@@ -182,6 +205,7 @@ export default function CreateEditCard({
               label={tLive("Ribbons.Fields.Price.Label")}
               name="price"
               type="number"
+              step="any"
               register={register}
               errors={errors}
               required

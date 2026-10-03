@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { http } from "@/lib/http";
 import { Pagination } from "@/types/shared";
 import { Order, Summary } from "@/types/orders";
-import { Spinner } from "@/components/ui/spinner";
+import { OrdersSkeleton } from "@/components/reusable/page-skeletons";
 import { getTranslations } from "next-intl/server";
 import DataPreview from "@/components/orders/data-preview";
 
@@ -22,6 +22,15 @@ type SearchParams = {
   channel?: string;
 };
 
+const orderStatuses = [
+  "pending",
+  "processing",
+  "shipped",
+  "ready_for_pickup",
+  "delivered",
+  "cancelled",
+];
+
 async function OrdersPage({ searchParams }: { searchParams: SearchParams }) {
   const { status, query, dateFrom, dateTo, page, channel } = searchParams;
 
@@ -39,7 +48,8 @@ async function OrdersPage({ searchParams }: { searchParams: SearchParams }) {
       page: page || 1,
       per_page: 8,
       q: query || "",
-      status: status || "",
+      // Anything else (missing, "all", hand-typed values) means no filter
+      status: status && orderStatuses.includes(status) ? status : "",
       date_from: dateFrom || "",
       date_to: dateTo || "",
       channel: channel || "",
@@ -67,7 +77,7 @@ export default async function Page({
   searchParams: Promise<SearchParams>;
 }) {
   return (
-    <Suspense fallback={<Spinner className="h-8 w-8 text-primary" />}>
+    <Suspense fallback={<OrdersSkeleton />}>
       <OrdersPage searchParams={await searchParams} />
     </Suspense>
   );

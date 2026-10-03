@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 
 export default function Statistics({ summary }: { summary: Summary }) {
   const t = useTranslations("Customers.Stats");
+  const tCommon = useTranslations("Common");
 
   const statisticsData = [
     {
@@ -38,7 +39,7 @@ export default function Statistics({ summary }: { summary: Summary }) {
     {
       title: t("AverageLifetimeValue"),
       value: summary.avg_lifetime_value,
-      currency: "AED",
+      currency: tCommon("AED"),
       icon: (
         <div className="p-2 bg-foreground/20 rounded-sm">
           <ShoppingBag className="text-foreground size-5" />

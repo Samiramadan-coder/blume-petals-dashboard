@@ -43,26 +43,27 @@ export default function DataPreviewCards({
         >
           {cards.length === 0 ? (
             <TableRow className="border-primary/20">
-              <TableCell
-                colSpan={cardsColumns(t).length + 1}
-                className="px-4 py-3"
-              >
+              <TableCell colSpan={cardsColumns(t).length} className="px-4 py-3">
                 <p className="text-center text-sm text-muted-foreground">
                   {t("NoCards")}
                 </p>
               </TableCell>
             </TableRow>
           ) : (
-            cards.map((card, index) => (
-              <TableRow key={index} className="border-primary/20">
+            cards.map((card) => (
+              <TableRow key={card.id} className="border-primary/20">
                 <TableCell className="px-4 py-3 min-w-50">
-                  <Image
-                    src={card.image_url}
-                    alt={card.name[locale]}
-                    width={40}
-                    height={40}
-                    className="rounded-sm max-h-10"
-                  />
+                  {card.image_url ? (
+                    <Image
+                      src={card.image_url}
+                      alt={card.name[locale]}
+                      width={40}
+                      height={40}
+                      className="rounded-sm max-h-10"
+                    />
+                  ) : (
+                    <div className="size-10 rounded-sm bg-muted" />
+                  )}
                 </TableCell>
 
                 <TableCell className="px-4 py-3">
@@ -70,7 +71,9 @@ export default function DataPreviewCards({
                 </TableCell>
 
                 <TableCell className="px-4 py-3">
-                  <p className="text-xs">{card.description[locale]}</p>
+                  <p className="text-xs min-w-40 max-w-sm whitespace-normal wrap-break-word">
+                    {card.description?.[locale]}
+                  </p>
                 </TableCell>
 
                 <TableCell className="px-4 py-3">
@@ -93,7 +96,7 @@ export default function DataPreviewCards({
                           toast.success(result.message);
                           return;
                         }
-                        toast.error(tCommon("DeleteFailed"));
+                        toast.error(result.message ?? tCommon("DeleteFailed"));
                       }}
                       loading={loadingDelete}
                     />

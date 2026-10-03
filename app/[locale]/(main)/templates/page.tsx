@@ -3,7 +3,7 @@ import { http } from "@/lib/http";
 import { Product } from "@/types/products";
 import { Pagination } from "@/types/shared";
 import { Category } from "@/types/categories";
-import { Spinner } from "@/components/ui/spinner";
+import { TemplatesSkeleton } from "@/components/reusable/page-skeletons";
 import { getTranslations } from "next-intl/server";
 import DataPreview from "@/components/custom-builder/data-preview";
 
@@ -62,7 +62,7 @@ async function ProductsPage({ searchParams }: { searchParams: SearchParams }) {
         key={JSON.stringify(products.data.items)}
         templates={products.data.items}
         pagination={products.data.pagination}
-        firstCategoryId={categories.data.items[0].id}
+        firstCategoryId={categories.data.items[0]?.id ?? 0}
       />
     </main>
   );
@@ -74,7 +74,7 @@ export default async function Page({
   searchParams: Promise<SearchParams>;
 }) {
   return (
-    <Suspense fallback={<Spinner className="h-8 w-8 text-primary" />}>
+    <Suspense fallback={<TemplatesSkeleton columns={4} />}>
       <ProductsPage searchParams={await searchParams} />
     </Suspense>
   );

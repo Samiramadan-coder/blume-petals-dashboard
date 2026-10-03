@@ -3,7 +3,7 @@ import { Suspense } from "react";
 import { http } from "@/lib/http";
 import { formatDate } from "@/lib/utils";
 import { Pagination } from "@/types/shared";
-import { Spinner } from "@/components/ui/spinner";
+import { SavedDesignsSkeleton } from "@/components/reusable/page-skeletons";
 import { getTranslations } from "next-intl/server";
 import { SavedDesign } from "@/types/active-custom-designs";
 import { TableCell, TableRow } from "@/components/ui/table";
@@ -55,28 +55,31 @@ async function GetListOfActiveCustomDesigns({
       >
         {data.data.items.length === 0 ? (
           <TableRow className="border-primary/20">
-            <TableCell colSpan={columns.length + 1} className="px-4 py-10">
+            <TableCell colSpan={columns.length} className="px-4 py-10">
               <p className="text-center text-sm text-muted-foreground">
                 {t("NoActiveDesigns")}
               </p>
             </TableCell>
           </TableRow>
         ) : (
-          data.data.items.map((design, index) => (
+          data.data.items.map((design) => (
             <TableRow
-              key={index}
+              key={design.id}
               className="border-primary/15 transition-colors hover:bg-muted/20"
             >
               {/* Photo */}
               <TableCell className="px-4 py-4 align-top">
                 <div className="size-12 overflow-hidden rounded-lg bg-muted">
-                  <Image
-                    src={design.image_url || design.bouquet.image_url}
-                    alt={design.bouquet.name}
-                    width={48}
-                    height={48}
-                    className="size-full object-cover"
-                  />
+                  {/* The muted box stays as the fallback when no image exists */}
+                  {(design.image_url || design.bouquet?.image_url) && (
+                    <Image
+                      src={design.image_url || design.bouquet.image_url}
+                      alt={design.bouquet?.name || ""}
+                      width={48}
+                      height={48}
+                      className="size-full object-cover"
+                    />
+                  )}
                 </div>
               </TableCell>
 
@@ -84,16 +87,16 @@ async function GetListOfActiveCustomDesigns({
               <TableCell className="px-4 py-4 align-top">
                 <div className="min-w-45 space-y-1">
                   <p className="text-sm font-semibold text-foreground">
-                    {design.customer.name}
+                    {design.customer?.name || "—"}
                   </p>
 
-                  {design.customer.email && (
+                  {design.customer?.email && (
                     <p className="max-w-55 truncate text-xs text-muted-foreground">
                       {design.customer.email}
                     </p>
                   )}
 
-                  {design.customer.phone && (
+                  {design.customer?.phone && (
                     <p className="text-xs text-muted-foreground">
                       {design.customer.phone}
                     </p>
@@ -104,9 +107,9 @@ async function GetListOfActiveCustomDesigns({
               {/* Components */}
               <TableCell className="px-4 py-4 align-top">
                 <div className="flex max-w-90 flex-wrap gap-1.5">
-                  {design.flowers.map((flower) => (
+                  {(design.flowers ?? []).map((flower, flowerIndex) => (
                     <div
-                      key={flower.variant_id}
+                      key={`${flower.variant_id}-${flowerIndex}`}
                       className="inline-flex items-center gap-1 rounded-md border bg-muted/40 px-2 py-1 text-xs"
                     >
                       <span className="font-semibold text-primary">
@@ -218,7 +221,7 @@ export default async function Page({
   searchParams: Promise<SearchParams>;
 }) {
   return (
-    <Suspense fallback={<Spinner className="h-8 w-8 text-primary" />}>
+    <Suspense fallback={<SavedDesignsSkeleton />}>
       <GetListOfActiveCustomDesigns searchParams={searchParams} />
     </Suspense>
   );

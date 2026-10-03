@@ -8,6 +8,7 @@ import {
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { useTranslations } from "next-intl";
+import { toast } from "sonner";
 import { useState } from "react";
 import { Download, Search } from "lucide-react";
 import { Field, FieldLabel } from "../ui/field";
@@ -48,6 +49,7 @@ export default function FiltersControl() {
       parseCsv(data, `users-export`);
     } catch (error) {
       console.error("Failed to export users:", error);
+      toast.error(t("ExportFailed"));
     } finally {
       setLoading(false);
     }
@@ -61,17 +63,20 @@ export default function FiltersControl() {
             <InputGroup className="h-10 bg-white">
               <InputGroupInput
                 placeholder={t("SearchPlaceholder")}
+                aria-label={t("SearchPlaceholder")}
                 value={query}
                 onChange={(e) => {
                   const value = e.target.value || null;
 
                   void setFilters(
                     {
-                      query: value || null,
+                      query: value,
+                      page: "1",
                     },
                     {
                       history: "replace",
-                      limitUrlUpdates: value === "" ? undefined : debounce(500),
+                      limitUrlUpdates:
+                        value === null ? undefined : debounce(500),
                     },
                   );
                 }}
@@ -122,7 +127,7 @@ export default function FiltersControl() {
         >
           {loading && <Spinner />}
           <Download />
-          Export CSV
+          {t("ExportCSV")}
         </Button>
       </div>
     </div>

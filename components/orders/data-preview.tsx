@@ -36,21 +36,33 @@ export default function DataPreview({
         countUnit={t("Label")}
         pagination={pagination}
       >
-        {orders.map((order, index) => {
+        {orders.length === 0 && (
+          <TableRow className="border-primary/20">
+            <TableCell colSpan={columns(t).length} className="px-4 py-8">
+              <p className="text-center text-sm text-muted-foreground">
+                {t("NoOrders")}
+              </p>
+            </TableCell>
+          </TableRow>
+        )}
+
+        {orders.map((order) => {
+          const customerName = order.customer?.name || "—";
+
           return (
-            <TableRow key={index} className="border-primary/20">
+            <TableRow key={order.id} className="border-primary/20">
               <TableCell className="px-4 py-3">
                 <p className="font-bold">#{order.order_number}</p>
               </TableCell>
 
               <TableCell className="px-4 py-3">
                 <div className="flex items-center gap-4">
-                  <div className="w-8 h-8 flex items-center justify-center bg-primary/30 rounded-full">
-                    {order.customer.name.slice(0, 1)}
+                  <div className="w-8 h-8 shrink-0 flex items-center justify-center bg-primary/30 rounded-full">
+                    {customerName.slice(0, 1)}
                   </div>
 
                   <div>
-                    <p className="font-medium">{order.customer.name}</p>
+                    <p className="font-medium">{customerName}</p>
                     <span className="text-muted-foreground mt-2 text-xs">
                       {order.channel}
                     </span>
@@ -60,7 +72,7 @@ export default function DataPreview({
 
               <TableCell className="px-4 py-3">
                 <p className="h-8 w-8 flex items-center justify-center bg-primary/70 font-semibold rounded-lg">
-                  {order.items
+                  {(order.items ?? [])
                     .map((item) => item.qty)
                     .reduce((a, b) => a + b, 0)}
                 </p>

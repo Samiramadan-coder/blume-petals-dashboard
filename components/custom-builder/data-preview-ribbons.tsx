@@ -43,7 +43,7 @@ export default function DataPreviewRibbons({
           {ribbons.length === 0 ? (
             <TableRow className="border-primary/20">
               <TableCell
-                colSpan={ribbonsColumns(t).length + 1}
+                colSpan={ribbonsColumns(t).length}
                 className="px-4 py-3"
               >
                 <p className="text-center text-sm text-muted-foreground">
@@ -52,8 +52,8 @@ export default function DataPreviewRibbons({
               </TableCell>
             </TableRow>
           ) : (
-            ribbons.map((ribbon, index) => (
-              <TableRow key={index} className="border-primary/20">
+            ribbons.map((ribbon) => (
+              <TableRow key={ribbon.id} className="border-primary/20">
                 <TableCell className="px-4 py-3">
                   <p className="font-semibold">{ribbon.name[locale]}</p>
                 </TableCell>
@@ -61,7 +61,7 @@ export default function DataPreviewRibbons({
                 <TableCell className="px-4 py-3">
                   <div className="flex items-center gap-2">
                     <span
-                      className="size-6 rounded-full"
+                      className="size-6 rounded-full border border-border"
                       style={{ backgroundColor: ribbon.color_hex }}
                     ></span>
                   </div>
@@ -87,7 +87,7 @@ export default function DataPreviewRibbons({
                           toast.success(result.message);
                           return;
                         }
-                        toast.error(tCommon("DeleteFailed"));
+                        toast.error(result.message ?? tCommon("DeleteFailed"));
                       }}
                       loading={loadingDelete}
                     />

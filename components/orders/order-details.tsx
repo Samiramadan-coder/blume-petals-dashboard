@@ -31,6 +31,7 @@ import CustomBuilderItemDetails from "./custom-builder-item-details";
 export default function OrderDetails({ order }: { order: Order }) {
   const locale = useLocale();
   const t = useTranslations("Orders");
+  const tCommon = useTranslations("Common");
 
   const {
     register,
@@ -42,20 +43,39 @@ export default function OrderDetails({ order }: { order: Order }) {
   });
 
   const onSubmit: SubmitHandler<AdminNote> = async (data) => {
-    const result = await updateAdminNote(order.id, data.admin_notes);
+    try {
+      const result = await updateAdminNote(order.id, data.admin_notes);
 
-    if (result.success) {
-      toast.success(t("AdminNoteUpdatedSuccessfully"));
-      return;
+      if (result.success) {
+        toast.success(t("AdminNoteUpdatedSuccessfully"));
+        return;
+      }
+
+      toast.error(result.message ?? t("AdminNoteUpdateFailed"));
+    } catch (error) {
+      console.error("Error updating admin note:", error);
+      toast.error(t("AdminNoteUpdateFailed"));
     }
-
-    toast.error(t("AdminNoteUpdateFailed"));
   };
+
+  const customerName = order.customer?.name || "—";
+  const items = order.items ?? [];
+
+  // Leaflet throws on NaN coordinates, only draw the map for real ones
+  const hasCoordinates = (place: { latitude: string; longitude: string }) =>
+    place.latitude !== null &&
+    place.longitude !== null &&
+    Number.isFinite(+place.latitude) &&
+    Number.isFinite(+place.longitude);
 
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="ghost" className="text-muted-foreground">
+        <Button
+          variant="ghost"
+          className="text-muted-foreground"
+          aria-label={t("ViewDetails")}
+        >
           <Eye />
         </Button>
       </SheetTrigger>
@@ -64,6 +84,7 @@ export default function OrderDetails({ order }: { order: Order }) {
         showCloseButton={false}
         className="flex h-full flex-col sm:max-w-2xl"
         side={locale === "ar" ? "left" : "right"}
+        aria-describedby={undefined}
       >
         <SheetHeader className="pt-2 pb-2">
           <SheetTitle className="flex items-center justify-between border-b border-border px-4 py-3 -mx-4">
@@ -85,7 +106,11 @@ export default function OrderDetails({ order }: { order: Order }) {
               </p>
             </div>
             <SheetClose asChild>
-              <Button variant="ghost" className="h-9 w-9 p-0">
+              <Button
+                variant="ghost"
+                className="h-9 w-9 p-0"
+                aria-label={tCommon("Cancel")}
+              >
                 <X className="size-5 text-muted-foreground" />
               </Button>
             </SheetClose>
@@ -95,20 +120,22 @@ export default function OrderDetails({ order }: { order: Order }) {
         <div className="px-6 pb-6 space-y-4 flex-1 overflow-auto">
           <SectionLabel>{t("Customer")}</SectionLabel>
           <div className="flex gap-4">
-            <div className="w-10 h-10 flex items-center text-sm text-white justify-center bg-primary rounded-full font-bold uppercase">
-              {order.customer.name.slice(0, 2)}
+            <div className="w-10 h-10 shrink-0 flex items-center text-sm text-white justify-center bg-primary rounded-full font-bold uppercase">
+              {customerName.slice(0, 2)}
             </div>
-            <div className="flex flex-col gap-1">
-              <p className="text-sm font-semibold">{order.customer.name}</p>
-              {order.customer.phone && (
+            <div className="flex min-w-0 flex-col gap-1">
+              <p className="text-sm font-semibold wrap-break-word">
+                {customerName}
+              </p>
+              {order.customer?.phone && (
                 <p className="text-xs text-muted-foreground flex items-center gap-1">
                   <Phone className="size-3" />
                   {order.customer.phone}
                 </p>
               )}
-              {order.customer.email && (
-                <p className="text-xs text-muted-foreground flex items-center gap-1">
-                  <Mail className="size-3" />
+              {order.customer?.email && (
+                <p className="text-xs text-muted-foreground flex items-center gap-1 break-all">
+                  <Mail className="size-3 shrink-0" />
                   {order.customer.email}
                 </p>
               )}
@@ -117,10 +144,10 @@ export default function OrderDetails({ order }: { order: Order }) {
 
           <Separator />
           <SectionLabel>
-            {t("Items")} ({order.items.length})
+            {t("Items")} ({items.length})
           </SectionLabel>
           <div className="flex flex-col gap-2">
-            {order.items.map((item) => (
+            {items.map((item) => (
               <div
                 key={item.id}
                 className="px-3 py-2 rounded-lg border border-border flex items-center justify-between gap-2"
@@ -145,7 +172,7 @@ export default function OrderDetails({ order }: { order: Order }) {
                   <div className="flex flex-col gap-1">
                     <p className="text-sm font-semibold flex items-center gap-1">
                       {item.name}{" "}
-                      {item.sku.includes("template:") && (
+                      {item.sku?.includes("template:") && (
                         <>
                           <Badge className="text-[11px] text-primary border-primary/40 bg-primary/10">
                             {t("CustomBuilder")}
@@ -185,18 +212,19 @@ export default function OrderDetails({ order }: { order: Order }) {
                     <p className="text-xs text-muted-foreground">
                       {order.address.city}, {order.address.country}
                     </p>
-                    {order.customer_notes && <p>{order.customer_notes}</p>}
                   </div>
                 </div>
-                <div>
-                  <LocationPicker
-                    onChange={() => {}}
-                    value={{
-                      latitude: +order.address.latitude,
-                      longitude: +order.address.longitude,
-                    }}
-                  />
-                </div>
+                {hasCoordinates(order.address) && (
+                  <div>
+                    <LocationPicker
+                      onChange={() => {}}
+                      value={{
+                        latitude: +order.address.latitude,
+                        longitude: +order.address.longitude,
+                      }}
+                    />
+                  </div>
+                )}
               </>
             )}
 
@@ -219,15 +247,17 @@ export default function OrderDetails({ order }: { order: Order }) {
                     </p>
                   </div>
                 </div>
-                <div>
-                  <LocationPicker
-                    onChange={() => {}}
-                    value={{
-                      latitude: +order.pickup.latitude,
-                      longitude: +order.pickup.longitude,
-                    }}
-                  />
-                </div>
+                {hasCoordinates(order.pickup) && (
+                  <div>
+                    <LocationPicker
+                      onChange={() => {}}
+                      value={{
+                        latitude: +order.pickup.latitude,
+                        longitude: +order.pickup.longitude,
+                      }}
+                    />
+                  </div>
+                )}
               </>
             )}
           </div>
@@ -253,6 +283,14 @@ export default function OrderDetails({ order }: { order: Order }) {
                 {order.summary.discount_total} {order.currency}
               </span>
             </div>
+            {+order.summary.vat_total > 0 && (
+              <div className="text-xs text-muted-foreground flex items-center justify-between px-3 py-2 border-b border-border">
+                <span>{t("Vat")}</span>
+                <span>
+                  {order.summary.vat_total} {order.currency}
+                </span>
+              </div>
+            )}
             <div className="text-xs text-muted-foreground flex items-center justify-between px-3 py-2 border-b border-border">
               <span>{t("PaymentMethod")}</span>
               <span>{order.payment_method}</span>
@@ -260,10 +298,7 @@ export default function OrderDetails({ order }: { order: Order }) {
             <div className="flex items-center justify-between px-3 py-2">
               <span className="font-bold">{t("Total")}</span>
               <span>
-                {+order.summary.subtotal +
-                  +order.summary.shipping_total -
-                  +order.summary.discount_total}{" "}
-                {order.currency}
+                {order.summary.grand_total} {order.currency}
               </span>
             </div>
           </div>
@@ -276,7 +311,7 @@ export default function OrderDetails({ order }: { order: Order }) {
             <>
               <Separator />
               <SectionLabel>{t("CustomerNotes")}</SectionLabel>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-muted-foreground whitespace-pre-line wrap-break-word">
                 {order.customer_notes}
               </p>
             </>
@@ -297,6 +332,7 @@ export default function OrderDetails({ order }: { order: Order }) {
               type="submit"
               className="w-full h-10 bg-white"
               variant="outline"
+              disabled={isSubmitting}
             >
               {isSubmitting ? <Spinner /> : t("AdminNote")}
             </Button>

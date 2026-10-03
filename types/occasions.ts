@@ -29,7 +29,7 @@ export const occasionCollectionSchema = (t: T) =>
         .min(1, t("Errors.OccasionCollectionSlugRequired"))
         .min(2, t("Errors.OccasionCollectionSlugMinLength")),
       type: z.string().min(1, t("Errors.OccasionCollectionTypeRequired")),
-      color: z.string().min(1, t("Errors.OccasionCollectionColorRequired")),
+      // color: z.string().min(1, t("Errors.OccasionCollectionColorRequired")),
       is_visible: z.boolean(),
       sort_order: z.number(),
       banner: imageSchema,

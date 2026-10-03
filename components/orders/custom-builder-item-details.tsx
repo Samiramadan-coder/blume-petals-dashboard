@@ -5,7 +5,12 @@ import { Button } from "../ui/button";
 import { Item } from "@/types/orders";
 import { NotebookTabs } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
 
 export default function CustomBuilderItemDetails({ item }: { item: Item }) {
   const locale = useLocale();
@@ -15,12 +20,16 @@ export default function CustomBuilderItemDetails({ item }: { item: Item }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button size="icon" variant="ghost">
+        <Button size="icon" variant="ghost" aria-label={t("Components")}>
           <NotebookTabs className="text-primary" />
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-3xl p-0 overflow-hidden ring-0">
+      <DialogContent
+        className="sm:max-w-3xl p-0 overflow-hidden ring-0"
+        aria-describedby={undefined}
+      >
+        <DialogTitle className="sr-only">{item.name}</DialogTitle>
         <div className="max-h-[85vh] overflow-y-auto">
           {item.image_url && (
             <div className="relative flex min-h-125 items-center justify-center bg-muted/30 p-6">
@@ -42,7 +51,7 @@ export default function CustomBuilderItemDetails({ item }: { item: Item }) {
               </h3>
 
               <div className="flex flex-wrap gap-2">
-                {item.component_snapshot.map((component, index) => (
+                {(item.component_snapshot ?? []).map((component, index) => (
                   <div
                     key={index}
                     className="rounded-lg border bg-background px-3 py-2 text-sm"
@@ -115,7 +124,9 @@ export default function CustomBuilderItemDetails({ item }: { item: Item }) {
                       {t("Message")}
                     </p>
 
-                    <p className="text-muted-foreground">{item.message_text}</p>
+                    <p className="text-muted-foreground whitespace-pre-line wrap-break-word">
+                      {item.message_text}
+                    </p>
                   </div>
                 )}
               </div>

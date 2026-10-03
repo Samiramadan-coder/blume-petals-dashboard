@@ -1,8 +1,9 @@
 "use server";
 
 import { Product } from "@/types/products";
-import { http, ValidationError } from "./http";
+import { getErrorMessage, http, ValidationError } from "./http";
 import { updateTag } from "next/cache";
+import { unstable_rethrow } from "next/navigation";
 import {
   Card,
   CardFormValues,
@@ -19,6 +20,7 @@ type PostAndPutProductResult =
     }
   | {
       success: false;
+      message?: string;
       errors?: Partial<Record<keyof TemplateFormValues, string>>;
     };
 
@@ -37,47 +39,17 @@ export async function postTemplateAction(
 
   delete dataWithoutFiles.images;
 
+  let saved: { data: { product: Product }; message: string };
+
   try {
     const { data } = await http[method]<{
       data: { product: Product };
       message: string;
     }>(url, dataWithoutFiles);
 
-    // Post Or Update Images
-    for (const [index, image] of formData.images.entries()) {
-      if (!(image instanceof Blob)) continue;
-      const imageFormData = new FormData();
-      imageFormData.append("image", image);
-      imageFormData.append("is_primary", index === 0 ? "1" : "0");
-      await http.post(
-        `/api/v1/admin/products/${data.data.product.id}/images`,
-        imageFormData,
-      );
-    }
-
-    // because the product is created first, we need to update the variant ids if they exist
-    const preparedVariants = formData.variants.map((variant) => {
-      const existingVariant = data.data.product.variants.find(
-        (v) => v.sku === variant.sku,
-      );
-      return {
-        ...variant,
-        id: existingVariant?.id,
-      };
-    });
-
-    // Post Or Update Variants
-    preparedVariants.forEach(async (variant) => {
-      if (variant.id) {
-        await addVariantAction(data.data.product.id, variant, variant.id);
-      } else {
-        await addVariantAction(data.data.product.id, variant);
-      }
-    });
-
-    updateTag("templates");
-    return { success: true, message: data.message };
+    saved = data;
   } catch (err) {
+    unstable_rethrow(err);
     console.error("Product create/update request failed", err);
     if (err instanceof ValidationError) {
       const errors = Object.fromEntries(
@@ -89,13 +61,59 @@ export async function postTemplateAction(
 
       return { success: false, errors };
     }
-    return { success: false };
+    return { success: false, message: getErrorMessage(err) };
   }
+
+  // The template itself is saved at this point, so the list must refresh even
+  // if an image or a shape below fails.
+  updateTag("templates");
+
+  const product = saved.data.product;
+
+  try {
+    // Post Or Update Images
+    for (const [index, image] of formData.images.entries()) {
+      if (!(image instanceof Blob)) continue;
+      const imageFormData = new FormData();
+      imageFormData.append("image", image);
+      imageFormData.append("is_primary", index === 0 ? "1" : "0");
+      await http.post(
+        `/api/v1/admin/products/${product.id}/images`,
+        imageFormData,
+      );
+    }
+  } catch (err) {
+    unstable_rethrow(err);
+    console.error("Template image upload failed", err);
+    return { success: false, message: getErrorMessage(err) };
+  }
+
+  // Post Or Update Variants, one at a time so a failure is reported.
+  // The product is created first, so match existing variants by their sku.
+  for (const variant of formData.variants) {
+    const existingVariant = product.variants.find((v) => v.sku === variant.sku);
+
+    const result = await addVariantAction(
+      product.id,
+      { ...variant, id: existingVariant?.id },
+      existingVariant?.id,
+    );
+
+    if (!result.success) {
+      return {
+        success: false,
+        message: Object.values(result.errors ?? {})[0] ?? result.message,
+      };
+    }
+  }
+
+  return { success: true, message: saved.message };
 }
 
 // Add Variant Action
 type AddVariantResult = {
   success: boolean;
+  message?: string;
   errors?: Partial<
     Record<keyof TemplateFormValues["variants"][number], string>
   >;
@@ -117,6 +135,7 @@ export async function addVariantAction(
     updateTag("templates");
     return { success: true };
   } catch (err) {
+    unstable_rethrow(err);
     console.error("Error adding variant:", err);
     if (err instanceof ValidationError) {
       const errors = Object.fromEntries(
@@ -129,7 +148,7 @@ export async function addVariantAction(
       >;
       return { success: false, errors };
     }
-    return { success: false };
+    return { success: false, message: getErrorMessage(err) };
   }
 }
 
@@ -138,6 +157,7 @@ type PostAndPutRibbonResult =
   | { success: true; message: string }
   | {
       success: false;
+      message?: string;
       errors?: Partial<Record<keyof RibbonFormValues, string>>;
     };
 
@@ -156,6 +176,7 @@ export async function postRibbonAction(
     updateTag("ribbons");
     return { success: true, message: data.message };
   } catch (err) {
+    unstable_rethrow(err);
     console.error("Post Ribbon Action Error:", err);
     if (err instanceof ValidationError) {
       const errors = Object.fromEntries(
@@ -167,14 +188,13 @@ export async function postRibbonAction(
 
       return { success: false, errors };
     }
-    return { success: false };
+    return { success: false, message: getErrorMessage(err) };
   }
 }
 
 // Delete Ribbon Action
 type DeleteRibbonResult =
-  | { success: true; message: string }
-  | { success: false };
+  { success: true; message: string } | { success: false; message?: string };
 
 export async function deleteRibbonAction(
   ribbon: Ribbon,
@@ -186,8 +206,9 @@ export async function deleteRibbonAction(
     updateTag("ribbons");
     return { success: true, message: data.message };
   } catch (err) {
+    unstable_rethrow(err);
     console.error("Error deleting ribbon:", err);
-    return { success: false };
+    return { success: false, message: getErrorMessage(err) };
   }
 }
 
@@ -196,6 +217,7 @@ type PostAndPutCardResult =
   | { success: true; message: string }
   | {
       success: false;
+      message?: string;
       errors?: Partial<Record<keyof CardFormValues, string>>;
     };
 
@@ -208,36 +230,24 @@ export async function postCardAction(
     ? `/api/v1/admin/gift-options/${cardId}`
     : "/api/v1/admin/gift-options";
 
+  // The image goes through its own upload request below, never in this JSON body
   const dataWithoutFiles: Partial<CardFormValues> = {
     ...formData,
   };
 
   delete dataWithoutFiles.image;
 
+  let saved: { data: { gift_option: Card }; message: string };
+
   try {
     const { data } = await http[method]<{
       data: { gift_option: Card };
       message: string;
-    }>(url, formData);
+    }>(url, dataWithoutFiles);
 
-    // Post Or Update Banner
-    if (formData.image instanceof Blob) {
-      const imageFormData = new FormData();
-      imageFormData.append("kind", "image");
-      imageFormData.append(
-        "image",
-        formData.image,
-        formData.image instanceof File ? formData.image.name : "Image",
-      );
-      await http.post(
-        `/api/v1/admin/gift-options/${data.data.gift_option.id}/image`,
-        imageFormData,
-      );
-    }
-
-    updateTag("cards");
-    return { success: true, message: data.message };
+    saved = data;
   } catch (err) {
+    unstable_rethrow(err);
     console.error("Post Card Action Error:", err);
     if (err instanceof ValidationError) {
       const errors = Object.fromEntries(
@@ -249,12 +259,41 @@ export async function postCardAction(
 
       return { success: false, errors };
     }
-    return { success: false };
+    return { success: false, message: getErrorMessage(err) };
   }
+
+  // The card itself is saved at this point, so the list must refresh even if
+  // the image upload below fails.
+  updateTag("cards");
+
+  // Post Or Update Banner
+  if (formData.image instanceof Blob) {
+    const imageFormData = new FormData();
+    imageFormData.append("kind", "image");
+    imageFormData.append(
+      "image",
+      formData.image,
+      formData.image instanceof File ? formData.image.name : "Image",
+    );
+
+    try {
+      await http.post(
+        `/api/v1/admin/gift-options/${saved.data.gift_option.id}/image`,
+        imageFormData,
+      );
+    } catch (err) {
+      unstable_rethrow(err);
+      console.error("Card image upload failed", err);
+      return { success: false, message: getErrorMessage(err) };
+    }
+  }
+
+  return { success: true, message: saved.message };
 }
 
 // Delete Card Action
-type DeleteCardResult = { success: true; message: string } | { success: false };
+type DeleteCardResult =
+  { success: true; message: string } | { success: false; message?: string };
 
 export async function deleteCardAction(card: Card): Promise<DeleteCardResult> {
   try {
@@ -264,7 +303,8 @@ export async function deleteCardAction(card: Card): Promise<DeleteCardResult> {
     updateTag("cards");
     return { success: true, message: data.message };
   } catch (err) {
+    unstable_rethrow(err);
     console.error("Error deleting card:", err);
-    return { success: false };
+    return { success: false, message: getErrorMessage(err) };
   }
 }

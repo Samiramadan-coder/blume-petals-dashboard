@@ -13,35 +13,41 @@ export default function NavigationTabs() {
 
   return (
     <div className="p-0.5 my-4 w-fit border border-border rounded-lg bg-white">
-      <Link href="/templates">
-        <Button
-          className={`px-4 min-w-25 rounded-sm text-[13px] font-semibold hover:bg-primary hover:text-primary-foreground ${isTemplates ? "bg-primary text-primary-foreground" : ""}`}
-          variant="ghost"
-          aria-pressed={isTemplates}
-        >
+      <Button
+        asChild
+        className={`px-4 min-w-25 rounded-sm text-[13px] font-semibold hover:bg-primary hover:text-primary-foreground ${isTemplates ? "bg-primary text-primary-foreground" : ""}`}
+        variant="ghost"
+      >
+        <Link href="/templates" aria-current={isTemplates ? "page" : undefined}>
           {t("Templates")}
-        </Button>
-      </Link>
+        </Link>
+      </Button>
 
-      <Link href="/templates/ribbons">
-        <Button
-          className={`px-4 min-w-25 rounded-sm text-[13px] font-semibold hover:bg-primary hover:text-primary-foreground ${isRibbons ? "bg-primary text-primary-foreground" : ""}`}
-          variant="ghost"
-          aria-pressed={isRibbons}
+      <Button
+        asChild
+        className={`px-4 min-w-25 rounded-sm text-[13px] font-semibold hover:bg-primary hover:text-primary-foreground ${isRibbons ? "bg-primary text-primary-foreground" : ""}`}
+        variant="ghost"
+      >
+        <Link
+          href="/templates/ribbons"
+          aria-current={isRibbons ? "page" : undefined}
         >
           {t("Ribbons")}
-        </Button>
-      </Link>
+        </Link>
+      </Button>
 
-      <Link href="/templates/cards">
-        <Button
-          className={`px-4 min-w-25 rounded-sm text-[13px] font-semibold hover:bg-primary hover:text-primary-foreground ${isCards ? "bg-primary text-primary-foreground" : ""}`}
-          variant="ghost"
-          aria-pressed={isCards}
+      <Button
+        asChild
+        className={`px-4 min-w-25 rounded-sm text-[13px] font-semibold hover:bg-primary hover:text-primary-foreground ${isCards ? "bg-primary text-primary-foreground" : ""}`}
+        variant="ghost"
+      >
+        <Link
+          href="/templates/cards"
+          aria-current={isCards ? "page" : undefined}
         >
           {t("Cards")}
-        </Button>
-      </Link>
+        </Link>
+      </Button>
     </div>
   );
 }

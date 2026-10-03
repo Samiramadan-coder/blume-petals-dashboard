@@ -40,7 +40,7 @@ export default function FlagReview({
       return;
     }
 
-    toast.error(t("FlagFailed"));
+    toast.error(result.message ?? t("FlagFailed"));
   }
 
   return (
@@ -70,6 +70,7 @@ export default function FlagReview({
             className="rounded-sm text-xs py-4 px-4"
             variant="destructive"
             onClick={handleFlagReview}
+            disabled={loading}
           >
             {loading ? <Spinner /> : isFlagged ? t("Unflag") : t("Flag")}
           </Button>

@@ -35,6 +35,7 @@ export default function CreateEditRibbon({
 
   const {
     register,
+    reset,
     setError,
     trigger: triggerValidation,
     handleSubmit,
@@ -56,10 +57,23 @@ export default function CreateEditRibbon({
   }, [isSubmitted, triggerValidation, activeLocale]);
 
   const onSubmit: SubmitHandler<RibbonFormValues> = async (data) => {
-    const result = await postRibbonAction(data, ribbon?.id);
+    const failedMessage = ribbon
+      ? tCommon("UpdateFailed")
+      : tCommon("CreationFailed");
+
+    let result: Awaited<ReturnType<typeof postRibbonAction>>;
+
+    try {
+      result = await postRibbonAction(data, ribbon?.id);
+    } catch (error) {
+      // The request itself failed (e.g. offline)
+      console.error("Error submitting ribbon:", error);
+      toast.error(failedMessage);
+      return;
+    }
+
     if (result.success) {
       toast.success(result.message);
-      form.current?.reset();
       closeBtn.current?.click();
       return;
     }
@@ -73,11 +87,16 @@ export default function CreateEditRibbon({
       });
       return;
     }
-    toast.error(ribbon ? tCommon("CreationFailed") : tCommon("UpdateFailed"));
+    toast.error(result.message ?? failedMessage);
   };
 
   return (
-    <Sheet>
+    <Sheet
+      onOpenChange={(open) => {
+        // Start from the latest saved values every time the sheet opens
+        if (open) reset();
+      }}
+    >
       {trigger ? (
         <SheetTrigger asChild>{trigger}</SheetTrigger>
       ) : (
@@ -117,6 +136,11 @@ export default function CreateEditRibbon({
           <form
             ref={form}
             onSubmit={(e) => {
+              if (isSubmitting) {
+                e.preventDefault();
+                return;
+              }
+
               void handleSubmit(onSubmit, (errors) => {
                 if (activeLocale === "en") {
                   const hasArErrors = errors.name?.ar;
@@ -140,8 +164,8 @@ export default function CreateEditRibbon({
             {availableLocales.map((lang) => (
               <Input<RibbonFormValues>
                 key={lang}
-                label={tLive("Fields.Name.Label")}
-                placeholder={tLive("Fields.Name.Placeholder")}
+                label={tLive("Ribbons.Fields.Name.Label")}
+                placeholder={tLive("Ribbons.Fields.Name.Placeholder")}
                 name={`name.${lang}`}
                 type="text"
                 register={register}
@@ -164,6 +188,7 @@ export default function CreateEditRibbon({
               label={tLive("Ribbons.Fields.Price.Label")}
               name="price"
               type="number"
+              step="any"
               register={register}
               errors={errors}
               required

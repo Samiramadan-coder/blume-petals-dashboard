@@ -1,10 +1,11 @@
 "use server";
 
 import { updateTag } from "next/cache";
-import { http } from "./http";
+import { unstable_rethrow } from "next/navigation";
+import { getErrorMessage, http } from "./http";
 
 // Change Order Status
-type ChangeOrderStatusResponse = { success: boolean };
+type ChangeOrderStatusResponse = { success: boolean; message?: string };
 
 export async function changeOrderStatus(
   orderId: number,
@@ -20,13 +21,14 @@ export async function changeOrderStatus(
     updateTag("orders");
     return { success: true };
   } catch (error) {
+    unstable_rethrow(error);
     console.error("Error changing order status:", error);
-    return { success: false };
+    return { success: false, message: getErrorMessage(error) };
   }
 }
 
 // Update Admin Note
-type UpdateAdminNoteResponse = { success: boolean };
+type UpdateAdminNoteResponse = { success: boolean; message?: string };
 
 export async function updateAdminNote(
   orderId: number,
@@ -39,7 +41,8 @@ export async function updateAdminNote(
     updateTag("orders");
     return { success: true };
   } catch (error) {
+    unstable_rethrow(error);
     console.error("Error updating admin note:", error);
-    return { success: false };
+    return { success: false, message: getErrorMessage(error) };
   }
 }

@@ -26,6 +26,9 @@ export default function FiltersControl() {
   const t = useTranslations("Reviews");
 
   const [{ query, rating, sort, flagged }, setFilters] = useQueryStates({
+    // Every filter change goes back to the first page
+    page: parseAsString.withOptions({ history: "push", shallow: false }),
+
     query: parseAsString
       .withDefault("")
       .withOptions({ history: "push", shallow: false }),
@@ -39,7 +42,7 @@ export default function FiltersControl() {
       .withOptions({ history: "push", shallow: false }),
 
     flagged: parseAsString
-      .withDefault("false")
+      .withDefault("")
       .withOptions({ history: "push", shallow: false }),
   });
 
@@ -52,7 +55,7 @@ export default function FiltersControl() {
               value={query}
               onChange={(e) =>
                 setFilters(
-                  { query: e.target.value },
+                  { query: e.target.value, page: null },
                   {
                     history: "replace",
                     limitUrlUpdates:
@@ -61,6 +64,7 @@ export default function FiltersControl() {
                 )
               }
               placeholder={t("SearchPlaceholder")}
+              aria-label={t("SearchPlaceholder")}
             />
             <InputGroupAddon align="inline-start">
               <Search />
@@ -71,10 +75,13 @@ export default function FiltersControl() {
         <Select
           value={rating}
           onValueChange={(value) => {
-            setFilters({ rating: value });
+            setFilters({ rating: value, page: null });
           }}
         >
-          <SelectTrigger className="flex-1 h-10 min-h-10 w-full bg-white px-3 py-2.5 leading-none">
+          <SelectTrigger
+            aria-label={t("Rating")}
+            className="flex-1 h-10 min-h-10 w-full bg-white px-3 py-2.5 leading-none"
+          >
             <SelectValue placeholder={t("AllRatings")} />
           </SelectTrigger>
           <SelectContent>
@@ -102,10 +109,13 @@ export default function FiltersControl() {
         <Select
           value={sort}
           onValueChange={(value) => {
-            setFilters({ sort: value });
+            setFilters({ sort: value, page: null });
           }}
         >
-          <SelectTrigger className="h-10 flex-1 min-h-10 w-full bg-white px-3 py-2.5 leading-none">
+          <SelectTrigger
+            aria-label={t("SortBy")}
+            className="h-10 flex-1 min-h-10 w-full bg-white px-3 py-2.5 leading-none"
+          >
             <SelectValue placeholder={t("Newest")} />
           </SelectTrigger>
           <SelectContent>
@@ -122,11 +132,14 @@ export default function FiltersControl() {
         <Select
           value={flagged}
           onValueChange={(value) => {
-            setFilters({ flagged: value });
+            setFilters({ flagged: value, page: null });
           }}
         >
-          <SelectTrigger className="h-10 flex-1 min-h-10 w-full bg-white px-3 py-2.5 leading-none">
-            <SelectValue placeholder={t("NotFlagged")} />
+          <SelectTrigger
+            aria-label={t("Flagged")}
+            className="h-10 flex-1 min-h-10 w-full bg-white px-3 py-2.5 leading-none"
+          >
+            <SelectValue placeholder={t("AllReviews")} />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
@@ -145,6 +158,7 @@ export default function FiltersControl() {
               rating: "",
               sort: "newest",
               flagged: "",
+              page: null,
             });
           }}
         >

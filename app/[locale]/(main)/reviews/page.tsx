@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { http } from "@/lib/http";
 import { Pagination } from "@/types/shared";
-import { Spinner } from "@/components/ui/spinner";
+import { ReviewsSkeleton } from "@/components/reusable/page-skeletons";
 import { getTranslations } from "next-intl/server";
 import Statistics from "@/components/reviews/statistics";
 import DataPreview from "@/components/reviews/data-preview";
@@ -79,7 +79,7 @@ export default async function Page({
   searchParams: Promise<SearchParams>;
 }) {
   return (
-    <Suspense fallback={<Spinner className="text-primary w-8 h-8" />}>
+    <Suspense fallback={<ReviewsSkeleton />}>
       <ReviewsPage searchParams={await searchParams} />
     </Suspense>
   );

@@ -60,6 +60,7 @@ export default function DataPreview({
         countUnit={t("Categories")}
         columns={columns((key) => t(key as never))}
         onReorder={async (newCategories) => {
+          const previous = categories;
           setCategories(newCategories);
           const result = await reorderCategoriesAction(
             newCategories.map((category) => category.id),
@@ -68,18 +69,21 @@ export default function DataPreview({
             toast.success(tCommon("ReorderedSuccessfully"));
             return;
           }
-          toast.error(tCommon("ReorderFailed"));
+          setCategories(previous);
+          toast.error(result.message ?? tCommon("ReorderFailed"));
         }}
         renderCells={(category) => (
           <>
             <TableCell className="px-4 py-3">
-              <Image
-                src={category.banner_url}
-                alt={category.name[locale]}
-                width={40}
-                height={40}
-                className="rounded-lg max-h-10"
-              />
+              {category.banner_url && (
+                <Image
+                  src={category.banner_url}
+                  alt={category.name[locale]}
+                  width={40}
+                  height={40}
+                  className="rounded-lg max-h-10"
+                />
+              )}
             </TableCell>
             <TableCell className="px-4 py-3">
               <p>{category.name[locale]}</p>
@@ -131,7 +135,7 @@ export default function DataPreview({
                       toast.success(result.message);
                       return;
                     }
-                    toast.error(tCommon("DeleteFailed"));
+                    toast.error(result.message ?? tCommon("DeleteFailed"));
                   }}
                   loading={loadingDelete}
                 />
@@ -173,7 +177,7 @@ function VisibilitySwitch({
               toast.success(result.message);
               return;
             }
-            toast.error(tCommon("VisibilityUpdateFailed"));
+            toast.error(result.message ?? tCommon("VisibilityUpdateFailed"));
           }}
         />
       )}

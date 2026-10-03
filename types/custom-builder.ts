@@ -2,23 +2,32 @@ import z from "zod";
 import { LocaleObj, T } from "./shared";
 
 const imageSchema = (t: T) =>
-  z.union([z.string(), z.instanceof(Blob)]).refine(
-    (image) => {
-      if (typeof image === "string") return true;
-      return image.size <= 1024 * 1024;
-    },
-    { message: t("Fields.Photo.ImageMaxSize") },
-  );
+  z
+    .union([
+      z.string().min(1, t("Fields.Photo.AtLeastOneImageIsRequired")),
+      z.instanceof(Blob, {
+        message: t("Fields.Photo.AtLeastOneImageIsRequired"),
+      }),
+    ])
+    .refine(
+      (image) => {
+        if (typeof image === "string") return true;
+        return image.size <= 1024 * 1024;
+      },
+      { message: t("Fields.Photo.ImageMaxSize") },
+    );
 
 export const templateSchema = (t: T) =>
   z.object({
     name: z.object({
       en: z
         .string()
+        .trim()
         .min(1, t("Fields.Name.Required"))
         .min(2, t("Fields.Name.MinLength")),
       ar: z
         .string()
+        .trim()
         .min(1, t("Fields.Name.Required"))
         .min(2, t("Fields.Name.MinLength")),
     }),
@@ -29,21 +38,29 @@ export const templateSchema = (t: T) =>
     tags: z.array(
       z
         .string()
+        .trim()
         .min(1, t("Fields.Tags.Required"))
         .regex(/^template:[^\s:]+$/, t("Fields.Tags.Format")),
     ),
     sku: z
       .string()
+      .trim()
       .min(1, t("Fields.SKU.Required"))
       .min(2, t("Fields.SKU.MinLength")),
     variants: z.array(
       z.object({
         id: z.number().optional(),
         sku: z.string(),
-        price: z.number().min(1, t("Fields.ShapePrice.Required")),
-        size: z.string().min(1, t("Fields.Size.Required")),
-        min_stems: z.number().min(1, t("Fields.MinStems.Required")),
-        max_stems: z.number().min(1, t("Fields.MaxStems.Required")),
+        price: z
+          .number(t("Fields.ShapePrice.Required"))
+          .min(1, t("Fields.ShapePrice.Required")),
+        size: z.string().trim().min(1, t("Fields.Size.Required")),
+        min_stems: z
+          .number(t("Fields.MinStems.Required"))
+          .min(1, t("Fields.MinStems.Required")),
+        max_stems: z
+          .number(t("Fields.MaxStems.Required"))
+          .min(1, t("Fields.MaxStems.Required")),
       }),
     ),
     images: z
@@ -61,14 +78,18 @@ export const ribbonSchema = (t: T) =>
     name: z.object({
       en: z
         .string()
+        .trim()
         .min(1, t("Ribbons.Fields.Name.Required"))
         .min(2, t("Ribbons.Fields.Name.MinLength")),
       ar: z
         .string()
+        .trim()
         .min(1, t("Ribbons.Fields.Name.Required"))
         .min(2, t("Ribbons.Fields.Name.MinLength")),
     }),
-    price: z.number().min(1, t("Ribbons.Fields.Price.Required")),
+    price: z
+      .number(t("Ribbons.Fields.Price.Required"))
+      .min(1, t("Ribbons.Fields.Price.Required")),
   });
 
 export type RibbonFormValues = z.infer<ReturnType<typeof ribbonSchema>>;
@@ -88,31 +109,42 @@ export const cardSchema = (t: T) =>
     name: z.object({
       en: z
         .string()
+        .trim()
         .min(1, t("Cards.Fields.Name.Required"))
         .min(2, t("Cards.Fields.Name.MinLength")),
       ar: z
         .string()
+        .trim()
         .min(1, t("Cards.Fields.Name.Required"))
         .min(2, t("Cards.Fields.Name.MinLength")),
     }),
     description: z.object({
       en: z
         .string()
+        .trim()
         .min(1, t("Cards.Fields.Description.Required"))
         .min(2, t("Cards.Fields.Description.MinLength")),
       ar: z
         .string()
+        .trim()
         .min(1, t("Cards.Fields.Description.Required"))
         .min(2, t("Cards.Fields.Description.MinLength")),
     }),
-    price: z.number().min(1, t("Cards.Fields.Price.Required")),
-    image: z.union([z.string().min(1), z.instanceof(Blob)]).refine(
-      (image) => {
-        if (typeof image === "string") return true;
-        return image.size <= 1024 * 1024;
-      },
-      { message: t("Cards.Fields.Image.ImageMaxSize") },
-    ),
+    price: z
+      .number(t("Cards.Fields.Price.Required"))
+      .min(1, t("Cards.Fields.Price.Required")),
+    image: z
+      .union([
+        z.string().min(1, t("Cards.Fields.Image.Required")),
+        z.instanceof(Blob, { message: t("Cards.Fields.Image.Required") }),
+      ])
+      .refine(
+        (image) => {
+          if (typeof image === "string") return true;
+          return image.size <= 1024 * 1024;
+        },
+        { message: t("Cards.Fields.Image.ImageMaxSize") },
+      ),
   });
 
 export type CardFormValues = z.infer<ReturnType<typeof cardSchema>>;

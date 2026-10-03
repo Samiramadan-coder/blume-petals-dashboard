@@ -3,7 +3,7 @@ import { Pagination } from "@/types/shared";
 import { Ribbon } from "@/types/custom-builder";
 import DataPreviewRibbons from "@/components/custom-builder/data-preview-ribbons";
 import { Suspense } from "react";
-import { Spinner } from "@/components/ui/spinner";
+import { TemplatesSkeleton } from "@/components/reusable/page-skeletons";
 
 type SearchParams = {
   page?: string;
@@ -49,7 +49,7 @@ export default async function Page({
   searchParams: Promise<SearchParams>;
 }) {
   return (
-    <Suspense fallback={<Spinner className="h-8 w-8 text-primary" />}>
+    <Suspense fallback={<TemplatesSkeleton columns={4} />}>
       <GetListOfRibbons searchParams={searchParams} />
     </Suspense>
   );

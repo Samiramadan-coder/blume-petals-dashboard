@@ -4,7 +4,7 @@ import { T } from "./shared";
 // Admin note schema and types
 export const AdminNoteSchema = (t: T) =>
   z.object({
-    admin_notes: z.string().min(1, t("AdminNoteIsRequired")),
+    admin_notes: z.string().trim().min(1, t("AdminNoteIsRequired")),
   });
 
 export type AdminNote = z.infer<ReturnType<typeof AdminNoteSchema>>;

@@ -5,7 +5,7 @@ import { getTranslations } from "next-intl/server";
 import DataPreview from "@/components/categories/data-preview";
 import { CategoryResponse, CategoryType } from "@/types/categories";
 import { Suspense } from "react";
-import { Spinner } from "@/components/ui/spinner";
+import { CategoriesSkeleton } from "@/components/reusable/page-skeletons";
 
 type PageParams = {
   page?: string;
@@ -26,7 +26,8 @@ export async function generateMetadata() {
 
 async function CategoriesPage({ searchParams }: { searchParams: PageParams }) {
   const t = await getTranslations("Categories");
-  const activeTab = searchParams.type || "bouquet";
+  const activeTab: CategoryType =
+    searchParams.type === "addon" ? "addon" : "bouquet";
 
   const { data, ok } = await http.get<CategoryResponse>(
     "/api/v1/admin/categories",
@@ -82,7 +83,7 @@ export default async function Page({
   searchParams: Promise<PageParams>;
 }) {
   return (
-    <Suspense fallback={<Spinner className="h-8 w-8 text-primary" />}>
+    <Suspense fallback={<CategoriesSkeleton />}>
       <CategoriesPage searchParams={await searchParams} />
     </Suspense>
   );
