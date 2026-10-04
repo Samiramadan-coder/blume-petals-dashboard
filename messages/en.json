@@ -587,10 +587,10 @@
         "Min": "Address must be at least 5 characters"
       },
       "ReadyInText": {
-        "Label": "Ready In Text",
-        "Placeholder": "Enter ready in text",
-        "Required": "Ready in text is required",
-        "Min": "Ready in text must be at least 2 characters"
+        "Label": "Ready In",
+        "Placeholder": "Enter ready in",
+        "Required": "Ready in is required",
+        "Min": "Ready in must be at least 2 characters"
       },
       "Hours": {
         "Label": "Hours",
