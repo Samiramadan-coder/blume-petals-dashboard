@@ -178,6 +178,7 @@
     "SellingPrice": "Selling price",
     "Margin": "Margin",
     "NoProducts": "No products available",
+    "NoFlowersFound": "No flowers found.",
     "Table": {
       "Photo": "Photo",
       "Name": "Name",
@@ -236,7 +237,8 @@
       "Tags": "Enter tags",
       "SelectFlower": "Select flower",
       "ETA": "Enter estimated delivery",
-      "Discount": "Enter discount"
+      "Discount": "Enter discount",
+      "SearchFlower": "Search flower by name"
     },
     "Labels": {
       "BasicInformation": "Basic Information",

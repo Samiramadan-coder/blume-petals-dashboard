@@ -11,17 +11,24 @@ import {
 } from "react-hook-form";
 
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-} from "@/components/ui/select";
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
 
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { useState } from "react";
-import { Plus, X } from "lucide-react";
 import Input from "@/components/form/input";
 import { Button } from "@/components/ui/button";
 import { FieldError } from "@/components/ui/field";
@@ -29,6 +36,7 @@ import { deleteVariantAction } from "@/lib/products";
 import { useFormLocale } from "@/hooks/use-form-locale";
 import DeleteBtn from "@/components/reusable/delete-btn";
 import SectionLabel from "@/components/form/section-label";
+import { Check, ChevronsUpDown, Plus, X } from "lucide-react";
 import { Product, ProductFormValues } from "@/types/products";
 import { initialFlower, initialVariant } from "@/constants/products";
 
@@ -372,59 +380,23 @@ export function VariantItem({
                     control={control}
                     name={`variants.${index}.recipe.${recipeIndex}.component_variant_id`}
                     render={({ field }) => (
-                      <Select
-                        value={field.value ? String(field.value) : ""}
-                        onValueChange={(value) => field.onChange(Number(value))}
-                      >
-                        <SelectTrigger
-                          ref={field.ref}
-                          aria-label={tLive("Placeholders.SelectFlower")}
-                          onBlur={field.onBlur}
-                          dir={dir}
-                          className="h-10! w-full border-border bg-background"
-                        >
-                          {selectedFlower ? (
-                            <div className="flex min-w-0 items-center gap-2">
-                              {selectedFlower.images[0]?.url ? (
-                                <Image
-                                  src={selectedFlower.images[0].url}
-                                  alt={selectedFlower.name[activeLocale]}
-                                  width={28}
-                                  height={28}
-                                  className="size-7 shrink-0 rounded-full object-cover"
-                                />
-                              ) : (
-                                <div className="size-7 shrink-0 rounded-full bg-primary/30" />
-                              )}
-
-                              <span className="truncate">
-                                {selectedFlower.name[activeLocale]}
-                              </span>
-                            </div>
-                          ) : (
-                            <span className="text-muted-foreground">
-                              {tLive("Placeholders.SelectFlower")}
-                            </span>
-                          )}
-                        </SelectTrigger>
-
-                        <SelectContent
-                          position="popper"
-                          align="start"
-                          className="max-h-56 w-(--radix-select-trigger-width)"
-                          dir={dir}
-                        >
-                          {availableFlowers.map((flower) => (
-                            <SelectItem
-                              key={flower.id}
-                              value={String(flower.variants[0].id)}
-                              className="py-1.5"
-                            >
+                      <Popover modal>
+                        <PopoverTrigger asChild>
+                          <Button
+                            type="button"
+                            variant="outline"
+                            role="combobox"
+                            className="h-10 w-full justify-between border-border bg-background"
+                            dir={dir}
+                            onBlur={field.onBlur}
+                            ref={field.ref}
+                          >
+                            {selectedFlower ? (
                               <div className="flex min-w-0 items-center gap-2">
-                                {flower.images[0]?.url ? (
+                                {selectedFlower.images[0]?.url ? (
                                   <Image
-                                    src={flower.images[0].url}
-                                    alt={flower.name[activeLocale]}
+                                    src={selectedFlower.images[0].url}
+                                    alt={selectedFlower.name[activeLocale]}
                                     width={28}
                                     height={28}
                                     className="size-7 shrink-0 rounded-full object-cover"
@@ -433,19 +405,88 @@ export function VariantItem({
                                   <div className="size-7 shrink-0 rounded-full bg-primary/30" />
                                 )}
 
-                                <span className="min-w-0 flex-1 truncate">
-                                  {flower.name[activeLocale]}
-                                </span>
-
-                                <span className="shrink-0 text-xs text-muted-foreground">
-                                  {flower.variants[0]?.available_stock ?? 0}{" "}
-                                  {tLive("InStock")}
+                                <span className="truncate">
+                                  {selectedFlower.name[activeLocale]}
                                 </span>
                               </div>
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                            ) : (
+                              <span className="text-muted-foreground">
+                                {tLive("Placeholders.SelectFlower")}
+                              </span>
+                            )}
+
+                            <ChevronsUpDown className="size-4 shrink-0 opacity-50" />
+                          </Button>
+                        </PopoverTrigger>
+
+                        <PopoverContent
+                          align="start"
+                          className="w-(--radix-popover-trigger-width) p-0"
+                          dir={dir}
+                        >
+                          <Command>
+                            <CommandInput
+                              placeholder={tLive("Placeholders.SearchFlower")}
+                            />
+
+                            <CommandList className="h-56 overflow-y-auto">
+                              <CommandEmpty>
+                                {tLive("NoFlowersFound")}
+                              </CommandEmpty>
+
+                              <CommandGroup>
+                                {availableFlowers.map((flower) => {
+                                  const variant = flower.variants[0];
+                                  const value = String(variant.id);
+
+                                  return (
+                                    <CommandItem
+                                      key={flower.id}
+                                      value={flower.name[activeLocale]}
+                                      onSelect={() => {
+                                        field.onChange(variant.id);
+                                      }}
+                                      className="py-1.5"
+                                    >
+                                      <div className="flex w-full min-w-0 items-center gap-2">
+                                        {flower.images[0]?.url ? (
+                                          <Image
+                                            src={flower.images[0].url}
+                                            alt={flower.name[activeLocale]}
+                                            width={28}
+                                            height={28}
+                                            className="size-7 shrink-0 rounded-full object-cover"
+                                          />
+                                        ) : (
+                                          <div className="size-7 shrink-0 rounded-full bg-primary/30" />
+                                        )}
+
+                                        <span className="min-w-0 flex-1 truncate">
+                                          {flower.name[activeLocale]}
+                                        </span>
+
+                                        <span className="shrink-0 text-xs text-muted-foreground">
+                                          {variant.available_stock ?? 0}{" "}
+                                          {tLive("InStock")}
+                                        </span>
+
+                                        <Check
+                                          className={cn(
+                                            "size-4 shrink-0",
+                                            String(field.value) === value
+                                              ? "opacity-100"
+                                              : "opacity-0",
+                                          )}
+                                        />
+                                      </div>
+                                    </CommandItem>
+                                  );
+                                })}
+                              </CommandGroup>
+                            </CommandList>
+                          </Command>
+                        </PopoverContent>
+                      </Popover>
                     )}
                   />
 
