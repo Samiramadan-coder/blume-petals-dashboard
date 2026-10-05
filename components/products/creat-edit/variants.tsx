@@ -39,6 +39,7 @@ import SectionLabel from "@/components/form/section-label";
 import { Check, ChevronsUpDown, Plus, X } from "lucide-react";
 import { Product, ProductFormValues } from "@/types/products";
 import { initialFlower, initialVariant } from "@/constants/products";
+import { Badge } from "@/components/ui/badge";
 
 type VariantsProps = {
   register: UseFormRegister<ProductFormValues>;
@@ -179,6 +180,8 @@ export function VariantItem({
     estimatedCost > 0
       ? ((sellingPrice - estimatedCost) / estimatedCost) * 100
       : 0;
+
+  const marginInAmount = sellingPrice - estimatedCost;
 
   async function deleteVariant() {
     setLoadingDelete(true);
@@ -576,7 +579,10 @@ export function VariantItem({
                   </span>
 
                   <span className="text-xs font-semibold">
-                    {margin.toFixed(2)}%
+                    <Badge className="text-white">
+                      {marginInAmount.toFixed(2)} {tLiveCommon("AED")}
+                    </Badge>{" "}
+                    {margin.toFixed(2)} %
                   </span>
                 </p>
               </div>
