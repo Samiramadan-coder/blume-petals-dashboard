@@ -804,7 +804,10 @@
     "Title": "Messages",
     "Description": "Manage Messages Received from Customers.",
     "MarkAsRead": "Mark as Read",
-    "Empty": "No messages yet."
+    "Empty": "No messages yet.",
+    "New": "New",
+    "SelectMessage": "Select a message to view its details",
+    "ReadAt": "Read at"
   },
   "Settings": {
     "Title": "Settings",
