@@ -621,7 +621,7 @@
     "Table": {
       "Name": "Name",
       "Address": "Address",
-      "ReadyInText": "Ready In Text",
+      "ReadyInText": "Ready In",
       "Hours": "Hours",
       "Status": "Status",
       "Actions": "Actions"
