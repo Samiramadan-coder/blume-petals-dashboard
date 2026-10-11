@@ -17,7 +17,7 @@ export default function LocaleFormSwitcher({
   const versionLocale = useLocale();
 
   return (
-    <div className={cn("px-4 space-x-2 flex justify-end", className)}>
+    <div className={cn("px-4 flex justify-end gap-2", className)}>
       <Button
         variant="outline"
         type="button"

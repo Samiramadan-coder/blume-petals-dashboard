@@ -57,6 +57,8 @@ async function DeliveryAndPickupPage({
     throw new Error("Failed to fetch cities or locations");
   }
 
+  console.log(locations.data.items);
+
   return (
     <main className="space-y-6">
       <DataPreview

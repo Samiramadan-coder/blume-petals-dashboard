@@ -33,7 +33,7 @@ function getDefaultValues(location?: DeliveryPickupLocation) {
     name: location?.name || { en: "", ar: "" },
     address: location?.address || { en: "", ar: "" },
     ready_in_text: location?.ready_in_text || { en: "", ar: "" },
-    hours: location?.hours || "",
+    hours: location?.hours || { en: "", ar: "" },
     city_id: location?.city_id || 0,
     latitude: location?.latitude ? parseFloat(location.latitude) : 25.2048,
     longitude: location?.longitude ? parseFloat(location.longitude) : 55.2708,
@@ -171,7 +171,8 @@ export default function CreateEdit({
                   const hasArErrors =
                     errors.name?.ar ||
                     errors.address?.ar ||
-                    errors.ready_in_text?.ar;
+                    errors.ready_in_text?.ar ||
+                    errors.hours?.ar;
                   if (hasArErrors) {
                     changeLocale("ar");
                     return;
@@ -183,7 +184,8 @@ export default function CreateEdit({
                   const hasEnErrors =
                     errors.name?.en ||
                     errors.address?.en ||
-                    errors.ready_in_text?.en;
+                    errors.ready_in_text?.en ||
+                    errors.hours?.en;
                   if (hasEnErrors) {
                     changeLocale("en");
                     return;
@@ -251,18 +253,21 @@ export default function CreateEdit({
                     hidden: activeLocale !== locale,
                   })}
                 />
+
+                <Input<DeliveryPickupLocationFormValues>
+                  label={tLive("Fields.Hours.Label")}
+                  name={`hours.${locale}`}
+                  type="text"
+                  placeholder={tLive("Fields.Hours.Placeholder")}
+                  className={cn({
+                    hidden: activeLocale !== locale,
+                  })}
+                  register={register}
+                  errors={errors}
+                  required
+                />
               </React.Fragment>
             ))}
-
-            <Input<DeliveryPickupLocationFormValues>
-              label={tLive("Fields.Hours.Label")}
-              name="hours"
-              type="text"
-              placeholder={tLive("Fields.Hours.Placeholder")}
-              register={register}
-              errors={errors}
-              required
-            />
 
             <Select<DeliveryPickupLocationFormValues>
               control={control}

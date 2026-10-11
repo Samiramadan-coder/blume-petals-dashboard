@@ -86,7 +86,7 @@ export default function DataPreview({
             </TableCell>
 
             <TableCell className="px-4 py-3">
-              <p>{location.hours}</p>
+              <p>{location.hours[locale]}</p>
             </TableCell>
 
             <TableCell className="px-4 py-3">

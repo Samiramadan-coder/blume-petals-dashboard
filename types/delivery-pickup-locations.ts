@@ -39,11 +39,19 @@ export const deliveryPickupLocationSchema = (t: T) =>
         .min(1, t("Fields.ReadyInText.Required"))
         .min(2, t("Fields.ReadyInText.Min")),
     }),
-    hours: z
-      .string()
-      .trim()
-      .min(1, t("Fields.Hours.Required"))
-      .min(2, t("Fields.Hours.Min")),
+    hours: z.object({
+      en: z
+        .string()
+        .trim()
+        .min(1, t("Fields.Hours.Required"))
+        .min(2, t("Fields.Hours.Min")),
+      ar: z
+        .string()
+        .trim()
+        .min(1, t("Fields.Hours.Required"))
+        .min(2, t("Fields.Hours.Min")),
+    }),
+
     city_id: z.number().min(1, t("Fields.City.Required")),
     latitude: z
       .number(t("Fields.Latitude.Required"))
@@ -64,7 +72,7 @@ export type DeliveryPickupLocation = {
   id: number;
   name: LocaleObj;
   address: LocaleObj;
-  hours: string;
+  hours: LocaleObj;
   ready_in_text: LocaleObj;
   city_id: number;
   latitude: string;
