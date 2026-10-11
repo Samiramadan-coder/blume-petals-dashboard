@@ -40,6 +40,7 @@ import { Check, ChevronsUpDown, Plus, X } from "lucide-react";
 import { Product, ProductFormValues } from "@/types/products";
 import { initialFlower, initialVariant } from "@/constants/products";
 import { Badge } from "@/components/ui/badge";
+import { availableLocales } from "@/constants/shared";
 
 type VariantsProps = {
   register: UseFormRegister<ProductFormValues>;
@@ -293,15 +294,21 @@ export function VariantItem({
         }}
       />
 
-      <Input<ProductFormValues>
-        label={tLive("Fields.Size")}
-        name={`variants.${index}.size`}
-        type="text"
-        register={register}
-        placeholder={tLive("Placeholders.Size")}
-        required
-        errors={errors}
-      />
+      {availableLocales.map((locale) => (
+        <Input<ProductFormValues>
+          key={locale}
+          label={tLive("Fields.Size")}
+          name={`variants.${index}.size.${locale}`}
+          type="text"
+          placeholder={tLive("Placeholders.Size")}
+          className={cn({
+            hidden: activeLocale !== locale,
+          })}
+          register={register}
+          errors={errors}
+          required
+        />
+      ))}
 
       <Input<ProductFormValues>
         label={tLive("Fields.Discount")}

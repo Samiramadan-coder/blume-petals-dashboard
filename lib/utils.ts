@@ -85,6 +85,7 @@ export function getProductDefaultValues(
   type: "default" | "addon",
   product?: Product,
 ): ProductFormValues {
+  console.log(product?.variants);
   return {
     name: product?.name || { en: "", ar: "" },
     description: product?.description || { en: "", ar: "" },
@@ -97,25 +98,28 @@ export function getProductDefaultValues(
     show_in_builder: false,
     images: product?.images?.map((image) => image.url) || [],
     is_new: product?.is_new || false,
-    variants: product?.variants.map((variant) => ({
-      id: variant.id || undefined,
-      sku: variant.sku || "",
-      size: variant.size || "",
-      price: variant.price || 0,
-      compare_at_price: variant.compare_at_price || undefined,
-      discount: variant.compare_at_price
-        ? Math.round(
-            ((variant.compare_at_price - variant.price) /
-              variant.compare_at_price) *
-              10000,
-          ) / 100
-        : undefined,
-      recipe: variant.recipe?.length
-        ? variant.recipe
-        : type === "default"
-          ? [initialFlower]
-          : [],
-    })) || [
+    variants: product?.variants.map((variant) => {
+      // The API may return decimals as strings (e.g. "120.00")
+      const price = Number(variant.price) || 0;
+      const compareAtPrice = Number(variant.compare_at_price) || undefined;
+
+      return {
+        id: variant.id || undefined,
+        sku: variant.sku || "",
+        size: variant.size_translations || { en: "", ar: "" },
+        price,
+        compare_at_price: compareAtPrice,
+        discount: compareAtPrice
+          ? Math.round(((compareAtPrice - price) / compareAtPrice) * 10000) /
+            100
+          : undefined,
+        recipe: variant.recipe?.length
+          ? variant.recipe
+          : type === "default"
+            ? [initialFlower]
+            : [],
+      };
+    }) || [
       { ...initialVariant, recipe: type === "default" ? [initialFlower] : [] },
     ],
   };

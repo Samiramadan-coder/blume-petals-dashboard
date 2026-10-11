@@ -12,11 +12,12 @@ import { Plus } from "lucide-react";
 import Input from "@/components/form/input";
 import { Button } from "@/components/ui/button";
 import { deleteVariantAction } from "@/lib/products";
-// import { initialVariant } from "@/constants/products";
 import { useFormLocale } from "@/hooks/use-form-locale";
 import DeleteBtn from "@/components/reusable/delete-btn";
 import SectionLabel from "@/components/form/section-label";
 import { TemplateFormValues } from "@/types/custom-builder";
+import { availableLocales } from "@/constants/shared";
+import { cn } from "@/lib/utils";
 
 export default function Variants({
   register,
@@ -26,6 +27,7 @@ export default function Variants({
   variants,
   tLive,
   templateId,
+  activeLocale,
 }: {
   register: UseFormRegister<TemplateFormValues>;
   errors: FieldErrors<TemplateFormValues>;
@@ -34,6 +36,7 @@ export default function Variants({
   variants: TemplateFormValues["variants"];
   tLive: ReturnType<typeof useFormLocale>["tLive"];
   templateId?: number;
+  activeLocale: string;
 }) {
   const tCommon = useTranslations("Common");
   const [loadingDelete, setLoadingDelete] = useState(false);
@@ -52,7 +55,7 @@ export default function Variants({
               {
                 sku: "",
                 price: 0,
-                size: "",
+                size: { en: "", ar: "" },
                 min_stems: 0,
                 max_stems: 0,
               },
@@ -100,15 +103,31 @@ export default function Variants({
             </div>
           )}
 
-          <Input<TemplateFormValues>
+          {/* <Input<TemplateFormValues>
             register={register}
             errors={errors}
-            name={`variants.${index}.size`}
+            name={`variants.${index}.size.en`}
             label={tLive("Fields.Size.Label")}
             type="text"
             required
             placeholder={tLive("Fields.Size.Placeholder")}
-          />
+          /> */}
+
+          {availableLocales.map((locale) => (
+            <Input<TemplateFormValues>
+              key={locale}
+              label={tLive("Fields.Size.Label")}
+              name={`variants.${index}.size.${locale}`}
+              type="text"
+              placeholder={tLive("Fields.Size.Placeholder")}
+              className={cn({
+                hidden: activeLocale !== locale,
+              })}
+              register={register}
+              errors={errors}
+              required
+            />
+          ))}
 
           <Input<TemplateFormValues>
             label={tLive("Fields.ShapePrice.Label")}

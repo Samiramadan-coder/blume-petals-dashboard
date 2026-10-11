@@ -52,7 +52,7 @@ export const initialFlower = {
 export const initialVariant = {
   id: undefined,
   sku: "",
-  size: "",
+  size: { en: "", ar: "" },
   price: 0,
   compare_at_price: undefined,
   recipe: [initialFlower],

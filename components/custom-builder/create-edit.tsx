@@ -50,7 +50,7 @@ function getDefaultValues(
           id: variant.id,
           sku: variant.sku || "",
           price: variant.price || 0,
-          size: variant.size || "",
+          size: variant.size_translations || { en: "", ar: "" },
           min_stems: variant.min_stems || 0,
           max_stems: variant.max_stems || 0,
         }))
@@ -58,7 +58,7 @@ function getDefaultValues(
           {
             sku: "",
             price: 0,
-            size: "",
+            size: { en: "", ar: "" },
             min_stems: 0,
             max_stems: 0,
           },
@@ -277,6 +277,7 @@ export default function CreateEdit({
               setValue={setValue}
               getValues={getValues}
               templateId={template?.id}
+              activeLocale={activeLocale}
             />
           </form>
         </div>

@@ -186,6 +186,8 @@ export default function CreateEdit({
               }
 
               void handleSubmit(onSubmit, (errors) => {
+                console.error("Product form validation errors:", errors);
+
                 if (activeLocale === "en") {
                   const hasArErrors = errors.name?.ar || errors.description?.ar;
                   if (hasArErrors) {

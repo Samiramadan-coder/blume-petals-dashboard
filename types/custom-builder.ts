@@ -54,7 +54,10 @@ export const templateSchema = (t: T) =>
         price: z
           .number(t("Fields.ShapePrice.Required"))
           .min(1, t("Fields.ShapePrice.Required")),
-        size: z.string().trim().min(1, t("Fields.Size.Required")),
+        size: z.object({
+          en: z.string().trim().min(1, t("Fields.Size.Required")),
+          ar: z.string().trim().min(1, t("Fields.Size.Required")),
+        }),
         min_stems: z
           .number(t("Fields.MinStems.Required"))
           .min(1, t("Fields.MinStems.Required")),

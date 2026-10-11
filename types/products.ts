@@ -48,7 +48,10 @@ export const productSchema = (t: T) =>
       z.object({
         id: z.number().optional(),
         sku: z.string().trim().min(1, t("Errors.SKUIsRequired")),
-        size: z.string().trim().min(1, t("Errors.SizeIsRequired")),
+        size: z.object({
+          en: z.string().trim().min(1, t("Errors.SizeIsRequired")),
+          ar: z.string().trim().min(1, t("Errors.SizeIsRequired")),
+        }),
         price: z
           .number(t("Errors.PriceIsRequired"))
           .min(1, t("Errors.PriceIsRequired")),
@@ -87,6 +90,7 @@ export type Variant = {
   min_stems: number | null;
   max_stems: number | null;
   cost_price?: number | null;
+  size_translations: LocaleObj;
   recipe: {
     component_variant_id: number;
     qty: number;
