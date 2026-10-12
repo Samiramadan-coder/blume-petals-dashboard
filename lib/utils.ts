@@ -85,7 +85,6 @@ export function getProductDefaultValues(
   type: "default" | "addon",
   product?: Product,
 ): ProductFormValues {
-  console.log(product?.variants);
   return {
     name: product?.name || { en: "", ar: "" },
     description: product?.description || { en: "", ar: "" },
