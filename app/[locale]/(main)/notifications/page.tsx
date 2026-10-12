@@ -34,6 +34,9 @@ async function NotificationsList({
       page: searchParams?.page || 1,
       type,
     },
+    next: {
+      tags: ["notifications"],
+    },
   });
 
   if (!ok) {

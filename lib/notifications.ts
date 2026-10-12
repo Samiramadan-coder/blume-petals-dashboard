@@ -1,5 +1,8 @@
+"use server";
+
 import { NotificationFormData } from "@/types/notifications";
 import { getErrorMessage, http, ValidationError } from "./http";
+import { updateTag } from "next/cache";
 
 // Create Notifications
 type NotificationResponse =
@@ -18,6 +21,8 @@ export async function postNotificationAction(
       "/api/v1/admin/notifications/broadcast",
       data,
     );
+
+    updateTag("notifications");
     return { success: true, message: responseData.message };
   } catch (error) {
     console.error("Error creating notification:", error);

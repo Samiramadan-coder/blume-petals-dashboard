@@ -119,30 +119,28 @@ export function MessagesSkeleton() {
     <main className="space-y-6" aria-busy="true">
       <ModuleHeaderSkeleton />
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4 bg-white rounded-xl overflow-hidden border border-primary/20">
+      <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 bg-white rounded-xl overflow-hidden border border-primary/20">
         {/* Messages list */}
-        <div className="border-e border-primary/20">
+        <div className="border-b sm:border-b-0 sm:border-e border-primary/20">
           {Array.from({ length: 6 }, (_, index) => (
             <div
               key={index}
-              className="w-full p-3 flex items-center gap-4 border-b border-primary/20 last:border-b-0"
+              className="w-full p-3 ps-4 flex items-center gap-3 border-b border-primary/20 last:border-b-0"
             >
               <Skeleton className="size-10 shrink-0 rounded-full" />
 
               <div className="flex flex-col gap-2 min-w-0 flex-1">
-                <div className="flex items-center justify-between gap-2">
-                  <Skeleton className="h-3 w-28 max-w-full" />
-                  <Skeleton className="h-2.5 w-14" />
-                </div>
-                <Skeleton className="h-3 w-20" />
+                <Skeleton className="h-3 w-28 max-w-full" />
                 <Skeleton className="h-3 w-full" />
+                <Skeleton className="h-2.5 w-14" />
               </div>
             </div>
           ))}
         </div>
 
         {/* Selected message */}
-        <div className="sm:col-span-2 md:col-span-3 p-4">
+        <div className="sm:col-span-2 md:col-span-3 p-4 sm:p-6 min-h-72 flex flex-col items-center justify-center gap-3">
+          <Skeleton className="size-12 rounded-full" />
           <Skeleton className="h-4 w-48 max-w-full" />
         </div>
       </div>

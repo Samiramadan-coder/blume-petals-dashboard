@@ -2,10 +2,16 @@
 
 import { toast } from "sonner";
 import { useMemo, useState } from "react";
-import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Spinner } from "../ui/spinner";
-import { CircleCheck } from "lucide-react";
+import {
+  CheckCheck,
+  CircleCheck,
+  Clock,
+  MailOpen,
+  MailX,
+  Phone,
+} from "lucide-react";
 import { Message } from "@/types/messages";
 import { Pagination } from "@/types/shared";
 import { useTranslations } from "next-intl";
@@ -37,38 +43,64 @@ function MessageItem({
       aria-pressed={isSelected}
       onClick={() => onSelect(message.id)}
       className={cn(
-        "w-full p-3 flex items-center gap-4 border-b border-primary/20 cursor-pointer last:border-b-0",
-        {
-          "bg-primary/10 border-s-4 border-s-primary": isSelected,
-        },
+        "group relative w-full p-3 ps-4 flex items-center gap-3 border-b border-primary/20 cursor-pointer transition-colors duration-200 last:border-b-0 hover:bg-primary/5",
+        { "bg-primary/10 hover:bg-primary/10": isSelected },
       )}
     >
-      <Avatar size="lg">
-        <AvatarFallback className="bg-primary text-white">
+      <span
+        aria-hidden
+        className={cn(
+          "absolute inset-y-0 inset-s-0 w-1 bg-primary transition-opacity duration-200",
+          isSelected ? "opacity-100" : "opacity-0",
+        )}
+      />
+
+      <Avatar
+        size="lg"
+        className="transition-transform duration-200 group-hover:scale-105"
+      >
+        <AvatarFallback
+          className={cn(
+            message.read
+              ? "bg-primary/10 text-primary"
+              : "bg-primary text-white",
+          )}
+        >
           {getInitial(message.email)}
         </AvatarFallback>
       </Avatar>
 
       <div className="flex flex-col gap-1 text-start min-w-0 flex-1">
-        <div className="text-xs font-bold break-all flex items-center justify-between gap-2 flex-wrap">
-          <span>{message.email}</span>
-
-          <p className="flex items-center gap-2 ms-auto">
-            <span className="text-[10px] text-secondary font-medium">
-              {formatDate(message.created_at)}
-            </span>
-            {!message.read && (
-              <span className="relative flex size-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
-                <span className="relative inline-flex size-2 rounded-full bg-primary" />
-              </span>
+        <div className="flex items-center justify-between gap-2">
+          <span
+            className={cn(
+              "text-xs truncate",
+              message.read ? "font-medium" : "font-bold",
             )}
-          </p>
+          >
+            {message.email}
+          </span>
+
+          {!message.read && (
+            <span className="relative flex size-2 shrink-0">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
+              <span className="relative inline-flex size-2 rounded-full bg-primary" />
+            </span>
+          )}
         </div>
-        <p className="text-xs">{message.phone}</p>
-        <p className="text-xs truncate text-muted-foreground">
+        <p
+          className={cn(
+            "text-xs truncate",
+            message.read
+              ? "text-muted-foreground"
+              : "text-foreground font-medium",
+          )}
+        >
           {message.message}
         </p>
+        <span className="text-[10px] font-medium text-muted-foreground">
+          {formatDate(message.created_at)}
+        </span>
       </div>
     </button>
   );
@@ -149,88 +181,126 @@ export default function DataPreview({
     <>
       <ModuleHeader title={t("Title")} description={t("Description")} />
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4 bg-white rounded-xl overflow-hidden border border-primary/20">
-        <div className="border-e border-primary/20">
-          {items.map((message) => (
-            <MessageItem
-              key={message.id}
-              message={message}
-              isSelected={selectedId === message.id}
-              onSelect={setSelectedId}
-            />
-          ))}
+      {items.length === 0 ? (
+        <div className="mb-6 flex flex-col items-center gap-3 rounded-xl border border-dashed border-primary/30 bg-white px-4 py-12 text-center">
+          <div className="flex size-12 items-center justify-center rounded-full bg-primary/10 text-primary">
+            <MailX className="size-6" />
+          </div>
+          <p className="text-sm text-muted-foreground">{t("Empty")}</p>
         </div>
+      ) : (
+        <div className="mb-6 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 bg-white rounded-xl overflow-hidden border border-primary/20">
+          <div className="border-b sm:border-b-0 sm:border-e border-primary/20">
+            {items.map((message) => (
+              <MessageItem
+                key={message.id}
+                message={message}
+                isSelected={selectedId === message.id}
+                onSelect={setSelectedId}
+              />
+            ))}
+          </div>
 
-        <div className="sm:col-span-2 md:col-span-3 p-4">
-          {selectedMessage ? (
-            <div className="flex flex-col gap-4 h-full">
-              <div className="w-full pb-4 flex items-center gap-2 border-b border-primary/20">
-                <Avatar size="lg">
-                  <AvatarFallback className="bg-primary text-white">
-                    {getInitial(selectedMessage.email)}
-                  </AvatarFallback>
-                </Avatar>
+          <div className="sm:col-span-2 md:col-span-3 p-4 sm:p-6 min-h-72">
+            {selectedMessage ? (
+              <div className="flex flex-col gap-4 h-full">
+                <div className="w-full pb-4 flex items-start gap-3 border-b border-dashed border-primary/20">
+                  <Avatar size="lg">
+                    <AvatarFallback className="bg-primary text-white">
+                      {getInitial(selectedMessage.email)}
+                    </AvatarFallback>
+                  </Avatar>
 
-                <div className="flex flex-col gap-1 text-start min-w-0 flex-1">
-                  <p className="text-xs font-bold break-all flex items-center justify-between gap-2 flex-wrap">
-                    <span>{selectedMessage.email}</span>
-                    <span className="ms-auto font-medium">
+                  <div className="flex flex-col gap-1.5 text-start min-w-0 flex-1">
+                    <div className="flex items-center justify-between gap-2 flex-wrap">
+                      <h3 className="text-sm font-semibold break-all">
+                        {selectedMessage.email}
+                      </h3>
+
                       {!selectedMessage.read ? (
-                        <Badge>{t("New")}</Badge>
+                        <span className="ms-auto flex items-center gap-1.5 rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">
+                          <span className="relative flex size-1.5">
+                            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
+                            <span className="relative inline-flex size-1.5 rounded-full bg-primary" />
+                          </span>
+                          {t("New")}
+                        </span>
                       ) : (
-                        `${t("ReadAt")} ${formatDate(selectedMessage.read_at || "")}`
+                        <span className="ms-auto flex items-center gap-1 text-[11px] font-medium text-muted-foreground">
+                          <CheckCheck className="size-3.5 shrink-0 text-green-500" />
+                          {t("ReadAt")}{" "}
+                          {formatDate(selectedMessage.read_at || "")}
+                        </span>
                       )}
-                    </span>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs font-medium text-muted-foreground">
+                      {selectedMessage.phone && (
+                        <span className="flex items-center gap-1">
+                          <Phone className="size-3 shrink-0" />
+                          <span dir="ltr">{selectedMessage.phone}</span>
+                        </span>
+                      )}
+                      <span className="flex items-center gap-1">
+                        <Clock className="size-3 shrink-0" />
+                        {formatDate(selectedMessage.created_at)}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-background p-4 rounded-xl rounded-ss-none">
+                  <p className="text-sm text-muted-foreground whitespace-pre-line wrap-break-word leading-relaxed">
+                    {selectedMessage.message}
                   </p>
                 </div>
-              </div>
 
-              <div className="bg-background p-3 rounded-xl">
-                <p className="text-sm text-muted-foreground whitespace-pre-line wrap-break-word leading-relaxed">
-                  {selectedMessage.message}
+                <div className="mt-auto flex items-center justify-end gap-1 border-t border-dashed border-primary/20 pt-3">
+                  {!selectedMessage.read && (
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          size="icon"
+                          variant="ghost"
+                          aria-label={t("MarkAsRead")}
+                          disabled={markingAsReadId !== null}
+                          onClick={() => handleMarkAsRead(selectedMessage)}
+                        >
+                          {markingAsReadId === selectedMessage.id ? (
+                            <Spinner />
+                          ) : (
+                            <CircleCheck className="text-green-500" />
+                          )}
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>{t("MarkAsRead")}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  )}
+
+                  {can("contact.delete") && (
+                    <DeleteBtn
+                      itemName={selectedMessage.email}
+                      loading={loadingDelete}
+                      onDelete={() => handleDelete(selectedMessage)}
+                    />
+                  )}
+                </div>
+              </div>
+            ) : (
+              <div className="flex h-full flex-col items-center justify-center gap-3 text-center">
+                <div className="flex size-12 items-center justify-center rounded-full bg-primary/10 text-primary">
+                  <MailOpen className="size-6" />
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  {t("SelectMessage")}
                 </p>
               </div>
-
-              <div className="mt-auto">
-                {!selectedMessage.read && (
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button
-                        size="icon"
-                        variant="ghost"
-                        aria-label={t("MarkAsRead")}
-                        disabled={markingAsReadId !== null}
-                        onClick={() => handleMarkAsRead(selectedMessage)}
-                      >
-                        {markingAsReadId === selectedMessage.id ? (
-                          <Spinner />
-                        ) : (
-                          <CircleCheck className="text-green-500" />
-                        )}
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>{t("MarkAsRead")}</p>
-                    </TooltipContent>
-                  </Tooltip>
-                )}
-
-                {can("contact.delete") && (
-                  <DeleteBtn
-                    itemName={selectedMessage.email}
-                    loading={loadingDelete}
-                    onDelete={() => handleDelete(selectedMessage)}
-                  />
-                )}
-              </div>
-            </div>
-          ) : (
-            <p className="text-sm text-muted-foreground">
-              {t("SelectMessage")}
-            </p>
-          )}
+            )}
+          </div>
         </div>
-      </div>
+      )}
 
       <PaginationTemplate
         currentPage={pagination.current_page}
